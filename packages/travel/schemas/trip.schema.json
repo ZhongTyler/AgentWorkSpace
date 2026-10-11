@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Portable travel trip v1",
+  "description": "Editor shape aid; CLI validate additionally checks references, files, hashes and time windows. See data contract.",
+  "type": "object",
+  "required": ["schemaVersion","title","start","end","referenceCurrency","rates","preferences","places","catalog","orders","todos","routes","expenses","knowledge","shopping","guides","journal","researchCoverage","weatherLocations","days"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "title": {"type": "string","minLength": 1},
+    "start": {"type": "string","format": "date"},
+    "end": {"type": "string","format": "date"},
+    "referenceCurrency": {"type": "string","pattern": "^[A-Z]{3}$"},
+    "rates": {"type": "object"},
+    "preferences": {"type": "object"},
+    "places": {"type": "array","items":{"$ref":"#/$defs/idObject"}},
+    "catalog": {"type": "array","items":{"$ref":"#/$defs/idObject"}},
+    "orders": {"type": "array","items":{"$ref":"#/$defs/idObject"}},
+    "todos": {"type": "array","items":{"$ref":"#/$defs/idObject"}},
+    "routes": {"type": "array","items":{"$ref":"#/$defs/idObject"}},
+    "expenses": {"type": "array","items":{"$ref":"#/$defs/idObject"}},
+    "knowledge": {"type": "array","items":{"$ref":"#/$defs/idObject"}},
+    "shopping": {"type": "array","items":{"$ref":"#/$defs/idObject"}},
+    "guides": {"type": "array","items":{"$ref":"#/$defs/idObject"}},
+    "journal": {"type": "array","items":{"allOf":[{"$ref":"#/$defs/idObject"},{"properties":{"kind":{"enum":["intro","experience"]}}}]}},
+    "researchCoverage": {"type": "array"},
+    "weatherLocations": {"type": "array","items":{"$ref":"#/$defs/idObject"}},
+    "days": {"type": "array","items":{"type":"object","required":["date","timezone","party","city","summary","stayId","timeline","meals","routeIds","weatherIds","notes"],"properties":{"date":{"type":"string","format":"date"},"party":{"type":"integer","minimum":1},"timeline":{"type":"array"},"meals":{"type":"array"},"routeIds":{"type":"array","items":{"type":"string"}},"weatherIds":{"type":"array","items":{"type":"string"}}}}}
+  },
+  "$defs": {"idObject":{"type":"object","required":["id"],"properties":{"id":{"type":"string","pattern":"^[a-z0-9][a-z0-9_-]{0,95}$"}}}}
+}

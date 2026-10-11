@@ -7,7 +7,7 @@
 当一个项目要持续推进，你可能需要反复交代规则、整理上下文、选择方法，再把产物留给下一次任务。AgentWorkSpace 把这些做法整理成可安装、可升级的文件和工具，由 Agent 按当前任务读取和使用。
 
 - **已有工作区**：先审计当前需要，复用经过审阅的现有能力，只安装所选模块和缺失的依赖。
-- **新建工作区**：安装完整协作框架，再选择脑暴、原型开发、知识管理或游戏制作模块。
+- **新建工作区**：安装完整协作框架，再选择脑暴、知识管理、旅行规划或游戏开发模块。
 - **只想用几项 Skill**：单独接入 Skills 包，再按名字安装，不必采用整套框架。
 
 目前已发布可试用版本，正在积累公开案例；**还没有可展示的完整端到端案例或演示视频**。下文列的是可用能力与操作示例，工程检查不能证明长期收益、创意质量或游戏体验。游戏开发是目前模块覆盖较多的应用方向，基础协作与 Skills 也可用于其他任务。
@@ -22,7 +22,7 @@ meta 只有一个完整版，无需选择功能组合。新建工作区默认安
 
 ## 从这里开始
 
-把本仓克隆或下载到一个独立目录，用户工作区放在另一个目录。统一工具和 Skills 选择安装器需要 Python 3.10+；GameAnalysisDecision、GamePresentation、PrototypeAssets 的工具需要 Node.js 22+。Brainstorm、FromDemoToSpec 及部分 Knowledge 工具另需 PowerShell 7，Knowledge 首次 Ingest 还需 Git。本次运行验证在 Windows 完成，其他平台按包内说明检查环境。
+把本仓克隆或下载到一个独立目录，用户工作区放在另一个目录。统一工具和 Skills 选择安装器需要 Python 3.10+；GameAnalysisDecision、GamePresentation、PrototypeAssets、Travel 的工具需要 Node.js 22+。Brainstorm、FromDemoToSpec 及部分 Knowledge 工具另需 PowerShell 7，Knowledge 首次 Ingest 还需 Git。本次运行验证在 Windows 完成，其他平台按包内说明检查环境。
 
 在发布仓目录运行，先预览，再应用：
 
@@ -52,7 +52,7 @@ Agent 按审计返回的 criteria 审阅现有规则与接口，记录理由、�
 
 ## 接入后怎样使用
 
-本仓由 **meta 底座和 7 个并列的 package** 组成。meta 提供协作规则与工作区框架；full 模式安装在根目录，兼容模式选装到 `modules/meta`，可直接交代目标、约束和完成标准。其余 package 都按需要选择，表中顺序不表示层级或安装优先级。Brainstorm、FromDemoToSpec、Knowledge 所需的宿主治理能力，可由 meta 或经过审阅的现有框架提供。已有工作区可以复用审阅过的能力，无需为了可选集成安装其他包。
+本仓由 **meta 底座和 8 个并列的 package** 组成。meta 提供协作规则与工作区框架；full 模式安装在根目录，兼容模式选装到 `modules/meta`，可直接交代目标、约束和完成标准。其余 package 都按需要选择，表中顺序不表示层级或安装优先级。Brainstorm、FromDemoToSpec、Knowledge 所需的宿主治理能力，可由 meta 或经过审阅的现有框架提供。已有工作区可以复用审阅过的能力，无需为了可选集成安装其他包。
 
 [meta 使用说明](meta/README.md) · [各包依赖与工具环境](docs/package-dependencies.md)
 
@@ -64,6 +64,7 @@ Agent 按审计返回的 criteria 审阅现有规则与接口，记录理由、�
 | [Skills](packages/skills/README.md) | 16 项开发、研究、表达与工作流方法，按名字选择安装 | `modules/skills` | 不需要其他模块；安装库不会自动启用全部 Skill |
 | [GameAnalysisDecision](packages/game-analysis-decision/README.md) | 有事实依据的游戏问题分析、条件建议与方法校正 | `modules/game-analysis-decision` | 可单独使用；Knowledge 与其他宿主包可选 |
 | [GamePresentation](packages/game-presentation/README.md) | 表现规格、资源制作与 Godot 交付、恢复 | `modules/game-presentation` | 可使用手工或生成来源；PrototypeAssets 可选 |
+| [Travel](packages/travel/README.md) | “帮我研究并规划这趟旅行……”；生成私人离线网站 | `modules/travel` | 可单独使用；无必装包，采集服务、浏览器验收和服务器可选 |
 | [PrototypeAssets](packages/prototype-assets/README.md) | 119 项有来源和许可记录的精选，以及校验导出工具 | `modules/prototype-assets` | 素材和许可复制后，游戏不依赖来源包 |
 
 框架接入后即可开始任务，业务内容按实际需要产生。FromDemoToSpec 的包内文档是开发工作流，游戏工程在具体任务中创建。Knowledge 首次 Ingest 前，Agent 要根据真实用途补充知识范围，并在模块内建立独立本地 Git 基线；已有库保留历史，不借用外层仓库，不自动创建远端或推送。原向导保留供独立定制，安装后无需重复问答，也不要改动已登记的模块目录名。
@@ -71,6 +72,18 @@ Agent 按审计返回的 criteria 审阅现有规则与接口，记录理由、�
 项目可以放在 `projects/` 或你指定的目录。会话、知识正文和用户配置留在目标工作区，不写回本发布仓。`.agent-workspace/state.json` 只记录已装版本和框架文件基线，不拥有业务事实。
 
 meta 还包含 [Humanizer-zh](meta/workspace/.agents/skills/humanizer-zh/SKILL.md)。需要润色中文时，可让 Agent 使用它减少空话、重复和模板化表达，同时保留事实、确定程度和作者声音。它是编辑指导，不是作者身份检测工具；英文说明也应保持同样的准确性。
+
+## 旅行规划与离线网站
+
+Travel 是独立可选包。先审查已有旅行工作流，再只安装所需内容；不要求 meta、Knowledge、游戏包或小红书账号。旅行事实与研究放在用户指定的包外目录，订单、偏好和账号不进入发布仓。
+
+```text
+python scripts/workspace.py audit --target <workspace-path> --needs travel
+python scripts/workspace.py init --target <workspace-path> --mode compatible --packages travel
+python scripts/workspace.py init --target <workspace-path> --mode compatible --packages travel --apply
+```
+
+安装后从目标工作区运行 `node modules/travel/scripts/make-demo.mjs --project ./trips/demo`，再运行 `node modules/travel/scripts/travel.mjs build --project ./trips/demo`，打开 `trips/demo/build/index.html`。已有安装用 `add --packages travel`。示例完全虚构；核心命令无需 npm 依赖，真实采集、地图、预报和旅游安全仍需按实际任务核查。详见 [Travel 快速开始](packages/travel/README.md)。
 
 ## 按需选择 Skill
 

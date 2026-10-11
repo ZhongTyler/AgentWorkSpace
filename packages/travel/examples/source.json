@@ -1,0 +1,9 @@
+{
+  "id": "demo-source",
+  "title": "虚构资料：仅演示导入",
+  "url": "https://example.com/travel-note",
+  "author": "Synthetic fixture",
+  "text": "这是流程测试资料，不是真实目的地建议、营业信息或用户订单。",
+  "images": [],
+  "topics": ["demo"]
+}

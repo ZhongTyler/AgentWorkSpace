@@ -1,5 +1,12 @@
 # Releases
 
+## 1.5.0 — 2026-10-11
+
+- Add standalone Travel 0.4.6: source-grounded research, trip planning and private offline websites, with a fully fictional demo.
+- Support travel needs in compatible audits and selective installation, with no mandatory meta, game, Knowledge or account-service dependency.
+- Publish directly from the reviewed Travel workflow source; retire its separate released snapshot. Preserve third-party notices and license original content under MIT.
+- Existing 1.4.0 workspaces keep their selected packages and user data. Travel is opt-in; see [upgrade and recovery](upgrades/1.5.0.md).
+
 ## 1.4.0
 
 - Present meta as the foundation and all seven packages as peers in both READMEs.

@@ -64,6 +64,15 @@
           "ownership-and-recovery"
         ],
         "description": "Selectable, conflict-safe reusable skills."
+      },
+      "travel-planning": {
+        "criteria": [
+          "source-and-privacy-boundaries",
+          "trip-fact-ownership",
+          "planning-and-offline-delivery",
+          "verification-and-recovery"
+        ],
+        "description": "Source-grounded trip research, planning and private offline websites; no required game package or account service."
       }
     },
     "components": {
@@ -152,6 +161,13 @@
           "skill-library"
         ],
         "requires": []
+      },
+      "travel": {
+        "optional": [],
+        "provides": [
+          "travel-planning"
+        ],
+        "requires": []
       }
     },
     "needs": {
@@ -162,7 +178,8 @@
       "knowledge": "knowledge",
       "presentation": "game-presentation",
       "prototype": "prototyping",
-      "skills": "skill-library"
+      "skills": "skill-library",
+      "travel": "travel-planning"
     },
     "schema_version": 1
   },
@@ -324,7 +341,7 @@
       ],
       "source": "packages/brainstorm",
       "source_revision": "e4d7f2322f32412a9538ddf8dc6fca994ca9e5ca",
-      "version": "1.4.0"
+      "version": "1.5.0"
     },
     "fromdemotospec": {
       "destination": "modules/fromdemotospec",
@@ -400,7 +417,7 @@
       ],
       "source": "packages/fromdemotospec",
       "source_revision": "a5de2407b9e39299bc225a15d5436571ac97825e",
-      "version": "1.4.0"
+      "version": "1.5.0"
     },
     "game-analysis-decision": {
       "destination": "modules/game-analysis-decision",
@@ -487,7 +504,7 @@
       "required": [],
       "source": "packages/game-analysis-decision",
       "source_revision": "0693c5030d33fd2e22ed66295e5e05d5be23c534",
-      "version": "1.4.0"
+      "version": "1.5.0"
     },
     "game-presentation": {
       "destination": "modules/game-presentation",
@@ -527,7 +544,7 @@
       "required": [],
       "source": "packages/game-presentation",
       "source_revision": "5bc2d49a86b3b02a4080b6c6dd12a2ef716ef971",
-      "version": "1.4.0"
+      "version": "1.5.0"
     },
     "knowledge": {
       "destination": "modules/knowledge",
@@ -658,7 +675,7 @@
       ],
       "source": "packages/knowledge",
       "source_revision": "a3d3f491a13d2879e898057fcb1d0f51189075e3",
-      "version": "1.4.0"
+      "version": "1.5.0"
     },
     "meta": {
       "destination": "",
@@ -702,7 +719,7 @@
       "required": [],
       "source": "meta/workspace",
       "source_revision": "b504665d2eae16a2a225caf514f07eb5b75117ec",
-      "version": "1.4.0"
+      "version": "1.5.0"
     },
     "prototype-assets": {
       "destination": "modules/prototype-assets",
@@ -996,7 +1013,7 @@
       "required": [],
       "source": "packages/prototype-assets",
       "source_revision": "5abe108be291076b4e44717d17c740fca230c8e7",
-      "version": "1.4.0"
+      "version": "1.5.0"
     },
     "skills": {
       "destination": "modules/skills",
@@ -1059,10 +1076,134 @@
       "required": [],
       "source": "packages/skills",
       "source_revision": "5bc2d49a86b3b02a4080b6c6dd12a2ef716ef971",
-      "version": "1.4.0"
+      "version": "1.5.0"
+    },
+    "travel": {
+      "destination": "modules/travel",
+      "files": {
+        ".gitattributes": "6575f35da6df3a981aa913631cd31353fa1ff22cec805a41b5a33bd749f06713",
+        ".gitignore": "230bc10ddc9cae3b00b21a943fcf3ea4089d183ae1e3ba7c848de51e3b3be6f2",
+        "00-全流程与事实分工.md": "1f1f843549c7ac818d8e4e8d197c86ddcf24f69ea0867cf4c1e37b235764020c",
+        "AGENTS.md": "110ce53ec8ed01ef16bfa4515b5dd2c2aeb3aedc27b4d6efb04eb7106b74ae8a",
+        "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
+        "LICENSE-NOTICE.md": "1b78fa1fc3499b96484880ab72216b4393c8f8dc6e6d93aa6a50ab664c065c64",
+        "README.md": "b9948714e9a0265c483d9badf8738377703e09f337c7fbd71323c06e1ccf5b27",
+        "SKILL.md": "247e97687ae8f9269aaf0b8f68b6471450e703ead2945003fdf6670ad4f06ed7",
+        "THIRD_PARTY.md": "7468f48dcff49b6d71195415bdc4858df5d1248aaf2aaeb5510c26fb3ab5ef6a",
+        "_release.json": "87de843ee99fb523e65ff6693b871e30bd7b7923fe7f963eb90be2b2aad6ee04",
+        "examples/intake.json": "ee291509bda9f41c509c0731424ff5e439f4fd42965fbe30d558035ebf57c3a1",
+        "examples/source.json": "041d5a7b933bb71834b22d5208e49eac16a26bb1e7ec99d0518315966574fc0f",
+        "package.json": "a62359bf461cd8d7884465eeb6e7f8c12edd812ff25ee9fa87833dfde9a9ed65",
+        "schemas/trip.schema.json": "c5b30f346791e971bc743438ad61a13fe1652bf266d09f4d560543079d6df743",
+        "scripts/browser-audit.mjs": "8aa819ff2874f2ae5069533e672df1c4e626e00944b190bd8d7b000d51c92601",
+        "scripts/browser-smoke.mjs": "ccb411ad945be9faf4e22f2d620b0beb1fd9b2f2b1ec98bbbafa6bb9b6b02a75",
+        "scripts/check.mjs": "3431b0cadf27ffc9a69d4b58a3b2231764f3fca198ad3d8a94969cce68a98c8f",
+        "scripts/check.test.mjs": "200c8145614aadf9031dc349e605db141879bfffbbbc808791c89378257e5aae",
+        "scripts/lib/archive-info.mjs": "bdfb59f20d045caf2a8e18a0416f33d0df00ce272aca36643637dad471c60a48",
+        "scripts/lib/assets.mjs": "cc6fb4ad485c5bbec04f7a3a218d75c6bbef6c36fac99275319e76848ab49de2",
+        "scripts/lib/core.mjs": "9383ec71b01b28ca74b64e22f57108c18cfbd29f9194189c008a2e30022e023a",
+        "scripts/lib/generate.mjs": "5ea576bea5473b68b99fdc69a74f66e221768f7dfbbb9d10a217b86872724c09",
+        "scripts/lib/intake.mjs": "33e45a2c2fba3e5af2cc948e8d93d2b1962fa0772be50d39befa4f01d7959db5",
+        "scripts/lib/maps-weather.mjs": "ae32005f67ad895e5badd0c95e5d8c4dafa70df415b1805a12c2e9ffa79bdebc",
+        "scripts/lib/mcp.mjs": "4b9ea97842deaaba37a6513d78a853343a7dced0939a191f2afa29181d10f8de",
+        "scripts/lib/operations.mjs": "5b8aecf0f2d9e3113d161c0839d27156ed457d7b3fb508e771cb2c67f31a87ad",
+        "scripts/lib/package.mjs": "97b6cccc3c9b77401a90bb76bd0578ffac547842c235f8a91a7ea5bea8d5a182",
+        "scripts/lib/quality.mjs": "34d2aa962dcf055f83af428f4cea5688c60801b6ed5c6c2a24fa60db8bfb1efc",
+        "scripts/lib/research.mjs": "6aabfbdaf46c7ec2b4a61db6efaea76c780137e17859808b43223b49ead0e9fa",
+        "scripts/lib/route-access.mjs": "08b94cd6519e8567389674944da58be2410f10ae7f0eb581b164a9c595578da2",
+        "scripts/lib/temporary-route.d.mts": "c548095e9951a7ad01dfc2d26abbb35623d853d03cd0d7167dc6520d342212b9",
+        "scripts/lib/temporary-route.mjs": "ad8772d0cebe36c8761592011faff4914d26052994e40fd054437dae7adc3e75",
+        "scripts/lib/validate.mjs": "1034ebc73dd5f76772e5ac308df556d6e208a04c367f1ba6398459caba291fc4",
+        "scripts/lib/website-health.mjs": "7b85f3abd797cbd6e0c84aa9377486f15fa95256376f79d3d57ff7ee3834768e",
+        "scripts/make-demo.mjs": "78b261de403440367cda922650c9f4deda15473526325403d5cf0e50590db98a",
+        "scripts/operations.mjs": "a9b7afd1fcd5e4b6411d0cc611842e25913152e09842f3df015400e07da09226",
+        "scripts/travel.mjs": "6c37d411302ddd1b010355fd5f84883703fc0994680ce8ee014ef5a4bee70f15",
+        "skills/humanizer-zh/LICENSE": "aa00e74769e1b9d8e7fa7094dbfcca9b129a0ded6dce1cf4da050b99146d2fa7",
+        "skills/humanizer-zh/SKILL.md": "95627fd4437d886f98032ccc62d79136e6310f1fc04e354bb86431795ff206df",
+        "skills/humanizer-zh/SOURCE.md": "6ec88fdc3af76c36dcb223fd9283729276d2fe5d118e497bcad706605a483263",
+        "skills/travel-day-planner/SKILL.md": "e1d1cde2cb5d3c98fd9ad7856433ceb7199d0602133b97e50805ce78a26c29b4",
+        "skills/travel-presentation/SKILL.md": "6e97f5510e4f9296c107377e22f58cb741c68aa0d270aa79d95c6119e90d3d58",
+        "skills/xiaohongshu-capture/SKILL.md": "45c79b62437aa82ae2b78dbf201b7903ddae44c01669074434a5a97eafa1b3e3",
+        "skills/xiaohongshu-evidence-digest/SKILL.md": "fda88f328c72cbe39f20b382912df1ceb2bd6a798c1f19d3b75f3fd96085f433",
+        "tests/core.test.mjs": "68ad9474f806b988d61e2f4c8514df729ceb0e9e8c482cccc7d4daa7f6aec888",
+        "tests/hierarchy.test.mjs": "aef6024470e7a83227d548aace4cadeb352fe33b36d4c1101b9f5f85acc78be9",
+        "tests/intake.test.mjs": "342240c185948c762d52ac3b4002a52eea91c3a4e86d30da35b8732f088eb009",
+        "tests/mcp.test.mjs": "e82bfca7032af0ad76b003f14582eed99742fe5544356ba5584a1038bbf3121c",
+        "tests/operations.test.mjs": "2628c339140c8aa19d3a4de21709a84de5cd269a53dcf6bba8346a521208efa9",
+        "tests/portable.test.mjs": "29abf7fd41fda36b156b918e9a3da010ca0ce234da23c1692a25911474a60cf4",
+        "tests/presentation.test.mjs": "9d51fd46d4db3a8dfb65c82875712e0d09cb94fafc9cc9344d9b9dce560ca6d9",
+        "tests/public-boundary.test.mjs": "3040e2748a9352da84af6e9335d08c01f690a72b16a95ae48e73eefeeeb7a7e4",
+        "tests/quality.test.mjs": "afd98233df3d047509d613e70eb3c498aa9a906c6ffd6c123627e77690bd2559",
+        "tests/release.test.mjs": "0acb51dbdd82cb8087de49734735754b2985db93d7dca2d0a3f01757de9e41b3",
+        "tests/route-access.test.mjs": "75b942cf4bfdd4a9a535d8d652ca44f4eebc0a0b052f70b53a02bec76a15cafb",
+        "tests/temporary-route.test.mjs": "1cce2c9815b688710d733d0b31c0fd035d20c0f077012f4fc7bcecfd7e461020",
+        "tests/website-health.test.mjs": "1a61e5f2672f4fcfd11ff0ed17b29c95c69d369e4bb9c1ee4778292cbc8c485d",
+        "web/app.js": "856a5521eb550518478759ee6e88183d76524d3a53a3b9f4e32b072bbb50cc64",
+        "web/editorial.css": "72d54824a146dc6f490455f21c92e7fc6746166360375789b5752c1a9de18d4a",
+        "web/hierarchy.css": "4083743b3f32295548fb7b77bb095afc624bc733be7ad512768886ce315dc3b6",
+        "web/style.css": "cdf7ebd7afb3746aeecb601e7cb7d144342fe0c9e840d904ef6183c54e64bacc",
+        "模板/README.md": "ffc0d1e84b75b6a0f378474fa3d5afd0e843d5feac4f5a0f02fe220e2d858bfd",
+        "模板/主题Wiki.md": "141ef319f46df9313fb25395db74252f2d170963fb503d8e3b75d1282925779a",
+        "模板/偏好记录.md": "5eac49f41e9f5a39fd0de41734ce681cfd89e9e9307ff518dee6be589aeb64b1",
+        "模板/变更与验收.md": "13cc02362ad656a764b04e14c11b721daf00d2a541140d5bdca356c24ce33da0",
+        "模板/地点卡与路线.md": "a25f9b2ea340ac6e78c5464e53b9569e90a1ba637355c537a3918f964326b16f",
+        "模板/方案比较.md": "b99e2bd3c017d663385c45fc192fc7d8f182eac57aa18bebeca8179a1b599aeb",
+        "模板/来源记录.md": "174cc6af9a8636d446af88e6cb79ab08c2afdf0c4c2006af5949ddc5ca6315e4",
+        "模板/研究覆盖与消化记录.md": "8bf05c629efbccd031757ce0df9cab2ab1a00ff23a6255bc5c24ef2fdd0e3379",
+        "模板/订单提取.md": "f247bec196ad81a3803c4200753326fbfa18489370ea8659539401a77f3eb556",
+        "模板/项目/AGENTS.md": "030b33f81caf0c78ea7c6b7a70d416563b60e263954e0254db20fca5974befad",
+        "模板/项目/CHANGELOG.md": "63a6a83a47bdffe5b797715fae6a8795ae797ca68022ef3c891582b3734a2d2d",
+        "模板/项目/NOW.md": "e6aa8290b664ff96d5a941d585d43ab1741bdcba7bb04b2c69f3f93a48076547",
+        "模板/项目/README.md": "dbceccb507c9329dd420eb6bb98cda9b672960ceb139ed7f24b6fe47691f0386",
+        "模板/项目/实用指南.md": "4688e4ab99ae563bd3e69ef924d1b0256715724ec363009a291bf5a8ed2445c4",
+        "模板/项目/收拾清单.md": "6687691e174a80614f5bc638de398eda06194f5d859081841a14087d087b1f3a",
+        "模板/项目/游玩项目.md": "197b0bc4664bfa3dc54cf79103cf3f7170e1e263948361c2c8fb8dfe37bc20b5",
+        "模板/项目/行程总表.md": "b038e7636f7948a572346799c8f352fb4c370721130df2f02997cbeb6f6140c6",
+        "模板/项目/购物清单.md": "cfaeb250a99c8a003b23f2796435081ffeba6e0b156609b5799759a748dd509f",
+        "模板/项目/需求与偏好.md": "87031adf418cc7c8b7381765d741658e753e63d1da05b30127116f9f63e9242c",
+        "模板/项目/餐厅清单.md": "0eb1f1f81254982288c2b25a649eddf56ae47772ef61c7aa88d47d9625bcf888",
+        "模板/预订前比较与预算.md": "33ae766e60f36d887628bede87d1a0c50dad0b8830d267fd9bd48ff21b9cafaf",
+        "流程/01-需求与研究范围.md": "a9d6225078fa4642e132cedf1fe679e74a09f22b0754d4d2a42eaae2d1b1dded",
+        "流程/02-双轨收集与提取消化.md": "79d9ad9ed57cb76af324f32da98a828c6bf18280c20363f873f1842d9d008f1b",
+        "流程/03-主题知识与综合分析.md": "30bad9b368ea026c02a19cb5d0757b9fe19baba7dbb1fcc6222ce2970a558683",
+        "流程/04-逐日安排与路线.md": "05cb81c3d490b6a51ac17f92b7636237c955e782372583dfac648bf5e0cf6ae5",
+        "流程/05-餐饮咖啡采购与预算.md": "4320497958bbb121dcd1168bb275d577282363b5a662b12b60ecaefe06215231",
+        "流程/06-订单待办天气与出发.md": "a2be7b8de392409c75290a016ea082c641b62a992d29bcad37632e4d2e6910ab",
+        "流程/07-网站与信息呈现.md": "35d1488ded21eb2b2bef4c85355545849c3304c0a80f64854162342c39fd3b8b",
+        "流程/08-旅行手册与素材.md": "a78c8c0f17f354045c8f588ad9fd5aa1738f557ae78a62fc562a3d07bb979480",
+        "流程/09-同步验证与发布.md": "85f0abb1baba9a78017f8d043882b51814b7e9d48fa780fd4d6070e8334fe548",
+        "运行/人工采集与导入.md": "c043650f0e8f4e767b30a399ce80c9f704212e0920d837f5a2b301123e4b2c41",
+        "运行/体验指南与项目共用.md": "2141aaafc5559ad9d0fcc961f0252aac3bade98c3224cd385d11a4d6fdf2c10e",
+        "运行/发布与隐私.md": "8030c966b84f40ece8734c2ff124ae78274775610aacb4cf9195c870be78e4e8",
+        "运行/命令参考.md": "b7310c8867b58537f0105ea0fa75a1b15fd4e1e0eca2a14e8abdfbb22674e80c",
+        "运行/品质复现与验收.md": "1147ad75b34cc15646e3e217c7616cd0c1ab2de3b074e144da88217dec53e353",
+        "运行/地图维护.md": "2d1f9ccc7cb9ec9b6db2811c5be7cd5de4778f213342361d24d88e4c7c899021",
+        "运行/实施状态.md": "18da7aa1347adadad2c37a3c9fc18f08e54b35509a6e56c4c026b9d3decf4776",
+        "运行/小红书安装与登录.md": "ae2793629a4ba7f195481a3912d346d6dda98edb64952ed71412cd7733baef04",
+        "运行/工具与Skill接线.md": "3e4067da4582d24bbecb225230ef2d4b7b28807a6af1c460ae3184b3abe80d33",
+        "运行/常用任务提示词.md": "77b1892d3e744c21b0bb996dc8a6cf231b56b684aba643d10675e9050dea0b6e",
+        "运行/快速开始.md": "c7c008d8418f2df56ff14667115b6b4093c7fbed5cf463b4edc6121d4459573d",
+        "运行/数据合同.md": "5dcb9a7e3cd345ddead5af3fb596ff10d5104aea2d67c2d5b40e9189ba8eba48",
+        "运行/旅后复盘与阅读优先级.md": "c7ecc712cc7b40fa4b4102f6a750359e4f9405a06c31863a6c29555b3fbac8d9",
+        "运行/旅行文案审校.md": "8cbb36c30b2e1b484ae885b5ea7429f67b9e41c6ad5a625a96ba351da9bde6c6",
+        "运行/旅途中调整与时间约束.md": "d6816687f7cf1d33d2b976be3960a58297ee78b52440688a24e05c102552f8ac",
+        "运行/网站健康检查.md": "ecbd8f1f2e87c246f8a0f261a7c5b071ca490f70bbe7afd7b1745fb02bfde6e2",
+        "运行/视觉层级与全量巡检.md": "37c65fc245466866d0d0099bd8ced4f8b97cdd2204f6538b2e3e40b10df62040",
+        "运行/角色与步骤.md": "da5f3e33616dcc105e77320792c20255eeb264356479677283f48b7fbbdfeb2b",
+        "运行/转场与通道核验.md": "eafc83e59e0992808713fa5378b8d2ca4dd21f2a3d61563900d57f069ae8c3c3",
+        "运行/验证记录/SingleFile-2026-10-10.md": "a271065eed8a643f965be342bc0044a174a5cf88ca7659d4a5a4f0df47b06fe6"
+      },
+      "optional": [],
+      "provides": [
+        "travel-planning"
+      ],
+      "required": [],
+      "source": "packages/travel",
+      "source_revision": "52d1cf8fd85ff0602b5efe4013db94b1979c3b63",
+      "version": "1.5.0"
     }
   },
-  "previous_version": "1.3.2",
+  "previous_version": "1.4.0",
   "schema_version": 1,
-  "version": "1.4.0"
+  "version": "1.5.0"
 }

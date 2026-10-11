@@ -7,7 +7,7 @@
 An ongoing project often means repeating rules, organizing context, choosing methods and leaving useful outputs for the next task. AgentWorkSpace packages these practices as installable, upgradable files and tools that an agent reads and uses when the task calls for them.
 
 - **Existing workspace**: audit current needs, reuse reviewed capabilities and install selected modules and missing dependencies.
-- **New workspace**: install the complete collaboration framework, then choose brainstorming, prototyping, knowledge or game-development modules.
+- **New workspace**: install the complete collaboration framework, then choose brainstorming, knowledge management, travel planning or game-development modules.
 - **A few skills**: use the Skills package on its own and install by name, without adopting the complete framework.
 
 A released version is available to try, and public examples are still being developed. **There is no complete public end-to-end case study or demo video yet.** The capabilities and commands below describe what is available; engineering checks do not establish long-term benefits, creative quality or game experience. Game development currently has broader module coverage, while the collaboration framework and skills also support other tasks.
@@ -22,7 +22,7 @@ There is one complete meta edition. New workspaces install it by default; existi
 
 ## Get started
 
-Clone or download this repository into a separate directory from the user workspace. The root installer and skill picker need Python 3.10+. GameAnalysisDecision, GamePresentation and PrototypeAssets tools need Node.js 22+. Brainstorm, FromDemoToSpec and some Knowledge tools also use PowerShell 7; the first Knowledge Ingest requires Git. Runtime verification for this release was performed on Windows; check each package before claiming other platform support.
+Clone or download this repository into a separate directory from the user workspace. The root installer and skill picker need Python 3.10+. GameAnalysisDecision, GamePresentation, PrototypeAssets and Travel tools need Node.js 22+. Brainstorm, FromDemoToSpec and some Knowledge tools also use PowerShell 7; the first Knowledge Ingest requires Git. Runtime verification for this release was performed on Windows; check each package before claiming other platform support.
 
 Run these commands from the distribution directory. Preview before applying:
 
@@ -52,7 +52,7 @@ The agent reviews host rules and interfaces against the returned criteria, then 
 
 ## Use the workspace
 
-The distribution contains **one meta foundation and seven peer packages**. Meta provides collaboration rules and workspace structure; full mode installs it at the root, while compatible mode optionally installs it under `modules/meta`. State your goal, constraints and completion criteria to use it. Choose each package as needed; table order implies neither hierarchy nor installation priority. Brainstorm, FromDemoToSpec and Knowledge require host-governance capabilities, supplied by meta or a reviewed existing framework. Existing workspaces can reuse reviewed capabilities without adding packages for optional integrations.
+The distribution contains **one meta foundation and eight peer packages**. Meta provides collaboration rules and workspace structure; full mode installs it at the root, while compatible mode optionally installs it under `modules/meta`. State your goal, constraints and completion criteria to use it. Choose each package as needed; table order implies neither hierarchy nor installation priority. Brainstorm, FromDemoToSpec and Knowledge require host-governance capabilities, supplied by meta or a reviewed existing framework. Existing workspaces can reuse reviewed capabilities without adding packages for optional integrations.
 
 [Meta guide](meta/README.md) · [Package dependencies and tool requirements](docs/package-dependencies.md)
 
@@ -64,6 +64,7 @@ The distribution contains **one meta foundation and seven peer packages**. Meta 
 | [Skills](packages/skills/README.md) | 16 development, research, writing and workflow methods; install chosen names | `modules/skills` | No other module required; adding the library does not activate every skill |
 | [GameAnalysisDecision](packages/game-analysis-decision/README.md) | Evidence-based game analysis, conditional recommendations and method correction | `modules/game-analysis-decision` | Works alone; Knowledge and other host packages are optional |
 | [GamePresentation](packages/game-presentation/README.md) | Presentation specifications, resource preparation and Godot delivery/recovery | `modules/game-presentation` | Manual/generated sources work; PrototypeAssets is optional |
+| [Travel](packages/travel/README.md) | “Research and plan this trip…”; generate a private offline website | `modules/travel` | Works alone; no required package, account service or server; browser verification is optional |
 | [PrototypeAssets](packages/prototype-assets/README.md) | 119 assets with provenance/license records and verification/export tools | `modules/prototype-assets` | Runtime copies and licenses remain usable without their source package |
 
 Start tasks once the framework is installed; create business content when the task needs it. FromDemoToSpec provides a development workflow. The game project is created during a specific development task. Before the first Knowledge Ingest run, the agent must configure the real knowledge scope and establish a separate local Git baseline inside the module. Existing libraries keep their history. Do not use the outer repository as that baseline or create a remote or push automatically. The original setup wizard remains available for standalone customization; installation does not require another interview. Keep the registered module directory name unchanged.
@@ -71,6 +72,18 @@ Start tasks once the framework is installed; create business content when the ta
 Keep projects under `projects/` or a directory you choose. Sessions, knowledge content and personal configuration belong in your workspace, not in this distribution repository. `.agent-workspace/state.json` records installed versions and framework file baselines; it does not own your business records.
 
 Meta also includes [Humanizer-zh](meta/workspace/.agents/skills/humanizer-zh/SKILL.md). Use it to edit Chinese prose for clarity while preserving facts, uncertainty and the author's voice. It is editing guidance, not an authorship detector. English documentation should preserve the same factual accuracy.
+
+## Travel planning and offline websites
+
+Travel is an optional standalone package. Audit existing travel workflows before adding it; meta, Knowledge, game packages, a Xiaohongshu account and a server are not required. Trip facts and research live in a separate user-owned directory. Orders, preferences and account data stay outside this distribution.
+
+```text
+python scripts/workspace.py audit --target <workspace-path> --needs travel
+python scripts/workspace.py init --target <workspace-path> --mode compatible --packages travel
+python scripts/workspace.py init --target <workspace-path> --mode compatible --packages travel --apply
+```
+
+From the installed workspace, run `node modules/travel/scripts/make-demo.mjs --project ./trips/demo`, then `node modules/travel/scripts/travel.mjs build --project ./trips/demo` and open `trips/demo/build/index.html`. Existing installations use `add --packages travel`. The example is entirely fictional. Core commands have no npm runtime dependencies; real source collection, maps, forecasts and travel safety require task-specific checks. See the [Travel quick start](packages/travel/README.md), currently in Chinese.
 
 ## Select skills as needed
 

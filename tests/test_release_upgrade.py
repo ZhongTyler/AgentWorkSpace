@@ -14,7 +14,7 @@ class ActualReleaseUpgrade(unittest.TestCase):
   with tempfile.TemporaryDirectory(prefix='aws-real-upgrade-') as t:
    base=Path(t);previous=base/'previous';previous.mkdir();target=base/'host'
    git=shutil.which('git');self.assertIsNotNone(git)
-   r=subprocess.run([git,'-c','safe.directory='+ROOT.as_posix(),'-C',str(ROOT),'archive','v1.3.2'],capture_output=True,check=True)
+   r=subprocess.run([git,'-c','safe.directory='+ROOT.as_posix(),'-C',str(ROOT),'archive','v1.4.0'],capture_output=True,check=True)
    with tarfile.open(fileobj=io.BytesIO(r.stdout)) as archive:
     for member in archive:
      if member.isdir():continue
@@ -27,11 +27,11 @@ class ActualReleaseUpgrade(unittest.TestCase):
      host.mkdir(parents=True);(host/'AGENTS.md').write_bytes(b'Existing authoritative host rules.\n');args.insert(args.index('--apply'),'meta');args.extend(['--mode','compatible'])
     self.command(*args)
     user=host/'modules/brainstorm/sessions/my-note.md';user.parent.mkdir(parents=True,exist_ok=True);user.write_bytes(b'User data must remain.\n')
-    original=(host/'AGENTS.md').read_bytes();self.assertEqual('1.3.2',w.state(host)['version'])
+    original=(host/'AGENTS.md').read_bytes();self.assertEqual('1.4.0',w.state(host)['version'])
     preview=w.install(ROOT,host,'upgrade',[]);self.assertFalse(preview['applied']);self.assertFalse(preview['conflicts'])
     if mode=='compatible':self.assertTrue(preview['audit']['package_review'])
-    upgraded=w.install(ROOT,host,'upgrade',[],True);self.assertTrue(upgraded['applied']);self.assertEqual('1.4.0',w.state(host)['version']);self.assertEqual(original,(host/'AGENTS.md').read_bytes())
-    self.assertTrue(w.rollback(host,upgraded['transaction'],True)['applied']);self.assertEqual('1.3.2',w.state(host)['version']);self.assertEqual(original,(host/'AGENTS.md').read_bytes());self.assertEqual(b'User data must remain.\n',user.read_bytes())
+    upgraded=w.install(ROOT,host,'upgrade',[],True);self.assertTrue(upgraded['applied']);self.assertEqual('1.5.0',w.state(host)['version']);self.assertEqual(original,(host/'AGENTS.md').read_bytes())
+    self.assertTrue(w.rollback(host,upgraded['transaction'],True)['applied']);self.assertEqual('1.4.0',w.state(host)['version']);self.assertEqual(original,(host/'AGENTS.md').read_bytes());self.assertEqual(b'User data must remain.\n',user.read_bytes())
  def test_skill_upgrade_only_selected_and_local_changes(self):
   with tempfile.TemporaryDirectory(prefix='aws-skill-upgrade-') as t:
    base=Path(t);old=ROOT/'packages/skills';new=base/'next';shutil.copytree(old,new);target=base/'host'

@@ -1,0 +1,17 @@
+{
+  "id": "manual-example",
+  "title": "人工采集示例（不是实际旅行资料）",
+  "url": "https://example.com/travel",
+  "author": "示例作者",
+  "topics": ["餐饮"],
+  "textFile": "intake-body.txt",
+  "images": [],
+  "capture": {
+    "method": "manual",
+    "by": "实际采集者",
+    "at": "2026-10-04T00:00:00Z",
+    "scope": "unknown",
+    "bodyExpanded": false,
+    "expectedImages": null
+  }
+}

@@ -39,10 +39,25 @@ def stage(source, destination):
     manifest = json.loads(manifest_path.read_text(encoding='utf-8-sig'))
     if manifest.get('release_schema') != 1:
         raise ContractError('Unknown source manifest schema')
-    expected_output = {'meta': 'meta', 'brainstorm': 'packages/brainstorm', 'fromdemotospec': 'packages/fromdemotospec', 'knowledge': 'packages/knowledge', 'skills': 'packages/skills', 'game-analysis-decision': 'packages/game-analysis-decision', 'game-presentation': 'packages/game-presentation', 'prototype-assets': 'packages/prototype-assets'}
+    expected_output = {'meta': 'meta', 'brainstorm': 'packages/brainstorm', 'fromdemotospec': 'packages/fromdemotospec', 'knowledge': 'packages/knowledge', 'skills': 'packages/skills', 'game-analysis-decision': 'packages/game-analysis-decision', 'game-presentation': 'packages/game-presentation', 'prototype-assets': 'packages/prototype-assets', 'travel': 'packages/travel'}
     component = manifest.get('component_id')
     if component not in expected_output or manifest.get('output_path') != expected_output[component]:
         raise ContractError('Unknown or mismatched publication target')
+    if component == 'travel':
+        # Travel contains private sibling projects in its source repository.
+        # Select explicit public files before any directory traversal.
+        roots = {'README.md', 'AGENTS.md', 'SKILL.md', '00-全流程与事实分工.md',
+                 'package.json', '.gitignore', '.gitattributes', 'THIRD_PARTY.md',
+                 'LICENSE', 'LICENSE-NOTICE.md', 'scripts', 'web', 'skills',
+                 '运行', '流程', '模板', 'examples', 'tests', 'schemas'}
+        if any(manifest.get(key) for key in ('root_files', 'copy_directories', 'text_replacements')):
+            raise ContractError('Travel publication requires explicit public file inputs')
+        for item in manifest.get('copy_files', []):
+            name = relative(item['source'])
+            if name != item['target'] or name.split('/')[0] not in roots or any(
+                    part in {'.git', '.runtime', 'node_modules', '__pycache__', 'private', 'raw'}
+                    for part in name.split('/')):
+                raise ContractError('Travel input is outside the public workflow whitelist')
     if manifest.get('strip_sections') or manifest.get('remove_lines'):
         raise ContractError('Unsupported source transformations must be resolved before publication')
     seen = set()

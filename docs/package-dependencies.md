@@ -1,8 +1,8 @@
 # Packages and optional integrations
 
-meta 是工作区底座，下列七个 package 是并列选项。并列不表示依赖相同：Brainstorm、FromDemoToSpec、Knowledge 需要宿主治理能力，可由完整 meta 或经过审阅的现有框架提供；其余四包没有必装模块依赖。新建工作区的 full 模式安装完整 meta，已有工作区的 compatible 模式只补选择的包与缺失能力。
+meta 是工作区底座，下列八个 package 是并列选项。并列不表示依赖相同：Brainstorm、FromDemoToSpec、Knowledge 需要宿主治理能力，可由完整 meta 或经过审阅的现有框架提供；其余五包没有必装模块依赖。新建工作区的 full 模式安装完整 meta，已有工作区的 compatible 模式只补选择的包与缺失能力。
 
-Meta is the foundation; these seven packages are peers. Their capability requirements differ: Brainstorm, FromDemoToSpec and Knowledge need host governance from meta or a reviewed existing framework. The other four have no mandatory module dependency. Full mode installs meta; compatible mode supplies only selected packages and missing capabilities.
+Meta is the foundation; these eight packages are peers. Their capability requirements differ: Brainstorm, FromDemoToSpec and Knowledge need host governance from meta or a reviewed existing framework. The other five have no mandatory module dependency. Full mode installs meta; compatible mode supplies only selected packages and missing capabilities.
 
 | Package | Core environment and required capability | Optional integration | Missing integration |
 |---|---|---|---|
@@ -12,6 +12,7 @@ Meta is the foundation; these seven packages are peers. Their capability require
 | Skills | Python 3.10+ to install; Agent to use methods | GameAnalysisDecision, Knowledge, GamePresentation for domain routes | Use project facts and available methods; disclose unavailable tools |
 | GameAnalysisDecision | Agent; Node.js 22+ for tools; Git for local learning baselines | Knowledge, Brainstorm, FromDemoToSpec | Direct analysis and project evidence still work; source resolution reports unavailable |
 | GamePresentation | Agent; Node.js 22+ for transactions; actual Godot for engine verification | PrototypeAssets or reviewed equivalent asset source; GameAnalysisDecision; FromDemoToSpec; image generator | Generated/manual sources and workflow remain available; no invented engine/image execution |
+| Travel | Agent; Node.js 22+; core CLI uses built-in modules | Optional account-based research service, Playwright/browser checks, deployment adapter | Manual/official-source research and private offline websites work without meta, Knowledge, Skills or game packages |
 | PrototypeAssets | Node.js 22+ for verify/export | GamePresentation for project update/recovery; FromDemoToSpec for base 2D consumption | List, verify and export remain standalone; copies have no source runtime dependency |
 
 These are capability relationships, not a mandatory package chain. No package automatically installs, downloads, enables or executes another. Root audit recommends only for declared needs, and requires only genuinely missing dependencies. An existing equivalent provider needs actual criteria review and unchanged evidence hashes, not a matching folder name.

@@ -64,6 +64,15 @@
         "content-hashes",
         "independent-runtime"
       ]
+    },
+    "travel-planning": {
+      "description": "Source-grounded trip research, planning and private offline websites; no required game package or account service.",
+      "criteria": [
+        "source-and-privacy-boundaries",
+        "trip-fact-ownership",
+        "planning-and-offline-delivery",
+        "verification-and-recovery"
+      ]
     }
   },
   "components": {
@@ -152,6 +161,13 @@
         "game-presentation",
         "prototyping"
       ]
+    },
+    "travel": {
+      "provides": [
+        "travel-planning"
+      ],
+      "requires": [],
+      "optional": []
     }
   },
   "needs": {
@@ -162,6 +178,7 @@
     "skills": "skill-library",
     "game-analysis": "game-analysis",
     "presentation": "game-presentation",
-    "assets": "asset-catalog"
+    "assets": "asset-catalog",
+    "travel": "travel-planning"
   }
 }

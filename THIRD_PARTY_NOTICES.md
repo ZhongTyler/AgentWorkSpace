@@ -43,3 +43,7 @@ The Brainstorm [source register](packages/brainstorm/docs/research/public-source
 复制或再分发原创内容时附带根 MIT 声明；涉及上述例外时，同时保留其许可、版权、来源和改动说明。按文件与实际来源判断，不把整个仓库宣传成“全部 MIT”或“全部可商用”。仅安装某个包或导出素材不会改变原许可；如选出的副本不含根许可与本说明，再分发前请从发布仓补齐适用记录。
 
 Include the root MIT notice when copying or redistributing original content. For exceptions above, also retain applicable licenses, copyrights, provenance and change notices. Determine rights by file and source; do not describe the whole repository as entirely MIT or entirely cleared for commercial use. Installing a package or exporting an asset does not change its license. If selected copies omit the root license or this notice, include the applicable records from the distribution before redistribution.
+
+## Travel
+
+Travel original code and documentation use MIT, confirmed by the rights holder on 2026-10-11. Its bundled Humanizer-zh retains its own MIT copyright and pinned source record. See [Travel license](packages/travel/LICENSE-NOTICE.md) and [sources and optional services](packages/travel/THIRD_PARTY.md). No third-party service binaries, browser, real trips, orders, account data or source photographs are bundled. Online services and user-collected content retain their own terms.
