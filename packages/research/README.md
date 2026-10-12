@@ -14,6 +14,8 @@
 
 [REA 发行产物研究](integrations/rea/README.md)提供固定 CLI/MCP 接线、可选 `$rea-investigate` skill 和匹配官方参考。需要时明确安装到包外 runtime，再选择注册 MCP/安装 skill；包安装不会自动执行这些动作。完整源码分析仍优先读源码。[工具与证据保存规范](templates/tool-storage.md)区分结论、实验、工具锁、运行依赖、凭据及知识采用，个人内容不随发布或升级迁移。
 
+[游戏开发支持](game-research/development-support.md)说明如何在参考机制调查、开发工具评估与发行版差异排查中按需组合Research、Knowledge、GameAnalysisDecision和REA；Skills包可选提供 `game-decision-support` 入口。缺少模块时沿宿主已有能力继续，不自动补装依赖；证据回项目，体验收益仍需原型与真实Play验证。
+
 [浏览器工具](integrations/browser/README.md)附带SingleFile与Obsidian Web Clipper官方固定版本的准备脚本/哈希；扩展为可选辅助，加载不等于保存链路可用。默认采用原生浏览器读取/字幕/截图与[本地公开网页采集、OCR](integrations/media/README.md)，按[媒体路径](game-research/media-capture.md)保留必要图义和视频时间码。正式游戏消化围绕主题优先3–4篇、最多6篇，不足不凑数。包内不含维护者页面快照、媒体、浏览器profile或354MB本机运行时。
 
 目录附带与工具接通是两回事。安装资料仍需联网取得依赖和连接远程服务，不是完整离线镜像。本包通过 AgentWorkSpace 按需安装到 modules/research；正式版本、来源提交和文件清单见发行说明、catalog 与 _release.json。安装不创建周期任务、连接账号或授予自动入库权限。研究报告与采集材料放在使用者指定的包外目录，升级和回滚不会接管它们。

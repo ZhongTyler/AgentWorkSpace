@@ -22,6 +22,6 @@ python scripts/skills.py rollback --target <workspace> --transaction <transactio
 
 只升级已选 Skill，未安装的不会顺带启用。全局 package 升级与用户已安装 Skill 升级分两步；不会从发布仓绕过用户本地冲突检查。状态位于 .agent-skills/<platform>，与工作区安装状态分开。预览不写入，应用有备份，回退拒绝覆盖后续修改。
 
-游戏支持 Skill 可复用 GameAnalysisDecision、Knowledge、GamePresentation，也可使用宿主已有能力或独立完成基础任务；缺少工具时明确限制。引擎、图像生成器和测试库属于实际任务工具，不由安装器自动下载。workflow-closure 优先遵守宿主合同，没有专用合同也不会虚构固定仪式。
+游戏支持 Skill 可复用 GameAnalysisDecision、Knowledge、GamePresentation、Research，也可使用宿主已有能力或独立完成基础任务；缺少工具时明确限制。`game-decision-support` 在问题确实需要发行产物证据时可转 `rea-investigate`，覆盖参考机制、开发工具与源码/发行版差异；完整源码优先直接读。REA由可选Research包单独提供安装说明，不是本方法库的必装依赖，包/Skill升级不安装runtime、不连接MCP、不运行目标。引擎、图像生成器和测试库属于实际任务工具，不由安装器自动下载。workflow-closure 优先遵守宿主合同，没有专用合同也不会虚构固定仪式。
 
 许可按每个 Skill 的原来源保留：Humanizer-zh、systematic-debugging、godot-gdscript-patterns 为其声明的 MIT；property-based-testing 为 CC BY-SA 4.0，含来源与变更说明。其他原创内容原授权不变，不对整个集合施加覆盖原许可的新限制。入口校验与可安装性不代表方法长期效果已经验证。

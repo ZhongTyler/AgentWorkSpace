@@ -36,10 +36,10 @@
     "game-decision-support": {
       "destination": ".agents/skills/game-decision-support",
       "files": {
-        "SKILL.md": "0920c60cb3bf34d5aff0ad254afccf9b747f489ca76f0d99bf7c9e8470737d37"
+        "SKILL.md": "6bb325254c1494e4787d13d862665cf1f2d5740a72b07fb1cd5e56b09bfd34cb"
       },
       "source": "library/game-decision-support",
-      "version": "1.3.1"
+      "version": "1.8.0"
     },
     "game-presentation": {
       "destination": ".agents/skills/game-presentation",
@@ -149,7 +149,7 @@
       "version": "1.3.1"
     }
   },
-  "previous_version": "1.3.0",
+  "previous_version": "1.3.1",
   "schema_version": 1,
-  "version": "1.3.1"
+  "version": "1.8.0"
 }

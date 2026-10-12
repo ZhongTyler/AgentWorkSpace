@@ -136,7 +136,8 @@
       "optional": [
         "game-analysis",
         "game-presentation",
-        "knowledge"
+        "knowledge",
+        "research"
       ]
     },
     "game-analysis-decision": {
@@ -185,7 +186,8 @@
       "requires": [],
       "optional": [
         "knowledge",
-        "game-analysis"
+        "game-analysis",
+        "skill-library"
       ]
     }
   },

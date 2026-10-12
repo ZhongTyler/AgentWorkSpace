@@ -2,6 +2,8 @@
 
 REA 是分析工具，适用于发行包、ASAR、JavaScript/Electron 产物和源码缺失的具体机制问题；不是新的资讯来源。完整源码分析优先直接阅读源码。CLI 与 MCP 共用固定的 `rea-agents@6.4.0`，两者按任务选择。
 
+用于游戏设计与开发时，沿[开发支持路径](../../game-research/development-support.md)进入：参考机制、开发工具或发行版本问题确实需要产物证据时调用，结果回到项目原记录。Skills包的 `game-decision-support` 是可选路由入口；未安装时可直接按本页与宿主协议执行，不形成强制包依赖。
+
 本目录包含精确依赖锁、[官方归档锁](source-lock.json)、MIT 与匹配官方 skill v37。顶层发行包不是完整离线依赖镜像；传递依赖须从 npm registry 或缓存恢复。Node 需满足上游支持范围（^22.19、^24.11 或 >=26），安装器需要 Python 3.11+。维护者在 Windows/Node 24.15.0 上验证过 JS 静态路径；接收者连接和其他平台仍需自己验证。
 
 ## 安装、接线与调用

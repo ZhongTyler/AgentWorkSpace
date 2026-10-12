@@ -85,7 +85,7 @@ class TravelRelease(unittest.TestCase):
                 user = host / 'trips/existing/notes.md'
                 user.parent.mkdir(parents=True)
                 user.write_bytes(b'PRIVATE-CANARY\n')
-                local = host / 'modules/skills/README.md'
+                local = host / 'modules/skills/library/humanizer-zh/SKILL.md'
                 local.write_bytes(local.read_bytes() + b'\nLocal user edit.\n')
                 retained = {p: p.read_bytes() for p in [user, local, host / 'AGENTS.md']}
                 upgrade = w.install(ROOT, host, 'upgrade', [], True)

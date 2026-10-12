@@ -16,6 +16,37 @@ from publish import stage
 
 
 class ResearchRelease(unittest.TestCase):
+    def advance_to_previous(self, host, destination):
+        """Follow published predecessor contracts; never bypass the upgrade gate."""
+        current = w.state(host)['version']
+        wanted = w.catalog(ROOT)['previous_version']
+        chain = []
+        while wanted != current:
+            self.assertNotIn(wanted, chain, 'Published predecessor cycle')
+            w.version(wanted)
+            chain.append(wanted)
+            previous = subprocess.run(['git', '-c', 'safe.directory=' + ROOT.as_posix(), '-C', str(ROOT),
+                'show', 'v' + wanted + ':catalog.json'], capture_output=True, check=True).stdout
+            wanted = json.loads(previous)['previous_version']
+        transactions = []
+        for version in reversed(chain):
+            bundle = destination / version
+            bundle.mkdir(parents=True)
+            data = subprocess.run(['git', '-c', 'safe.directory=' + ROOT.as_posix(), '-C', str(ROOT),
+                'archive', 'v' + version], capture_output=True, check=True).stdout
+            with tarfile.open(fileobj=io.BytesIO(data)) as archive:
+                for entry in archive:
+                    if entry.isfile():
+                        target = w.safe(bundle, entry.name)
+                        target.parent.mkdir(parents=True, exist_ok=True)
+                        target.write_bytes(archive.extractfile(entry).read())
+            result = subprocess.run([sys.executable, '-X', 'utf8', '-B', str(bundle/'scripts/workspace.py'),
+                'upgrade', '--target', str(host), '--apply'], capture_output=True, text=True, encoding='utf-8')
+            self.assertEqual(0, result.returncode, result.stderr)
+            transactions.append(json.loads(result.stdout)['transaction'])
+            self.assertEqual(version, w.state(host)['version'])
+        return transactions
+
     def test_rea_public_material_and_no_machine_state(self):
         package = ROOT / 'packages/research'
         rea = package / 'integrations/rea'
@@ -52,11 +83,15 @@ class ResearchRelease(unittest.TestCase):
                 runtime = host/'tools/rea/existing.txt'; runtime.parent.mkdir(parents=True); runtime.write_bytes(b'USER TOOL')
                 client = host/'client/config.toml'; client.parent.mkdir(); client.write_bytes(b'# OWN CONFIG\n')
                 before = {p: p.read_bytes() for p in (notes, runtime, client, host/'AGENTS.md')}
+                intermediates = self.advance_to_previous(host, base/'steps'/mode)
                 upgrade = w.install(ROOT, host, 'upgrade', [], True)
                 self.assertTrue(upgrade['applied'])
                 self.assertTrue((host/'modules/research/integrations/rea/scripts/install.py').is_file())
                 self.assertFalse((host/'.codex').exists())
                 self.assertTrue(w.rollback(host, upgrade['transaction'], True)['applied'])
+                self.assertEqual(w.catalog(ROOT)['previous_version'], w.state(host)['version'])
+                for transaction in reversed(intermediates):
+                    self.assertTrue(w.rollback(host, transaction, True)['applied'])
                 self.assertEqual('1.6.0', w.state(host)['version'])
                 for p, data in before.items():
                     self.assertEqual(data, p.read_bytes())
@@ -162,16 +197,6 @@ class ResearchRelease(unittest.TestCase):
                         target = w.safe(old, entry.name)
                         target.parent.mkdir(parents=True, exist_ok=True)
                         target.write_bytes(archive.extractfile(entry).read())
-            middle = base / 'middle'
-            middle.mkdir()
-            p = subprocess.run(['git', '-c', 'safe.directory=' + ROOT.as_posix(), '-C', str(ROOT),
-                                'archive', 'v1.6.0'], capture_output=True, check=True)
-            with tarfile.open(fileobj=io.BytesIO(p.stdout)) as archive:
-                for entry in archive:
-                    if entry.isfile():
-                        target = w.safe(middle, entry.name)
-                        target.parent.mkdir(parents=True, exist_ok=True)
-                        target.write_bytes(archive.extractfile(entry).read())
             for mode in ('full', 'compatible'):
                 host = base / mode
                 args = [sys.executable, '-X', 'utf8', '-B', str(old / 'scripts/workspace.py'),
@@ -185,15 +210,10 @@ class ResearchRelease(unittest.TestCase):
                 report = host / 'research-notes/my-report.md'
                 report.parent.mkdir()
                 report.write_bytes(b'User research outside installed package.\n')
-                local = host / 'modules/skills/README.md'
+                local = host / 'modules/skills/library/humanizer-zh/SKILL.md'
                 local.write_bytes(local.read_bytes() + b'\nUser edit.\n')
                 before = {p: p.read_bytes() for p in (report, local, host / 'AGENTS.md')}
-                intermediate = subprocess.run([sys.executable, '-X', 'utf8', '-B',
-                    str(middle / 'scripts/workspace.py'), 'upgrade', '--target', str(host), '--apply'],
-                    capture_output=True, text=True, encoding='utf-8')
-                self.assertEqual(0, intermediate.returncode, intermediate.stderr)
-                intermediate_transaction = json.loads(intermediate.stdout)['transaction']
-                self.assertEqual('1.6.0', w.state(host)['version'])
+                intermediates = self.advance_to_previous(host, base/'steps'/mode)
                 upgrade = w.install(ROOT, host, 'upgrade', [], True)
                 self.assertNotIn('research', w.state(host)['components'])
                 addition = w.install(ROOT, host, 'add', ['research'], True)
@@ -201,8 +221,9 @@ class ResearchRelease(unittest.TestCase):
                 self.assertIn('research', w.state(host)['components'])
                 self.assertTrue(w.rollback(host, addition['transaction'], True)['applied'])
                 self.assertTrue(w.rollback(host, upgrade['transaction'], True)['applied'])
-                self.assertEqual('1.6.0', w.state(host)['version'])
-                self.assertTrue(w.rollback(host, intermediate_transaction, True)['applied'])
+                self.assertEqual(w.catalog(ROOT)['previous_version'], w.state(host)['version'])
+                for transaction in reversed(intermediates):
+                    self.assertTrue(w.rollback(host, transaction, True)['applied'])
                 self.assertEqual('1.5.0', w.state(host)['version'])
                 for p, data in before.items():
                     self.assertEqual(data, p.read_bytes())

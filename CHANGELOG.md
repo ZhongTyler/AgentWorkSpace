@@ -1,5 +1,12 @@
 # Releases
 
+## 1.8.0 — 2026-10-12
+
+- Connect optional Research/REA artifact evidence to game development support across meta, Skills and Research.
+- Cover reference mechanisms, tool implementation and source/release discrepancies; retain source-first analysis, scoped evidence feedback and real-Play boundaries.
+- Keep missing modules usable and tool setup explicit; update selected client skills separately from the workspace package.
+- Verify real predecessor upgrades, selected-skill conflicts and reverse recovery while preserving host rules, research notes and external tooling.
+
 ## 1.7.0 — 2026-10-12
 
 - Add optional pinned REA CLI/MCP setup and the portable `rea-investigate` entry within Research, with matching upstream references and MIT archive.

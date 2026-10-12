@@ -12,10 +12,11 @@
     },
     {
       "id": "game-decision-support",
-      "description": "按关键判断的事实与分析缺口路由 Knowledge Query、GameAnalysisDecision 或二者并完成宿主消费",
+      "description": "按游戏设计与开发缺口选择Knowledge、GameAnalysisDecision、Research或REA，消费结果回到宿主",
       "optional_modules": [
         "game-analysis-decision",
-        "knowledge"
+        "knowledge",
+        "research"
       ],
       "install_requires": []
     },
