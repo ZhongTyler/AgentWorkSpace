@@ -54,10 +54,10 @@ def stage(source, destination):
             name = relative(item['source'])
             target = relative(item['target'])
             if name != 'release-input/curated/' + target or target.split('/')[0] not in roots or any(
-                    part in {'.git', '.runtime', 'runtime', 'node_modules', '__pycache__', 'private', 'raw', 'runs', 'local-status.json', 'validation.json'}
+                    part in {'.git', '.runtime', 'runtime', 'node_modules', '__pycache__', 'private', 'raw', 'runs', 'checks', 'local-status.json', 'validation.json', 'connection-status.json', 'runtime-copy-receipt.json', 'install-paths.json'}
                     for part in target.split('/')) or not re.fullmatch(r'[0-9a-f]{64}', item.get('sha256', '')):
                 raise ContractError('Research input is outside the reviewed public whitelist')
-            if target.endswith(('.tgz', '.tar.gz')) and not target.startswith('integrations/mcp/vendor/'):
+            if target.endswith(('.tgz', '.tar.gz')) and not target.startswith(('integrations/mcp/vendor/', 'integrations/rea/vendor/')):
                 raise ContractError('Research archives must use the reviewed vendor directory')
     if component == 'travel':
         # Travel contains private sibling projects in its source repository.

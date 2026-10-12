@@ -1,5 +1,12 @@
 # Releases
 
+## 1.7.0 — 2026-10-12
+
+- Add optional pinned REA CLI/MCP setup and the portable `rea-investigate` entry within Research, with matching upstream references and MIT archive.
+- Add tool/evidence storage guidance; preserve user-owned reports, runtime, client settings and existing workflow authority separately from package files.
+- Keep setup explicit and preview-first; refuse conflicting registrations/skills and preserve unrelated client configuration bytes. Package installation enables no tool or scheduler.
+- Extend publication guards to reject maintainer connection receipts and generated local skill paths; retain actual 1.6.0 upgrade/reverse rollback coverage.
+
 ## 1.6.0 — 2026-10-12
 
 - Add optional standalone Research: direct Markdown/URL/question research, general/game source catalogs, media paths and optional proactive exploration.

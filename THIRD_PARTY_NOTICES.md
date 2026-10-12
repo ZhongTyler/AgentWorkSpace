@@ -51,3 +51,5 @@ Travel original code and documentation use MIT, confirmed by the rights holder o
 ## Research
 
 Research original code and documentation use the bundled [MIT license](packages/research/LICENSE). Pinned MCP source and npm archives retain their own licenses and notices: [package boundaries](packages/research/LICENSE-NOTICE.md), [upstream notices](packages/research/integrations/mcp/THIRD_PARTY_NOTICES.txt), [source lock](packages/research/integrations/mcp/source-lock.json). Optional browser/media downloads and collected articles/videos retain upstream terms; they are not relicensed by this repository. Unlicensed Stack Overflow source archives, private research, credentials and host runtime are excluded.
+
+Research's optional REA archive and matching official skill references retain the upstream [MIT license](packages/research/integrations/rea/vendor/REA-LICENSE.txt); version, source commit and integrity are recorded in the [REA lock](packages/research/integrations/rea/source-lock.json). Installed transitive dependencies, native providers and recipient client configuration are not bundled.

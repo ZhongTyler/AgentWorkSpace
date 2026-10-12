@@ -1,0 +1,16 @@
+{
+  "captured_at": "2026-10-12T14:50:29.731892+08:00",
+  "package": "rea-agents",
+  "version": "6.4.0",
+  "source_repository": "https://github.com/morluto/rea",
+  "release_commit": "a56f7bb668ab23fec8d33f7af353ac7ed2fe1895",
+  "tarball": "https://registry.npmjs.org/rea-agents/-/rea-agents-6.4.0.tgz",
+  "file": "vendor/rea-agents-6.4.0.tgz",
+  "bytes": 1825761,
+  "integrity": "sha512-Vj1zWfSlna5bphGoaoI/TcVBuYvze9u+OyPC3Shz8YkBqaCTqB4COnnRoX7XDwMpwI24ZlFEel2yEj0k8LTWEQ==",
+  "sha256": "59eb1604b8db75f522d4a975c36ce6b4a2ad465e43bad165f9a8f728391db9b8",
+  "license": "MIT",
+  "license_file": "vendor/REA-LICENSE.txt",
+  "official_skill_version": "37",
+  "transitive_dependencies": "package-lock.json; not a complete offline dependency bundle"
+}

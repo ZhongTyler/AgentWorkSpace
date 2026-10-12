@@ -16,6 +16,51 @@ from publish import stage
 
 
 class ResearchRelease(unittest.TestCase):
+    def test_rea_public_material_and_no_machine_state(self):
+        package = ROOT / 'packages/research'
+        rea = package / 'integrations/rea'
+        lock = json.loads((rea / 'source-lock.json').read_text(encoding='utf-8'))
+        self.assertEqual('6.4.0', lock['version'])
+        self.assertEqual(lock['sha256'], w.digest((rea / lock['file']).read_bytes()))
+        self.assertTrue((rea / 'skill/rea-investigate/references/upstream/SKILL.md').is_file())
+        self.assertTrue((package / 'templates/tool-storage.md').is_file())
+        for path in rea.rglob('*'):
+            if path.is_file():
+                self.assertFalse(any(part in {'runtime', 'checks', 'node_modules', 'connection-status.json', 'runtime-copy-receipt.json', 'install-paths.json'} for part in path.relative_to(rea).parts))
+
+    def test_actual_160_research_upgrade_rollback_preserves_external_tools(self):
+        with tempfile.TemporaryDirectory(prefix='research-rea-upgrade-') as tmp:
+            base = Path(tmp); old = base / 'old'; old.mkdir()
+            archive_bytes = subprocess.run(['git', '-c', 'safe.directory=' + ROOT.as_posix(), '-C', str(ROOT),
+                                'archive', 'v1.6.0'], capture_output=True, check=True).stdout
+            with tarfile.open(fileobj=io.BytesIO(archive_bytes)) as archive:
+                for entry in archive:
+                    if entry.isfile():
+                        target = w.safe(old, entry.name)
+                        target.parent.mkdir(parents=True, exist_ok=True)
+                        target.write_bytes(archive.extractfile(entry).read())
+            for mode in ('full', 'compatible'):
+                host = base / mode
+                args = [sys.executable, '-X', 'utf8', '-B', str(old / 'scripts/workspace.py'),
+                        'init', '--target', str(host), '--packages', 'research', '--apply']
+                if mode == 'compatible':
+                    host.mkdir(); (host / 'AGENTS.md').write_bytes(b'Host rules.\n')
+                    args.extend(['--mode', mode])
+                result = subprocess.run(args, capture_output=True, text=True, encoding='utf-8')
+                self.assertEqual(0, result.returncode, result.stderr)
+                notes = host/'research-notes/private.md'; notes.parent.mkdir(); notes.write_bytes(b'PRIVATE')
+                runtime = host/'tools/rea/existing.txt'; runtime.parent.mkdir(parents=True); runtime.write_bytes(b'USER TOOL')
+                client = host/'client/config.toml'; client.parent.mkdir(); client.write_bytes(b'# OWN CONFIG\n')
+                before = {p: p.read_bytes() for p in (notes, runtime, client, host/'AGENTS.md')}
+                upgrade = w.install(ROOT, host, 'upgrade', [], True)
+                self.assertTrue(upgrade['applied'])
+                self.assertTrue((host/'modules/research/integrations/rea/scripts/install.py').is_file())
+                self.assertFalse((host/'.codex').exists())
+                self.assertTrue(w.rollback(host, upgrade['transaction'], True)['applied'])
+                self.assertEqual('1.6.0', w.state(host)['version'])
+                for p, data in before.items():
+                    self.assertEqual(data, p.read_bytes())
+
     def test_standalone_install_repeat_and_recovery_preserve_host(self):
         with tempfile.TemporaryDirectory(prefix='research-host-') as tmp:
             host = Path(tmp)
@@ -93,6 +138,17 @@ class ResearchRelease(unittest.TestCase):
             with self.assertRaisesRegex(w.ContractError, 'checksum differs'):
                 stage(source, Path(tmp) / 'output')
 
+    def test_rea_local_connection_receipts_rejected_before_git(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            source=Path(tmp)/'source'; manifest=source/'release-input/manifest.json';manifest.parent.mkdir(parents=True)
+            for target in ('integrations/rea/connection-status.json', 'integrations/rea/checks/receipt.json',
+                           'integrations/rea/skill/rea-investigate/references/install-paths.json'):
+                manifest.write_text(json.dumps({'release_schema':1,'component_id':'research','output_path':'packages/research',
+                    'copy_files':[{'source':'release-input/curated/'+target,'target':target,'sha256':'a'*64}],
+                    'expected_file_count':1}),encoding='utf-8')
+                with self.assertRaisesRegex(w.ContractError,'public whitelist'):
+                    stage(source,Path(tmp)/'output')
+
     def test_actual_150_upgrade_add_reverse_rollback_preserve_reports(self):
         with tempfile.TemporaryDirectory(prefix='research-upgrade-') as tmp:
             base = Path(tmp)
@@ -104,6 +160,16 @@ class ResearchRelease(unittest.TestCase):
                 for entry in archive:
                     if entry.isfile():
                         target = w.safe(old, entry.name)
+                        target.parent.mkdir(parents=True, exist_ok=True)
+                        target.write_bytes(archive.extractfile(entry).read())
+            middle = base / 'middle'
+            middle.mkdir()
+            p = subprocess.run(['git', '-c', 'safe.directory=' + ROOT.as_posix(), '-C', str(ROOT),
+                                'archive', 'v1.6.0'], capture_output=True, check=True)
+            with tarfile.open(fileobj=io.BytesIO(p.stdout)) as archive:
+                for entry in archive:
+                    if entry.isfile():
+                        target = w.safe(middle, entry.name)
                         target.parent.mkdir(parents=True, exist_ok=True)
                         target.write_bytes(archive.extractfile(entry).read())
             for mode in ('full', 'compatible'):
@@ -122,13 +188,21 @@ class ResearchRelease(unittest.TestCase):
                 local = host / 'modules/skills/README.md'
                 local.write_bytes(local.read_bytes() + b'\nUser edit.\n')
                 before = {p: p.read_bytes() for p in (report, local, host / 'AGENTS.md')}
+                intermediate = subprocess.run([sys.executable, '-X', 'utf8', '-B',
+                    str(middle / 'scripts/workspace.py'), 'upgrade', '--target', str(host), '--apply'],
+                    capture_output=True, text=True, encoding='utf-8')
+                self.assertEqual(0, intermediate.returncode, intermediate.stderr)
+                intermediate_transaction = json.loads(intermediate.stdout)['transaction']
+                self.assertEqual('1.6.0', w.state(host)['version'])
                 upgrade = w.install(ROOT, host, 'upgrade', [], True)
                 self.assertNotIn('research', w.state(host)['components'])
                 addition = w.install(ROOT, host, 'add', ['research'], True)
-                self.assertEqual('1.6.0', w.state(host)['version'])
+                self.assertEqual(w.catalog(ROOT)['version'], w.state(host)['version'])
                 self.assertIn('research', w.state(host)['components'])
                 self.assertTrue(w.rollback(host, addition['transaction'], True)['applied'])
                 self.assertTrue(w.rollback(host, upgrade['transaction'], True)['applied'])
+                self.assertEqual('1.6.0', w.state(host)['version'])
+                self.assertTrue(w.rollback(host, intermediate_transaction, True)['applied'])
                 self.assertEqual('1.5.0', w.state(host)['version'])
                 for p, data in before.items():
                     self.assertEqual(data, p.read_bytes())

@@ -1,0 +1,6 @@
+interface:
+  display_name: "REA 发行产物研究"
+  short_description: "按需分析发行包与二进制，结合静态证据、源码核查和研究记录"
+  default_prompt: "用 $rea-investigate 分析这个发行产物，说明实现机制、证据增量与仍未验证的部分。"
+policy:
+  allow_implicit_invocation: true
