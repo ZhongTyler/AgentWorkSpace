@@ -1,0 +1,221 @@
+{
+  "captured_at": "2026-10-11",
+  "sources": [
+    {
+      "repo": "github/github-mcp-server",
+      "commit": "eb47a99ddb866ca2b8a162920e6bda9521f33ebb",
+      "url": "https://codeload.github.com/github/github-mcp-server/tar.gz/eb47a99ddb866ca2b8a162920e6bda9521f33ebb",
+      "file": "vendor/github--github-mcp-server-eb47a99ddb86.tar.gz",
+      "sha256": "75b0da9c1389b54487fc674e41b2d537142a05b3a9d6b4279759427197a1b010",
+      "bytes": 1272026,
+      "license_files": [
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/.github/licenses.tmpl",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/.github/workflows/license-check.yml",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/script/licenses",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/script/licenses-check",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/aymerick/douceur/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/fsnotify/fsnotify/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/github/github-mcp-server/v2/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/go-chi/chi/v5/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/go-viper/mapstructure/v2/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/google/go-github/v92/github/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/google/go-querystring/query/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/google/jsonschema-go/jsonschema/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/gorilla/css/scanner/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/inconshreveable/mousetrap/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/josephburnett/jd/v2/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/lithammer/fuzzysearch/fuzzy/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/microcosm-cc/bluemonday/LICENSE.md",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/modelcontextprotocol/go-sdk/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/muesli/cache2go/LICENSE.txt",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/pelletier/go-toml/v2/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/sagikazarmark/locafero/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/segmentio/asm/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/segmentio/encoding/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/shurcooL/githubv4/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/shurcooL/graphql/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/sourcegraph/conc/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/spf13/afero/LICENSE.txt",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/spf13/cast/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/spf13/cobra/LICENSE.txt",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/spf13/pflag/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/spf13/viper/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/subosito/gotenv/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/github.com/yosida95/uritemplate/v3/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/go.yaml.in/yaml/v3/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/golang.org/x/net/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/golang.org/x/oauth2/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/golang.org/x/sync/errgroup/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/golang.org/x/sys/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/golang.org/x/text/LICENSE",
+        "github-mcp-server-eb47a99ddb866ca2b8a162920e6bda9521f33ebb/third-party/golang.org/x/time/rate/LICENSE"
+      ],
+      "license": "MIT"
+    },
+    {
+      "repo": "huggingface/hf-mcp-server",
+      "commit": "dce2d5f0f16392e22d6f3fdc039681f4698e8cdf",
+      "url": "https://codeload.github.com/huggingface/hf-mcp-server/tar.gz/dce2d5f0f16392e22d6f3fdc039681f4698e8cdf",
+      "file": "vendor/huggingface--hf-mcp-server-dce2d5f0f163.tar.gz",
+      "sha256": "ebeec6cbbcaa3c66d67071465140a04853f5164016760a2824a10491a92dcd08",
+      "bytes": 1057396,
+      "license_files": [
+        "hf-mcp-server-dce2d5f0f16392e22d6f3fdc039681f4698e8cdf/LICENSE"
+      ],
+      "license": "MIT"
+    },
+    {
+      "repo": "StackExchange/Stack-MCP",
+      "commit": "c192b33d1648b05ac4f6cc807becd51f0713074b",
+      "url": "https://codeload.github.com/StackExchange/Stack-MCP/tar.gz/c192b33d1648b05ac4f6cc807becd51f0713074b",
+      "sha256": "94beb2c486b16172735983623e348c1cb5cc80c9b3b55ca62816cb2f6dc8127e",
+      "bytes": 1496,
+      "license_files": [],
+      "local_only_archive": "vendor/StackExchange--Stack-MCP-c192b33d1648.tar.gz",
+      "redistribution": "No license supplied; retain endpoint metadata only in release."
+    },
+    {
+      "repo": "xpzouying/xiaohongshu-mcp",
+      "commit": "7797fd375aba02dcd33afe143f6bee13e5870859",
+      "url": "https://codeload.github.com/xpzouying/xiaohongshu-mcp/tar.gz/7797fd375aba02dcd33afe143f6bee13e5870859",
+      "file": "vendor/xpzouying--xiaohongshu-mcp-7797fd375aba.tar.gz",
+      "sha256": "f47c810c210343f5410a80ac3053b77dd3f30b90a7758643bb599aa1242bf612",
+      "bytes": 194973,
+      "license_files": [
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/LICENSE"
+      ],
+      "upstream_archive_sha256": "0c949f3e1c4b315d53a6e8dc7ae4c3f86cdb8494cbcd93e7635847869fa5edc7",
+      "transformation": "Code and text snapshot; omitted image/video/PDF assets. Complete upstream archive retained locally, outside release.",
+      "omitted_files": [
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/assets/check_login.gif",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/assets/check_login.mp4",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/assets/claude_push.gif",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/assets/claude_push.mp4",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/assets/cursor_mcp_check_login.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/assets/cursor_mcp_settings.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/assets/inspect_mcp.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/assets/inspect_mcp_publish.gif",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/assets/inspect_mcp_publish.mp4",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/assets/publish_result.jpeg",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/assets/run_inspect.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/assets/search_result.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/assets/vscode_mcp_config.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/assets/vscode_search_demo.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/donate/wechat@2x.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/anythingLLM/images/agent-workflow-config.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/anythingLLM/images/anythingllm-install.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/anythingLLM/images/direct-mcp-call.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/anythingLLM/images/mcp-server-config.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/anythingLLM/images/workflow-execution-process.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/anythingLLM/images/workflow-execution-results.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/cherrystudio/images/cherrystudio-config.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/cherrystudio/images/cherrystudio-conversation.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/cherrystudio/images/cherrystudio-install.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/cherrystudio/images/cherrystudio-settings.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/cherrystudio/images/cherrystudio-tools.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/cherrystudio/images/use-1.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/cherrystudio/images/use-2.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/cherrystudio/images/use-3.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/cherrystudio/images/use-4.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/n8n/images/image-20250915225530994.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/n8n/images/image-20250915225901709.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/n8n/images/image-20250915225950626.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/n8n/images/image-20250915230216557.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/n8n/images/image-20250915230403977.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/n8n/images/image-20250915230528047.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/n8n/images/image-20250915230614246.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/n8n/images/image-20250915231537715.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/n8n/images/image-20250915231736534.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/n8n/images/image-20250915232135744.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/n8n/images/image-20250915232246623.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/n8n/images/image-20250915232457764.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/n8n/images/测试图.png",
+        "xiaohongshu-mcp-7797fd375aba02dcd33afe143f6bee13e5870859/examples/n8n/images/测试效果图.jpg"
+      ],
+      "license": "Apache-2.0"
+    },
+    {
+      "repo": "pipeworx-io/mcp-lobsters",
+      "commit": "b493ba34a549058d1986cf5cd45f837d907af7b5",
+      "url": "https://codeload.github.com/pipeworx-io/mcp-lobsters/tar.gz/b493ba34a549058d1986cf5cd45f837d907af7b5",
+      "file": "vendor/pipeworx-io--mcp-lobsters-b493ba34a549.tar.gz",
+      "sha256": "05d2853675c934dcadafd7fe87966daeeb1dfdaf223d59a835744dff744dd4af",
+      "bytes": 21308,
+      "license": "MIT"
+    },
+    {
+      "repo": "jorgen-k/reddit-mcp",
+      "commit": "0a0ee8f30c5ba37d4765fc7dfb0e5d5204e01c22",
+      "url": "https://codeload.github.com/jorgen-k/reddit-mcp/tar.gz/0a0ee8f30c5ba37d4765fc7dfb0e5d5204e01c22",
+      "file": "vendor/jorgen-k--reddit-mcp-0a0ee8f30c5b.tar.gz",
+      "sha256": "c3990e4d6d41694723076aa999f0226f59cfca5cf5171fed4b929dc8fd18e8f5",
+      "bytes": 17115,
+      "license_files": [
+        "reddit-mcp-0a0ee8f30c5ba37d4765fc7dfb0e5d5204e01c22/LICENSE"
+      ],
+      "license": "MIT"
+    },
+    {
+      "repo": "lennney/agent-search-mcp",
+      "commit": "dd91577d6972d0d60cae09673d9239a00cf8861d",
+      "url": "https://codeload.github.com/lennney/agent-search-mcp/tar.gz/dd91577d6972d0d60cae09673d9239a00cf8861d",
+      "file": "vendor/lennney--agent-search-mcp-dd91577d6972.tar.gz",
+      "sha256": "760e65e11b19e9a37f20fd8a8de096c28bb4fe208f4177fd1a56fdd44ff2142a",
+      "bytes": 550281,
+      "license_files": [
+        "agent-search-mcp-dd91577d6972d0d60cae09673d9239a00cf8861d/LICENSE"
+      ],
+      "license": "Apache-2.0"
+    },
+    {
+      "repo": "cyanheads/hn-mcp-server",
+      "commit": "95053a3706ccf359b49bb8753a7ce7708a37bb4e",
+      "url": "https://codeload.github.com/cyanheads/hn-mcp-server/tar.gz/95053a3706ccf359b49bb8753a7ce7708a37bb4e",
+      "file": "vendor/cyanheads--hn-mcp-server-95053a3706cc.tar.gz",
+      "sha256": "5e0882283cddcc3e3286003c7cea3b5663abada60d72563754a0731acfd9b0f3",
+      "bytes": 656648,
+      "license_files": [
+        "hn-mcp-server-95053a3706ccf359b49bb8753a7ce7708a37bb4e/LICENSE"
+      ],
+      "license": "Apache-2.0"
+    },
+    {
+      "repo": "funnythingfunnylove/mcp-server-v2ex",
+      "commit": "e912dd572d4701a6dbe7a7458792842928b54ff0",
+      "url": "https://codeload.github.com/funnythingfunnylove/mcp-server-v2ex/tar.gz/e912dd572d4701a6dbe7a7458792842928b54ff0",
+      "file": "vendor/funnythingfunnylove--mcp-server-v2ex-e912dd572d47.tar.gz",
+      "sha256": "2ff1e9f28915db5122cfb4c0a7cc518c2a18184ed22d96e0f3ab24ac96b22fc2",
+      "bytes": 177272,
+      "license_files": [
+        "mcp-server-v2ex-e912dd572d4701a6dbe7a7458792842928b54ff0/LICENSE"
+      ],
+      "license": "MIT"
+    },
+    {
+      "repo": "kwp-lab/rss-reader-mcp",
+      "commit": "158e4bef84a4a5ed41cfe02866b9e042c109abcf",
+      "url": "https://codeload.github.com/kwp-lab/rss-reader-mcp/tar.gz/158e4bef84a4a5ed41cfe02866b9e042c109abcf",
+      "file": "vendor/kwp-lab--rss-reader-mcp-158e4bef84a4.tar.gz",
+      "sha256": "0c12c20135fa39f088ac1c634608f8945d0aa3807c38e1df1a8fe54b4a3a86e6",
+      "bytes": 58827,
+      "license_files": [
+        "rss-reader-mcp-158e4bef84a4a5ed41cfe02866b9e042c109abcf/LICENSE"
+      ],
+      "license": "MIT"
+    },
+    {
+      "repo": "punkpeye/mcp-remote",
+      "commit": "6a06aca546a8fd3b7beb040f39761b364893198d",
+      "url": "https://codeload.github.com/punkpeye/mcp-remote/tar.gz/6a06aca546a8fd3b7beb040f39761b364893198d",
+      "file": "vendor/punkpeye--mcp-remote-6a06aca546a8.tar.gz",
+      "sha256": "9fac02ee4f1bb71bc89735f6b9df3b2695386617eae033dcdb114ce4eaf063f8",
+      "bytes": 275170,
+      "license_files": [
+        "mcp-remote-6a06aca546a8fd3b7beb040f39761b364893198d/LICENSE"
+      ],
+      "license": "MIT",
+      "note": "Saved optional OAuth bridge; Stack Overflow channel subsequently declined by user and remains disabled."
+    }
+  ]
+}

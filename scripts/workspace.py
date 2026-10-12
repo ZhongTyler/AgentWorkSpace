@@ -86,7 +86,7 @@ def catalog(bundle: Path):
         raise ContractError('Unsupported catalog schema')
     version(result.get('version'))
     names = set(result.get('components', {}))
-    allowed = {'meta', 'brainstorm', 'fromdemotospec', 'knowledge', 'skills', 'game-analysis-decision', 'game-presentation', 'prototype-assets', 'travel'}
+    allowed = {'meta', 'brainstorm', 'fromdemotospec', 'knowledge', 'skills', 'game-analysis-decision', 'game-presentation', 'prototype-assets', 'travel', 'research'}
     if not names or not names <= allowed or 'meta' not in names:
         raise ContractError('Catalog must contain meta and supported packages')
     if 'compatibility' in result:

@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "verified_at": "2026-10-11",
+  "policy": "Cross-source discovery filters, not a universal quality score or mandatory award gate. Start with the design question and project fit; recognition raises discovery priority, never proves a design claim.",
+  "dimensions": [
+    {
+      "id": "recognition",
+      "name": "奖项与提名：按年份和类别找游戏",
+      "anchors": [
+        {"name":"The Game Awards","url":"https://thegameawards.com/voting-jury","use":"GOTY、设计/方向、独立、类型等相关奖项和提名","limits":"媒体/影响者评审信号；记录具体奖项、年份、提名或获奖，不能只写笼统GOTY。公众选择类另标。"},
+        {"name":"BAFTA Games","url":"https://www.bafta.org/awards/games-rules/","use":"尤其Game Design、Narrative、Debut及相关类别","limits":"不同类别投票/评审方式不同，按相应年份规则核查。"},
+        {"name":"D.I.C.E. Awards","url":"https://www.interactive.org/awards/","use":"同行工种与整体游戏认可","limits":"规则可能变动，勿沿用旧年份投票口径或把同行认同当因果验证。"},
+        {"name":"Game Developers Choice Awards","url":"https://gamechoiceawards.com/rules/","use":"开发者同行认可、设计创新及相关类别","limits":"主类别与Audience Award分开；与GDC内容同生态，材料仍按实际来源判断独立性。"},
+        {"name":"Independent Games Festival","url":"https://igf.com/submission-info/","use":"独立创意、设计与实验性作品，包含提名/入围","limits":"评审机制与分类每年核查；比赛入选不是商业成功预测。"},
+        {"name":"indiePlay / CiGA","url":"https://www.ciga.me/indieplay","use":"中国独立游戏候选、设计亮点及小团队参照","limits":"主办方介绍已找到；具体年份入围/获奖和评审口径须回当年官方公告，宣传形容词不作证据。"}
+      ]
+    },
+    {
+      "id":"professional-sharing",
+      "name":"专业分享与复盘：按问题找讲者和材料",
+      "anchors":[
+        {"name":"GDC / GDC Vault","url":"https://gdconf.com/call-for-submissions/","use":"设计轨道、具体游戏复盘、试玩/用户研究","limits":"正式征稿与Sponsored Sessions分开；简介和演讲全文分开，公开/免费访问逐项验证。"},
+        {"name":"CEDEC / CEDiL","url":"https://cedil.cesa.or.jp/","use":"日本开发者实践、系统/关卡/制作经验与讲演资料","limits":"索引已可访问；具体资料、账号和付费状态逐项核对，本轮未宣称全文接通。"}
+      ]
+    },
+    {"id":"first-hand","name":"创作者一手性","prefer":["设计者/制作人说明","官方开发日志","具体决策与被放弃方案","真实版本/提交/原型"],"limits":"一手自述仍可能选择性回忆或宣传，需要反例与实际结果。"},
+    {"id":"inspectable-evidence","name":"材料可复核性","prefer":["完整正文/字幕","带时间码的原视频","幻灯片与关键图表","可玩的Demo","源码/补丁和可定位试玩记录"],"limits":"获奖、知名讲者、完整字幕不能替代实际画面和关键主张核查。"},
+    {"id":"project-fit","name":"项目适配","fields":["机制/设计问题","类型和平台","团队规模","预算/周期","原型或发布阶段","目标玩家"],"limits":"先选能解释当前问题且可迁移的案例，不因大作名气排除小团队更合适的经验。"},
+    {"id":"counterexamples","name":"失败与长期反馈","prefer":["未达预期的复盘","未获奖但机制相关的作品","版本迭代后的变化","玩家误解和相反体验","同机制的不同结果"],"limits":"不只看获奖成功样本；评论与商业结果不直接证明机制原因。"}
+  ],
+  "record_fields": ["question", "game_or_talk", "source_url", "year_and_version", "matched_lenses", "award_category_and_status_if_any", "actual_access_scope", "evidence_and_limits", "transfer_conditions", "next_action"],
+  "weekly_selection": "Choose a current design question; discover at most five candidates through one or two relevant lenses across the formal source pool; deepen the best-fit item, seek a counterexample, and queue other useful items. Do not multiply the search budget by the number of lenses."
+}

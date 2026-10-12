@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "servers": [
+    {"id":"research-hn","kind":"node","entry":"@cyanheads/hn-mcp-server/dist/index.js","enabled":true,"env":{"MCP_TRANSPORT_TYPE":"stdio"},"tools":["hn_get_stories","hn_get_thread","hn_get_user","hn_search_content"]},
+    {"id":"research-juejin","kind":"node","entry":"agent-search-mcp/dist/index.js","enabled":true,"env":{"MODE":"stdio","ENABLED_TOOLS":"fetch_juejin_article,free_search,free_extract"},"tools":["fetch_juejin_article","free_search","free_extract"]},
+    {"id":"research-rss","kind":"node","entry":"rss-reader-mcp/build/index.js","enabled":true,"tools":["fetch_feed_entries","fetch_article_content"]},
+    {"id":"research-reddit","kind":"python","enabled":true,"tools":["browse_subreddit","get_post","search_reddit"]},
+    {"id":"research-v2ex","kind":"node","entry":"mcp-server-v2ex/dist/index.js","enabled":false,"env_vars":["V2EX_API_KEY"],"tools":["v2ex_node","v2ex_node_topic","v2ex_topic","v2ex_topic_comments"]},
+    {"id":"research-github","kind":"http","url":"https://api.githubcopilot.com/mcp/","enabled":false,"token_env":"GITHUB_PERSONAL_ACCESS_TOKEN","headers":{"X-MCP-Readonly":"true"},"tools":["search_repositories","search_code","get_file_contents","list_commits","get_commit","search_issues","issue_read","pull_request_read","search_pull_requests"]},
+    {"id":"research-huggingface","kind":"http","url":"https://huggingface.co/mcp","enabled":true,"tools":["hub_repo_search","hub_repo_details","hf_fs"]},
+    {"id":"research-stackoverflow","kind":"http","url":"https://mcp.stackoverflow.com","enabled":false,"tools":["so_search","get_content"]},
+    {"id":"research-lobsters","kind":"http","url":"https://gateway.pipeworx.io/lobsters/mcp","enabled":true,"tools":["get_hottest","get_newest","get_story","get_tag"]},
+    {"id":"research-zhihu","kind":"http","url":"https://developer.zhihu.com/api/mcp/v1","enabled":false,"token_env":"ZHIHU_ACCESS_SECRET","tools":["zhihu_search","hot_list"]},
+    {"id":"research-xiaohongshu","kind":"http","url":"http://127.0.0.1:18062/mcp","enabled":false,"tools":["check_login_status","get_login_qrcode","search_feeds","get_feed_detail"]}
+  ]
+}

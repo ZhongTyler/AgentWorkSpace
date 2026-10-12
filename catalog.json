@@ -58,6 +58,15 @@
         ],
         "description": "Playable prototype workflow with evidence, real user play and development handoff."
       },
+      "research": {
+        "criteria": [
+          "source-and-evidence-boundaries",
+          "conditional-application",
+          "optional-capture-and-ingestion",
+          "reporting-and-recovery"
+        ],
+        "description": "Source-grounded research from Markdown, URLs or questions, with optional proactive discovery and explicit reporting/recovery boundaries."
+      },
       "skill-library": {
         "criteria": [
           "selective-installation",
@@ -151,6 +160,16 @@
         ],
         "requires": []
       },
+      "research": {
+        "optional": [
+          "knowledge",
+          "game-analysis"
+        ],
+        "provides": [
+          "research"
+        ],
+        "requires": []
+      },
       "skills": {
         "optional": [
           "game-analysis",
@@ -178,6 +197,7 @@
       "knowledge": "knowledge",
       "presentation": "game-presentation",
       "prototype": "prototyping",
+      "research": "research",
       "skills": "skill-library",
       "travel": "travel-planning"
     },
@@ -341,7 +361,7 @@
       ],
       "source": "packages/brainstorm",
       "source_revision": "e4d7f2322f32412a9538ddf8dc6fca994ca9e5ca",
-      "version": "1.5.0"
+      "version": "1.6.0"
     },
     "fromdemotospec": {
       "destination": "modules/fromdemotospec",
@@ -417,7 +437,7 @@
       ],
       "source": "packages/fromdemotospec",
       "source_revision": "a5de2407b9e39299bc225a15d5436571ac97825e",
-      "version": "1.5.0"
+      "version": "1.6.0"
     },
     "game-analysis-decision": {
       "destination": "modules/game-analysis-decision",
@@ -504,7 +524,7 @@
       "required": [],
       "source": "packages/game-analysis-decision",
       "source_revision": "0693c5030d33fd2e22ed66295e5e05d5be23c534",
-      "version": "1.5.0"
+      "version": "1.6.0"
     },
     "game-presentation": {
       "destination": "modules/game-presentation",
@@ -544,7 +564,7 @@
       "required": [],
       "source": "packages/game-presentation",
       "source_revision": "5bc2d49a86b3b02a4080b6c6dd12a2ef716ef971",
-      "version": "1.5.0"
+      "version": "1.6.0"
     },
     "knowledge": {
       "destination": "modules/knowledge",
@@ -675,7 +695,7 @@
       ],
       "source": "packages/knowledge",
       "source_revision": "a3d3f491a13d2879e898057fcb1d0f51189075e3",
-      "version": "1.5.0"
+      "version": "1.6.0"
     },
     "meta": {
       "destination": "",
@@ -719,7 +739,7 @@
       "required": [],
       "source": "meta/workspace",
       "source_revision": "b504665d2eae16a2a225caf514f07eb5b75117ec",
-      "version": "1.5.0"
+      "version": "1.6.0"
     },
     "prototype-assets": {
       "destination": "modules/prototype-assets",
@@ -1013,7 +1033,89 @@
       "required": [],
       "source": "packages/prototype-assets",
       "source_revision": "5abe108be291076b4e44717d17c740fca230c8e7",
-      "version": "1.5.0"
+      "version": "1.6.0"
+    },
+    "research": {
+      "destination": "modules/research",
+      "files": {
+        ".agents/skills/research-study/SKILL.md": "a0e9520c70c0e5bd7a6309341185a5f92ab698febdbd141fd0748b38613d1f64",
+        "AGENTS.md": "d95ee9f26a93102cb32d3b3f3d74681fa368286c139e1d62ff4be8651aa6236b",
+        "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
+        "LICENSE-NOTICE.md": "f1c6fd561ac042070e367242628b827cdda5046d1bda75f56800f3e0d074cf5a",
+        "README.md": "858e0a71c81b4cedeca8e201ec9390e1effd7cf38ec68c74826fa55029efcd21",
+        "RESEARCH_PROTOCOL.md": "ff035548886f1811e5c5c9a322543e130935582cadbe54d86e52ce81e0303879",
+        "_release.json": "b3e338549e5c483f38c510ba7096bb31d36acf13b45b1909c5fad5216b9b1fe2",
+        "game-research/README.md": "c2efb5001551c419985832c27c5f9278e94e951f62efd04e929339994856fcb3",
+        "game-research/media-capture.md": "3b545556365e6a92c50623ecd59037fe172083e33627a1e9a6aab973b3e07aa6",
+        "game-research/selection-lenses.json": "902cce1e90533197fe688287877146759c2989e57a0f7748b96eb441ff2f894e",
+        "game-research/sources.json": "c02c2872e635542a18c699648e6c751b99ccca6110390ad8cd8288e91741b7d4",
+        "game-research/video-text.md": "157d18f200758f07959d6ac91eeb710cdd739f914e084262a17af6303d3f9948",
+        "integrations/browser/README.md": "00a5a87ab08d1cc5f2f41c98a2da15710d48e9dca1561bde2f45dfb761959e3c",
+        "integrations/browser/extensions.json": "a90271700fea47f9c0a219efe242f088df4635c84459a77e88088d320a982b84",
+        "integrations/browser/prepare.py": "7919334cc7760d4701ee64f8dc08832c571b2cfbafe74a1e1dac2fdfaba24b77",
+        "integrations/mcp/README.md": "0467db6ccff2aca647ac2bf8bba599cd0fdf1ea8810d3e852dd71c2f9f29bbd4",
+        "integrations/mcp/THIRD_PARTY_NOTICES.txt": "82ddd2962655cf2e273aefee4ad0128cc5c2f653603098673ad55496847fd21b",
+        "integrations/mcp/npm-package-lock.json": "782899efa8f2c7dee95a14fc2799c3ab00983065537b7949a3b3e0a6007ccb43",
+        "integrations/mcp/package-lock.json": "fa342b31e639871d43fa809eae106e4a463d4860da83f1848b01373e9c24ef11",
+        "integrations/mcp/package.json": "469bdf785019a16b58dded84328d748ecfbacad9403bbb25e89f2cf4e169cc9a",
+        "integrations/mcp/reddit-package-lock.json": "f096e7890c57f3e6e0c568a9c968f9cce7aa12456f58ed5dc6b4c882b50b11ad",
+        "integrations/mcp/reddit-requirements.lock": "a8cc6de6b8eb3923a9d0a0f38de8fe2e77c43b986fc9bbfbbd93e077d6274337",
+        "integrations/mcp/scripts/auth-http-bridge.mjs": "ddaff994a3a7c8d5e4163bfa905ca59cea35d9bc05c05b06fb9fc85d9f197a1a",
+        "integrations/mcp/scripts/connect-local.py": "fbc568be120da3853c238fe3f2206857c373af944f9c12787c44bcdaa1f8038c",
+        "integrations/mcp/scripts/install.py": "76d87e8b01517edb57073049f9b4bfe1210d660389ac44aa20ced9fd376e2d49",
+        "integrations/mcp/scripts/juejin-reader.mjs": "4868982f509be39e36b7d9a3e5b0a9109569e3e01431ab62b24778e387a0e9bd",
+        "integrations/mcp/scripts/launch-auth.mjs": "ea41e8ded539270274b6f84ad3ab491454e54a6fbafbe2ececd6d72780eaf6bd",
+        "integrations/mcp/scripts/launch-auth.ps1": "ba151a09defa009f2f629cad1f7e22afb94bda68d1028cf5725f891885d7f2fa",
+        "integrations/mcp/scripts/start-xhs.ps1": "a199fa35b523376d7836c1e9216385f13771cd92c08c46e72f96769dc309e225",
+        "integrations/mcp/servers.json": "3bd075493606a724cb8b9ed4ad55d2c19ba10eba91ceae5de2221a8d0a133477",
+        "integrations/mcp/source-lock.json": "9e6503c5056adedefe2953d768ba12fe949585c2bc151cefabc7e0eb9bcbe545",
+        "integrations/mcp/tests/juejin-reader.test.mjs": "dc207fe273f42743c7c783741e0b1715121d60ac82df3dd15092fa48c310abc9",
+        "integrations/mcp/tests/test_install.py": "ef350f349ab97308e140b0745925bfe30841095cd2308f91d2c5a10d21f1d77a",
+        "integrations/mcp/tests/test_local_credentials.py": "95219317acc8c518d2efb182ca4bad0200a1104bc31e280a8670e709974f42af",
+        "integrations/mcp/vendor/agent-search-mcp-3.2.1.tgz": "11f1cf68d2dc61206c6f9cef921a3deb73b782c199245ed6699624663ee71455",
+        "integrations/mcp/vendor/cheerio-1.0.0.tgz": "5f2be2dcb6edb70d6b166d4e7c591597257997977609e8eff19b3f0b048c1a58",
+        "integrations/mcp/vendor/cyanheads--hn-mcp-server-95053a3706cc.tar.gz": "5e0882283cddcc3e3286003c7cea3b5663abada60d72563754a0731acfd9b0f3",
+        "integrations/mcp/vendor/cyanheads-hn-mcp-server-0.5.21.tgz": "dbbb72ecafa3fa8cc99e126dca549fe6ea7cbf83e42fc4e2f79336bae2ac051b",
+        "integrations/mcp/vendor/funnythingfunnylove--mcp-server-v2ex-e912dd572d47.tar.gz": "2ff1e9f28915db5122cfb4c0a7cc518c2a18184ed22d96e0f3ab24ac96b22fc2",
+        "integrations/mcp/vendor/github--github-mcp-server-eb47a99ddb86.tar.gz": "75b0da9c1389b54487fc674e41b2d537142a05b3a9d6b4279759427197a1b010",
+        "integrations/mcp/vendor/huggingface--hf-mcp-server-dce2d5f0f163.tar.gz": "ebeec6cbbcaa3c66d67071465140a04853f5164016760a2824a10491a92dcd08",
+        "integrations/mcp/vendor/jorgen-k--reddit-mcp-0a0ee8f30c5b.tar.gz": "c3990e4d6d41694723076aa999f0226f59cfca5cf5171fed4b929dc8fd18e8f5",
+        "integrations/mcp/vendor/kwp-lab--rss-reader-mcp-158e4bef84a4.tar.gz": "0c12c20135fa39f088ac1c634608f8945d0aa3807c38e1df1a8fe54b4a3a86e6",
+        "integrations/mcp/vendor/lennney--agent-search-mcp-dd91577d6972.tar.gz": "760e65e11b19e9a37f20fd8a8de096c28bb4fe208f4177fd1a56fdd44ff2142a",
+        "integrations/mcp/vendor/mcp-remote-0.14.3.tgz": "f4ab0e33b38b24fff6a8b3234f9d683e47995ca44f3186481716d444836f7254",
+        "integrations/mcp/vendor/mcp-server-v2ex-0.1.1.tgz": "b4742af861e4d4fa0f1a4c01059ad52657490c87ebaa5ba33e5f233f39403756",
+        "integrations/mcp/vendor/modelcontextprotocol-sdk-1.32.1.tgz": "63a3962282ff29d2ce532945c2edefd9b7c7195b8ec20c027e120e4498b0cb19",
+        "integrations/mcp/vendor/pipeworx-io--mcp-lobsters-b493ba34a549.tar.gz": "05d2853675c934dcadafd7fe87966daeeb1dfdaf223d59a835744dff744dd4af",
+        "integrations/mcp/vendor/punkpeye--mcp-remote-6a06aca546a8.tar.gz": "9fac02ee4f1bb71bc89735f6b9df3b2695386617eae033dcdb114ce4eaf063f8",
+        "integrations/mcp/vendor/reddit_rss_mcp-1.2.1.tar.gz": "8f757a9ae8adc305d3594017fec5085c6411bd2cdb5b868d1bb1596db6e3526f",
+        "integrations/mcp/vendor/rss-reader-mcp-1.0.8.tgz": "7343fab1dd238b842f83769a5010511b18f0dd05179edd020542d62a79b2e21a",
+        "integrations/mcp/vendor/turndown-7.2.4.tgz": "05f61bc3f0aeca5e5cd7f1b5492e26b9040bb00708cd41fb1b0f7b216e296fa0",
+        "integrations/mcp/vendor/xiaohongshu-windows-compat-source.tar.gz": "46c81afe49a52893a6ade0035235155af4a41d59608e1fa6e36701fb84e5963f",
+        "integrations/mcp/vendor/xpzouying--xiaohongshu-mcp-7797fd375aba.tar.gz": "f47c810c210343f5410a80ac3053b77dd3f30b90a7758643bb599aa1242bf612",
+        "integrations/mcp/xhs-compat-lock.json": "691b75155fd6811f633243d43abd695211fa597e6fdef015a7cf424dd92c7cd8",
+        "integrations/media/README.md": "ecbbc7a78626dfa82e02df34b563a48624b2178b8605fc945a9da1e813643fcd",
+        "integrations/media/capture.py": "fef21f71ddb8ec634404ac2fa18ca36a6b0bbe7a8cf7fb7b7e64b15c39f3d5ee",
+        "integrations/media/ocr.py": "8ce8d876a2eac435642b3e5dd43030200f9cab30b8548dacf86ff15e54dec74c",
+        "integrations/media/requirements-windows-py312.lock": "be1d76a4bd460ecedb5c966a209fc4d27683ca201ed7dbd7ede846f757b5d484",
+        "proactive/README.md": "7d269e70023524a812fb77fde16e6f81274caf6688465f619896dec99d977bfc",
+        "proactive/reporting.md": "53f4de096ecd93c18a6cf15baad603343d8c211dc1cbe136c658412f62a689b0",
+        "proactive/review.py": "28a9959768dc01626a27c3b67cbf10ca6783deab41d3ee636b33fba71b008986",
+        "proactive/reviews/README.md": "0aa967769fa26c5bae586127858293a17d43af3b9361780f306ffa309902496e",
+        "proactive/schedule-template.json": "b16c091db8678613ae15c6a8ffee27369a31a7265eb58812ca7b365aae7bc9ba",
+        "sources.json": "7ac6c2a5154590d81aa1d76122540b754032dae0a8ad31c31272449082d8c39f",
+        "templates/research-note.md": "41de27d7af615c124c14dcd7302036d8a10b2496b62124a91d635585e7f073a3"
+      },
+      "optional": [
+        "knowledge",
+        "game-analysis"
+      ],
+      "provides": [
+        "research"
+      ],
+      "required": [],
+      "source": "packages/research",
+      "source_revision": "aaa2d71dd6714d746129431c1019e3ba221ffe7b",
+      "version": "1.6.0"
     },
     "skills": {
       "destination": "modules/skills",
@@ -1076,7 +1178,7 @@
       "required": [],
       "source": "packages/skills",
       "source_revision": "5bc2d49a86b3b02a4080b6c6dd12a2ef716ef971",
-      "version": "1.5.0"
+      "version": "1.6.0"
     },
     "travel": {
       "destination": "modules/travel",
@@ -1200,10 +1302,10 @@
       "required": [],
       "source": "packages/travel",
       "source_revision": "52d1cf8fd85ff0602b5efe4013db94b1979c3b63",
-      "version": "1.5.0"
+      "version": "1.6.0"
     }
   },
-  "previous_version": "1.4.0",
+  "previous_version": "1.5.0",
   "schema_version": 1,
-  "version": "1.5.0"
+  "version": "1.6.0"
 }

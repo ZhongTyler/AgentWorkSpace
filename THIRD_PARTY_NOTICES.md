@@ -47,3 +47,7 @@ Include the root MIT notice when copying or redistributing original content. For
 ## Travel
 
 Travel original code and documentation use MIT, confirmed by the rights holder on 2026-10-11. Its bundled Humanizer-zh retains its own MIT copyright and pinned source record. See [Travel license](packages/travel/LICENSE-NOTICE.md) and [sources and optional services](packages/travel/THIRD_PARTY.md). No third-party service binaries, browser, real trips, orders, account data or source photographs are bundled. Online services and user-collected content retain their own terms.
+
+## Research
+
+Research original code and documentation use the bundled [MIT license](packages/research/LICENSE). Pinned MCP source and npm archives retain their own licenses and notices: [package boundaries](packages/research/LICENSE-NOTICE.md), [upstream notices](packages/research/integrations/mcp/THIRD_PARTY_NOTICES.txt), [source lock](packages/research/integrations/mcp/source-lock.json). Optional browser/media downloads and collected articles/videos retain upstream terms; they are not relicensed by this repository. Unlicensed Stack Overflow source archives, private research, credentials and host runtime are excluded.

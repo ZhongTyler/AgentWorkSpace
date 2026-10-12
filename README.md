@@ -52,7 +52,7 @@ Agent 按审计返回的 criteria 审阅现有规则与接口，记录理由、�
 
 ## 接入后怎样使用
 
-本仓由 **meta 底座和 8 个并列的 package** 组成。meta 提供协作规则与工作区框架；full 模式安装在根目录，兼容模式选装到 `modules/meta`，可直接交代目标、约束和完成标准。其余 package 都按需要选择，表中顺序不表示层级或安装优先级。Brainstorm、FromDemoToSpec、Knowledge 所需的宿主治理能力，可由 meta 或经过审阅的现有框架提供。已有工作区可以复用审阅过的能力，无需为了可选集成安装其他包。
+本仓由 **meta 底座和 9 个并列的 package** 组成。meta 提供协作规则与工作区框架；full 模式安装在根目录，兼容模式选装到 `modules/meta`，可直接交代目标、约束和完成标准。其余 package 都按需要选择，表中顺序不表示层级或安装优先级。Brainstorm、FromDemoToSpec、Knowledge 所需的宿主治理能力，可由 meta 或经过审阅的现有框架提供。已有工作区可以复用审阅过的能力，无需为了可选集成安装其他包。
 
 [meta 使用说明](meta/README.md) · [各包依赖与工具环境](docs/package-dependencies.md)
 
@@ -66,6 +66,7 @@ Agent 按审计返回的 criteria 审阅现有规则与接口，记录理由、�
 | [GamePresentation](packages/game-presentation/README.md) | 表现规格、资源制作与 Godot 交付、恢复 | `modules/game-presentation` | 可使用手工或生成来源；PrototypeAssets 可选 |
 | [Travel](packages/travel/README.md) | “帮我研究并规划这趟旅行……”；生成私人离线网站 | `modules/travel` | 可单独使用；无必装包，采集服务、浏览器验收和服务器可选 |
 | [PrototypeAssets](packages/prototype-assets/README.md) | 119 项有来源和许可记录的精选，以及校验导出工具 | `modules/prototype-assets` | 素材和许可复制后，游戏不依赖来源包 |
+| [Research](packages/research/README.md) | MD/网址/问题研究、游戏设计研究和可选主动探索 | `modules/research` | 可单独使用；Knowledge、MCP、媒体工具和宿主调度按需授权 |
 
 框架接入后即可开始任务，业务内容按实际需要产生。FromDemoToSpec 的包内文档是开发工作流，游戏工程在具体任务中创建。Knowledge 首次 Ingest 前，Agent 要根据真实用途补充知识范围，并在模块内建立独立本地 Git 基线；已有库保留历史，不借用外层仓库，不自动创建远端或推送。原向导保留供独立定制，安装后无需重复问答，也不要改动已登记的模块目录名。
 
@@ -84,6 +85,16 @@ python scripts/workspace.py init --target <workspace-path> --mode compatible --p
 ```
 
 安装后从目标工作区运行 `node modules/travel/scripts/make-demo.mjs --project ./trips/demo`，再运行 `node modules/travel/scripts/travel.mjs build --project ./trips/demo`，打开 `trips/demo/build/index.html`。已有安装用 `add --packages travel`。示例完全虚构；核心命令无需 npm 依赖，真实采集、地图、预报和旅游安全仍需按实际任务核查。详见 [Travel 快速开始](packages/travel/README.md)。
+
+## 日常与主动研究
+
+Research 保留直接 MD/网址/问题入口；按缺口补查少量互补来源，游戏材料可在本人授权后交 Knowledge。视频先取原生字幕并核对关键画面，多图逐图保全及核查图义；OCR只辅助读字。主动探索附两路周一/周四10:00与18:00模板，安装不启用任务或账号。有用增量和新保留条件候选报告一次，纯重复静默；调频由使用者批准。研究报告放包外，现有同类流程先做语义接线审查。
+
+```text
+python scripts/workspace.py audit --target <workspace-path> --needs research
+python scripts/workspace.py init --target <workspace-path> --mode compatible --packages research
+python scripts/workspace.py init --target <workspace-path> --mode compatible --packages research --apply
+```
 
 ## 按需选择 Skill
 

@@ -1,0 +1,10 @@
+{
+  "source": "Existing local Windows compatibility extension: explicit XHS_BROWSER_BIN and XHS_BROWSER_PROFILE overrides; includes unrelated read-only album extensions, which are not exposed by this research configuration.",
+  "source_repo_commit": "78a0b4f39c049c5c62067b58c4afab47695565d8",
+  "file": "vendor/xiaohongshu-windows-compat-source.tar.gz",
+  "sha256": "46c81afe49a52893a6ade0035235155af4a41d59608e1fa6e36701fb84e5963f",
+  "license": "Apache-2.0",
+  "files": 65,
+  "runtime_binary_sha256": "0d2552059c1e5f4e05270895f04f71de9a592232be421517e65f1b726a447ece",
+  "note": "Existing binary reused; exact build provenance not re-established. Build saved source to reproduce a new binary."
+}

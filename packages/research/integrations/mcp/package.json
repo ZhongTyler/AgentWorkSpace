@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@cyanheads/hn-mcp-server": "0.5.21",
+    "@modelcontextprotocol/sdk": "1.32.1",
+    "agent-search-mcp": "3.2.1",
+    "cheerio": "1.0.0",
+    "mcp-remote": "0.14.3",
+    "mcp-server-v2ex": "0.1.1",
+    "rss-reader-mcp": "1.0.8",
+    "turndown": "7.2.4"
+  }
+}

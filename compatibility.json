@@ -73,6 +73,15 @@
         "planning-and-offline-delivery",
         "verification-and-recovery"
       ]
+    },
+    "research": {
+      "description": "Source-grounded research from Markdown, URLs or questions, with optional proactive discovery and explicit reporting/recovery boundaries.",
+      "criteria": [
+        "source-and-evidence-boundaries",
+        "conditional-application",
+        "optional-capture-and-ingestion",
+        "reporting-and-recovery"
+      ]
     }
   },
   "components": {
@@ -168,6 +177,16 @@
       ],
       "requires": [],
       "optional": []
+    },
+    "research": {
+      "provides": [
+        "research"
+      ],
+      "requires": [],
+      "optional": [
+        "knowledge",
+        "game-analysis"
+      ]
     }
   },
   "needs": {
@@ -179,6 +198,7 @@
     "game-analysis": "game-analysis",
     "presentation": "game-presentation",
     "assets": "asset-catalog",
-    "travel": "travel-planning"
+    "travel": "travel-planning",
+    "research": "research"
   }
 }

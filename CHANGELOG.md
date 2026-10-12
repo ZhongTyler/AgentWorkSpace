@@ -1,5 +1,12 @@
 # Releases
 
+## 1.6.0 — 2026-10-12
+
+- Add optional standalone Research: direct Markdown/URL/question research, general/game source catalogs, media paths and optional proactive exploration.
+- Report useful findings and newly retained conditional candidates once, including reasons to defer; keep duplicate-only runs quiet.
+- Install no accounts, scheduler, runtime or automatic-ingest authority. Exclude maintainer research and connection receipts; retain upstream archives/licenses with reviewed hashes.
+- Support real 1.5.0 upgrade/add/reverse rollback while preserving host rules and user data.
+
 ## 1.5.0 — 2026-10-11
 
 - Add standalone Travel 0.4.6: source-grounded research, trip planning and private offline websites, with a fully fictional demo.

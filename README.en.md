@@ -52,7 +52,7 @@ The agent reviews host rules and interfaces against the returned criteria, then 
 
 ## Use the workspace
 
-The distribution contains **one meta foundation and eight peer packages**. Meta provides collaboration rules and workspace structure; full mode installs it at the root, while compatible mode optionally installs it under `modules/meta`. State your goal, constraints and completion criteria to use it. Choose each package as needed; table order implies neither hierarchy nor installation priority. Brainstorm, FromDemoToSpec and Knowledge require host-governance capabilities, supplied by meta or a reviewed existing framework. Existing workspaces can reuse reviewed capabilities without adding packages for optional integrations.
+The distribution contains **one meta foundation and nine peer packages**. Meta provides collaboration rules and workspace structure; full mode installs it at the root, while compatible mode optionally installs it under `modules/meta`. State your goal, constraints and completion criteria to use it. Choose each package as needed; table order implies neither hierarchy nor installation priority. Brainstorm, FromDemoToSpec and Knowledge require host-governance capabilities, supplied by meta or a reviewed existing framework. Existing workspaces can reuse reviewed capabilities without adding packages for optional integrations.
 
 [Meta guide](meta/README.md) · [Package dependencies and tool requirements](docs/package-dependencies.md)
 
@@ -66,6 +66,7 @@ The distribution contains **one meta foundation and eight peer packages**. Meta 
 | [GamePresentation](packages/game-presentation/README.md) | Presentation specifications, resource preparation and Godot delivery/recovery | `modules/game-presentation` | Manual/generated sources work; PrototypeAssets is optional |
 | [Travel](packages/travel/README.md) | “Research and plan this trip…”; generate a private offline website | `modules/travel` | Works alone; no required package, account service or server; browser verification is optional |
 | [PrototypeAssets](packages/prototype-assets/README.md) | 119 assets with provenance/license records and verification/export tools | `modules/prototype-assets` | Runtime copies and licenses remain usable without their source package |
+| [Research](packages/research/README.md) | Research Markdown, URLs and questions; game research and optional proactive exploration | `modules/research` | Works alone; Knowledge, MCP, media tools and host scheduling require separate setup/authority |
 
 Start tasks once the framework is installed; create business content when the task needs it. FromDemoToSpec provides a development workflow. The game project is created during a specific development task. Before the first Knowledge Ingest run, the agent must configure the real knowledge scope and establish a separate local Git baseline inside the module. Existing libraries keep their history. Do not use the outer repository as that baseline or create a remote or push automatically. The original setup wizard remains available for standalone customization; installation does not require another interview. Keep the registered module directory name unchanged.
 
@@ -84,6 +85,16 @@ python scripts/workspace.py init --target <workspace-path> --mode compatible --p
 ```
 
 From the installed workspace, run `node modules/travel/scripts/make-demo.mjs --project ./trips/demo`, then `node modules/travel/scripts/travel.mjs build --project ./trips/demo` and open `trips/demo/build/index.html`. Existing installations use `add --packages travel`. The example is entirely fictional. Core commands have no npm runtime dependencies; real source collection, maps, forecasts and travel safety require task-specific checks. See the [Travel quick start](packages/travel/README.md), currently in Chinese.
+
+## Everyday and proactive research
+
+Research accepts Markdown, URLs or questions and fills evidence gaps through a small complementary source set. Game material may enter Knowledge after the recipient authorizes ingestion. Videos use native captions plus checked key frames; image-rich articles retain and inspect necessary figures, with OCR assisting text recognition. Two-route Monday/Thursday templates suggest 10:00 and 18:00, but installation enables no scheduler or account. Useful increments and newly retained conditional candidates receive one brief; duplicate-only runs stay quiet. Cadence changes require approval. Keep research outside the installed package and review existing workflow integration semantically.
+
+```text
+python scripts/workspace.py audit --target <workspace-path> --needs research
+python scripts/workspace.py init --target <workspace-path> --mode compatible --packages research
+python scripts/workspace.py init --target <workspace-path> --mode compatible --packages research --apply
+```
 
 ## Select skills as needed
 

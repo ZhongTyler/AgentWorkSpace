@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "timezone": "Asia/Shanghai",
+  "activation": "Create with the host scheduler after explicit user authorization; never auto-enable on package installation.",
+  "routes": [
+    {
+      "id": "research",
+      "time": "10:00",
+      "frequency": "twice_weekly",
+      "entry": "proactive/README.md",
+      "discovery_budget_minutes": 20,
+      "per_run": {
+        "max_candidates": 5,
+        "max_deep_reads": 1
+      },
+      "weekdays": [
+        "Monday",
+        "Thursday"
+      ]
+    },
+    {
+      "id": "game-research",
+      "time": "18:00",
+      "frequency": "twice_weekly",
+      "entry": "game-research/README.md",
+      "discovery_budget_minutes": 30,
+      "per_run": {
+        "preferred_related_sources": [
+          3,
+          4
+        ],
+        "max_related_sources": 6,
+        "allow_fewer": true,
+        "count_independent_source_chains": true,
+        "preserve_each_source_and_raw": true
+      },
+      "weekdays": [
+        "Monday",
+        "Thursday"
+      ]
+    }
+  ],
+  "focus": {
+    "current_projects_and_existing_topics": 0.8,
+    "adjacent_directions": 0.2
+  },
+  "notification": "Send one concise brief for useful independent findings, newly retained conditional candidates, changed judgments or required decisions, even when adoption is deferred. Deduplicate unchanged candidates; keep duplicate-only/no-value runs quiet. Follow proactive/reporting.md; deliver the requested joint review once.",
+  "knowledge": "Only after the recipient explicitly authorizes automatic ingestion; follow the installed Knowledge contract and exact final-report approval. Package installation grants no ingestion authority.",
+  "review": {
+    "runs_per_route": 4,
+    "mode": "joint",
+    "counter": "proactive/review.py",
+    "contract": "proactive/reviews/README.md",
+    "count_actual_completed_weekly_runs_only": true,
+    "manual_pilots_count": false,
+    "change_sources_or_frequency": "Requires user decision after evidence-based review"
+  },
+  "cadence_control": {
+    "per_route": true,
+    "assess_every_run": true,
+    "signals": [
+      "new independent findings",
+      "same-chain deduplication",
+      "topic development velocity",
+      "selected backlog",
+      "capture gaps",
+      "adoption",
+      "human intervention",
+      "cost"
+    ],
+    "contract": "proactive/reviews/README.md",
+    "schedule_changes": "Propose with evidence and reason; apply only after explicit user approval. No automatic changes."
+  },
+  "missed_runs": {
+    "host_requirements": "Local computer powered on and desktop app running",
+    "host_catch_up": "Not established; do not assume automatic missed-trigger recovery",
+    "research_recovery": "Next actual run covers since last successful coverage checkpoint within the current budget; merge gaps without bursting multiple runs",
+    "count": "Only actual completed scheduled runs count; missing triggers do not count",
+    "extra_startup_or_polling_tasks": false
+  },
+  "reporting": {
+    "contract": "proactive/reporting.md",
+    "brief_fields": [
+      "question_and_channels",
+      "increment_or_retained_candidate",
+      "recommendation_and_reason",
+      "next_action_or_trigger",
+      "cost_and_cadence",
+      "full_report_and_primary_source_links"
+    ],
+    "notify_deferred_useful_candidates": true,
+    "deduplicate_unchanged_findings": true,
+    "no_value_runs": "quiet"
+  }
+}

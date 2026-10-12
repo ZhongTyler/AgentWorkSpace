@@ -1,0 +1,169 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-10-11",
+  "inherits": "../sources.json",
+  "policy": "Select complementary sources by the design question. A primary entry is selectable, not a claim of whole-site/media access. Inherited paused or declined sources remain skipped.",
+  "sources": [
+    {
+      "id": "game-developer",
+      "name": "Game Developer / Design",
+      "url": "https://www.gamedeveloper.com/design",
+      "state": "primary",
+      "roles": [
+        "设计方法",
+        "开发复盘",
+        "试玩迭代"
+      ],
+      "route": "existing web search and selected full-article read",
+      "verified_at": "2026-10-11",
+      "verified_scope": "Selected full playtesting article; required diagram captured by the Knowledge pilot",
+      "limits": "Conference reporting may be secondary; distinguish speaker claims from measured outcomes."
+    },
+    {
+      "id": "gdc-free",
+      "name": "GDC Vault Free",
+      "url": "https://gdcvault.com/free/",
+      "state": "primary",
+      "roles": [
+        "一手演讲",
+        "具体游戏复盘"
+      ],
+      "route": "existing web; free sessions only",
+      "verified_at": "2026-10-11",
+      "verified_scope": "Free index and Against the Storm session metadata/abstract",
+      "limits": "Video, captions and slides not yet verified; abstracts are discovery only. No payment or access bypass."
+    },
+    {
+      "id": "gcores",
+      "name": "机核 DESIGN / BOOOM",
+      "url": "https://www.gcores.com/design_and_art",
+      "additional_urls": [
+        "https://site.gcores.com/booomlab/about/"
+      ],
+      "state": "primary",
+      "roles": [
+        "中文开发者经验",
+        "独立游戏案例"
+      ],
+      "route": "existing web",
+      "verified_at": "2026-10-11",
+      "verified_scope": "Design index and BOOOM Lab introduction",
+      "limits": "Filter mixed news/art content; full selected articles and media require per-item reading; paid material skipped."
+    },
+    {
+      "id": "gameres",
+      "name": "GameRes 游资网",
+      "url": "https://www.gameres.com/",
+      "additional_urls": [
+        "https://www.gameres.com/list/24"
+      ],
+      "state": "primary",
+      "roles": [
+        "中文设计与产品拆解",
+        "开发者复盘",
+        "行业分享发现"
+      ],
+      "route": "existing web search and selected article read",
+      "verified_at": "2026-10-11",
+      "verified_scope": "Homepage, deconstruction category and full text of article 848117 accessible; Balatro article 905305 full text and 20/20 body images inspected, including three GIFs sampled beyond blank first frames",
+      "limits": "Repost of an existing Paranoia source: media supplement, not an independent new article. Graph relations and numbers manually checked with OCR assistance; no dedicated MCP claimed.",
+      "adopted_at": "2026-10-11"
+    },
+    {
+      "id": "deconstructor-of-fun",
+      "name": "Deconstructor of Fun",
+      "url": "https://www.deconstructoroffun.com/blog",
+      "state": "primary",
+      "roles": [
+        "系统与产品拆解",
+        "经济与留存案例"
+      ],
+      "route": "existing web",
+      "verified_at": "2026-10-11",
+      "verified_scope": "Blog index and Just Dessert versus Gossip Harbor comparison page accessible",
+      "limits": "Mobile/F2P bias; market estimates and causal design conclusions require separate checking; screenshots matter."
+    },
+    {
+      "id": "factorio-fff",
+      "name": "Factorio Friday Facts",
+      "url": "https://www.factorio.com/blog/",
+      "state": "primary",
+      "roles": [
+        "开发者一手记录",
+        "机制迭代",
+        "原型与生产取舍"
+      ],
+      "route": "existing web; RSS only after feed URL verification",
+      "verified_at": "2026-10-11",
+      "verified_scope": "FFF417 full article",
+      "limits": "Author retrospective is one team case, not controlled evidence; diagrams and versions checked per item."
+    },
+    {
+      "id": "digra",
+      "name": "DiGRA Digital Library",
+      "url": "https://dl.digra.org/index.php/dl",
+      "state": "primary",
+      "roles": [
+        "游戏学术研究",
+        "玩家研究",
+        "研究方法"
+      ],
+      "route": "existing web and selected open full-text PDF",
+      "verified_at": "2026-10-11",
+      "verified_scope": "Library index",
+      "limits": "No selected paper full-text ingest yet; abstract alone is insufficient; preserve population, method and limitations."
+    },
+    {
+      "id": "steam-public",
+      "name": "Steam public game data",
+      "url": "https://store.steampowered.com/",
+      "state": "primary",
+      "roles": [
+        "官方更新",
+        "玩家痛点",
+        "版本背景"
+      ],
+      "route": "existing optional Steam read-only MCP; public official web fallback",
+      "verified_at": "2026-10-11",
+      "verified_scope": "steam_get_app_news appid=427520 count=1 returned FFF448 and official outbound link",
+      "limits": "News excerpt is not full article. Review samples and trends do not prove design causality. Do not scan private libraries. Steam MCP is host-provided, not bundled in Research dependency archives."
+    },
+    {
+      "id": "indienova",
+      "name": "indienova 开发日志",
+      "url": "https://indienova.com/blogs/all",
+      "state": "primary",
+      "roles": [
+        "中文独立开发案例"
+      ],
+      "route": "web discovery; ordinary public HTTP selected-article read",
+      "verified_at": "2026-10-11",
+      "verified_scope": "Search reader returned 403; ordinary public HTTP 200 for the Dana Nightingale GDC part-2 compilation, 7681 body characters; original speaker/translator/video link retained; Joker guidelines full text and sole body image read, ten rules checked against linked LocalThunk Reddit original",
+      "limits": "Compilation is secondary and partial (part 2); complete article set and required images must be inspected before full-talk claims. Access varies per page.",
+      "adopted_at": "2026-10-11",
+      "adoption_reason": "Explicit user selection; one selected public body successfully retrieved."
+    },
+    {
+      "id": "gmtk",
+      "name": "Game Maker's Toolkit",
+      "url": "https://www.youtube.com/@GMTK",
+      "state": "primary",
+      "roles": [
+        "视频设计拆解"
+      ],
+      "route": "official website; per-video captions/transcript via browser when accessible; separately attributed public transcripts",
+      "verified_at": "2026-10-11",
+      "verified_scope": "Selected official video zk3S3o1qOHo: full native English transcript 0:00–13:18 and ten valid key-frame observations after user completed CAPTCHA; direct media download failed",
+      "limits": "Per-video access; not full continuous viewing or word-by-word audio validation. Default caption language and decoded frame state must be checked. No ASR installed.",
+      "additional_urls": [
+        "https://gamemakerstoolkit.com/",
+        "https://gamemakerstoolkit.com/translation/"
+      ],
+      "adopted_at": "2026-10-11",
+      "adoption_reason": "Explicit user selection; textual access routes registered with actual limitations."
+    }
+  ],
+  "selection_lenses": "selection-lenses.json",
+  "video_text_workflow": "video-text.md",
+  "media_capture_workflow": "media-capture.md"
+}

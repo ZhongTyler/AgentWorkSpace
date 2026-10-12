@@ -1,0 +1,171 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-10-11",
+  "policy": "Available connected channels are formal selectable sources (primary); select a small complementary subset per question. Paused or declined channels remain reserve and are skipped until a new explicit user decision. Catalog role is separate from connection verification.",
+  "sources": [
+    {
+      "id": "juejin",
+      "name": "掘金",
+      "url": "https://juejin.cn/recommended",
+      "state": "primary",
+      "roles": [
+        "中文工程实践",
+        "方法与项目发现"
+      ],
+      "mcp": "research-juejin",
+      "limits": "教程与转述须追原始底本；已修复为公开 SSR 正文转 Markdown，代码/链接/图片引用保留；图片内容未逐张验收，反爬或缺正文须报错。"
+    },
+    {
+      "id": "hn",
+      "name": "Hacker News",
+      "url": "https://news.ycombinator.com/",
+      "state": "primary",
+      "roles": [
+        "新项目发现",
+        "工程争议与反例"
+      ],
+      "mcp": "research-hn",
+      "limits": "投票不代表可靠性；讨论树与外链正文分别读取，保留截断状态。"
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "url": "https://github.com/",
+      "state": "primary",
+      "roles": [
+        "实现核查",
+        "版本与维护状态",
+        "问题与限制"
+      ],
+      "mcp": "research-github",
+      "limits": "源码、测试与真实效果分别判断；本机已通过官方 GitHub 插件授权与只读实测，重复 PAT MCP 保持停用；分发包不携带授权。"
+    },
+    {
+      "id": "v2ex",
+      "name": "V2EX",
+      "url": "https://www.v2ex.com/",
+      "state": "reserve",
+      "roles": [
+        "中文开发者经验",
+        "方法与项目发现"
+      ],
+      "mcp": "research-v2ex",
+      "trigger": "中文工程环境或个人开发经验会影响判断时",
+      "limits": "需要访问令牌；所选 MCP 无全站全文搜索，使用公开域名检索补足。",
+      "selection_policy": "declined_by_user",
+      "resume_requires": "A new explicit user decision; no automatic login, retry or web fallback.",
+      "selection_reason": "2026-10-11 用户因邀请码门槛放弃此渠道。"
+    },
+    {
+      "id": "reddit",
+      "name": "Reddit",
+      "url": "https://www.reddit.com/",
+      "state": "primary",
+      "roles": [
+        "用户经验",
+        "失败场景",
+        "不同立场"
+      ],
+      "mcp": "research-reddit",
+      "trigger": "需要具体用户群的使用体验或失败案例时",
+      "limits": "RSS 搜索可能不相关；评论为扁平结果，不能推断回复树或人群代表性。",
+      "adopted_at": "2026-10-11",
+      "adoption_reason": "User promoted usable previously optional channels to the formal source pool before proactive exploration."
+    },
+    {
+      "id": "huggingface",
+      "name": "Hugging Face",
+      "url": "https://huggingface.co/",
+      "state": "primary",
+      "roles": [
+        "AI模型与数据集",
+        "论文及实验线索"
+      ],
+      "mcp": "research-huggingface",
+      "trigger": "AI模型、数据集或论文是研究对象时",
+      "limits": "模型卡与榜单不等于独立效果证据；追原论文、评测设置与实际实验。不运行推理、Jobs 或付费资源。",
+      "adopted_at": "2026-10-11",
+      "adoption_reason": "User promoted usable previously optional channels to the formal source pool before proactive exploration."
+    },
+    {
+      "id": "stackoverflow",
+      "name": "Stack Overflow",
+      "url": "https://stackoverflow.com/",
+      "state": "reserve",
+      "roles": [
+        "技术问题",
+        "实现限制",
+        "解决方案反查"
+      ],
+      "mcp": "research-stackoverflow",
+      "trigger": "具体报错、兼容性或实现疑问时",
+      "limits": "核对版本、上下文与答案时间，接受答案不等于仍然适用；官方 MCP 需 OAuth。",
+      "selection_policy": "declined_by_user",
+      "resume_requires": "A new explicit user decision; no automatic login, retry or web fallback.",
+      "selection_reason": "2026-10-11 用户因登录受阻放弃此渠道。"
+    },
+    {
+      "id": "zhihu",
+      "name": "知乎",
+      "url": "https://www.zhihu.com/",
+      "state": "primary",
+      "roles": [
+        "中文观点比较",
+        "概念理解",
+        "个人方法"
+      ],
+      "mcp": "research-zhihu",
+      "trigger": "中文语境、专业观点差异或个人方法问题时",
+      "limits": "官方统一 MCP 需 Access Secret 与额度；仅开放搜索与热榜，不把直答生成内容当底本。",
+      "adopted_at": "2026-10-11",
+      "adoption_reason": "User promoted usable previously optional channels to the formal source pool before proactive exploration."
+    },
+    {
+      "id": "xiaohongshu",
+      "name": "小红书",
+      "url": "https://www.xiaohongshu.com/",
+      "state": "reserve",
+      "roles": [
+        "用户情境",
+        "体验与失败案例"
+      ],
+      "mcp": "research-xiaohongshu",
+      "trigger": "生活、旅行或真实使用场景需要个人经验时",
+      "limits": "需扫码登录；图片逐张看，商业推广与样本偏差单独判断。既有旅行项目的渠道暂停决定不因本目录登记而改变。",
+      "selection_policy": "paused_by_user",
+      "resume_requires": "A new explicit user decision; no automatic login, retry or web fallback.",
+      "selection_reason": "2026-10-11 用户为避免风控暂不采用此渠道；扫码服务已停止。"
+    },
+    {
+      "id": "lobsters",
+      "name": "Lobsters",
+      "url": "https://lobste.rs/",
+      "state": "primary",
+      "roles": [
+        "工程技术讨论",
+        "HN之外的交叉发现"
+      ],
+      "mcp": "research-lobsters",
+      "trigger": "语言、系统、开源工程专题需补充技术讨论时",
+      "limits": "第三方远程网关，限四个读取工具；有匿名额度，不能假定永久免费；所选 MCP 无全站全文搜索。",
+      "adopted_at": "2026-10-11",
+      "adoption_reason": "User promoted usable previously optional channels to the formal source pool before proactive exploration."
+    },
+    {
+      "id": "sspai",
+      "name": "少数派",
+      "url": "https://sspai.com/",
+      "state": "primary",
+      "roles": [
+        "个人工作方法",
+        "数字工具实践"
+      ],
+      "mcp": "research-rss",
+      "feed": "https://sspai.com/feed",
+      "trigger": "研究个人工具、阅读与工作方法时",
+      "limits": "使用通用 RSS MCP，不声称有专用官方 MCP；订阅摘要与原文分别读取。",
+      "adopted_at": "2026-10-11",
+      "adoption_reason": "User promoted usable previously optional channels to the formal source pool before proactive exploration."
+    }
+  ]
+}

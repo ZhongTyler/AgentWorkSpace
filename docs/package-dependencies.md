@@ -1,8 +1,8 @@
 # Packages and optional integrations
 
-meta 是工作区底座，下列八个 package 是并列选项。并列不表示依赖相同：Brainstorm、FromDemoToSpec、Knowledge 需要宿主治理能力，可由完整 meta 或经过审阅的现有框架提供；其余五包没有必装模块依赖。新建工作区的 full 模式安装完整 meta，已有工作区的 compatible 模式只补选择的包与缺失能力。
+meta 是工作区底座，下列九个 package 是并列选项。并列不表示依赖相同：Brainstorm、FromDemoToSpec、Knowledge 需要宿主治理能力，可由完整 meta 或经过审阅的现有框架提供；其余六包没有必装模块依赖。新建工作区的 full 模式安装完整 meta，已有工作区的 compatible 模式只补选择的包与缺失能力。
 
-Meta is the foundation; these eight packages are peers. Their capability requirements differ: Brainstorm, FromDemoToSpec and Knowledge need host governance from meta or a reviewed existing framework. The other five have no mandatory module dependency. Full mode installs meta; compatible mode supplies only selected packages and missing capabilities.
+Meta is the foundation; these nine packages are peers. Their capability requirements differ: Brainstorm, FromDemoToSpec and Knowledge need host governance from meta or a reviewed existing framework. The other six have no mandatory module dependency. Full mode installs meta; compatible mode supplies only selected packages and missing capabilities.
 
 | Package | Core environment and required capability | Optional integration | Missing integration |
 |---|---|---|---|
@@ -24,3 +24,5 @@ Godot source flow: approved asset catalog OR generated/manual project sources �
 Skills package installation only installs the library. The second, explicit selection step installs named skills into .agents/skills or .codebuddy/skills. Skill state and transactions live in .agent-skills/<platform>, independently of .agent-workspace. A root package upgrade updates the library only; run its skill upgrade command to update already selected skills. If meta and the picker manage the same path, differing changes remain conflicts; do not force either owner's edits over the other.
 
 工程验证不等于专业方法收益、美术/听感认可或真实玩家验收。平台与工具缺失时报告具体限制，继续不依赖它的工作。
+
+Research uses an Agent and Python 3.10+ for local review/capture helpers. MCP uses separately installed Node/Python dependencies and recipient accounts; media OCR lock targets Windows Python 3.12. Knowledge, GAD and scheduling are optional. Direct Markdown/URL research remains available without them. Installation does not enable services, schedule work or authorize ingestion. Keep research outputs outside modules/research.

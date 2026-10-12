@@ -58,13 +58,13 @@ class TravelRelease(unittest.TestCase):
             for p, original in before.items():
                 self.assertEqual(original, p.read_bytes())
 
-    def test_actual_140_upgrade_add_and_reverse_rollback_keep_user_content(self):
+    def test_actual_predecessor_upgrade_add_and_reverse_rollback_keep_user_content(self):
         with tempfile.TemporaryDirectory(prefix='travel-upgrade-') as tmp:
             base = Path(tmp)
             old = base / 'old'
             old.mkdir()
             p = subprocess.run(['git', '-c', 'safe.directory=' + ROOT.as_posix(),
-                                '-C', str(ROOT), 'archive', 'v1.4.0'], capture_output=True, check=True)
+                                '-C', str(ROOT), 'archive', 'v'+json.loads((ROOT/'catalog.json').read_text(encoding='utf-8'))['previous_version']], capture_output=True, check=True)
             with tarfile.open(fileobj=io.BytesIO(p.stdout)) as archive:
                 for entry in archive:
                     if not entry.isfile():
@@ -90,14 +90,14 @@ class TravelRelease(unittest.TestCase):
                 retained = {p: p.read_bytes() for p in [user, local, host / 'AGENTS.md']}
                 upgrade = w.install(ROOT, host, 'upgrade', [], True)
                 self.assertTrue(upgrade['applied'])
-                self.assertEqual('1.5.0', w.state(host)['version'])
+                self.assertEqual(w.catalog(ROOT)['version'], w.state(host)['version'])
                 self.assertNotIn('travel', w.state(host)['components'])
                 addition = w.install(ROOT, host, 'add', ['travel'], True)
                 self.assertTrue(addition['applied'])
                 self.assertIn('travel', w.state(host)['components'])
                 self.assertTrue(w.rollback(host, addition['transaction'], True)['applied'])
                 self.assertTrue(w.rollback(host, upgrade['transaction'], True)['applied'])
-                self.assertEqual('1.4.0', w.state(host)['version'])
+                self.assertEqual(w.catalog(ROOT)['previous_version'], w.state(host)['version'])
                 for p, original in retained.items():
                     self.assertEqual(original, p.read_bytes())
 
