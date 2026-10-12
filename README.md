@@ -68,42 +68,22 @@ Agent 按审计返回的 criteria 审阅现有规则与接口，记录理由、�
 | [PrototypeAssets](packages/prototype-assets/README.md) | 119 项有来源和许可记录的精选，以及校验导出工具 | `modules/prototype-assets` | 素材和许可复制后，游戏不依赖来源包 |
 | [Research](packages/research/README.md) | MD/网址/问题研究、游戏设计研究和可选主动探索 | `modules/research` | 可单独使用；Knowledge、MCP、媒体工具和宿主调度按需授权 |
 
+点击表中的包名，查看该包的快速开始、任务流程、环境要求与使用边界。安装统一使用上文的 `init`；已有安装通过 `add --packages <package-id>` 预览，加 `--apply` 应用。
+
 框架接入后即可开始任务，业务内容按实际需要产生。FromDemoToSpec 的包内文档是开发工作流，游戏工程在具体任务中创建。Knowledge 首次 Ingest 前，Agent 要根据真实用途补充知识范围，并在模块内建立独立本地 Git 基线；已有库保留历史，不借用外层仓库，不自动创建远端或推送。原向导保留供独立定制，安装后无需重复问答，也不要改动已登记的模块目录名。
 
 项目可以放在 `projects/` 或你指定的目录。会话、知识正文和用户配置留在目标工作区，不写回本发布仓。`.agent-workspace/state.json` 只记录已装版本和框架文件基线，不拥有业务事实。
 
 meta 还包含 [Humanizer-zh](meta/workspace/.agents/skills/humanizer-zh/SKILL.md)。需要润色中文时，可让 Agent 使用它减少空话、重复和模板化表达，同时保留事实、确定程度和作者声音。它是编辑指导，不是作者身份检测工具；英文说明也应保持同样的准确性。
 
-## 旅行规划与离线网站
-
-Travel 是独立可选包。先审查已有旅行工作流，再只安装所需内容；不要求 meta、Knowledge、游戏包或小红书账号。旅行事实与研究放在用户指定的包外目录，订单、偏好和账号不进入发布仓。
-
-```text
-python scripts/workspace.py audit --target <workspace-path> --needs travel
-python scripts/workspace.py init --target <workspace-path> --mode compatible --packages travel
-python scripts/workspace.py init --target <workspace-path> --mode compatible --packages travel --apply
-```
-
-安装后从目标工作区运行 `node modules/travel/scripts/make-demo.mjs --project ./trips/demo`，再运行 `node modules/travel/scripts/travel.mjs build --project ./trips/demo`，打开 `trips/demo/build/index.html`。已有安装用 `add --packages travel`。示例完全虚构；核心命令无需 npm 依赖，真实采集、地图、预报和旅游安全仍需按实际任务核查。详见 [Travel 快速开始](packages/travel/README.md)。
-
-## 日常与主动研究
-
-Research 保留直接 MD/网址/问题入口；按缺口补查少量互补来源，游戏材料可在本人授权后交 Knowledge。视频先取原生字幕并核对关键画面，多图逐图保全及核查图义；OCR只辅助读字。主动探索附两路周一/周四10:00与18:00模板，安装不启用任务或账号。有用增量和新保留条件候选报告一次，纯重复静默；调频由使用者批准。研究报告放包外，现有同类流程先做语义接线审查。
-
-```text
-python scripts/workspace.py audit --target <workspace-path> --needs research
-python scripts/workspace.py init --target <workspace-path> --mode compatible --packages research
-python scripts/workspace.py init --target <workspace-path> --mode compatible --packages research --apply
-```
-
 ## 按需选择 Skill
 
 Skills 也是上表中的一个 package。安装它之后，再选择要启用的方法；其他 package 同样通过 `add --packages` 按需增加。以下命令只是示例，请替换为当前需要的包和 Skill。
 
 ```text
-python scripts/workspace.py audit --target <workspace-path> --needs skills game-analysis presentation assets
-python scripts/workspace.py add --target <workspace-path> --packages skills game-analysis-decision game-presentation prototype-assets
-python scripts/workspace.py add --target <workspace-path> --packages skills game-analysis-decision game-presentation prototype-assets --apply
+python scripts/workspace.py audit --target <workspace-path> --needs skills
+python scripts/workspace.py add --target <workspace-path> --packages skills
+python scripts/workspace.py add --target <workspace-path> --packages skills --apply
 python <workspace-path>/modules/skills/scripts/skills.py list
 python <workspace-path>/modules/skills/scripts/skills.py install --target <workspace-path> --names systematic-debugging property-based-testing
 python <workspace-path>/modules/skills/scripts/skills.py install --target <workspace-path> --names systematic-debugging property-based-testing --apply

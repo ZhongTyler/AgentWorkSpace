@@ -68,42 +68,22 @@ The distribution contains **one meta foundation and nine peer packages**. Meta p
 | [PrototypeAssets](packages/prototype-assets/README.md) | 119 assets with provenance/license records and verification/export tools | `modules/prototype-assets` | Runtime copies and licenses remain usable without their source package |
 | [Research](packages/research/README.md) | Research Markdown, URLs and questions; game research and optional proactive exploration | `modules/research` | Works alone; Knowledge, MCP, media tools and host scheduling require separate setup/authority |
 
+Follow a package name in the table for its quick start, task workflow, requirements and usage boundaries. Use `init` as shown above for installation. To add a package to an existing installation, preview with `add --packages <package-id>`, then apply with `--apply`.
+
 Start tasks once the framework is installed; create business content when the task needs it. FromDemoToSpec provides a development workflow. The game project is created during a specific development task. Before the first Knowledge Ingest run, the agent must configure the real knowledge scope and establish a separate local Git baseline inside the module. Existing libraries keep their history. Do not use the outer repository as that baseline or create a remote or push automatically. The original setup wizard remains available for standalone customization; installation does not require another interview. Keep the registered module directory name unchanged.
 
 Keep projects under `projects/` or a directory you choose. Sessions, knowledge content and personal configuration belong in your workspace, not in this distribution repository. `.agent-workspace/state.json` records installed versions and framework file baselines; it does not own your business records.
 
 Meta also includes [Humanizer-zh](meta/workspace/.agents/skills/humanizer-zh/SKILL.md). Use it to edit Chinese prose for clarity while preserving facts, uncertainty and the author's voice. It is editing guidance, not an authorship detector. English documentation should preserve the same factual accuracy.
 
-## Travel planning and offline websites
-
-Travel is an optional standalone package. Audit existing travel workflows before adding it; meta, Knowledge, game packages, a Xiaohongshu account and a server are not required. Trip facts and research live in a separate user-owned directory. Orders, preferences and account data stay outside this distribution.
-
-```text
-python scripts/workspace.py audit --target <workspace-path> --needs travel
-python scripts/workspace.py init --target <workspace-path> --mode compatible --packages travel
-python scripts/workspace.py init --target <workspace-path> --mode compatible --packages travel --apply
-```
-
-From the installed workspace, run `node modules/travel/scripts/make-demo.mjs --project ./trips/demo`, then `node modules/travel/scripts/travel.mjs build --project ./trips/demo` and open `trips/demo/build/index.html`. Existing installations use `add --packages travel`. The example is entirely fictional. Core commands have no npm runtime dependencies; real source collection, maps, forecasts and travel safety require task-specific checks. See the [Travel quick start](packages/travel/README.md), currently in Chinese.
-
-## Everyday and proactive research
-
-Research accepts Markdown, URLs or questions and fills evidence gaps through a small complementary source set. Game material may enter Knowledge after the recipient authorizes ingestion. Videos use native captions plus checked key frames; image-rich articles retain and inspect necessary figures, with OCR assisting text recognition. Two-route Monday/Thursday templates suggest 10:00 and 18:00, but installation enables no scheduler or account. Useful increments and newly retained conditional candidates receive one brief; duplicate-only runs stay quiet. Cadence changes require approval. Keep research outside the installed package and review existing workflow integration semantically.
-
-```text
-python scripts/workspace.py audit --target <workspace-path> --needs research
-python scripts/workspace.py init --target <workspace-path> --mode compatible --packages research
-python scripts/workspace.py init --target <workspace-path> --mode compatible --packages research --apply
-```
-
 ## Select skills as needed
 
 Skills is one of the peer packages above. After adding it, choose the methods to install. Add any other package with `add --packages` as needed. The commands below are examples; select the packages and skills relevant to your task.
 
 ```text
-python scripts/workspace.py audit --target <workspace-path> --needs skills game-analysis presentation assets
-python scripts/workspace.py add --target <workspace-path> --packages skills game-analysis-decision game-presentation prototype-assets
-python scripts/workspace.py add --target <workspace-path> --packages skills game-analysis-decision game-presentation prototype-assets --apply
+python scripts/workspace.py audit --target <workspace-path> --needs skills
+python scripts/workspace.py add --target <workspace-path> --packages skills
+python scripts/workspace.py add --target <workspace-path> --packages skills --apply
 python <workspace-path>/modules/skills/scripts/skills.py list
 python <workspace-path>/modules/skills/scripts/skills.py install --target <workspace-path> --names systematic-debugging property-based-testing
 python <workspace-path>/modules/skills/scripts/skills.py install --target <workspace-path> --names systematic-debugging property-based-testing --apply
