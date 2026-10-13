@@ -20,6 +20,79 @@ Give the repository path and target workspace path to an agent that can read/wri
 
 There is one complete meta edition. New workspaces install it by default; existing workspaces can use compatible mode to reuse their framework and add only selected packages and missing capabilities. The agent reads rules and methods as each task requires, without running every workflow on every task.
 
+## How packages support each other
+
+A task can draw on other packages when it needs them: research adds sources, the knowledge base supplies existing material, analysis supports decisions, and presentation and assets feed into the project. This game-development example shows the main optional relationships.
+
+```mermaid
+flowchart TB
+    Tools["Tools<br/>Tools and sources"]:::support
+    Research["Research<br/>Source investigation"]:::evidence
+    Knowledge["Knowledge<br/>Traceable knowledge"]:::evidence
+    Brainstorm["Brainstorm<br/>Concepts and tradeoffs"]:::work
+    Analysis["GameAnalysisDecision<br/>Analysis and advice"]:::work
+    Prototype["FromDemoToSpec<br/>Prototypes and development"]:::delivery
+    Assets["PrototypeAssets<br/>Provenance and licenses"]:::assets
+    Presentation["GamePresentation<br/>Resources into the engine"]:::assets
+
+    Tools -. "Set up and validate" .-> Research
+    Research -. "Ingest with authorization" .-> Knowledge
+    Research -. "Investigate evidence gaps" .-> Analysis
+    Knowledge -. "Knowledge context" .-> Brainstorm
+    Knowledge -. "Analysis evidence" .-> Analysis
+    Brainstorm -. "Accepted concept" .-> Prototype
+    Analysis -. "Recommendations" .-> Prototype
+    Assets -. "Select after review" .-> Presentation
+    Presentation -. "Resource delivery" .-> Prototype
+
+    linkStyle default stroke:#64748b,stroke-width:1.5px
+    classDef support fill:#f1f5f9,stroke:#64748b,color:#0f172a
+    classDef evidence fill:#ede9fe,stroke:#7c3aed,color:#2e1065
+    classDef work fill:#dbeafe,stroke:#2563eb,color:#172554
+    classDef assets fill:#ffedd5,stroke:#ea580c,color:#7c2d12
+    classDef delivery fill:#dcfce7,stroke:#16a34a,color:#14532d
+```
+
+**Dotted arrows show optional collaboration, not installation dependencies or an automatic pipeline.** The agent reads relevant entrypoints for the current problem, checks interfaces, tools and authority, then returns results to their owning project. Tools registers optional entrypoints; business integration still requires validation in the recipient's environment. Analysis recommendations and engineering checks do not replace real playtesting.
+
+Meta or a reviewed existing framework supplies collaboration rules. **Skills provides selected methods** for debugging, testing, research and writing. **Travel provides its own trip research, daily planning and private offline website workflow**, without requiring the game-development combination above.
+
+| What you want to do | How packages can work together | What you keep |
+|---|---|---|
+| Turn a game idea into a prototype | Explore and narrow concepts with Brainstorm, then develop with FromDemoToSpec; use Knowledge or GameAnalysisDecision for gaps in a decision, and return playtest questions to analysis or brainstorming | Concept and scope, a playable prototype, verification and playtest feedback |
+| Investigate a reference mechanism or development tool | Research checks sources; select REA in Tools when artifact evidence is necessary; send useful material to Knowledge with authorization | Sources, applicability limits and the actual effect on a project judgment |
+| Add presentation and assets to a game | GamePresentation defines purposes and prepares or selects resources; PrototypeAssets can supply assets with provenance and license records | In-project resources and licenses, delivery and recovery records |
+| Plan a trip | Use Travel alone, configuring collection or browser checks as needed | Trip plans, research and a private offline website outside the package |
+
+These are usage examples, not completed public case studies or a fixed sequence that every task must follow.
+
+<details>
+<summary>Expand: installation, upgrades and recovery</summary>
+
+```mermaid
+flowchart TB
+    New["New workspace<br/>Complete meta"]:::foundation
+    Existing["Existing workspace<br/>Audit rules and similar workflows"]:::existing
+    Existing --> Reuse["Review equivalent capabilities<br/>Identify reuse and missing requirements"]:::existing
+    New --> Select["Select packages as needed"]:::choice
+    Reuse --> Select
+    Select --> Preview["Preview the plan<br/>Check requirements and file conflicts"]:::review
+    Preview --> Apply["Resolve conflicts<br/>Explicitly apply with --apply"]:::action
+    Apply --> Task["Agent reads for each task<br/>Business outputs stay in your workspace"]:::action
+    Task -. "When updating" .-> Upgrade["Preview upgrades and check local edits<br/>Check and roll back transactions as needed"]:::review
+
+    linkStyle default stroke:#64748b,stroke-width:1.5px
+    classDef foundation fill:#dbeafe,stroke:#2563eb,color:#172554
+    classDef existing fill:#ede9fe,stroke:#7c3aed,color:#2e1065
+    classDef choice fill:#cffafe,stroke:#0891b2,color:#164e63
+    classDef review fill:#f1f5f9,stroke:#64748b,color:#0f172a
+    classDef action fill:#dcfce7,stroke:#16a34a,color:#14532d
+```
+
+Capability review and task execution are the agent's work within its authority. The installer discovers candidates, plans differences and applies file changes; it does not merge business workflows or enable accounts or scheduled tasks. Package rollback covers managed files only. Restore external tool runtimes and client settings separately according to each package's guide.
+
+</details>
+
 ## Get started
 
 Clone or download this repository into a separate directory from the user workspace. The root installer and skill picker need Python 3.10+. GameAnalysisDecision, GamePresentation, PrototypeAssets and Travel tools need Node.js 22+. Brainstorm, FromDemoToSpec and some Knowledge tools also use PowerShell 7; the first Knowledge Ingest requires Git. Runtime verification for this release was performed on Windows; check each package before claiming other platform support.
@@ -52,7 +125,7 @@ The agent reviews host rules and interfaces against the returned criteria, then 
 
 ## Use the workspace
 
-The distribution contains **one meta foundation and nine peer packages**. Meta provides collaboration rules and workspace structure; full mode installs it at the root, while compatible mode optionally installs it under `modules/meta`. State your goal, constraints and completion criteria to use it. Choose each package as needed; table order implies neither hierarchy nor installation priority. Brainstorm, FromDemoToSpec and Knowledge require host-governance capabilities, supplied by meta or a reviewed existing framework. Existing workspaces can reuse reviewed capabilities without adding packages for optional integrations.
+The distribution contains **one meta foundation and ten peer packages**. Meta provides collaboration rules and workspace structure; full mode installs it at the root, while compatible mode optionally installs it under `modules/meta`. State your goal, constraints and completion criteria to use it. Choose each package as needed; table order implies neither hierarchy nor installation priority. Brainstorm, FromDemoToSpec and Knowledge require host-governance capabilities, supplied by meta or a reviewed existing framework. Existing workspaces can reuse reviewed capabilities without adding packages for optional integrations.
 
 [Meta guide](meta/README.md) · [Package dependencies and tool requirements](docs/package-dependencies.md)
 
@@ -67,7 +140,7 @@ The distribution contains **one meta foundation and nine peer packages**. Meta p
 | [Travel](packages/travel/README.md) | “Research and plan this trip…”; generate a private offline website | `modules/travel` | Works alone; no required package, account service or server; browser verification is optional |
 | [PrototypeAssets](packages/prototype-assets/README.md) | 119 assets with provenance/license records and verification/export tools | `modules/prototype-assets` | Runtime copies and licenses remain usable without their source package |
 | [Research](packages/research/README.md) | Research Markdown, URLs and questions; game research and optional proactive exploration | `modules/research` | Works alone; Knowledge, MCP, media tools and host scheduling require separate setup/authority |
-| Tools | [Shared tools](packages/tools/README.md): decision models, REA, capture and source connections; explicit invocation and external runtime maintenance, no automatic setup |
+| [Tools](packages/tools/README.md) | Decision models, REA, capture and source connections on demand | `modules/tools` | Works alone; set up runtime outside the package and validate business integration |
 
 Follow a package name in the table for its quick start, task workflow, requirements and usage boundaries. Use `init` as shown above for installation. To add a package to an existing installation, preview with `add --packages <package-id>`, then apply with `--apply`.
 

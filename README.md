@@ -20,6 +20,79 @@
 
 meta 只有一个完整版，无需选择功能组合。新建工作区默认安装它；已有工作区可以使用兼容模式，复用现有框架，只补当前需要的包与缺失能力。规则和方法随任务读取，不代表每次任务都要跑完整套流程。
 
+## 包如何相互辅助
+
+同一个任务可以按缺口借用其他包：研究补来源，知识库提供已有材料，分析支持取舍，表现与素材进入具体工程。下面以游戏开发为例，展示主要的可选协作关系。
+
+```mermaid
+flowchart TB
+    Tools["Tools<br/>工具与来源连接"]:::support
+    Research["Research<br/>查证与研究"]:::evidence
+    Knowledge["Knowledge<br/>可追溯知识"]:::evidence
+    Brainstorm["Brainstorm<br/>概念与取舍"]:::work
+    Analysis["GameAnalysisDecision<br/>问题分析与条件建议"]:::work
+    Prototype["FromDemoToSpec<br/>原型、迭代与开发接续"]:::delivery
+    Assets["PrototypeAssets<br/>素材、来源与许可"]:::assets
+    Presentation["GamePresentation<br/>表现与引擎接入"]:::assets
+
+    Tools -. "配置并验证后选用" .-> Research
+    Research -. "授权后消化材料" .-> Knowledge
+    Research -. "按问题补查" .-> Analysis
+    Knowledge -. "知识上下文" .-> Brainstorm
+    Knowledge -. "分析依据" .-> Analysis
+    Brainstorm -. "已接受的概念交接" .-> Prototype
+    Analysis -. "分析建议" .-> Prototype
+    Assets -. "审核后选用" .-> Presentation
+    Presentation -. "资源交付" .-> Prototype
+
+    linkStyle default stroke:#64748b,stroke-width:1.5px
+    classDef support fill:#f1f5f9,stroke:#64748b,color:#0f172a
+    classDef evidence fill:#ede9fe,stroke:#7c3aed,color:#2e1065
+    classDef work fill:#dbeafe,stroke:#2563eb,color:#172554
+    classDef assets fill:#ffedd5,stroke:#ea580c,color:#7c2d12
+    classDef delivery fill:#dcfce7,stroke:#16a34a,color:#14532d
+```
+
+**虚线表示可选协作，不是安装依赖或自动流水线。** Agent 根据当前问题读取相关入口，核对接口、工具与授权，再把结果交回所属项目。Tools 登记了可选调用入口，具体业务接线仍需在使用者环境验证；分析建议和工程检查也不能代替真实试玩。
+
+meta 或经过审阅的现有框架提供协作约束；**Skills 提供按需选择的方法**，可辅助排错、测试、研究与表达。**Travel 提供独立的旅行研究、逐日规划与私人离线网站流程**，无需接入上图的游戏开发组合。
+
+| 你现在想做什么 | 可以怎样配合 | 留下什么 |
+|---|---|---|
+| 把一个游戏想法做成原型 | Brainstorm 探索与收敛，FromDemoToSpec 接续开发；有判断缺口时借用 Knowledge 或 GameAnalysisDecision，试玩问题再交回分析或脑暴 | 概念与范围、可玩原型、验证与试玩反馈 |
+| 调查参考机制或开发工具 | Research 查证；确需发行产物证据时，选用 Tools 中的 REA；有用材料获准后交 Knowledge | 来源、适用条件，以及对项目判断的实际影响 |
+| 给游戏补表现与素材 | GamePresentation 定义用途、选型或制作资源；PrototypeAssets 可提供有来源与许可记录的素材 | 工程内的资源与许可，以及交付、恢复记录 |
+| 规划一趟旅行 | 单独使用 Travel，按需要配置采集或浏览器验收能力 | 包外的行程、研究材料与私人离线网站 |
+
+这些是用法示例，不是已完成的公开案例，也不要求每次按固定顺序运行所有包。
+
+<details>
+<summary>展开：从接入到升级、恢复</summary>
+
+```mermaid
+flowchart TB
+    New["新工作区<br/>完整 meta"]:::foundation
+    Existing["已有工作区<br/>审计规则与同类工作流"]:::existing
+    Existing --> Reuse["审阅可替代能力<br/>确定复用方式与缺失依赖"]:::existing
+    New --> Select["按需选择 package"]:::choice
+    Reuse --> Select
+    Select --> Preview["预览计划<br/>核对依赖与文件冲突"]:::review
+    Preview --> Apply["解决冲突后<br/>显式应用 --apply"]:::action
+    Apply --> Task["Agent 按任务读取<br/>业务产物留在用户工作区"]:::action
+    Task -. "版本更新时" .-> Upgrade["预览升级 · 检查本地改动<br/>需要时检查并回滚事务"]:::review
+
+    linkStyle default stroke:#64748b,stroke-width:1.5px
+    classDef foundation fill:#dbeafe,stroke:#2563eb,color:#172554
+    classDef existing fill:#ede9fe,stroke:#7c3aed,color:#2e1065
+    classDef choice fill:#cffafe,stroke:#0891b2,color:#164e63
+    classDef review fill:#f1f5f9,stroke:#64748b,color:#0f172a
+    classDef action fill:#dcfce7,stroke:#16a34a,color:#14532d
+```
+
+能力审阅和任务执行由 Agent 在授权范围内完成。安装器负责候选发现、差异计划与文件变更，不自动合并业务流程，也不启用账号或周期任务。包回滚只覆盖其管理的文件，外部工具运行依赖与客户端配置按各包说明单独恢复。
+
+</details>
+
 ## 从这里开始
 
 把本仓克隆或下载到一个独立目录，用户工作区放在另一个目录。统一工具和 Skills 选择安装器需要 Python 3.10+；GameAnalysisDecision、GamePresentation、PrototypeAssets、Travel 的工具需要 Node.js 22+。Brainstorm、FromDemoToSpec 及部分 Knowledge 工具另需 PowerShell 7，Knowledge 首次 Ingest 还需 Git。本次运行验证在 Windows 完成，其他平台按包内说明检查环境。
@@ -52,7 +125,7 @@ Agent 按审计返回的 criteria 审阅现有规则与接口，记录理由、�
 
 ## 接入后怎样使用
 
-本仓由 **meta 底座和 9 个并列的 package** 组成。meta 提供协作规则与工作区框架；full 模式安装在根目录，兼容模式选装到 `modules/meta`，可直接交代目标、约束和完成标准。其余 package 都按需要选择，表中顺序不表示层级或安装优先级。Brainstorm、FromDemoToSpec、Knowledge 所需的宿主治理能力，可由 meta 或经过审阅的现有框架提供。已有工作区可以复用审阅过的能力，无需为了可选集成安装其他包。
+本仓由 **meta 底座和 10 个并列的 package** 组成。meta 提供协作规则与工作区框架；full 模式安装在根目录，兼容模式选装到 `modules/meta`，可直接交代目标、约束和完成标准。其余 package 都按需要选择，表中顺序不表示层级或安装优先级。Brainstorm、FromDemoToSpec、Knowledge 所需的宿主治理能力，可由 meta 或经过审阅的现有框架提供。已有工作区可以复用审阅过的能力，无需为了可选集成安装其他包。
 
 [meta 使用说明](meta/README.md) · [各包依赖与工具环境](docs/package-dependencies.md)
 
@@ -67,7 +140,7 @@ Agent 按审计返回的 criteria 审阅现有规则与接口，记录理由、�
 | [Travel](packages/travel/README.md) | “帮我研究并规划这趟旅行……”；生成私人离线网站 | `modules/travel` | 可单独使用；无必装包，采集服务、浏览器验收和服务器可选 |
 | [PrototypeAssets](packages/prototype-assets/README.md) | 119 项有来源和许可记录的精选，以及校验导出工具 | `modules/prototype-assets` | 素材和许可复制后，游戏不依赖来源包 |
 | [Research](packages/research/README.md) | MD/网址/问题研究、游戏设计研究和可选主动探索 | `modules/research` | 可单独使用；Knowledge、MCP、媒体工具和宿主调度按需授权 |
-| Tools | [通用工具包](packages/tools/README.md)：决策模型、REA、采集与来源连接；按需调用，包外安装和维护，不自动启用 |
+| [Tools](packages/tools/README.md) | 决策模型、REA、采集与来源连接，按需调用 | `modules/tools` | 可单独使用；运行依赖在包外安装维护，业务接线需验证 |
 
 点击表中的包名，查看该包的快速开始、任务流程、环境要求与使用边界。安装统一使用上文的 `init`；已有安装通过 `add --packages <package-id>` 预览，加 `--apply` 应用。
 
