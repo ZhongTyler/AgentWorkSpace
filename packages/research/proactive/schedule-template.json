@@ -91,5 +91,14 @@
     "notify_deferred_useful_candidates": true,
     "deduplicate_unchanged_findings": true,
     "no_value_runs": "quiet"
+  },
+  "model_selection": {
+    "activation": "Only after explicit recipient authorization for the host scope; package installation grants no autonomous model-use authority.",
+    "policy": "templates/decision-model-policy.md",
+    "decision_record": "model_decision",
+    "actual_usage_record": "tool_usage",
+    "review_record": "model_policy_review",
+    "fallback": "Original Research path; retain complete sources and IDs.",
+    "review_window": "Existing host window; default joint review after four actual scheduled runs per route; no new schedule."
   }
 }

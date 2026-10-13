@@ -39,6 +39,7 @@ def status(runs, reviews):
                           'receipt_sha256': hashlib.sha256(path.read_bytes()).hexdigest(),
                           'metrics': item.get('metrics', {}),
                           'tool_usage': item.get('tool_usage', 'unknown'),
+                          'model_decision': item.get('model_decision', 'unknown'),
                           'tool_health': item.get('tool_health', 'unknown'),
                           'cadence_assessment': item.get('cadence_assessment', {})}
     reviewed = set()

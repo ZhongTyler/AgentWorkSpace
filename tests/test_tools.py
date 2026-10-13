@@ -5,6 +5,7 @@ from unittest.mock import patch
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'scripts'))
 import workspace as w
 from publish import stage
+from release_history import advance_to_predecessor,rollback_history
 
 def module(name,path):
  spec=importlib.util.spec_from_file_location(name,path);m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);return m
@@ -68,6 +69,7 @@ class ToolsRelease(unittest.TestCase):
     protected={host/'notes/private.md':b'PRIVATE',host/'tools/existing/runtime/model.bin':b'WEIGHTS',host/'client/config.toml':b'OWN CONFIG'}
     for path,data in protected.items():path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(data)
     protected[host/'AGENTS.md']=(host/'AGENTS.md').read_bytes()
+    history=advance_to_predecessor(ROOT,host,base/'history'/mode)
     up=w.install(ROOT,host,'upgrade',[],True);self.assertTrue(up['applied'])
     self.assertFalse((host/'modules/tools').exists())
     add=w.install(ROOT,host,'add',['tools'],True);self.assertTrue(add['applied'])
@@ -77,6 +79,8 @@ class ToolsRelease(unittest.TestCase):
     (external/'runtime-marker').write_bytes(b'INDEPENDENT')
     self.assertTrue(w.rollback(host,add['transaction'],True)['applied'])
     self.assertTrue(w.rollback(host,up['transaction'],True)['applied'])
+    self.assertEqual(w.catalog(ROOT)['previous_version'],w.state(host)['version'])
+    rollback_history(host,history)
     self.assertEqual('1.8.0',w.state(host)['version'])
     self.assertEqual(b'INDEPENDENT',(external/'runtime-marker').read_bytes())
     for path,data in protected.items():self.assertEqual(data,path.read_bytes())

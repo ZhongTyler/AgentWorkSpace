@@ -3,6 +3,7 @@
   "mode": "optional_external_tools_home",
   "files": {
     "AGENTS.md": "7794bfd8100b90f2d8bee57ccb4f7774335c8cd57ff7a5330c8148cd871bfe7d",
+    "docs/decision-model-policy.md": "ebee1f65e4db11fc44946ec6ecdb1a5844922a5b5d1ed9bedf036e7a891829a8",
     "integrations/browser/extensions.json": "a90271700fea47f9c0a219efe242f088df4635c84459a77e88088d320a982b84",
     "integrations/browser/prepare.py": "7919334cc7760d4701ee64f8dc08832c571b2cfbafe74a1e1dac2fdfaba24b77",
     "integrations/browser/README.md": "c49c7c147af44c5c989e7aca94f9647898492f7c335ae05b9ad83cf3fd3c893e",
@@ -18,7 +19,7 @@
     "integrations/decision-models/model-lock.json": "eaa6912780144b92515296ecb68b4f8ff63715d601e8bbf42ee66cb8dea56c28",
     "integrations/decision-models/probe.py": "270ee6b56e1fbc2786b3e9e46ca8aa6779a979aaa9e4f853a4c5e49761e6af66",
     "integrations/decision-models/probe_lifecycle.py": "8cd39d8b46cb476098c89ad43939fd836b010251f084ab3e74d6288a2eda5499",
-    "integrations/decision-models/README.md": "3a10a85c7765552cc8efa7acff91a867eb6bb98c40e236541d6c956454a4ad18",
+    "integrations/decision-models/README.md": "479f39cb530dabf1e684f9699cf996656b9527bc60ee763e7ccd3fc381478bfe",
     "integrations/decision-models/requirements-client-lock.txt": "4e64ead93989d33a02bd438c9941c778296bdfe0ae0dff4bd089884fcbbba630",
     "integrations/decision-models/requirements-client.txt": "93c5be71cb370ea8d5234bb1169a2b616e6702d5253a8bf09f2d5ad60dc3e469",
     "integrations/decision-models/requirements-lock.txt": "d34db8b5a04e922f03db5b32f91943315d3617a084db63728c78755748259846",
@@ -107,7 +108,7 @@
     "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
     "LICENSE-NOTICE.md": "0eace850e891974dde88c681ad9fe765575147b85a77ee40788825985d8144e6",
     "prepare_home.py": "c292df81660af22ff51c63e678dede6b1b62250ed244568cc9bb5bc037eb80c9",
-    "README.md": "bbb1df8d41efcd5a92bc8a4b2c19d02fb23f20fbc6c5b6a23f9fd61d6cc6536e",
+    "README.md": "6fb5695760bef2af9fbd29262fbcf339b48695d46b964030aaa49c65312753c4",
     "registry.json": "9c42f90b595bd34eaac6d4f0a7053cd9d05299e092aa09f2e4ecbfb3f7caf593",
     "toolbox.py": "8499d6c684ef2a7d5717a7e95a4082396ca95beae643303352aa6fd4910d8245",
     "workflows.json": "ab945fbe1ecc91606ed4736643f5f568b5790f726bc64013970ac7c0d48b3464"

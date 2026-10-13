@@ -2,6 +2,8 @@
 
 Optional Windows research tools; package installation does not install or load models. Intern-Decision-2B is an optional semantic topic router, Laya multilingual remains experimental, and StartLux 4B Q8 is a noncommercial research comparison. Do not share probability thresholds, automatically vote, discard inputs or promote an output to a project decision. Keep the original Agent/rule path and review disagreements. No portable quality or efficiency guarantee is made.
 
+After the recipient explicitly authorizes autonomous selection for a defined host scope, the Agent may choose whether to call and which installed backend to use under the [selection and review policy](../../docs/decision-model-policy.md). Record actual consumption, corrections, fallback and complete cost in host records; review per model/task profile on the existing window. The gateway still executes an explicit backend, and installation grants no such authority.
+
 Prepare an external versioned Tools home first. All following commands run from its integrations/decision-models directory, using Python 3.12 and a reviewed uv executable:
 
 ```text

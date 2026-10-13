@@ -50,11 +50,15 @@ def stage(source, destination):
                  'proactive', 'game-research', 'integrations', 'toolbox.py', 'prepare_home.py', 'registry.json', 'workflows.json', 'portable-profile.json'}
         if component == 'research':
             roots -= {'toolbox.py', 'prepare_home.py', 'registry.json', 'workflows.json', 'portable-profile.json'}
+        else:
+            roots.add('docs')
         if any(manifest.get(key) for key in ('root_files', 'copy_directories', 'text_replacements')):
             raise ContractError('Research publication requires explicit curated inputs')
         for item in manifest.get('copy_files', []):
             name = relative(item['source'])
             target = relative(item['target'])
+            if component == 'tools' and target.startswith('docs/') and target != 'docs/decision-model-policy.md':
+                raise ContractError('Tools documentation requires the explicit portable policy whitelist')
             if name != 'release-input/curated/' + target or target.split('/')[0] not in roots or any(
                     part in {'.git', '.runtime', 'runtime', 'node_modules', '__pycache__', 'private', 'raw', 'runs', 'checks', 'local-status.json', 'validation.json', 'connection-status.json', 'runtime-copy-receipt.json', 'install-paths.json', '.tools-home.json'}
                     for part in target.split('/')) or not re.fullmatch(r'[0-9a-f]{64}', item.get('sha256', '')):

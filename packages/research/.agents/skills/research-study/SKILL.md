@@ -17,6 +17,8 @@ description: 在 Research 内围绕具体问题开展或续接研究，将材料
 
 方法按实际缺口选择：跨历史演化与同类差异时可用 horizontal-vertical-research；从范例学习可迁移做法时可用 reference-deconstruction；具体论断证据审查可用 evidence-audit；需要验证未知方向时可用 reversible-experiment-design。仅当相应 skill 在当前环境可用且适用时读取，不整套加载；不可用时按本协议完成能做的部分。
 
+可选模型遵循[选择、效果记录与复盘模板](../../../templates/decision-model-policy.md)。使用者明确授权后，Agent可自行判断是否调用及选择已配置backend，记录model_decision与实际tool_usage、纠正/回退和端到端成本，沿宿主既有窗口复盘调整。安装不启用该授权；未配置、失败或无增量时保留原研究路径，不自动下载模型、登录或新增任务。
+
 若用户要求从研究继续实施，依据已有授权与目标宿主合同推进；不要把研究建议当成正式决定。交付时给出结论、报告位置、实际验证范围和剩余关键未知。
 
 周期探索的报告交付按[主动研究简报](../../../proactive/reporting.md)：有用独立增量与新保留候选，即使暂不采用，也交付一次简报；同候选无实质变化不重复提醒，纯重复或无价值增量静默。保存报告不能替代实际向用户报告。

@@ -11,6 +11,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'scripts'))
 import workspace as w
+from release_history import advance_to_predecessor,rollback_history
 
 
 class GameSupportRelease(unittest.TestCase):
@@ -73,21 +74,14 @@ class GameSupportRelease(unittest.TestCase):
                 before={p:p.read_bytes() for p in canaries}
                 # Follow immutable published predecessors; a new release must not
                 # weaken the installer gate to accommodate an old test fixture.
-                intermediate=base/('v180-'+mode);intermediate.mkdir()
-                raw=subprocess.run(['git','-c','safe.directory='+ROOT.as_posix(),'-C',str(ROOT),'archive','v1.8.0'],capture_output=True,check=True).stdout
-                with tarfile.open(fileobj=io.BytesIO(raw)) as archive:
-                    for entry in archive:
-                        if entry.isfile():
-                            p=w.safe(intermediate,entry.name);p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(archive.extractfile(entry).read())
-                advance=self.command(sys.executable,'-X','utf8','-B',intermediate/'scripts/workspace.py','upgrade','--target',host,'--apply')
-                self.assertTrue(advance['applied'])
-                # Research changes in 1.9; Skills library is unchanged since 1.8.
+                history=advance_to_predecessor(ROOT,host,base/'history'/mode)
+                # Research changes; Skills library is unchanged since 1.8.
                 readme=host/'modules/research/README.md';readme_before=readme.read_bytes()
                 readme.write_bytes(readme_before+b'\nLocal conflicting package edit.\n')
                 conflict=w.install(ROOT,host,'upgrade',[],True)
                 self.assertFalse(conflict['applied']);self.assertTrue(conflict['conflicts'])
                 self.assertEqual(readme_before+b'\nLocal conflicting package edit.\n',readme.read_bytes())
-                self.assertEqual('1.8.0',w.state(host)['version'])
+                self.assertEqual(w.catalog(ROOT)['previous_version'],w.state(host)['version'])
                 self.assertEqual(original,game.read_bytes())
                 for p,data in before.items():self.assertEqual(data,p.read_bytes())
                 readme.write_bytes(readme_before)
@@ -118,8 +112,8 @@ class GameSupportRelease(unittest.TestCase):
                 self.skill(bundle,host,'rollback','--transaction',selected['transaction'],'--apply')
                 self.assertEqual(original,game.read_bytes());self.assertEqual(local,other.read_bytes())
                 self.assertTrue(w.rollback(host,upgraded['transaction'],True)['applied'])
-                self.assertEqual('1.8.0',w.state(host)['version'])
-                self.command(sys.executable,'-X','utf8','-B',intermediate/'scripts/workspace.py','rollback','--target',host,'--transaction',advance['transaction'],'--apply')
+                self.assertEqual(w.catalog(ROOT)['previous_version'],w.state(host)['version'])
+                rollback_history(host,history)
                 self.assertEqual('1.7.0',w.state(host)['version'])
                 for p,data in before.items():self.assertEqual(data,p.read_bytes())
 

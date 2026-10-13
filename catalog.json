@@ -385,7 +385,7 @@
       ],
       "source": "packages/brainstorm",
       "source_revision": "e4d7f2322f32412a9538ddf8dc6fca994ca9e5ca",
-      "version": "1.9.0"
+      "version": "1.10.0"
     },
     "fromdemotospec": {
       "destination": "modules/fromdemotospec",
@@ -461,7 +461,7 @@
       ],
       "source": "packages/fromdemotospec",
       "source_revision": "a5de2407b9e39299bc225a15d5436571ac97825e",
-      "version": "1.9.0"
+      "version": "1.10.0"
     },
     "game-analysis-decision": {
       "destination": "modules/game-analysis-decision",
@@ -548,7 +548,7 @@
       "required": [],
       "source": "packages/game-analysis-decision",
       "source_revision": "0693c5030d33fd2e22ed66295e5e05d5be23c534",
-      "version": "1.9.0"
+      "version": "1.10.0"
     },
     "game-presentation": {
       "destination": "modules/game-presentation",
@@ -588,7 +588,7 @@
       "required": [],
       "source": "packages/game-presentation",
       "source_revision": "5bc2d49a86b3b02a4080b6c6dd12a2ef716ef971",
-      "version": "1.9.0"
+      "version": "1.10.0"
     },
     "knowledge": {
       "destination": "modules/knowledge",
@@ -719,7 +719,7 @@
       ],
       "source": "packages/knowledge",
       "source_revision": "a3d3f491a13d2879e898057fcb1d0f51189075e3",
-      "version": "1.9.0"
+      "version": "1.10.0"
     },
     "meta": {
       "destination": "",
@@ -763,7 +763,7 @@
       "required": [],
       "source": "meta/workspace",
       "source_revision": "da9a437f83e4f9e7f3ee0f5b3be60415fbebf6e2",
-      "version": "1.9.0"
+      "version": "1.10.0"
     },
     "prototype-assets": {
       "destination": "modules/prototype-assets",
@@ -1057,19 +1057,19 @@
       "required": [],
       "source": "packages/prototype-assets",
       "source_revision": "5abe108be291076b4e44717d17c740fca230c8e7",
-      "version": "1.9.0"
+      "version": "1.10.0"
     },
     "research": {
       "destination": "modules/research",
       "files": {
-        ".agents/skills/research-study/SKILL.md": "a0e9520c70c0e5bd7a6309341185a5f92ab698febdbd141fd0748b38613d1f64",
+        ".agents/skills/research-study/SKILL.md": "28f794f32491e5b7eb2fde8dcb50ec49edfa13853b77bd43cb1246f4c6581fcf",
         "AGENTS.md": "d95ee9f26a93102cb32d3b3f3d74681fa368286c139e1d62ff4be8651aa6236b",
         "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
         "LICENSE-NOTICE.md": "15cd4ccbc67b328e368766cbbd8a3f69fc490406cfa8df16535f21825add0db8",
-        "README.md": "1535de64dcdbb24343d6a64882a7c8cae91c5cae0c8148aafcd74375a90bd939",
-        "RESEARCH_PROTOCOL.md": "9f0228ba79d0d1e0e0e9b879cb8effedecf26efc380caffcf768f9c64765e369",
-        "_release.json": "88b04146ad0325e0d093777b5f8fa54b716d5c68edd0241c776a67268b5f4f4c",
-        "game-research/README.md": "508168414f6bbe1f540eb19f5583f267a6c1298a7c381f05c14d9f63ddc1cb7e",
+        "README.md": "1247e60ce5d231a28c3d097b24ec71f78d2e1fbd6199d4e4d5bbd7944996e813",
+        "RESEARCH_PROTOCOL.md": "adaf19dff9c6286fedb9a67312d2a61b68c0ab7ae0c3155db5d184b936b0603e",
+        "_release.json": "7494dd9be04c4913a3e6a62c945d01de3ee0fcaee257d4049b747f2cb3281d51",
+        "game-research/README.md": "dec127ac850e9967425c00808bcfae922bfa27894947154af9a550df23a06172",
         "game-research/development-support.md": "97b78e3f3da1c335bfffdf49a7e85b8c1ab1e62b723365f0ea70e75db6eec853",
         "game-research/media-capture.md": "3b545556365e6a92c50623ecd59037fe172083e33627a1e9a6aab973b3e07aa6",
         "game-research/selection-lenses.json": "902cce1e90533197fe688287877146759c2989e57a0f7748b96eb441ff2f894e",
@@ -1141,13 +1141,14 @@
         "integrations/rea/source-lock.json": "bea12efe8048ba1d414321bed9eb337631b6b463a1945c50abd359d9bae49c8f",
         "integrations/rea/vendor/REA-LICENSE.txt": "798f9e4d18e49b30bf2f12696c8ced73dc4e1413da375a333d01281543a1ea8b",
         "integrations/rea/vendor/rea-agents-6.4.0.tgz": "59eb1604b8db75f522d4a975c36ce6b4a2ad465e43bad165f9a8f728391db9b8",
-        "proactive/README.md": "33bdcd6e0733f6b449889094ef9cc14c54b3062e2a38d65e3c1d4600b6106697",
+        "proactive/README.md": "23b9b2737c4f03fa7a794ec8e883bfa3351148240a8fe0ea851fbd786e625456",
         "proactive/reporting.md": "53f4de096ecd93c18a6cf15baad603343d8c211dc1cbe136c658412f62a689b0",
-        "proactive/review.py": "60aef021473060413eddd10ccfc886572c6e76b6aa547a12cd31a0a9a8a07559",
-        "proactive/reviews/README.md": "af4397fc2d20ce9654a8624754e74543636cfb2e37e1bb958dc37d777d6c80db",
-        "proactive/schedule-template.json": "b16c091db8678613ae15c6a8ffee27369a31a7265eb58812ca7b365aae7bc9ba",
+        "proactive/review.py": "96331f85f43aa69abb124ff53f5e057c0d521d3219b4e60b6347740e5758ca34",
+        "proactive/reviews/README.md": "780f34bdeb92f5a52e3b6c7c946017f35161ee627823fd39fba0a5ca49614bef",
+        "proactive/schedule-template.json": "1e6c2988a1e624cbb4fa85e47a66e6980d66be3570301aa781d0d7cc799880de",
         "sources.json": "7ac6c2a5154590d81aa1d76122540b754032dae0a8ad31c31272449082d8c39f",
-        "templates/research-note.md": "41de27d7af615c124c14dcd7302036d8a10b2496b62124a91d635585e7f073a3",
+        "templates/decision-model-policy.md": "ebee1f65e4db11fc44946ec6ecdb1a5844922a5b5d1ed9bedf036e7a891829a8",
+        "templates/research-note.md": "01c2569c1e42a42fc36c5cde05e9b42e506f544e7bb6102eb49c29575247ba5c",
         "templates/tool-storage.md": "fe540623a5ef4f323b0968983d509191e07f460f3f95ce71ac4b82b2bcfc580a"
       },
       "optional": [
@@ -1161,8 +1162,8 @@
       ],
       "required": [],
       "source": "packages/research",
-      "source_revision": "14fed2ca7d6db53a9bd332cfbeb96fa76af8e55a",
-      "version": "1.9.0"
+      "source_revision": "05dd9e9b696ffe4dae52b55099c2c22d1da7c2e8",
+      "version": "1.10.0"
     },
     "skills": {
       "destination": "modules/skills",
@@ -1227,7 +1228,7 @@
       "required": [],
       "source": "packages/skills",
       "source_revision": "1a7feff498ba7cf3f4fc57d21b1ba554779e67bb",
-      "version": "1.9.0"
+      "version": "1.10.0"
     },
     "tools": {
       "destination": "modules/tools",
@@ -1235,12 +1236,13 @@
         "AGENTS.md": "7794bfd8100b90f2d8bee57ccb4f7774335c8cd57ff7a5330c8148cd871bfe7d",
         "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
         "LICENSE-NOTICE.md": "0eace850e891974dde88c681ad9fe765575147b85a77ee40788825985d8144e6",
-        "README.md": "bbb1df8d41efcd5a92bc8a4b2c19d02fb23f20fbc6c5b6a23f9fd61d6cc6536e",
-        "_release.json": "f911ed0b1ee797a1b1000e7cd32b5dc04858ee081d1df60aa03521bd5f9c4610",
+        "README.md": "6fb5695760bef2af9fbd29262fbcf339b48695d46b964030aaa49c65312753c4",
+        "_release.json": "b1383e69c7432cc5b5b53a07ac448960122b6c9c63c31c4c006f7947781c8f37",
+        "docs/decision-model-policy.md": "ebee1f65e4db11fc44946ec6ecdb1a5844922a5b5d1ed9bedf036e7a891829a8",
         "integrations/browser/README.md": "c49c7c147af44c5c989e7aca94f9647898492f7c335ae05b9ad83cf3fd3c893e",
         "integrations/browser/extensions.json": "a90271700fea47f9c0a219efe242f088df4635c84459a77e88088d320a982b84",
         "integrations/browser/prepare.py": "7919334cc7760d4701ee64f8dc08832c571b2cfbafe74a1e1dac2fdfaba24b77",
-        "integrations/decision-models/README.md": "3a10a85c7765552cc8efa7acff91a867eb6bb98c40e236541d6c956454a4ad18",
+        "integrations/decision-models/README.md": "479f39cb530dabf1e684f9699cf996656b9527bc60ee763e7ccd3fc381478bfe",
         "integrations/decision-models/backends.py": "c48a2f6e2c7d5a6d16d1cff9269a5d6bffe32c435a37b2875e2e972abf74bb1d",
         "integrations/decision-models/download_weights.py": "7e250b89fd65d00f6b6be80bf9664771d050067a07ff0ed8787542e9c6cbcd09",
         "integrations/decision-models/intern_backend.py": "306ccaf947b115b63ad536def948a8a65808f06e590e5e4d1b52f472d1b24a8c",
@@ -1338,7 +1340,7 @@
         "integrations/rea/source-lock.json": "bea12efe8048ba1d414321bed9eb337631b6b463a1945c50abd359d9bae49c8f",
         "integrations/rea/vendor/REA-LICENSE.txt": "798f9e4d18e49b30bf2f12696c8ced73dc4e1413da375a333d01281543a1ea8b",
         "integrations/rea/vendor/rea-agents-6.4.0.tgz": "59eb1604b8db75f522d4a975c36ce6b4a2ad465e43bad165f9a8f728391db9b8",
-        "portable-profile.json": "81dfc65873841c5fa91ad5df94a2446d5eb574a214df9d28db7bd08cddd353af",
+        "portable-profile.json": "a70f2959939157db595553d3af18a9d266b4e42ee6f45e8021f1be8f60b410ff",
         "prepare_home.py": "c292df81660af22ff51c63e678dede6b1b62250ed244568cc9bb5bc037eb80c9",
         "registry.json": "9c42f90b595bd34eaac6d4f0a7053cd9d05299e092aa09f2e4ecbfb3f7caf593",
         "toolbox.py": "8499d6c684ef2a7d5717a7e95a4082396ca95beae643303352aa6fd4910d8245",
@@ -1354,8 +1356,8 @@
       ],
       "required": [],
       "source": "packages/tools",
-      "source_revision": "3086bbeea5a28834fcfa7d7577fb32c2a03e9f5b",
-      "version": "1.9.0"
+      "source_revision": "4f8000ff869735f9048203458b0809a225561934",
+      "version": "1.10.0"
     },
     "travel": {
       "destination": "modules/travel",
@@ -1479,10 +1481,10 @@
       "required": [],
       "source": "packages/travel",
       "source_revision": "52d1cf8fd85ff0602b5efe4013db94b1979c3b63",
-      "version": "1.9.0"
+      "version": "1.10.0"
     }
   },
-  "previous_version": "1.8.0",
+  "previous_version": "1.9.0",
   "schema_version": 1,
-  "version": "1.9.0"
+  "version": "1.10.0"
 }
