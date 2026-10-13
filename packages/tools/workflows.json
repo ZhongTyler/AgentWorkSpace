@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "workflows": [
+    {
+      "id": "research",
+      "owner": "Recipient host",
+      "entry": "README.md",
+      "stage": "optional_host_binding_required",
+      "tools": [
+        "decisions",
+        "rea",
+        "media",
+        "browser",
+        "research-sources"
+      ],
+      "default_path": "Original Research; Intern only when useful for a batch"
+    },
+    {
+      "id": "game-research",
+      "owner": "Recipient host",
+      "entry": "README.md",
+      "stage": "optional_host_binding_required",
+      "tools": [
+        "decisions",
+        "rea",
+        "media",
+        "browser",
+        "research-sources"
+      ],
+      "default_path": "Original game research and Knowledge contracts"
+    },
+    {
+      "id": "knowledge",
+      "owner": "Recipient host",
+      "entry": "README.md",
+      "stage": "optional_host_binding_required",
+      "tools": [
+        "media",
+        "research-sources"
+      ],
+      "default_path": "Original ingestion/routing/full-source/final-review contracts"
+    },
+    {
+      "id": "brainstorm",
+      "owner": "Recipient host",
+      "entry": "README.md",
+      "stage": "optional_host_binding_required",
+      "tools": [
+        "decisions"
+      ],
+      "default_path": "Original idea flow; new task profile needs validation"
+    },
+    {
+      "id": "game-development",
+      "owner": "Recipient host",
+      "entry": "README.md",
+      "stage": "optional_host_binding_required",
+      "tools": [
+        "decisions",
+        "rea",
+        "media"
+      ],
+      "default_path": "Host contracts; no automatic priority or project decisions"
+    }
+  ]
+}

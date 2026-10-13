@@ -25,7 +25,7 @@ def verify(source):
             assert not name.startswith(('sessions/', 'workspace/sessions/', '.git/', 'runtime/')), name
             if (output / name).suffix.lower() in {'.png', '.wav', '.ogg', '.ttf', '.otf', '.jpg', '.webp'}:
                 continue
-            if manifest['component_id'] == 'research' and name.startswith('integrations/mcp/vendor/') and name.endswith(('.tgz', '.tar.gz')):
+            if manifest['component_id'] in ('research','tools') and name.startswith('integrations/') and '/vendor/' in name and name.endswith(('.tgz', '.tar.gz', '.zip')):
                 continue
             text = (output / name).read_text(encoding='utf-8-sig')
             assert 'C:\\Users\\Admin' not in text and 'E:\\TylerWorkSpace' not in text and 'E:/TylerWorkSpace' not in text, name

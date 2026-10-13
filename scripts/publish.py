@@ -39,25 +39,30 @@ def stage(source, destination):
     manifest = json.loads(manifest_path.read_text(encoding='utf-8-sig'))
     if manifest.get('release_schema') != 1:
         raise ContractError('Unknown source manifest schema')
-    expected_output = {'meta': 'meta', 'brainstorm': 'packages/brainstorm', 'fromdemotospec': 'packages/fromdemotospec', 'knowledge': 'packages/knowledge', 'skills': 'packages/skills', 'game-analysis-decision': 'packages/game-analysis-decision', 'game-presentation': 'packages/game-presentation', 'prototype-assets': 'packages/prototype-assets', 'travel': 'packages/travel', 'research': 'packages/research'}
+    expected_output = {'meta': 'meta', 'brainstorm': 'packages/brainstorm', 'fromdemotospec': 'packages/fromdemotospec', 'knowledge': 'packages/knowledge', 'skills': 'packages/skills', 'game-analysis-decision': 'packages/game-analysis-decision', 'game-presentation': 'packages/game-presentation', 'prototype-assets': 'packages/prototype-assets', 'travel': 'packages/travel', 'research': 'packages/research', 'tools': 'packages/tools'}
     component = manifest.get('component_id')
     if component not in expected_output or manifest.get('output_path') != expected_output[component]:
         raise ContractError('Unknown or mismatched publication target')
-    if component == 'research':
+    if component in ('research', 'tools'):
         # Reject private inputs before reading any content or inspecting source Git.
         roots = {'README.md', 'AGENTS.md', 'LICENSE', 'LICENSE-NOTICE.md',
                  'RESEARCH_PROTOCOL.md', 'sources.json', 'templates', '.agents',
-                 'proactive', 'game-research', 'integrations'}
+                 'proactive', 'game-research', 'integrations', 'toolbox.py', 'prepare_home.py', 'registry.json', 'workflows.json', 'portable-profile.json'}
+        if component == 'research':
+            roots -= {'toolbox.py', 'prepare_home.py', 'registry.json', 'workflows.json', 'portable-profile.json'}
         if any(manifest.get(key) for key in ('root_files', 'copy_directories', 'text_replacements')):
             raise ContractError('Research publication requires explicit curated inputs')
         for item in manifest.get('copy_files', []):
             name = relative(item['source'])
             target = relative(item['target'])
             if name != 'release-input/curated/' + target or target.split('/')[0] not in roots or any(
-                    part in {'.git', '.runtime', 'runtime', 'node_modules', '__pycache__', 'private', 'raw', 'runs', 'checks', 'local-status.json', 'validation.json', 'connection-status.json', 'runtime-copy-receipt.json', 'install-paths.json'}
+                    part in {'.git', '.runtime', 'runtime', 'node_modules', '__pycache__', 'private', 'raw', 'runs', 'checks', 'local-status.json', 'validation.json', 'connection-status.json', 'runtime-copy-receipt.json', 'install-paths.json', '.tools-home.json'}
                     for part in target.split('/')) or not re.fullmatch(r'[0-9a-f]{64}', item.get('sha256', '')):
                 raise ContractError('Research input is outside the reviewed public whitelist')
-            if target.endswith(('.tgz', '.tar.gz')) and not target.startswith(('integrations/mcp/vendor/', 'integrations/rea/vendor/')):
+            vendors = ('integrations/mcp/vendor/', 'integrations/rea/vendor/')
+            if component == 'tools':
+                vendors += ('integrations/decision-models/vendor/',)
+            if target.endswith(('.tgz', '.tar.gz', '.zip')) and not target.startswith(vendors):
                 raise ContractError('Research archives must use the reviewed vendor directory')
     if component == 'travel':
         # Travel contains private sibling projects in its source repository.
@@ -89,8 +94,9 @@ def stage(source, destination):
         data = src.read_bytes()
         if expected_hash is not None and digest(data) != expected_hash:
             raise ContractError('Curated input checksum differs: ' + str(src.relative_to(source)))
-        archive = component == 'research' and src.name.endswith(('.tgz', '.tar.gz'))
-        if archive or src.suffix.lower() in {'.png', '.wav', '.ogg', '.otf', '.ttf', '.jpg', '.webp'}:
+        archive = component in ('research', 'tools') and src.name.endswith(('.tgz', '.tar.gz', '.zip'))
+        metadata = component == 'tools' and 'vendor' in target.parts and any(part.endswith('-model-metadata') for part in target.parts)
+        if archive or metadata or src.suffix.lower() in {'.png', '.wav', '.ogg', '.otf', '.ttf', '.jpg', '.webp'}:
             target.write_bytes(data)
         else:
             content = data.decode('utf-8-sig').replace('\r\n', '\n').replace('\r', '\n')
@@ -99,7 +105,7 @@ def stage(source, destination):
     for item in manifest.get('copy_files', []):
         if component in ('brainstorm', 'knowledge', 'skills', 'game-analysis-decision', 'game-presentation', 'prototype-assets') and not item['source'].startswith('release-input/curated/'):
             raise ContractError('This component only permits curated inputs')
-        copy(item['source'], item['target'], item.get('sha256') if component == 'research' else None)
+        copy(item['source'], item['target'], item.get('sha256') if component in ('research', 'tools') else None)
     for name in manifest.get('root_files', []):
         copy(name, name)
     for item in manifest.get('copy_directories', []):

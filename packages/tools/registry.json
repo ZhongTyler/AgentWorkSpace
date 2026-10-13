@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "tools": [
+    {
+      "id": "decisions",
+      "root": "integrations/decision-models",
+      "maintenance": "README.md",
+      "status": "optional_recipient_validation_required",
+      "actions": [
+        "classify",
+        "status",
+        "unload"
+      ],
+      "required_sources": [
+        "mcp_server.py",
+        "service.py",
+        "backends.py",
+        "model-lock.json",
+        "laya-model-lock.json",
+        "startlux-model-lock.json",
+        "verify_installation.py"
+      ],
+      "required_runtime": [
+        "runtime/client/Scripts/python.exe",
+        "runtime/intern-2b/Scripts/python.exe",
+        "runtime/llama/llama-server.exe"
+      ],
+      "limits": "Intern: optional topic routing; Laya: experimental; StartLux: explicit noncommercial_research only; no calibrated probability or automatic discard"
+    },
+    {
+      "id": "rea",
+      "root": "integrations/rea",
+      "maintenance": "README.md",
+      "status": "optional_recipient_validation_required",
+      "actions": [
+        "version",
+        "analyze-javascript"
+      ],
+      "required_sources": [
+        "package-lock.json",
+        "source-lock.json",
+        "scripts/rea.py",
+        "scripts/probe_mcp.py",
+        "skill/rea-investigate/SKILL.md"
+      ],
+      "required_runtime": [
+        "runtime/node_modules/rea-agents/scripts/rea.mjs"
+      ],
+      "limits": "Specified authorized artifacts, static only; no target execution, injection or extra engines by default"
+    },
+    {
+      "id": "media",
+      "root": "integrations/media",
+      "maintenance": "README.md",
+      "status": "optional_recipient_validation_required",
+      "actions": [
+        "capture",
+        "ocr"
+      ],
+      "required_sources": [
+        "capture.py",
+        "ocr.py",
+        "requirements-windows-py312.lock"
+      ],
+      "required_runtime": [
+        "runtime/bs4/__init__.py",
+        "runtime/rapidocr_onnxruntime/__init__.py"
+      ],
+      "limits": "Public HTTP capture without accounts; OCR candidates require actual image/animation review"
+    },
+    {
+      "id": "browser",
+      "root": "integrations/browser",
+      "maintenance": "README.md",
+      "status": "optional_recipient_validation_required",
+      "actions": [
+        "guide"
+      ],
+      "required_sources": [
+        "extensions.json",
+        "prepare.py"
+      ],
+      "required_runtime": [],
+      "limits": "Extension preparation/load is not successful saving; native browser/media path remains default"
+    },
+    {
+      "id": "research-sources",
+      "root": "integrations/mcp",
+      "maintenance": "README.md",
+      "status": "optional_recipient_validation_required",
+      "actions": [
+        "guide"
+      ],
+      "required_sources": [
+        "servers.json",
+        "scripts/install.py",
+        "scripts/launch-auth.mjs",
+        "scripts/juejin-reader.mjs",
+        "package-lock.json"
+      ],
+      "required_runtime": [
+        "runtime/node_modules/@cyanheads/hn-mcp-server/dist/index.js",
+        "runtime/launch-auth.mjs"
+      ],
+      "limits": "Read-only source templates; recipient selects and authorizes sources; no automatic login, connection or paid requests"
+    }
+  ]
+}

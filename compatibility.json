@@ -82,6 +82,15 @@
         "optional-capture-and-ingestion",
         "reporting-and-recovery"
       ]
+    },
+    "workspace-tools": {
+      "description": "Optional fixed tool invocation, pinned restore, external runtime ownership and maintenance checks.",
+      "criteria": [
+        "explicit-invocation",
+        "pinned-restore-and-license",
+        "external-runtime-ownership",
+        "health-and-fallback"
+      ]
     }
   },
   "components": {
@@ -187,6 +196,18 @@
       "optional": [
         "knowledge",
         "game-analysis",
+        "skill-library",
+        "workspace-tools"
+      ]
+    },
+    "tools": {
+      "provides": [
+        "workspace-tools"
+      ],
+      "requires": [],
+      "optional": [
+        "research",
+        "knowledge",
         "skill-library"
       ]
     }
@@ -201,6 +222,7 @@
     "presentation": "game-presentation",
     "assets": "asset-catalog",
     "travel": "travel-planning",
-    "research": "research"
+    "research": "research",
+    "tools": "workspace-tools"
   }
 }

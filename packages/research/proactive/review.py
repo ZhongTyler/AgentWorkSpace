@@ -38,6 +38,8 @@ def status(runs, reviews):
         completed[key] = {'key': key, 'receipt': path.name, 'report': item['report'],
                           'receipt_sha256': hashlib.sha256(path.read_bytes()).hexdigest(),
                           'metrics': item.get('metrics', {}),
+                          'tool_usage': item.get('tool_usage', 'unknown'),
+                          'tool_health': item.get('tool_health', 'unknown'),
                           'cadence_assessment': item.get('cadence_assessment', {})}
     reviewed = set()
     for path in sorted(reviews.glob('*.json')):

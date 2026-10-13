@@ -1,0 +1,21 @@
+{
+  "files": [
+    {
+      "file": "vendor/laya-model-metadata/README.md",
+      "sha256": "e85d16c3fe35fe7094ef51a7cfa81144a5cc07558e5faddcff753a8153e38a0b"
+    },
+    {
+      "file": "vendor/startlux-model-metadata/LICENSE",
+      "sha256": "41003d4a74749c0220e33dd415042164b5a1093ed401f36277234f772d22d3d0"
+    },
+    {
+      "file": "vendor/startlux-model-metadata/NOTICE",
+      "sha256": "ec7d09e98f04667acf3a33358ee4e830f6ee3b41251af388035aec40d4e47fe2"
+    },
+    {
+      "file": "vendor/startlux-model-metadata/README.md",
+      "sha256": "ffa948c109f5e6553cef76976eb55ce7605926192cac3a292738c973b8bad23b"
+    }
+  ],
+  "weights_included": false
+}

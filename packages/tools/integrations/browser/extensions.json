@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "activation": "Optional. Prepare files, then load through the host browser's supported extension UI. Preparation is not installation or verification.",
+  "extensions": [
+    {"id":"singlefile","name":"SingleFile","version":"1.29.0","source":"https://github.com/gildas-lormeau/SingleFile-MV3","revision":"2f3ea895d39d53cf97d6381845e6bcb220019a51","archive_url":"https://codeload.github.com/gildas-lormeau/SingleFile-MV3/zip/2f3ea895d39d53cf97d6381845e6bcb220019a51","sha256":"dcadfc295adfad1445fca47caa85b33611a71e715b03077f8daa2b58b24aecfb","strip_root":true,"license":"AGPL-3.0","purpose":"Preserve the selected page's original layout and loaded images as one local HTML file."},
+    {"id":"obsidian-web-clipper","name":"Obsidian Web Clipper","version":"1.7.1","source":"https://github.com/obsidianmd/obsidian-clipper","archive_url":"https://github.com/obsidianmd/obsidian-clipper/releases/download/1.7.1/obsidian-web-clipper-1.7.1-chrome.zip","sha256":"d2ba2ec023ba7a27def2463e3cfd37e8b2619c7f30392c9c12afdf5ac53534d8","strip_root":false,"license":"MIT; trademarks and other excluded assets retain their rights","purpose":"Extract attributable Markdown, highlights and available YouTube transcripts."}
+  ]
+}

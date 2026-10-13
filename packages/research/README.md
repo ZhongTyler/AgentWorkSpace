@@ -19,3 +19,9 @@
 [浏览器工具](integrations/browser/README.md)附带SingleFile与Obsidian Web Clipper官方固定版本的准备脚本/哈希；扩展为可选辅助，加载不等于保存链路可用。默认采用原生浏览器读取/字幕/截图与[本地公开网页采集、OCR](integrations/media/README.md)，按[媒体路径](game-research/media-capture.md)保留必要图义和视频时间码。正式游戏消化围绕主题优先3–4篇、最多6篇，不足不凑数。包内不含维护者页面快照、媒体、浏览器profile或354MB本机运行时。
 
 目录附带与工具接通是两回事。安装资料仍需联网取得依赖和连接远程服务，不是完整离线镜像。本包通过 AgentWorkSpace 按需安装到 modules/research；正式版本、来源提交和文件清单见发行说明、catalog 与 _release.json。安装不创建周期任务、连接账号或授予自动入库权限。研究报告与采集材料放在使用者指定的包外目录，升级和回滚不会接管它们。
+
+## 可选通用 Tools
+
+独立 Tools 包集中维护三模型决策网关、REA、媒体和来源工具。Research 保留问题、材料、实测与采用依据；Knowledge 保留知识，项目保留决定。新配置优先使用 Tools 包外版本化 home；本包既有 integrations helper 保留兼容，不迁移历史试验，不自动重写现有 MCP 路径。缺少 Tools 时原 Markdown/网址/Agent 研究路径继续可用。
+
+每轮可按需运行工具轻量检查；只在代码/依赖变更时做相关回归、握手与小输入，效果复盘记录使用、纠正、回退、耗时和 unknown 成本。新调用方必须验证业务适配和原路径回退；登记不等于接入，连接不等于收益。包安装不自动下载模型或开启调度。

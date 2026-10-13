@@ -1,0 +1,68 @@
+{
+  "repository": "StartLuxLabs/StartLux-Decision-v1",
+  "commit": "11f548fdcd4872ae79e568cce5a57b8f32af0e0a",
+  "files": [
+    {
+      "path": "LICENSE",
+      "sha256": "c95bae1d1ce0235ecccd3560b772ec1efb97f348a79f0fbe0a634f0c2ccefe2c",
+      "bytes": 11358
+    },
+    {
+      "path": "README.md",
+      "sha256": "0b97b76810750f14f2555ebd54636d80e01b0e14d70c0d74ab5b852014e77d03",
+      "bytes": 27412
+    },
+    {
+      "path": "docs/inference.md",
+      "sha256": "1b8d11d7a1a4fdf1e946685596acf9168b3e42507a70e1301cfcc2e222b785b5",
+      "bytes": 17359
+    },
+    {
+      "path": "requirements.txt",
+      "sha256": "c44c27623f60111dc3deada2358955c6252c4a5adbdf3e51cc2c49656b307838",
+      "bytes": 877
+    },
+    {
+      "path": "startlux_decision/__init__.py",
+      "sha256": "52c7fd27759098245b8fbe8fdb50846eefa06116b5500466621f6ff1139d61b0",
+      "bytes": 184
+    },
+    {
+      "path": "startlux_decision/check.py",
+      "sha256": "eb33b4061182f3e3a73cf27e84666987a4708e77447db456eeaae9b21c21a8f1",
+      "bytes": 1673
+    },
+    {
+      "path": "startlux_decision/gguf_server.py",
+      "sha256": "ccecc3ad59052cb44ecc64a03fac7897788db879fa23ed485292233d4726b125",
+      "bytes": 6041
+    },
+    {
+      "path": "startlux_decision/jevfmt.py",
+      "sha256": "b0bd50b78e6391d91a8428db781949224012ee6b1ba8e6eda2889fda1ca4bfa7",
+      "bytes": 7937
+    },
+    {
+      "path": "startlux_decision/mlx_int8.py",
+      "sha256": "0a18f824f18e67957b98518e0147b27a7b1af045c1c2b4e5f93fce64c220500c",
+      "bytes": 12320
+    },
+    {
+      "path": "startlux_decision/mlx_model.py",
+      "sha256": "05660cba22cc98545435ff26102d3babf708bb3a7cd9ae4914a14bd85423508f",
+      "bytes": 9312
+    },
+    {
+      "path": "startlux_decision/model.py",
+      "sha256": "643f25b999cc373d02d5ff726781d2032cd8ed2ec8648f18585b29914149e044",
+      "bytes": 38941
+    },
+    {
+      "path": "startlux_decision/server.py",
+      "sha256": "263feb8b5e8637f9f38153aa2a05e52c2b35a80ef50946fab2d6494d5ee17e54",
+      "bytes": 8288
+    }
+  ],
+  "archive": "vendor/startlux-inference-source.zip",
+  "archive_sha256": "a13d3a25ff640250a460e7711a24d58af32f5b5ca85650778d6a1f2ba4dcfe9a"
+}

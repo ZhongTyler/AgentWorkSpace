@@ -1,0 +1,75 @@
+{
+  "model": "startlux-models/StartLux-Decision-v1-4B-Q8_0-GGUF",
+  "revision": "c08b2c12095f8e743a2d90e02963485d65b379a5",
+  "license": "cc-by-nc-4.0",
+  "files": [
+    {
+      "file": "LICENSE",
+      "bytes": 19347,
+      "sha256": "41003d4a74749c0220e33dd415042164b5a1093ed401f36277234f772d22d3d0",
+      "upstream_lfs_verified": false
+    },
+    {
+      "file": "NOTICE",
+      "bytes": 12330,
+      "sha256": "ec7d09e98f04667acf3a33358ee4e830f6ee3b41251af388035aec40d4e47fe2",
+      "upstream_lfs_verified": false
+    },
+    {
+      "file": "README.md",
+      "bytes": 3795,
+      "sha256": "ffa948c109f5e6553cef76976eb55ce7605926192cac3a292738c973b8bad23b",
+      "upstream_lfs_verified": false
+    },
+    {
+      "file": "StartLux-Decision-4B-Q8_0.gguf",
+      "bytes": 4482402816,
+      "sha256": "3de47f14ca2807813a670d697e70815fbecf020732ca4d7fc5f2e6c3898e34df",
+      "upstream_lfs_verified": true
+    },
+    {
+      "file": "chat_template.jinja",
+      "bytes": 7756,
+      "sha256": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715",
+      "upstream_lfs_verified": false
+    },
+    {
+      "file": "config.json",
+      "bytes": 3161,
+      "sha256": "ddc63e1c717afa86c865bb5e01313d89d72bb53b97ad4a8a03ba8510c0621670",
+      "upstream_lfs_verified": false
+    },
+    {
+      "file": "decision_config.json",
+      "bytes": 476,
+      "sha256": "5ab7e2671a3fe113e89b5ebad2b808c64a6b751ab2663c025913922c0df065f7",
+      "upstream_lfs_verified": false
+    },
+    {
+      "file": "merges.txt",
+      "bytes": 3353259,
+      "sha256": "a9d356d7bdf1ef4949e3e748e95b8e10ad9d4e2e838eddc38a0a7b6b94d1db8d",
+      "upstream_lfs_verified": false
+    },
+    {
+      "file": "tokenizer.json",
+      "bytes": 12807982,
+      "sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+      "upstream_lfs_verified": true
+    },
+    {
+      "file": "tokenizer_config.json",
+      "bytes": 16710,
+      "sha256": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8",
+      "upstream_lfs_verified": false
+    },
+    {
+      "file": "vocab.json",
+      "bytes": 6722759,
+      "sha256": "ce99b4cb2983d118806ce0a8b777a35b093e2000a503ebde25853284c9dfa003",
+      "upstream_lfs_verified": false
+    }
+  ],
+  "elapsed_seconds": 411.83,
+  "method": "bounded-public-HTTP-ranges"
+}

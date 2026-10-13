@@ -1,0 +1,57 @@
+{
+  "id": "convaiinnovations/laya-multilingual",
+  "revision": "1720e3e3357cfe1e281542e223f8273b0890ca34",
+  "license": "apache-2.0",
+  "files": [
+    {
+      "rfilename": ".gitattributes",
+      "blobId": "f1ca65ce6a5b0774360fde1ec05157d9f937aaa2",
+      "size": 1580
+    },
+    {
+      "rfilename": "README.md",
+      "blobId": "7f1ed25382d64b84a31c7a4f509325ddaa4aacb7",
+      "size": 9346
+    },
+    {
+      "rfilename": "config.json",
+      "blobId": "7b4305a11f6d6936882e99492abe8e34d8ae6e3a",
+      "size": 160
+    },
+    {
+      "rfilename": "encoder/config.json",
+      "blobId": "0de0e2d30638873790cf962def52e2acf4db3eef",
+      "size": 1938
+    },
+    {
+      "rfilename": "model.safetensors",
+      "blobId": "b99c8bea239c53f6f6bce734557dc6c403fa6b3e",
+      "size": 643835514,
+      "lfs": {
+        "sha256": "9d628fd971b700382ac6f65920a86f149777b2e748e0c955fb3b19695aa8f204",
+        "size": 643835514,
+        "pointerSize": 134
+      }
+    },
+    {
+      "rfilename": "rl_agent_config.json",
+      "blobId": "00e35f88bb731bb9126a914666ab1cdac8a204c8",
+      "size": 472
+    },
+    {
+      "rfilename": "tokenizer/tokenizer.json",
+      "blobId": "56d765858ed38eaabd35cd90759cbb1f89b0baa4",
+      "size": 34363188,
+      "lfs": {
+        "sha256": "609d8f4c067cd3950f88594c5a802616cea245823836ef5848ee4fc40aab5b6f",
+        "size": 34363188,
+        "pointerSize": 133
+      }
+    },
+    {
+      "rfilename": "tokenizer/tokenizer_config.json",
+      "blobId": "eea1ed61121530d74c1722dc2aab6ec917a75909",
+      "size": 502
+    }
+  ]
+}

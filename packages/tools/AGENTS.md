@@ -1,0 +1,1 @@
+Read README.md before use. Host authority and data ownership remain unchanged. Tool registration does not authorize setup, network, target execution, ingestion or automatic decisions. Keep runtime and outputs outside managed modules.

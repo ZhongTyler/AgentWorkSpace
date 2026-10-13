@@ -2,3 +2,4 @@
 *.png binary
 *.jpg binary
 *.zip binary
+packages/tools/integrations/decision-models/vendor/*-model-metadata/** -text -whitespace

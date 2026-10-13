@@ -1,0 +1,112 @@
+{
+  "id": "startlux-models/StartLux-Decision-v1-4B-Q8_0-GGUF",
+  "revision": "c08b2c12095f8e743a2d90e02963485d65b379a5",
+  "license": "cc-by-nc-4.0",
+  "files": [
+    {
+      "rfilename": ".gitattributes",
+      "blobId": "81dd358c98031b0f82829e66f013cae00e44896a",
+      "size": 1637
+    },
+    {
+      "rfilename": "LICENSE",
+      "blobId": "fe463e0f7888bbf8b82e42d55f5743508ddafb7e",
+      "size": 19347
+    },
+    {
+      "rfilename": "NOTICE",
+      "blobId": "34cad89e604fd8e9a5c23f335276f2136ff43bac",
+      "size": 12330
+    },
+    {
+      "rfilename": "README.md",
+      "blobId": "7d87c88e6bdda6c0cdb34e8ca0ec5d59ec4da620",
+      "size": 3795
+    },
+    {
+      "rfilename": "StartLux-Decision-4B-Q8_0.gguf",
+      "blobId": "8268cb16cb669629397bebc997976f2f5b886d0f",
+      "size": 4482402816,
+      "lfs": {
+        "sha256": "3de47f14ca2807813a670d697e70815fbecf020732ca4d7fc5f2e6c3898e34df",
+        "size": 4482402816,
+        "pointerSize": 135
+      }
+    },
+    {
+      "rfilename": "chat_template.jinja",
+      "blobId": "a585dec894e63da457d9440ec6aa7caa16d20860",
+      "size": 7756
+    },
+    {
+      "rfilename": "config.json",
+      "blobId": "557d961b205319c6a7da5f757f565b69b3967b7d",
+      "size": 3161
+    },
+    {
+      "rfilename": "decision_config.json",
+      "blobId": "5efc0215753b18f94df362303025f0a15c416ced",
+      "size": 476
+    },
+    {
+      "rfilename": "merges.txt",
+      "blobId": "a494e019ca1502219fd0128658b979e5f05ae8e8",
+      "size": 3353259
+    },
+    {
+      "rfilename": "requirements.txt",
+      "blobId": "8c167f1872e31dbe7f2d0bc6d206411519f7fb54",
+      "size": 19
+    },
+    {
+      "rfilename": "startlux_decision/__init__.py",
+      "blobId": "0d8df680389483ebc7d48988f508cecafd7b4a8e",
+      "size": 184
+    },
+    {
+      "rfilename": "startlux_decision/check.py",
+      "blobId": "f58e826c583c8a5bdbd1bcfa5d032ff113fa628d",
+      "size": 702
+    },
+    {
+      "rfilename": "startlux_decision/gguf_server.py",
+      "blobId": "8b06f5268eaf42cd6d720f6730195b718a91f672",
+      "size": 5441
+    },
+    {
+      "rfilename": "startlux_decision/jevfmt.py",
+      "blobId": "68b827bde306baf485a1bd883eda945f13f449cd",
+      "size": 7937
+    },
+    {
+      "rfilename": "startlux_decision/model.py",
+      "blobId": "68e923cbdedefa7bf75f0f07d669d6829de00fbb",
+      "size": 15400
+    },
+    {
+      "rfilename": "startlux_decision/server.py",
+      "blobId": "094f39dcb0e195fc0ba8bcd451d5076027047e98",
+      "size": 4702
+    },
+    {
+      "rfilename": "tokenizer.json",
+      "blobId": "a73a846725794819aa6e1c9e97d8dc9671c2006d",
+      "size": 12807982,
+      "lfs": {
+        "sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+        "size": 12807982,
+        "pointerSize": 133
+      }
+    },
+    {
+      "rfilename": "tokenizer_config.json",
+      "blobId": "eda48d3e75a8e59a8479ee4ec8b37f76e711d9c1",
+      "size": 16710
+    },
+    {
+      "rfilename": "vocab.json",
+      "blobId": "0aa0ce0658d60ac4a5d609f4eadb0e8e43514176",
+      "size": 6722759
+    }
+  ]
+}
