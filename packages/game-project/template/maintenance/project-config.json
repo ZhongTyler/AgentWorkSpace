@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "template": {
+    "name": "godot-project",
+    "version": "0.2.4"
+  },
+  "project": {
+    "id": "__PROJECT_ID__",
+    "name": "__PROJECT_NAME__",
+    "lifecycle": "formal-initialization"
+  },
+  "engine": {
+    "directory": "Game",
+    "state": "not_initialized",
+    "godot_version": null,
+    "target_platforms": []
+  },
+  "maintenance": {
+    "managed_roots": [
+      "builds",
+      "maintenance",
+      "docs",
+      "Game",
+      "assets"
+    ],
+    "excluded_directories": [
+      ".git",
+      ".godot",
+      ".import",
+      "node_modules"
+    ],
+    "generated_directories": [
+      "builds/windows/packages"
+    ]
+  },
+  "assets": {
+    "directory": "assets",
+    "contract_version": 1,
+    "workflow_contract": null,
+    "legacy_receipts": []
+  }
+}

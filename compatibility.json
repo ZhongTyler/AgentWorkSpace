@@ -91,6 +91,15 @@
         "external-runtime-ownership",
         "health-and-fallback"
       ]
+    },
+    "game-project-workspace": {
+      "description": "Portable Godot project workspace with owned facts, decision reception, resource/build boundaries and maintenance recovery.",
+      "criteria": [
+        "project-fact-ownership",
+        "engine-and-resource-boundaries",
+        "decision-reception",
+        "maintenance-and-recovery"
+      ]
     }
   },
   "components": {
@@ -210,6 +219,24 @@
         "knowledge",
         "skill-library"
       ]
+    },
+    "game-project": {
+      "provides": [
+        "game-project-workspace"
+      ],
+      "requires": [],
+      "optional": [
+        "host-governance",
+        "brainstorming",
+        "prototyping",
+        "game-presentation",
+        "asset-catalog",
+        "knowledge",
+        "game-analysis",
+        "research",
+        "skill-library",
+        "workspace-tools"
+      ]
     }
   },
   "needs": {
@@ -223,6 +250,7 @@
     "assets": "asset-catalog",
     "travel": "travel-planning",
     "research": "research",
-    "tools": "workspace-tools"
+    "tools": "workspace-tools",
+    "game-project": "game-project-workspace"
   }
 }

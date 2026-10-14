@@ -39,7 +39,7 @@ def stage(source, destination):
     manifest = json.loads(manifest_path.read_text(encoding='utf-8-sig'))
     if manifest.get('release_schema') != 1:
         raise ContractError('Unknown source manifest schema')
-    expected_output = {'meta': 'meta', 'brainstorm': 'packages/brainstorm', 'fromdemotospec': 'packages/fromdemotospec', 'knowledge': 'packages/knowledge', 'skills': 'packages/skills', 'game-analysis-decision': 'packages/game-analysis-decision', 'game-presentation': 'packages/game-presentation', 'prototype-assets': 'packages/prototype-assets', 'travel': 'packages/travel', 'research': 'packages/research', 'tools': 'packages/tools'}
+    expected_output = {'meta': 'meta', 'brainstorm': 'packages/brainstorm', 'fromdemotospec': 'packages/fromdemotospec', 'knowledge': 'packages/knowledge', 'skills': 'packages/skills', 'game-analysis-decision': 'packages/game-analysis-decision', 'game-presentation': 'packages/game-presentation', 'prototype-assets': 'packages/prototype-assets', 'travel': 'packages/travel', 'research': 'packages/research', 'tools': 'packages/tools', 'game-project': 'packages/game-project'}
     component = manifest.get('component_id')
     if component not in expected_output or manifest.get('output_path') != expected_output[component]:
         raise ContractError('Unknown or mismatched publication target')
@@ -71,6 +71,18 @@ def stage(source, destination):
                 vendors += ('integrations/decision-models/vendor/',)
             if target.endswith(('.tgz', '.tar.gz', '.zip')) and not target.startswith(vendors):
                 raise ContractError('Research archives must use the reviewed vendor directory')
+    if component == 'game-project':
+        if any(manifest.get(key) for key in ('root_files', 'copy_directories', 'text_replacements')):
+            raise ContractError('GameProject requires explicit pinned public inputs')
+        public_roots = {'README.md', 'AGENTS.md', 'LICENSE', 'template-inventory.json'}
+        for item in manifest.get('copy_files', []):
+            name, target = relative(item['source']), relative(item['target'])
+            valid = ((target in public_roots and name == 'release-input/curated/' + target)
+                     or (target.startswith('template/') and name == target and
+                         (target.endswith(('.md', '.json', '.mjs')) or target.endswith(('/.gitignore', '/.gitattributes'))))
+                     or (target in {'scripts/create-project.py', 'tests/test_create.py'} and name == target))
+            if not valid or any(part in {'.git', '.godot', '.import', 'node_modules', '__pycache__', 'private', 'runtime', 'plans', 'demo'} for part in target.split('/')) or not re.fullmatch(r'[0-9a-f]{64}', item.get('sha256', '')):
+                raise ContractError('GameProject input is outside the pinned template whitelist')
     if component == 'travel':
         # Travel contains private sibling projects in its source repository.
         # Select explicit public files before any directory traversal.
@@ -112,7 +124,7 @@ def stage(source, destination):
     for item in manifest.get('copy_files', []):
         if component in ('brainstorm', 'knowledge', 'skills', 'game-analysis-decision', 'game-presentation', 'prototype-assets') and not item['source'].startswith('release-input/curated/'):
             raise ContractError('This component only permits curated inputs')
-        copy(item['source'], item['target'], item.get('sha256') if component in ('research', 'tools') else None)
+        copy(item['source'], item['target'], item.get('sha256') if component in ('research', 'tools', 'game-project') else None)
     for name in manifest.get('root_files', []):
         copy(name, name)
     for item in manifest.get('copy_directories', []):

@@ -1,5 +1,12 @@
 # Releases
 
+## 1.13.0 — 2026-10-14
+
+- Add optional standalone GameProject: a portable Godot project workspace, template 0.2.4, with pinned new-project creation and maintenance checks.
+- Review existing project/workflow equivalence before selective adoption; no mandatory package, engine creation or automatic prototype migration.
+- Preserve project facts, decisions, assets, builds and external tools across library upgrades and rollback; existing selections do not auto-add the package.
+
+
 ## 1.12.1 — 2026-10-14
 
 - Add conditional follow-up of adopted knowledge in the host's existing verification or milestone record, preserving applicability, unknowns and counterexamples.

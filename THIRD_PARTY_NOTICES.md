@@ -53,3 +53,7 @@ Travel original code and documentation use MIT, confirmed by the rights holder o
 Research original code and documentation use the bundled [MIT license](packages/research/LICENSE). Pinned MCP source and npm archives retain their own licenses and notices: [package boundaries](packages/research/LICENSE-NOTICE.md), [upstream notices](packages/research/integrations/mcp/THIRD_PARTY_NOTICES.txt), [source lock](packages/research/integrations/mcp/source-lock.json). Optional browser/media downloads and collected articles/videos retain upstream terms; they are not relicensed by this repository. Unlicensed Stack Overflow source archives, private research, credentials and host runtime are excluded.
 
 Research's optional REA archive and matching official skill references retain the upstream [MIT license](packages/research/integrations/rea/vendor/REA-LICENSE.txt); version, source commit and integrity are recorded in the [REA lock](packages/research/integrations/rea/source-lock.json). Installed transitive dependencies, native providers and recipient client configuration are not bundled.
+
+## GameProject
+
+GameProject 的原创模板、创建器和维护检查采用包内 MIT。工程指导仅链接 Godot 官方资料，包内没有 Godot 引擎或第三方游戏源码。用户项目后续素材、插件与引擎保留各自许可；模板许可不覆盖它们。

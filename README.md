@@ -32,6 +32,7 @@ flowchart TB
     Brainstorm["Brainstorm<br/>概念与取舍"]:::work
     Analysis["GameAnalysisDecision<br/>问题分析与条件建议"]:::work
     Prototype["FromDemoToSpec<br/>原型、迭代与开发接续"]:::delivery
+    Project["GameProject<br/>正式项目工作区"]:::delivery
     Assets["PrototypeAssets<br/>素材、来源与许可"]:::assets
     Presentation["GamePresentation<br/>表现与引擎接入"]:::assets
 
@@ -44,6 +45,7 @@ flowchart TB
     Analysis -. "分析建议" .-> Prototype
     Assets -. "审核后选用" .-> Presentation
     Presentation -. "资源交付" .-> Prototype
+    Prototype -. "选择 Godot 正式开发时" .-> Project
 
     linkStyle default stroke:#64748b,stroke-width:1.5px
     classDef support fill:#f1f5f9,stroke:#64748b,color:#0f172a
@@ -125,7 +127,7 @@ Agent 按审计返回的 criteria 审阅现有规则与接口，记录理由、�
 
 ## 接入后怎样使用
 
-本仓由 **meta 底座和 10 个并列的 package** 组成。meta 提供协作规则与工作区框架；full 模式安装在根目录，兼容模式选装到 `modules/meta`，可直接交代目标、约束和完成标准。其余 package 都按需要选择，表中顺序不表示层级或安装优先级。Brainstorm、FromDemoToSpec、Knowledge 所需的宿主治理能力，可由 meta 或经过审阅的现有框架提供。已有工作区可以复用审阅过的能力，无需为了可选集成安装其他包。
+本仓由 **meta 底座和 11 个并列的 package** 组成。meta 提供协作规则与工作区框架；full 模式安装在根目录，兼容模式选装到 `modules/meta`，可直接交代目标、约束和完成标准。其余 package 都按需要选择，表中顺序不表示层级或安装优先级。Brainstorm、FromDemoToSpec、Knowledge 所需的宿主治理能力，可由 meta 或经过审阅的现有框架提供。已有工作区可以复用审阅过的能力，无需为了可选集成安装其他包。
 
 [meta 使用说明](meta/README.md) · [各包依赖与工具环境](docs/package-dependencies.md)
 
@@ -136,6 +138,7 @@ Agent 按审计返回的 criteria 审阅现有规则与接口，记录理由、�
 | [Knowledge](packages/knowledge/README.md) | “查询知识库”或“消化这些材料”；空库也可查询 | `modules/knowledge` | 无需其他业务包；首次 Ingest 前配置知识范围与本地 Git |
 | [Skills](packages/skills/README.md) | 16 项开发、研究、表达与工作流方法，按名字选择安装 | `modules/skills` | 不需要其他模块；安装库不会自动启用全部 Skill |
 | [GameAnalysisDecision](packages/game-analysis-decision/README.md) | 有事实依据的游戏问题分析、条件建议与方法校正 | `modules/game-analysis-decision` | 可单独使用；Knowledge 与其他宿主包可选 |
+| [GameProject](packages/game-project/README.md) | 创建或选择性接入 Godot 项目工作区：维护、决定、资源与构建骨架 | `modules/game-project` | 可单独使用；新建包外副本，已有项目先审阅，不预装游戏或引擎 |
 | [GamePresentation](packages/game-presentation/README.md) | 表现规格、资源制作与 Godot 交付、恢复 | `modules/game-presentation` | 可使用手工或生成来源；PrototypeAssets 可选 |
 | [Travel](packages/travel/README.md) | “帮我研究并规划这趟旅行……”；生成私人离线网站 | `modules/travel` | 可单独使用；无必装包，采集服务、浏览器验收和服务器可选 |
 | [PrototypeAssets](packages/prototype-assets/README.md) | 119 项有来源和许可记录的精选，以及校验导出工具 | `modules/prototype-assets` | 素材和许可复制后，游戏不依赖来源包 |

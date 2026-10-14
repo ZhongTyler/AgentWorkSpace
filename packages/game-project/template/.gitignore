@@ -1,0 +1,15 @@
+# Godot generated state
+.godot/
+.import/
+
+# Local tooling
+node_modules/
+*.tmp
+
+# Local generated builds; keep the scaffold and routing documentation
+/builds/windows/packages/*
+!/builds/windows/packages/README.md
+/builds/windows/**/*.pck
+/builds/windows/**/*.exe
+/builds/windows/**/*.dll
+/builds/windows/**/*.zip

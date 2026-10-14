@@ -32,6 +32,7 @@ flowchart TB
     Brainstorm["Brainstorm<br/>Concepts and tradeoffs"]:::work
     Analysis["GameAnalysisDecision<br/>Analysis and advice"]:::work
     Prototype["FromDemoToSpec<br/>Prototypes and development"]:::delivery
+    Project["GameProject<br/>Formal project workspace"]:::delivery
     Assets["PrototypeAssets<br/>Provenance and licenses"]:::assets
     Presentation["GamePresentation<br/>Resources into the engine"]:::assets
 
@@ -44,6 +45,7 @@ flowchart TB
     Analysis -. "Recommendations" .-> Prototype
     Assets -. "Select after review" .-> Presentation
     Presentation -. "Resource delivery" .-> Prototype
+    Prototype -. "When choosing formal Godot development" .-> Project
 
     linkStyle default stroke:#64748b,stroke-width:1.5px
     classDef support fill:#f1f5f9,stroke:#64748b,color:#0f172a
@@ -125,7 +127,7 @@ The agent reviews host rules and interfaces against the returned criteria, then 
 
 ## Use the workspace
 
-The distribution contains **one meta foundation and ten peer packages**. Meta provides collaboration rules and workspace structure; full mode installs it at the root, while compatible mode optionally installs it under `modules/meta`. State your goal, constraints and completion criteria to use it. Choose each package as needed; table order implies neither hierarchy nor installation priority. Brainstorm, FromDemoToSpec and Knowledge require host-governance capabilities, supplied by meta or a reviewed existing framework. Existing workspaces can reuse reviewed capabilities without adding packages for optional integrations.
+The distribution contains **one meta foundation and eleven peer packages**. Meta provides collaboration rules and workspace structure; full mode installs it at the root, while compatible mode optionally installs it under `modules/meta`. State your goal, constraints and completion criteria to use it. Choose each package as needed; table order implies neither hierarchy nor installation priority. Brainstorm, FromDemoToSpec and Knowledge require host-governance capabilities, supplied by meta or a reviewed existing framework. Existing workspaces can reuse reviewed capabilities without adding packages for optional integrations.
 
 [Meta guide](meta/README.md) · [Package dependencies and tool requirements](docs/package-dependencies.md)
 
@@ -136,6 +138,7 @@ The distribution contains **one meta foundation and ten peer packages**. Meta pr
 | [Knowledge](packages/knowledge/README.md) | “Query the knowledge base” or “Ingest these sources”; an empty library can be queried | `modules/knowledge` | No other business package required; configure its scope and local Git before the first Ingest |
 | [Skills](packages/skills/README.md) | 16 development, research, writing and workflow methods; install chosen names | `modules/skills` | No other module required; adding the library does not activate every skill |
 | [GameAnalysisDecision](packages/game-analysis-decision/README.md) | Evidence-based game analysis, conditional recommendations and method correction | `modules/game-analysis-decision` | Works alone; Knowledge and other host packages are optional |
+| [GameProject](packages/game-project/README.md) | Create or selectively adapt a Godot project workspace: maintenance, decisions, assets and build scaffolding | `modules/game-project` | Works alone; create an external copy or review an existing project, without a game or engine preinstalled |
 | [GamePresentation](packages/game-presentation/README.md) | Presentation specifications, resource preparation and Godot delivery/recovery | `modules/game-presentation` | Manual/generated sources work; PrototypeAssets is optional |
 | [Travel](packages/travel/README.md) | “Research and plan this trip…”; generate a private offline website | `modules/travel` | Works alone; no required package, account service or server; browser verification is optional |
 | [PrototypeAssets](packages/prototype-assets/README.md) | 119 assets with provenance/license records and verification/export tools | `modules/prototype-assets` | Runtime copies and licenses remain usable without their source package |

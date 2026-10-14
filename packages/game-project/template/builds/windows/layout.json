@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "root_launcher": "play.cmd",
+  "current_release": null,
+  "current_executable": null,
+  "preview_directory": "maintenance/previews",
+  "packages_directory": "builds/windows/packages",
+  "packs_directory": "builds/windows/packs",
+  "archive_directory": "builds/windows/archive"
+}
