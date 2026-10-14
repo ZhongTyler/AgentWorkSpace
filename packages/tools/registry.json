@@ -103,6 +103,47 @@
         "runtime/launch-auth.mjs"
       ],
       "limits": "Read-only source templates; recipient selects and authorizes sources; no automatic login, connection or paid requests"
+    },
+    {
+      "id": "flux-klein",
+      "root": "integrations/flux-klein",
+      "maintenance": "README.md",
+      "status": "optional_recipient_validation_required",
+      "actions": [
+        "guide"
+      ],
+      "required_sources": [
+        "generate.py",
+        "verify.py",
+        "start.ps1",
+        "stop.ps1",
+        "source-lock.json",
+        "requirements-windows-py312.lock"
+      ],
+      "required_runtime": [
+        "runtime/venv/Scripts/python.exe"
+      ],
+      "limits": "Local image candidates; 24 consecutive 768-square tasks completed, 1024 batch memory failures preserved; quality and cutout need per-image checks; no long stability, real-time ADV, project adoption or MCP acceptance"
+    },
+    {
+      "id": "cutout",
+      "root": "integrations/cutout",
+      "maintenance": "README.md",
+      "status": "optional_recipient_validation_required",
+      "actions": [
+        "guide"
+      ],
+      "required_sources": [
+        "cutout.py",
+        "verify.py",
+        "source-lock.json",
+        "requirements-windows-py312.lock"
+      ],
+      "required_runtime": [
+        "runtime/venv/Scripts/python.exe",
+        "runtime/isnetis.onnx"
+      ],
+      "limits": "Offline CPU anime-seg illustration segmentation; verify actual holes, thin parts and dark/light backgrounds; no optical-glass guarantee; preserve native alpha; no automatic project adoption"
     }
   ]
 }

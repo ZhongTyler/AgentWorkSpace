@@ -1,0 +1,8 @@
+# Actual dedicated CPU environment, Windows Python 3.12, 2026-10-14.
+onnxruntime==1.31.0
+numpy==2.5.4
+Pillow==12.3.0
+opencv-python-headless==5.0.0.93
+packaging==26.3
+flatbuffers==25.12.19
+protobuf==7.36.2

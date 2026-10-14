@@ -1,5 +1,13 @@
 # Releases
 
+## 1.12.0 — 2026-10-14
+
+- Publish optional pinned game-source references and portable Research/game-development routing, with external-home preparation, exact hashes and original license notices.
+- Complete the public Tools inventory for committed FLUX klein generation/edit maintenance; include explicit setup and pinned components, excluding weights and GPU runtime.
+- Include the newly committed CPU cutout maintenance adapter and reseal portable workflow-closure guidance with separate selected-Skill upgrade/rollback boundaries.
+- Preserve recipient authority and external runtime ownership; no automatic downloads, schedules, target execution, ingestion or project adoption.
+- Retain predecessor conflict/upgrade/rollback checks; recent private studies, trial images and host-only governance adoption are excluded.
+
 ## 1.11.0 — 2026-10-14
 
 - Research reuses a verified compliant Knowledge parent; a separate coordinator is conditional, with existing run identities preserved.

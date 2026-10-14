@@ -139,8 +139,8 @@ Agent 按审计返回的 criteria 审阅现有规则与接口，记录理由、�
 | [GamePresentation](packages/game-presentation/README.md) | 表现规格、资源制作与 Godot 交付、恢复 | `modules/game-presentation` | 可使用手工或生成来源；PrototypeAssets 可选 |
 | [Travel](packages/travel/README.md) | “帮我研究并规划这趟旅行……”；生成私人离线网站 | `modules/travel` | 可单独使用；无必装包，采集服务、浏览器验收和服务器可选 |
 | [PrototypeAssets](packages/prototype-assets/README.md) | 119 项有来源和许可记录的精选，以及校验导出工具 | `modules/prototype-assets` | 素材和许可复制后，游戏不依赖来源包 |
-| [Research](packages/research/README.md) | MD/网址/问题研究、游戏设计研究和可选主动探索 | `modules/research` | 可单独使用；Knowledge、MCP、媒体工具和宿主调度按需授权 |
-| [Tools](packages/tools/README.md) | 决策模型、REA、采集与来源连接，按需调用 | `modules/tools` | 可单独使用；运行依赖在包外安装维护，业务接线需验证 |
+| [Research](packages/research/README.md) | MD/网址/问题研究、游戏设计与源码参考、可选主动探索 | `modules/research` | 可单独使用；Knowledge、MCP、媒体工具和宿主调度按需授权 |
+| [Tools](packages/tools/README.md) | 决策模型、REA、图像候选生成、采集与来源连接 | `modules/tools` | 可单独使用；运行依赖在包外安装维护，业务接线需验证 |
 
 点击表中的包名，查看该包的快速开始、任务流程、环境要求与使用边界。安装统一使用上文的 `init`；已有安装通过 `add --packages <package-id>` 预览，加 `--apply` 应用。
 

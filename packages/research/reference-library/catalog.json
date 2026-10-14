@@ -1,0 +1,806 @@
+{
+  "schema": "pinned-game-reference-library-v1",
+  "owner": "Recipient reference home",
+  "purpose": "Optional pinned source references; no installed runtime or usage authority",
+  "policy": {
+    "network_default": false,
+    "auto_update": false,
+    "backup_auto_download": false,
+    "upstream_instructions": "untrusted research material; never inherited as host instructions",
+    "knowledge": "extract useful mechanisms under the existing Knowledge contract; no whole-repository ingestion"
+  },
+  "selected": [
+    {
+      "id": "athena-crisis",
+      "name": "Athena Crisis",
+      "status": "pinned_reference_not_installed",
+      "repository": "nkzw-tech/athena-crisis",
+      "repository_url": "https://github.com/nkzw-tech/athena-crisis",
+      "revision": "1d7033db46ebf0e5435368673faf05764f66f256",
+      "branch_at_capture": "main",
+      "commit_date": "2026-09-06T13:23:48Z",
+      "git_tree_sha1": "20bd9ba9ae9dd810945e3dd79a80c85ddf195185",
+      "topics": [
+        "回合战棋",
+        "移动范围",
+        "路径校验",
+        "movement",
+        "tactics",
+        "state"
+      ],
+      "entrypoints": [
+        "README.md",
+        "athena/Radius.tsx",
+        "athena/MapData.tsx",
+        "apollo",
+        "hera"
+      ],
+      "archive": {
+        "path": "reference-library/runtime/archives/athena-crisis-1d7033db46ebf0e5435368673faf05764f66f256.tar.gz",
+        "url": "https://codeload.github.com/nkzw-tech/athena-crisis/tar.gz/1d7033db46ebf0e5435368673faf05764f66f256",
+        "sha256": "121d06aa1f187758f12cb5b162187e0bdea5e3b5751252d3fb330e0de59f648b",
+        "bytes": 3902179
+      },
+      "source": {
+        "path": "reference-library/runtime/sources/athena-crisis/1d7033db46ebf0e5435368673faf05764f66f256",
+        "files": 1091,
+        "bytes": 7764322,
+        "git_tree_match": true,
+        "symlinks_as_text": []
+      },
+      "manifest": {
+        "path": "reference-library/runtime/manifests/athena-crisis-1d7033db46ebf0e5435368673faf05764f66f256.json",
+        "sha256": "cbcbef85cd15623bedb465cb2d3013b6773fc1163b7aa973386b47269ce7415f"
+      },
+      "licenses": {
+        "code_license_summary": "MIT",
+        "summary": "MIT公开代码；品牌、内容、美术、音乐和远程加载资源另行授权。",
+        "saved_notices": [
+          {
+            "path": "reference-library/licenses/athena-crisis/LICENSE.md",
+            "source_path": "LICENSE.md",
+            "bytes": 1508,
+            "sha256": "e25f08d9782baa7b8dba836146f3e7593cac862346f49990e12b1bfa2ae5f2c7"
+          }
+        ],
+        "review_status": "main_notices_provided; recipient must review exact code, assets and distribution conditions"
+      },
+      "external_requirements": {
+        "submodules_not_downloaded": [],
+        "git_lfs_pointer_paths": [],
+        "runtime_dependencies": "not_installed",
+        "remote_assets": "not_fetched"
+      },
+      "runtime_status": "recipient_not_tested",
+      "adoption_status": "recipient_not_adopted",
+      "auto_update": false
+    },
+    {
+      "id": "shattered-pixel-dungeon",
+      "name": "Shattered Pixel Dungeon",
+      "status": "pinned_reference_not_installed",
+      "repository": "00-Evan/shattered-pixel-dungeon",
+      "repository_url": "https://github.com/00-Evan/shattered-pixel-dungeon",
+      "revision": "57a4e06a4caf162446d1c28caa7983f0493fecf0",
+      "branch_at_capture": "master",
+      "commit_date": "2026-10-06T20:11:22Z",
+      "git_tree_sha1": "2a9b5deff1f2d04dbcad797ee43a036d9fde8f7d",
+      "topics": [
+        "地牢",
+        "肉鸽",
+        "状态",
+        "道具",
+        "装备",
+        "roguelike",
+        "buff",
+        "items"
+      ],
+      "entrypoints": [
+        "README.md",
+        "core/src/main/java/com/shatteredpixel/shatteredpixeldungeon/actors/Actor.java",
+        "core/src/main/java/com/shatteredpixel/shatteredpixeldungeon/actors/buffs/Buff.java",
+        "core/src/main/java/com/shatteredpixel/shatteredpixeldungeon/items/Item.java",
+        "core/src/main/java/com/shatteredpixel/shatteredpixeldungeon/levels/Level.java"
+      ],
+      "archive": {
+        "path": "reference-library/runtime/archives/shattered-pixel-dungeon-57a4e06a4caf162446d1c28caa7983f0493fecf0.tar.gz",
+        "url": "https://codeload.github.com/00-Evan/shattered-pixel-dungeon/tar.gz/57a4e06a4caf162446d1c28caa7983f0493fecf0",
+        "sha256": "b213e3d4ffbe3e163963f19fe47948553a0af5eec0a086ebdddb3bc61be76ae4",
+        "bytes": 64363266
+      },
+      "source": {
+        "path": "reference-library/runtime/sources/shattered-pixel-dungeon/57a4e06a4caf162446d1c28caa7983f0493fecf0",
+        "files": 1945,
+        "bytes": 85961738,
+        "git_tree_match": true,
+        "symlinks_as_text": []
+      },
+      "manifest": {
+        "path": "reference-library/runtime/manifests/shattered-pixel-dungeon-57a4e06a4caf162446d1c28caa7983f0493fecf0.json",
+        "sha256": "c9cf6c8421cd1b70cc7206fd856bda7f7990caba9058ecde0a436f1df1237ad6"
+      },
+      "licenses": {
+        "code_license_summary": "GPL-3.0",
+        "summary": "根许可证GPLv3；素材、发布修改建议及依赖分别核查。",
+        "saved_notices": [
+          {
+            "path": "reference-library/licenses/shattered-pixel-dungeon/LICENSE.txt",
+            "source_path": "LICENSE.txt",
+            "bytes": 32471,
+            "sha256": "d0495053051967ebe76fb1facd287d79d1ed800da1be75cf501a556bc39a0472"
+          }
+        ],
+        "review_status": "main_notices_provided; recipient must review exact code, assets and distribution conditions"
+      },
+      "external_requirements": {
+        "submodules_not_downloaded": [],
+        "git_lfs_pointer_paths": [],
+        "runtime_dependencies": "not_installed",
+        "remote_assets": "not_fetched"
+      },
+      "runtime_status": "recipient_not_tested",
+      "adoption_status": "recipient_not_adopted",
+      "auto_update": false
+    },
+    {
+      "id": "mindustry",
+      "name": "Mindustry",
+      "status": "pinned_reference_not_installed",
+      "repository": "Anuken/Mindustry",
+      "repository_url": "https://github.com/Anuken/Mindustry",
+      "revision": "17012d61d9e4c3cbd9820d87e81c24495486ac53",
+      "branch_at_capture": "master",
+      "commit_date": "2026-10-08T00:11:20Z",
+      "git_tree_sha1": "e5e3a9827846d333979586ccd5f56eec77a7c9f0",
+      "topics": [
+        "塔防",
+        "自动化",
+        "生产链",
+        "波次",
+        "物流",
+        "tower-defense",
+        "waves",
+        "logistics"
+      ],
+      "entrypoints": [
+        "README.md",
+        "core/src/mindustry/game/Waves.java",
+        "core/src/mindustry/content/Blocks.java",
+        "core/src/mindustry/world/Block.java"
+      ],
+      "archive": {
+        "path": "reference-library/runtime/archives/mindustry-17012d61d9e4c3cbd9820d87e81c24495486ac53.tar.gz",
+        "url": "https://codeload.github.com/Anuken/Mindustry/tar.gz/17012d61d9e4c3cbd9820d87e81c24495486ac53",
+        "sha256": "12a2dca410bf6963a558af613c22775d460f37bd7c1aacd9c5463013735c70c5",
+        "bytes": 59735788
+      },
+      "source": {
+        "path": "reference-library/runtime/sources/mindustry/17012d61d9e4c3cbd9820d87e81c24495486ac53",
+        "files": 4265,
+        "bytes": 72793790,
+        "git_tree_match": true,
+        "symlinks_as_text": []
+      },
+      "manifest": {
+        "path": "reference-library/runtime/manifests/mindustry-17012d61d9e4c3cbd9820d87e81c24495486ac53.json",
+        "sha256": "19793b574e8c200219d6c74fd689348fd5205c9af0479575ca6f2760d5407cde"
+      },
+      "licenses": {
+        "code_license_summary": "GPL-3.0",
+        "summary": "根许可证GPLv3；外部依赖及素材逐项核查。",
+        "saved_notices": [
+          {
+            "path": "reference-library/licenses/mindustry/LICENSE",
+            "source_path": "LICENSE",
+            "bytes": 32422,
+            "sha256": "963392e038d7bea128e55cc67dd691c204593db3527060667f0c82f0f0a1be64"
+          }
+        ],
+        "review_status": "main_notices_provided; recipient must review exact code, assets and distribution conditions"
+      },
+      "external_requirements": {
+        "submodules_not_downloaded": [],
+        "git_lfs_pointer_paths": [],
+        "runtime_dependencies": "not_installed",
+        "remote_assets": "not_fetched"
+      },
+      "runtime_status": "recipient_not_tested",
+      "adoption_status": "recipient_not_adopted",
+      "auto_update": false
+    },
+    {
+      "id": "server-survival",
+      "name": "Server Survival",
+      "status": "pinned_reference_not_installed",
+      "repository": "pshenok/server-survival",
+      "repository_url": "https://github.com/pshenok/server-survival",
+      "revision": "7804e5969e28267cd33837e023eb46fa65da72b7",
+      "branch_at_capture": "main",
+      "commit_date": "2026-10-08T03:12:30Z",
+      "git_tree_sha1": "fe13c7de21b5b87bc9562486a82f40da4f6438e3",
+      "topics": [
+        "塔防",
+        "预算",
+        "压力",
+        "容量",
+        "教学",
+        "tower-defense",
+        "economy",
+        "feedback"
+      ],
+      "entrypoints": [
+        "README.md",
+        "src/config.js",
+        "src/campaign/levels.js",
+        "game.js",
+        "src/sim",
+        "src/persistence/save-load.js"
+      ],
+      "archive": {
+        "path": "reference-library/runtime/archives/server-survival-7804e5969e28267cd33837e023eb46fa65da72b7.tar.gz",
+        "url": "https://codeload.github.com/pshenok/server-survival/tar.gz/7804e5969e28267cd33837e023eb46fa65da72b7",
+        "sha256": "ee9a55b963d85d892daa01a023d98e2774050547d667724e7988ed3907a61526",
+        "bytes": 13786870
+      },
+      "source": {
+        "path": "reference-library/runtime/sources/server-survival/7804e5969e28267cd33837e023eb46fa65da72b7",
+        "files": 172,
+        "bytes": 15910237,
+        "git_tree_match": true,
+        "symlinks_as_text": []
+      },
+      "manifest": {
+        "path": "reference-library/runtime/manifests/server-survival-7804e5969e28267cd33837e023eb46fa65da72b7.json",
+        "sha256": "d313226315eef17e4b109eeea2719f91676686575c4f056cc429f82366623708"
+      },
+      "licenses": {
+        "code_license_summary": "MIT",
+        "summary": "项目MIT；页面外部CDN、依赖及素材使用另核查，不等于离线运行已验证。",
+        "saved_notices": [
+          {
+            "path": "reference-library/licenses/server-survival/LICENSE",
+            "source_path": "LICENSE",
+            "bytes": 1079,
+            "sha256": "e86ab27fe716ee76a1f270a5494b65edaf8add18ed1c311ef578289c379b9198"
+          }
+        ],
+        "review_status": "main_notices_provided; recipient must review exact code, assets and distribution conditions"
+      },
+      "external_requirements": {
+        "submodules_not_downloaded": [],
+        "git_lfs_pointer_paths": [],
+        "runtime_dependencies": "not_installed",
+        "remote_assets": "not_fetched"
+      },
+      "runtime_status": "recipient_not_tested",
+      "adoption_status": "recipient_not_adopted",
+      "auto_update": false
+    },
+    {
+      "id": "whatajong",
+      "name": "Whatajong",
+      "status": "pinned_reference_not_installed",
+      "repository": "masylum/whatajong",
+      "repository_url": "https://github.com/masylum/whatajong",
+      "revision": "45fe3da7a7d1e87a66ae41b72ee74cc4e0a920d5",
+      "branch_at_capture": "main",
+      "commit_date": "2025-06-15T21:30:49Z",
+      "git_tree_sha1": "a9df16c0d6ce5c406ca4e130e652f85bcdef7408",
+      "topics": [
+        "麻将接龙",
+        "肉鸽",
+        "局内构筑",
+        "轻量界面",
+        "mahjong",
+        "roguelike",
+        "ui"
+      ],
+      "entrypoints": [
+        "README.md",
+        "src/renderer"
+      ],
+      "archive": {
+        "path": "reference-library/runtime/archives/whatajong-45fe3da7a7d1e87a66ae41b72ee74cc4e0a920d5.tar.gz",
+        "url": "https://codeload.github.com/masylum/whatajong/tar.gz/45fe3da7a7d1e87a66ae41b72ee74cc4e0a920d5",
+        "sha256": "9aa5678e5940f981a550004a526687c6d3daef4ddbd157902722cd04bd765b11",
+        "bytes": 18148513
+      },
+      "source": {
+        "path": "reference-library/runtime/sources/whatajong/45fe3da7a7d1e87a66ae41b72ee74cc4e0a920d5",
+        "files": 256,
+        "bytes": 19933102,
+        "git_tree_match": true,
+        "symlinks_as_text": []
+      },
+      "manifest": {
+        "path": "reference-library/runtime/manifests/whatajong-45fe3da7a7d1e87a66ae41b72ee74cc4e0a920d5.json",
+        "sha256": "27570fc594ec3466bf2c4504ea5e5e08535602671d10264bcc071edb87ea9aa2"
+      },
+      "licenses": {
+        "code_license_summary": "MIT",
+        "summary": "根许可证MIT；依赖和素材逐项核查。",
+        "saved_notices": [
+          {
+            "path": "reference-library/licenses/whatajong/LICENSE",
+            "source_path": "LICENSE",
+            "bytes": 1093,
+            "sha256": "0f1618a69cba05fc6e7292617c5742e76ab5ceca24f92f39d8765fc422f15695"
+          }
+        ],
+        "review_status": "main_notices_provided; recipient must review exact code, assets and distribution conditions"
+      },
+      "external_requirements": {
+        "submodules_not_downloaded": [],
+        "git_lfs_pointer_paths": [],
+        "runtime_dependencies": "not_installed",
+        "remote_assets": "not_fetched"
+      },
+      "runtime_status": "recipient_not_tested",
+      "adoption_status": "recipient_not_adopted",
+      "auto_update": false
+    },
+    {
+      "id": "brogue-ce",
+      "name": "Brogue CE",
+      "status": "pinned_reference_not_installed",
+      "repository": "tmewett/BrogueCE",
+      "repository_url": "https://github.com/tmewett/BrogueCE",
+      "revision": "104a20fedbe7d9360d2dfc8ff665571694212ad8",
+      "branch_at_capture": "master",
+      "commit_date": "2026-09-27T22:07:14Z",
+      "git_tree_sha1": "bc1ff681e0f81cd2516d4b77605637b80f66bb8d",
+      "topics": [
+        "传统肉鸽",
+        "程序生成",
+        "地形互动",
+        "地牢",
+        "roguelike",
+        "procedural",
+        "terrain"
+      ],
+      "entrypoints": [
+        "README.md",
+        "src/brogue/Architect.c",
+        "src/brogue/Items.c",
+        "src/brogue/Rogue.h"
+      ],
+      "archive": {
+        "path": "reference-library/runtime/archives/brogue-ce-104a20fedbe7d9360d2dfc8ff665571694212ad8.tar.gz",
+        "url": "https://codeload.github.com/tmewett/BrogueCE/tar.gz/104a20fedbe7d9360d2dfc8ff665571694212ad8",
+        "sha256": "499d164c9900a044905ea1b54583e27348b07a848fbe10b71fa1cbc23463b651",
+        "bytes": 1385782
+      },
+      "source": {
+        "path": "reference-library/runtime/sources/brogue-ce/104a20fedbe7d9360d2dfc8ff665571694212ad8",
+        "files": 100,
+        "bytes": 3876097,
+        "git_tree_match": true,
+        "symlinks_as_text": []
+      },
+      "manifest": {
+        "path": "reference-library/runtime/manifests/brogue-ce-104a20fedbe7d9360d2dfc8ff665571694212ad8.json",
+        "sha256": "3e632713a96d7433f301969489ef340e94afb561d236b276cb63765425feea82"
+      },
+      "licenses": {
+        "code_license_summary": "AGPL-3.0",
+        "summary": "代码AGPLv3；bin/assets/LICENSE.txt另述tiles.png的CC BY-SA4.0及来源。",
+        "saved_notices": [
+          {
+            "path": "reference-library/licenses/brogue-ce/LICENSE.txt",
+            "source_path": "LICENSE.txt",
+            "bytes": 34519,
+            "sha256": "91b65277959ec273763d28ef002e83a6b3fba57c7a35436c9e5b66536333d720"
+          },
+          {
+            "path": "reference-library/licenses/brogue-ce/bin/assets/LICENSE.txt",
+            "source_path": "bin/assets/LICENSE.txt",
+            "bytes": 764,
+            "sha256": "b9b40facc880ef072a946afffdaed5260cb8928077df971326e185de35df165d"
+          }
+        ],
+        "review_status": "main_notices_provided; recipient must review exact code, assets and distribution conditions"
+      },
+      "external_requirements": {
+        "submodules_not_downloaded": [],
+        "git_lfs_pointer_paths": [],
+        "runtime_dependencies": "not_installed",
+        "remote_assets": "not_fetched"
+      },
+      "runtime_status": "recipient_not_tested",
+      "adoption_status": "recipient_not_adopted",
+      "auto_update": false
+    },
+    {
+      "id": "ddnet",
+      "name": "DDraceNetwork",
+      "status": "pinned_reference_not_installed",
+      "repository": "ddnet/ddnet",
+      "repository_url": "https://github.com/ddnet/ddnet",
+      "revision": "a8f81ae270d80e4cbfde80d61ca11ddfe3eb3e5f",
+      "branch_at_capture": "master",
+      "commit_date": "2026-10-13T19:20:55Z",
+      "git_tree_sha1": "fdae811769e2d6fe26ac1fe784d0e8105a6e31ff",
+      "topics": [
+        "合作平台",
+        "钩爪",
+        "移动",
+        "竞速",
+        "联机",
+        "platformer",
+        "movement",
+        "network"
+      ],
+      "entrypoints": [
+        "README.md",
+        "src/game/gamecore.cpp",
+        "src/game/server/entities/character.cpp",
+        "src/game/client/prediction/gameworld.cpp"
+      ],
+      "archive": {
+        "path": "reference-library/runtime/archives/ddnet-a8f81ae270d80e4cbfde80d61ca11ddfe3eb3e5f.tar.gz",
+        "url": "https://codeload.github.com/ddnet/ddnet/tar.gz/a8f81ae270d80e4cbfde80d61ca11ddfe3eb3e5f",
+        "sha256": "e19a1646c9cde2be4e549a86c9fd7936c9babcc3f4fa9d2d45f91760596e1b5d",
+        "bytes": 48674948
+      },
+      "source": {
+        "path": "reference-library/runtime/sources/ddnet/a8f81ae270d80e4cbfde80d61ca11ddfe3eb3e5f",
+        "files": 1854,
+        "bytes": 67413938,
+        "git_tree_match": true,
+        "symlinks_as_text": []
+      },
+      "manifest": {
+        "path": "reference-library/runtime/manifests/ddnet-a8f81ae270d80e4cbfde80d61ca11ddfe3eb3e5f.json",
+        "sha256": "c45fd7a4b5bd5fbb748d5637bd8c5492c38819c8a9ebd61faeb48d877127013f"
+      },
+      "licenses": {
+        "code_license_summary": "Zlib",
+        "summary": "主代码为zlib式许可；data、皮肤、字体及external库各有声明；不能以主代码许可覆盖素材。",
+        "saved_notices": [
+          {
+            "path": "reference-library/licenses/ddnet/data/assets/entities/license.txt",
+            "source_path": "data/assets/entities/license.txt",
+            "bytes": 96,
+            "sha256": "0f664d5fe4b2f9d29748d082289ca4e18a367a57bc8857637df3d45edc08e794"
+          },
+          {
+            "path": "reference-library/licenses/ddnet/data/languages/license.txt",
+            "source_path": "data/languages/license.txt",
+            "bytes": 164,
+            "sha256": "f8c1cff1aab1fb0ff5d871fa6c0653a817fa621f280bf4899293e3be4a82198e"
+          },
+          {
+            "path": "reference-library/licenses/ddnet/data/maps/license.txt",
+            "source_path": "data/maps/license.txt",
+            "bytes": 335,
+            "sha256": "96b5ec0bba829f7bd29563b67e81382383b4a7f64edc34f3d7b64ee44e850196"
+          },
+          {
+            "path": "reference-library/licenses/ddnet/data/skins/license.txt",
+            "source_path": "data/skins/license.txt",
+            "bytes": 1549,
+            "sha256": "ef9a479015dda0c10c50b017f873ca7684b8ff745f93b9b9f27e8812befb527e"
+          },
+          {
+            "path": "reference-library/licenses/ddnet/license.txt",
+            "source_path": "license.txt",
+            "bytes": 11458,
+            "sha256": "b24db78f94d5e4709016dd8dd9df587e2ef9cd67ae8b1b1c6bdbfb8732f9cfa0"
+          },
+          {
+            "path": "reference-library/licenses/ddnet/other/icons/license.txt",
+            "source_path": "other/icons/license.txt",
+            "bytes": 15,
+            "sha256": "9075c58a1fb8aa1b9f6d0d355864eb6478feb8b2a141428b53168acb730bb213"
+          },
+          {
+            "path": "reference-library/licenses/ddnet/src/engine/external/glew/LICENSE.txt",
+            "source_path": "src/engine/external/glew/LICENSE.txt",
+            "bytes": 3797,
+            "sha256": "8991cd11befec7c6a63662700f03c0cc42e864b6e77c7e70b80297c951a7f0ff"
+          },
+          {
+            "path": "reference-library/licenses/ddnet/src/engine/external/json-parser/LICENSE",
+            "source_path": "src/engine/external/json-parser/LICENSE",
+            "bytes": 1339,
+            "sha256": "298d84f63ba08c3c4b2939d4ddad815741c4905fbe3544505cda0f3b2b0759bb"
+          }
+        ],
+        "review_status": "main_notices_provided; recipient must review exact code, assets and distribution conditions"
+      },
+      "external_requirements": {
+        "submodules_not_downloaded": [
+          {
+            "path": "ddnet-libs",
+            "revision": "c0e6703fbcdbe03df2f26875427ec3951ce4ec21",
+            "mode": "160000"
+          }
+        ],
+        "git_lfs_pointer_paths": [],
+        "runtime_dependencies": "not_installed",
+        "remote_assets": "not_fetched"
+      },
+      "runtime_status": "recipient_not_tested",
+      "adoption_status": "recipient_not_adopted",
+      "auto_update": false
+    },
+    {
+      "id": "slay-the-robot",
+      "name": "Slay The Robot",
+      "status": "pinned_reference_not_installed",
+      "repository": "DesirePathGames/Slay-The-Robot",
+      "repository_url": "https://github.com/DesirePathGames/Slay-The-Robot",
+      "revision": "4dac5abe0d19382f8ace2cec5ed3fd77e2a0e11d",
+      "branch_at_capture": "main",
+      "commit_date": "2026-08-28T06:17:52Z",
+      "git_tree_sha1": "828611a84fbbc4c02981e1993efcecf034c3c377",
+      "topics": [
+        "Godot",
+        "GDScript",
+        "卡牌肉鸽",
+        "效果队列",
+        "预览",
+        "deckbuilder",
+        "cards",
+        "effects"
+      ],
+      "entrypoints": [
+        "README.md",
+        "project.godot",
+        "data",
+        "scripts",
+        "autoload"
+      ],
+      "archive": {
+        "path": "reference-library/runtime/archives/slay-the-robot-4dac5abe0d19382f8ace2cec5ed3fd77e2a0e11d.tar.gz",
+        "url": "https://codeload.github.com/DesirePathGames/Slay-The-Robot/tar.gz/4dac5abe0d19382f8ace2cec5ed3fd77e2a0e11d",
+        "sha256": "02a796ee8e88c05dadbee963613f008ba0d009d05f45e2d491e5b9be7d7abac8",
+        "bytes": 657198
+      },
+      "source": {
+        "path": "reference-library/runtime/sources/slay-the-robot/4dac5abe0d19382f8ace2cec5ed3fd77e2a0e11d",
+        "files": 852,
+        "bytes": 1982258,
+        "git_tree_match": true,
+        "symlinks_as_text": []
+      },
+      "manifest": {
+        "path": "reference-library/runtime/manifests/slay-the-robot-4dac5abe0d19382f8ace2cec5ed3fd77e2a0e11d.json",
+        "sha256": "eddcd70658a895130439229d403661743ab4d501dc398f12d26b2ebf235ba3c0"
+      },
+      "licenses": {
+        "code_license_summary": "MIT",
+        "summary": "项目MIT；三个内置addon的许可副本一并保留，素材与扩展逐项核查；框架功能未运行验收。",
+        "saved_notices": [
+          {
+            "path": "reference-library/licenses/slay-the-robot/LICENSE",
+            "source_path": "LICENSE",
+            "bytes": 1072,
+            "sha256": "0b2c1e3a67e6c37c0ca1979fe3d6abd99f09a7f999156508a8f07aa2801e1d7e"
+          },
+          {
+            "path": "reference-library/licenses/slay-the-robot/addons/label_font_auto_sizer/LICENSE",
+            "source_path": "addons/label_font_auto_sizer/LICENSE",
+            "bytes": 1066,
+            "sha256": "3b0d364720332be93cec5254ab7cf412edbfa974be4d5d2f4bbcab0abf42b4b4"
+          },
+          {
+            "path": "reference-library/licenses/slay-the-robot/addons/smooth_scroll_container/LICENSE",
+            "source_path": "addons/smooth_scroll_container/LICENSE",
+            "bytes": 1071,
+            "sha256": "394cd742bee08daa92e4bf60cdbac06c5fbd09ebb291233e267e1a0d620b07b9"
+          },
+          {
+            "path": "reference-library/licenses/slay-the-robot/addons/sound_manager/LICENSE",
+            "source_path": "addons/sound_manager/LICENSE",
+            "bytes": 1075,
+            "sha256": "671668f8e7fb0a2349085ee915c9648ad6b48341dc5c4c84d5a898fe1d8813aa"
+          }
+        ],
+        "review_status": "main_notices_provided; recipient must review exact code, assets and distribution conditions"
+      },
+      "external_requirements": {
+        "submodules_not_downloaded": [],
+        "git_lfs_pointer_paths": [],
+        "runtime_dependencies": "not_installed",
+        "remote_assets": "not_fetched"
+      },
+      "runtime_status": "recipient_not_tested",
+      "adoption_status": "recipient_not_adopted",
+      "auto_update": false
+    }
+  ],
+  "backups": [
+    {
+      "id": "ancientbeast",
+      "name": "Ancient Beast",
+      "status": "backup_not_downloaded",
+      "repository_url": "https://github.com/FreezingMoon/AncientBeast",
+      "topics": [
+        "生物组队",
+        "技能组合"
+      ],
+      "auto_download": false
+    },
+    {
+      "id": "wesnoth",
+      "name": "Wesnoth",
+      "status": "backup_not_downloaded",
+      "repository_url": "https://github.com/wesnoth/wesnoth",
+      "topics": [
+        "战役战棋",
+        "单位成长"
+      ],
+      "auto_download": false
+    },
+    {
+      "id": "openttd",
+      "name": "OpenTTD",
+      "status": "backup_not_downloaded",
+      "repository_url": "https://github.com/OpenTTD/OpenTTD",
+      "topics": [
+        "运输经营"
+      ],
+      "auto_download": false
+    },
+    {
+      "id": "micropolisjs",
+      "name": "micropolisJS",
+      "status": "backup_not_downloaded",
+      "repository_url": "https://github.com/graememcc/micropolisJS",
+      "topics": [
+        "城市建设"
+      ],
+      "auto_download": false
+    },
+    {
+      "id": "widelands",
+      "name": "Widelands",
+      "status": "backup_not_downloaded",
+      "repository_url": "https://github.com/widelands/widelands",
+      "topics": [
+        "经济RTS"
+      ],
+      "auto_download": false
+    },
+    {
+      "id": "openra",
+      "name": "OpenRA",
+      "status": "backup_not_downloaded",
+      "repository_url": "https://github.com/OpenRA/OpenRA",
+      "topics": [
+        "战斗RTS"
+      ],
+      "auto_download": false
+    },
+    {
+      "id": "unciv",
+      "name": "Unciv",
+      "status": "backup_not_downloaded",
+      "repository_url": "https://github.com/yairm210/Unciv",
+      "topics": [
+        "4X"
+      ],
+      "auto_download": false
+    },
+    {
+      "id": "endless-sky",
+      "name": "Endless Sky",
+      "status": "backup_not_downloaded",
+      "repository_url": "https://github.com/endless-sky/endless-sky",
+      "topics": [
+        "太空探索"
+      ],
+      "auto_download": false
+    },
+    {
+      "id": "hypersomnia",
+      "name": "Hypersomnia",
+      "status": "backup_not_downloaded",
+      "repository_url": "https://github.com/TeamHypersomnia/Hypersomnia",
+      "topics": [
+        "俯视射击"
+      ],
+      "auto_download": false
+    },
+    {
+      "id": "lugaru",
+      "name": "Lugaru",
+      "status": "backup_not_downloaded",
+      "repository_url": "https://github.com/WolfireGames/lugaru",
+      "topics": [
+        "第三人称近战"
+      ],
+      "auto_download": false
+    },
+    {
+      "id": "stk-code",
+      "name": "SuperTuxKart",
+      "status": "backup_not_downloaded",
+      "repository_url": "https://github.com/supertuxkart/stk-code",
+      "topics": [
+        "竞速"
+      ],
+      "auto_download": false
+    },
+    {
+      "id": "taisei",
+      "name": "Taisei",
+      "status": "backup_not_downloaded",
+      "repository_url": "https://github.com/taisei-project/taisei",
+      "topics": [
+        "弹幕"
+      ],
+      "auto_download": false
+    },
+    {
+      "id": "deadascend",
+      "name": "Dead Ascend",
+      "status": "backup_not_downloaded",
+      "repository_url": "https://github.com/larpon/DeadAscend",
+      "topics": [
+        "点击解谜"
+      ],
+      "auto_download": false
+    },
+    {
+      "id": "pooltool",
+      "name": "Pooltool",
+      "status": "backup_not_downloaded",
+      "repository_url": "https://github.com/ekiefl/pooltool",
+      "topics": [
+        "台球物理"
+      ],
+      "auto_download": false
+    },
+    {
+      "id": "survivorsstarterkit",
+      "name": "Survivors Starter Kit",
+      "status": "backup_not_downloaded",
+      "repository_url": "https://github.com/DarkRewar/SurvivorsStarterKit",
+      "topics": [
+        "Godot C#",
+        "幸存者"
+      ],
+      "auto_download": false
+    },
+    {
+      "id": "xonotic",
+      "name": "Xonotic",
+      "status": "backup_not_downloaded",
+      "repository_url": "https://gitlab.com/xonotic/xonotic",
+      "topics": [
+        "竞技FPS"
+      ],
+      "auto_download": false
+    },
+    {
+      "id": "luanti-voxelibre",
+      "name": "Luanti + VoxeLibre",
+      "status": "backup_not_downloaded",
+      "repository_urls": [
+        "https://github.com/luanti-org/luanti",
+        "https://git.minetest.land/VoxeLibre/VoxeLibre"
+      ],
+      "topics": [
+        "生存建造",
+        "体素",
+        "Lua"
+      ],
+      "auto_download": false
+    },
+    {
+      "id": "pokemon-auto-chess",
+      "name": "Pokemon Auto Chess",
+      "status": "observation_backup_not_downloaded",
+      "repository_url": "https://github.com/keldaanCommunity/pokemonAutoChess",
+      "topics": [
+        "自走棋",
+        "同人IP",
+        "非营利"
+      ],
+      "auto_download": false,
+      "reason": "仅机制观察备选；IP、素材与账号部署限制"
+    }
+  ]
+}

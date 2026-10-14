@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
 import workspace as w
 from test_tools import module
+from release_history import advance_to_predecessor, rollback_history
 
 
 class AgentCoordinationRelease(unittest.TestCase):
@@ -83,15 +84,16 @@ class AgentCoordinationRelease(unittest.TestCase):
                         host / 'client/config.toml': b'USER CLIENT CONFIG\n'}
                 for path, data in keep.items():
                     path.parent.mkdir(parents=True, exist_ok=True); path.write_bytes(data)
-                review = host / 'modules/research/proactive/review.py'
+                steps = advance_to_predecessor(ROOT, host, base / ('coordination-history-'+mode))
+                review = host / 'modules/research/README.md'
                 original = review.read_bytes(); review.write_bytes(original + b'\n# Local edit\n')
                 conflict = w.install(ROOT, host, 'upgrade', [], True)
                 self.assertFalse(conflict['applied']); self.assertTrue(conflict['conflicts'])
-                self.assertEqual(w.state(host)['version'], '1.10.0')
-                self.assertFalse((host / 'modules/research/proactive/cost.py').exists())
+                self.assertEqual(w.state(host)['version'], w.catalog(ROOT)['previous_version'])
+                self.assertTrue((host / 'modules/research/proactive/cost.py').exists())
                 review.write_bytes(original)
                 result = w.install(ROOT, host, 'upgrade', [], True)
-                self.assertTrue(result['applied']); self.assertEqual(w.state(host)['version'], '1.11.0')
+                self.assertTrue(result['applied']); self.assertEqual(w.state(host)['version'], w.catalog(ROOT)['version'])
                 cost = host / 'modules/research/proactive/cost.py'
                 self.assertTrue(cost.is_file())
                 summary = self.command(sys.executable, '-X', 'utf8', '-B', cost, 'mark', '--runs',
@@ -99,6 +101,8 @@ class AgentCoordinationRelease(unittest.TestCase):
                                        '--scheduled-date', '2026-10-14', '--phase', 'discovery')
                 self.assertEqual(summary['status'], 'open'); self.assertIsNone(summary['monetary_cost'])
                 self.assertTrue(w.rollback(host, result['transaction'], True)['applied'])
+                self.assertEqual(w.state(host)['version'], w.catalog(ROOT)['previous_version'])
+                rollback_history(host, steps)
                 self.assertEqual(w.state(host)['version'], '1.10.0')
                 self.assertFalse(cost.exists())
                 self.assertTrue((host / 'new-observations/2026-10-14-research.cost.json').exists())

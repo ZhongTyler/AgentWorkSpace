@@ -11,7 +11,9 @@
         "rea",
         "media",
         "browser",
-        "research-sources"
+        "research-sources",
+        "flux-klein",
+        "cutout"
       ],
       "default_path": "Original Research; Intern only when useful for a batch"
     },
@@ -58,7 +60,9 @@
       "tools": [
         "decisions",
         "rea",
-        "media"
+        "media",
+        "flux-klein",
+        "cutout"
       ],
       "default_path": "Host contracts; no automatic priority or project decisions"
     }

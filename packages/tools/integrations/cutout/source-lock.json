@@ -1,0 +1,11 @@
+{
+  "model_id": "skytnt/anime-seg",
+  "revision": "493cb60893f47441b26ec4fb9a306bce9e342982",
+  "license": "Apache-2.0",
+  "file": "isnetis.onnx",
+  "bytes": 176069933,
+  "sha256": "f15622d853e8260172812b657053460e20806f04b9e05147d49af7bed31a6e99",
+  "official_url": "https://huggingface.co/skytnt/anime-seg/resolve/493cb60893f47441b26ec4fb9a306bce9e342982/isnetis.onnx",
+  "upstream_source": "https://github.com/SkyTNT/anime-segmentation",
+  "status": "optional_recipient_validation_required"
+}

@@ -7,6 +7,11 @@
     "integrations/browser/extensions.json": "a90271700fea47f9c0a219efe242f088df4635c84459a77e88088d320a982b84",
     "integrations/browser/prepare.py": "7919334cc7760d4701ee64f8dc08832c571b2cfbafe74a1e1dac2fdfaba24b77",
     "integrations/browser/README.md": "c49c7c147af44c5c989e7aca94f9647898492f7c335ae05b9ad83cf3fd3c893e",
+    "integrations/cutout/cutout.py": "f6a5d3a93a5191d6aedda70d077295b088017df02c760d6cf80cdcf704aa4a09",
+    "integrations/cutout/README.md": "cf4fde09f724fe3e5e41e3191183d378d19eac15235dfd4990ab6057a18bd2cb",
+    "integrations/cutout/requirements-windows-py312.lock": "17df241382f707c8736389387e831193c4ff8204caa3918f00fe956c08439f1c",
+    "integrations/cutout/source-lock.json": "b6f977df89ad6dc45c4749b66534303b907cbfaf0c5a808c80f91cfeb4c9124e",
+    "integrations/cutout/verify.py": "d0251c77fcdf31e87d4da30194db559c9bef2c0861fd1d27ad33cb8b14fbe1a3",
     "integrations/decision-models/backends.py": "c48a2f6e2c7d5a6d16d1cff9269a5d6bffe32c435a37b2875e2e972abf74bb1d",
     "integrations/decision-models/download_weights.py": "7e250b89fd65d00f6b6be80bf9664771d050067a07ff0ed8787542e9c6cbcd09",
     "integrations/decision-models/intern_backend.py": "306ccaf947b115b63ad536def948a8a65808f06e590e5e4d1b52f472d1b24a8c",
@@ -42,6 +47,13 @@
     "integrations/decision-models/vendor/startlux-model-metadata/NOTICE": "ec7d09e98f04667acf3a33358ee4e830f6ee3b41251af388035aec40d4e47fe2",
     "integrations/decision-models/vendor/startlux-model-metadata/README.md": "ffa948c109f5e6553cef76976eb55ce7605926192cac3a292738c973b8bad23b",
     "integrations/decision-models/verify_installation.py": "aa57bfd12e65101ea7f99fb9a66946628c2bda12a60575a3740487cce0e6a7fc",
+    "integrations/flux-klein/generate.py": "9911727859d9e41d18fe3c8c7f149b0197ab63dce46fa9d41c97fabc44154096",
+    "integrations/flux-klein/README.md": "9c2e1246efed4aefa074efa5d8cf9545fc91b4e6a8de9103c4bbe098a12be259",
+    "integrations/flux-klein/requirements-windows-py312.lock": "af1801d733a806408af5ee25d327de10907dbc0dac38073fc2ff604157012332",
+    "integrations/flux-klein/source-lock.json": "0722ce0ae11dc96b28cb0ef819275da391ee61d83372fe176763662d8c8ed372",
+    "integrations/flux-klein/start.ps1": "1f3eebbea05e0a819f1ccbe4dc15a786e6a4199b1987802417905060ba160921",
+    "integrations/flux-klein/stop.ps1": "0c130fb2bd317e5986eb13d818e255e0a5848bd7345252b92ed0fe885d8de5cd",
+    "integrations/flux-klein/verify.py": "22065e52e83be76a70cba70a0cb0c085ffa5afd0974ff6ad3b926132e560f509",
     "integrations/mcp/npm-package-lock.json": "782899efa8f2c7dee95a14fc2799c3ab00983065537b7949a3b3e0a6007ccb43",
     "integrations/mcp/package-lock.json": "fa342b31e639871d43fa809eae106e4a463d4860da83f1848b01373e9c24ef11",
     "integrations/mcp/package.json": "469bdf785019a16b58dded84328d748ecfbacad9403bbb25e89f2cf4e169cc9a",
@@ -108,9 +120,9 @@
     "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
     "LICENSE-NOTICE.md": "0eace850e891974dde88c681ad9fe765575147b85a77ee40788825985d8144e6",
     "prepare_home.py": "c292df81660af22ff51c63e678dede6b1b62250ed244568cc9bb5bc037eb80c9",
-    "README.md": "6fb5695760bef2af9fbd29262fbcf339b48695d46b964030aaa49c65312753c4",
-    "registry.json": "9c42f90b595bd34eaac6d4f0a7053cd9d05299e092aa09f2e4ecbfb3f7caf593",
+    "README.md": "b3a5c7ad3b676e5784f500f542439b3c92640d616c90f0c72ca5203080e40733",
+    "registry.json": "3865a424779e6a8b4cc224e33082c607f9a661ba62fb0f51eda8c58babe014e9",
     "toolbox.py": "8499d6c684ef2a7d5717a7e95a4082396ca95beae643303352aa6fd4910d8245",
-    "workflows.json": "ab945fbe1ecc91606ed4736643f5f568b5790f726bc64013970ac7c0d48b3464"
+    "workflows.json": "9cf343eaab6c7b180eb5af5d5bffba073e0ea454ac88d43b4afc7d223ff1564b"
   }
 }

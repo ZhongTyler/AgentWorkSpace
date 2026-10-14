@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "mode": "optional_external_reference_home",
+  "files": {
+    "catalog.json": "22e9805ab22a47bc13a64d1e287e6722f5409b9c82ac82edcc2c70c696d27aa3",
+    "library.py": "96c1487c50939255db009a7963bfb82515e5731340326695e9b92f5737cdd569",
+    "licenses/athena-crisis/LICENSE.md": "e25f08d9782baa7b8dba836146f3e7593cac862346f49990e12b1bfa2ae5f2c7",
+    "licenses/brogue-ce/bin/assets/LICENSE.txt": "b9b40facc880ef072a946afffdaed5260cb8928077df971326e185de35df165d",
+    "licenses/brogue-ce/LICENSE.txt": "91b65277959ec273763d28ef002e83a6b3fba57c7a35436c9e5b66536333d720",
+    "licenses/ddnet/data/assets/entities/license.txt": "0f664d5fe4b2f9d29748d082289ca4e18a367a57bc8857637df3d45edc08e794",
+    "licenses/ddnet/data/languages/license.txt": "f8c1cff1aab1fb0ff5d871fa6c0653a817fa621f280bf4899293e3be4a82198e",
+    "licenses/ddnet/data/maps/license.txt": "96b5ec0bba829f7bd29563b67e81382383b4a7f64edc34f3d7b64ee44e850196",
+    "licenses/ddnet/data/skins/license.txt": "ef9a479015dda0c10c50b017f873ca7684b8ff745f93b9b9f27e8812befb527e",
+    "licenses/ddnet/license.txt": "b24db78f94d5e4709016dd8dd9df587e2ef9cd67ae8b1b1c6bdbfb8732f9cfa0",
+    "licenses/ddnet/other/icons/license.txt": "9075c58a1fb8aa1b9f6d0d355864eb6478feb8b2a141428b53168acb730bb213",
+    "licenses/ddnet/src/engine/external/glew/LICENSE.txt": "8991cd11befec7c6a63662700f03c0cc42e864b6e77c7e70b80297c951a7f0ff",
+    "licenses/ddnet/src/engine/external/json-parser/LICENSE": "298d84f63ba08c3c4b2939d4ddad815741c4905fbe3544505cda0f3b2b0759bb",
+    "licenses/mindustry/LICENSE": "963392e038d7bea128e55cc67dd691c204593db3527060667f0c82f0f0a1be64",
+    "licenses/server-survival/LICENSE": "e86ab27fe716ee76a1f270a5494b65edaf8add18ed1c311ef578289c379b9198",
+    "licenses/shattered-pixel-dungeon/LICENSE.txt": "d0495053051967ebe76fb1facd287d79d1ed800da1be75cf501a556bc39a0472",
+    "licenses/slay-the-robot/addons/label_font_auto_sizer/LICENSE": "3b0d364720332be93cec5254ab7cf412edbfa974be4d5d2f4bbcab0abf42b4b4",
+    "licenses/slay-the-robot/addons/smooth_scroll_container/LICENSE": "394cd742bee08daa92e4bf60cdbac06c5fbd09ebb291233e267e1a0d620b07b9",
+    "licenses/slay-the-robot/addons/sound_manager/LICENSE": "671668f8e7fb0a2349085ee915c9648ad6b48341dc5c4c84d5a898fe1d8813aa",
+    "licenses/slay-the-robot/LICENSE": "0b2c1e3a67e6c37c0ca1979fe3d6abd99f09a7f999156508a8f07aa2801e1d7e",
+    "licenses/whatajong/LICENSE": "0f1618a69cba05fc6e7292617c5742e76ab5ceca24f92f39d8765fc422f15695",
+    "prepare_home.py": "6adc6ac910d58194b5bdc1e34ad61ea75eedf1cb4d4f469b6cc26fdf90e0e93e",
+    "README.md": "7de82445866ed3b960fd9a338b04f06a53616016ca07605e4036482318079f4d"
+  }
+}

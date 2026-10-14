@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "integration": "flux-klein-local-pilot",
+  "source": {
+    "tag": "v0.39.0",
+    "commit": "b0b743566f65daafc423b4fea8a2fbda94b3384a",
+    "url": "https://github.com/Comfy-Org/ComfyUI/releases/tag/v0.39.0",
+    "archive_url": "https://codeload.github.com/Comfy-Org/ComfyUI/zip/b0b743566f65daafc423b4fea8a2fbda94b3384a",
+    "archive_sha256": "c8997f6781e2b53861697fab23b77a7fdb556ec0640f21653a89689556816b54",
+    "license": "GPL-3.0"
+  },
+  "models": [
+    {
+      "path": "models/vae/flux2-vae.safetensors",
+      "bytes": 336211292,
+      "sha256": "868fe7b343cc8f3a19dbcfcafbc3d5f888802be3f89bd81b65b3621a066ce8f3",
+      "official_url": "https://huggingface.co/Comfy-Org/vae-text-encorder-for-flux-klein-4b/resolve/5f526678002e43af5551dadb73ce2e8c91b43afe/split_files/vae/flux2-vae.safetensors",
+      "revision": "5f526678002e43af5551dadb73ce2e8c91b43afe",
+      "license": "Apache-2.0"
+    },
+    {
+      "path": "models/diffusion_models/flux-2-klein-4b-fp8.safetensors",
+      "bytes": 4070624520,
+      "sha256": "97ed34fe0567e436200f2faee3939b88f2b5d99f8af2a4dc16532c4245c0ccb6",
+      "official_url": "https://huggingface.co/black-forest-labs/FLUX.2-klein-4B-fp8/resolve/5b4408e59397a4a37ccb46afe426d8ed86379441/flux-2-klein-4b-fp8.safetensors",
+      "revision": "5b4408e59397a4a37ccb46afe426d8ed86379441",
+      "license": "Apache-2.0"
+    },
+    {
+      "path": "models/text_encoders/qwen_3_4b_fp4_flux2.safetensors",
+      "bytes": 3848213998,
+      "sha256": "3eab03a77adb0ee5304a4e677d5c10ac22f9049c1d7c894adca4f8bb39206ca8",
+      "official_url": "https://huggingface.co/Comfy-Org/vae-text-encorder-for-flux-klein-4b/resolve/5f526678002e43af5551dadb73ce2e8c91b43afe/split_files/text_encoders/qwen_3_4b_fp4_flux2.safetensors",
+      "revision": "5f526678002e43af5551dadb73ce2e8c91b43afe",
+      "license": "Apache-2.0"
+    }
+  ],
+  "python": "3.12.14",
+  "torch": "2.9.1+cu128",
+  "torchvision": "0.24.1+cu128",
+  "status": "optional_recipient_validation_required",
+  "active_models_total_bytes": 8255049810
+}

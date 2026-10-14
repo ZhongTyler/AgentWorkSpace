@@ -50,6 +50,7 @@ def stage(source, destination):
                  'proactive', 'game-research', 'integrations', 'toolbox.py', 'prepare_home.py', 'registry.json', 'workflows.json', 'portable-profile.json'}
         if component == 'research':
             roots -= {'toolbox.py', 'prepare_home.py', 'registry.json', 'workflows.json', 'portable-profile.json'}
+            roots.add('reference-library')
         else:
             roots.add('docs')
         if any(manifest.get(key) for key in ('root_files', 'copy_directories', 'text_replacements')):
@@ -57,6 +58,8 @@ def stage(source, destination):
         for item in manifest.get('copy_files', []):
             name = relative(item['source'])
             target = relative(item['target'])
+            if target.startswith('reference-library/') and target not in {'reference-library/README.md','reference-library/catalog.json','reference-library/library.py','reference-library/prepare_home.py','reference-library/portable-profile.json'} and not target.startswith('reference-library/licenses/'):
+                raise ContractError('Reference library requires explicit portable metadata, code or license inputs')
             if component == 'tools' and target.startswith('docs/') and target != 'docs/decision-model-policy.md':
                 raise ContractError('Tools documentation requires the explicit portable policy whitelist')
             if name != 'release-input/curated/' + target or target.split('/')[0] not in roots or any(

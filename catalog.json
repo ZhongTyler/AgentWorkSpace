@@ -385,7 +385,7 @@
       ],
       "source": "packages/brainstorm",
       "source_revision": "e4d7f2322f32412a9538ddf8dc6fca994ca9e5ca",
-      "version": "1.11.0"
+      "version": "1.12.0"
     },
     "fromdemotospec": {
       "destination": "modules/fromdemotospec",
@@ -461,7 +461,7 @@
       ],
       "source": "packages/fromdemotospec",
       "source_revision": "625f55a1bf56b9e16d0c8fd2c6b8ba44e19c1381",
-      "version": "1.11.0"
+      "version": "1.12.0"
     },
     "game-analysis-decision": {
       "destination": "modules/game-analysis-decision",
@@ -548,7 +548,7 @@
       "required": [],
       "source": "packages/game-analysis-decision",
       "source_revision": "0693c5030d33fd2e22ed66295e5e05d5be23c534",
-      "version": "1.11.0"
+      "version": "1.12.0"
     },
     "game-presentation": {
       "destination": "modules/game-presentation",
@@ -588,7 +588,7 @@
       "required": [],
       "source": "packages/game-presentation",
       "source_revision": "5bc2d49a86b3b02a4080b6c6dd12a2ef716ef971",
-      "version": "1.11.0"
+      "version": "1.12.0"
     },
     "knowledge": {
       "destination": "modules/knowledge",
@@ -719,7 +719,7 @@
       ],
       "source": "packages/knowledge",
       "source_revision": "a3d3f491a13d2879e898057fcb1d0f51189075e3",
-      "version": "1.11.0"
+      "version": "1.12.0"
     },
     "meta": {
       "destination": "",
@@ -763,7 +763,7 @@
       "required": [],
       "source": "meta/workspace",
       "source_revision": "da9a437f83e4f9e7f3ee0f5b3be60415fbebf6e2",
-      "version": "1.11.0"
+      "version": "1.12.0"
     },
     "prototype-assets": {
       "destination": "modules/prototype-assets",
@@ -1057,7 +1057,7 @@
       "required": [],
       "source": "packages/prototype-assets",
       "source_revision": "5abe108be291076b4e44717d17c740fca230c8e7",
-      "version": "1.11.0"
+      "version": "1.12.0"
     },
     "research": {
       "destination": "modules/research",
@@ -1066,11 +1066,11 @@
         "AGENTS.md": "d95ee9f26a93102cb32d3b3f3d74681fa368286c139e1d62ff4be8651aa6236b",
         "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
         "LICENSE-NOTICE.md": "15cd4ccbc67b328e368766cbbd8a3f69fc490406cfa8df16535f21825add0db8",
-        "README.md": "1247e60ce5d231a28c3d097b24ec71f78d2e1fbd6199d4e4d5bbd7944996e813",
-        "RESEARCH_PROTOCOL.md": "adaf19dff9c6286fedb9a67312d2a61b68c0ab7ae0c3155db5d184b936b0603e",
-        "_release.json": "4872b798532a5a8e0ec040744be01b05ea85ca841b7df769199e9dadaf45dbd3",
-        "game-research/README.md": "06773d6d9a1f915419971031f7ec8edfff9aee286a1f9e1f7dd5dd48879d46ec",
-        "game-research/development-support.md": "97b78e3f3da1c335bfffdf49a7e85b8c1ab1e62b723365f0ea70e75db6eec853",
+        "README.md": "f359f0d1362ae037278eb490bfc89881d080915220940c155c61b69cd0a03662",
+        "RESEARCH_PROTOCOL.md": "c957f6d564f840594ac700db05b948ab79ec3ce92d081bbf1c0fe3335d069ea8",
+        "_release.json": "ef071327fbd1be5752a827e6b6fceaf623705872e832c32d7c7eea88b53330ee",
+        "game-research/README.md": "9fcb87ff5da4a3c24f98ac9302b9252fa518d0b3bcd049ed84f3146e4d1a6549",
+        "game-research/development-support.md": "d30013d6b7de31e19d715a883dc18dc3183bc335acbd5f6132e05291efd288b0",
         "game-research/media-capture.md": "3b545556365e6a92c50623ecd59037fe172083e33627a1e9a6aab973b3e07aa6",
         "game-research/selection-lenses.json": "902cce1e90533197fe688287877146759c2989e57a0f7748b96eb441ff2f894e",
         "game-research/sources.json": "c02c2872e635542a18c699648e6c751b99ccca6110390ad8cd8288e91741b7d4",
@@ -1147,6 +1147,30 @@
         "proactive/review.py": "02920f90bc6f3aa3e295f3a47aa752296df472641fe0c11ce147d75760664455",
         "proactive/reviews/README.md": "28f5349942a75b4bc548085ebe46cbe133f0b8780e9588ed46d3152c2df24ebe",
         "proactive/schedule-template.json": "1e6c2988a1e624cbb4fa85e47a66e6980d66be3570301aa781d0d7cc799880de",
+        "reference-library/README.md": "7de82445866ed3b960fd9a338b04f06a53616016ca07605e4036482318079f4d",
+        "reference-library/catalog.json": "22e9805ab22a47bc13a64d1e287e6722f5409b9c82ac82edcc2c70c696d27aa3",
+        "reference-library/library.py": "96c1487c50939255db009a7963bfb82515e5731340326695e9b92f5737cdd569",
+        "reference-library/licenses/athena-crisis/LICENSE.md": "e25f08d9782baa7b8dba836146f3e7593cac862346f49990e12b1bfa2ae5f2c7",
+        "reference-library/licenses/brogue-ce/LICENSE.txt": "91b65277959ec273763d28ef002e83a6b3fba57c7a35436c9e5b66536333d720",
+        "reference-library/licenses/brogue-ce/bin/assets/LICENSE.txt": "b9b40facc880ef072a946afffdaed5260cb8928077df971326e185de35df165d",
+        "reference-library/licenses/ddnet/data/assets/entities/license.txt": "0f664d5fe4b2f9d29748d082289ca4e18a367a57bc8857637df3d45edc08e794",
+        "reference-library/licenses/ddnet/data/languages/license.txt": "f8c1cff1aab1fb0ff5d871fa6c0653a817fa621f280bf4899293e3be4a82198e",
+        "reference-library/licenses/ddnet/data/maps/license.txt": "96b5ec0bba829f7bd29563b67e81382383b4a7f64edc34f3d7b64ee44e850196",
+        "reference-library/licenses/ddnet/data/skins/license.txt": "ef9a479015dda0c10c50b017f873ca7684b8ff745f93b9b9f27e8812befb527e",
+        "reference-library/licenses/ddnet/license.txt": "b24db78f94d5e4709016dd8dd9df587e2ef9cd67ae8b1b1c6bdbfb8732f9cfa0",
+        "reference-library/licenses/ddnet/other/icons/license.txt": "9075c58a1fb8aa1b9f6d0d355864eb6478feb8b2a141428b53168acb730bb213",
+        "reference-library/licenses/ddnet/src/engine/external/glew/LICENSE.txt": "8991cd11befec7c6a63662700f03c0cc42e864b6e77c7e70b80297c951a7f0ff",
+        "reference-library/licenses/ddnet/src/engine/external/json-parser/LICENSE": "298d84f63ba08c3c4b2939d4ddad815741c4905fbe3544505cda0f3b2b0759bb",
+        "reference-library/licenses/mindustry/LICENSE": "963392e038d7bea128e55cc67dd691c204593db3527060667f0c82f0f0a1be64",
+        "reference-library/licenses/server-survival/LICENSE": "e86ab27fe716ee76a1f270a5494b65edaf8add18ed1c311ef578289c379b9198",
+        "reference-library/licenses/shattered-pixel-dungeon/LICENSE.txt": "d0495053051967ebe76fb1facd287d79d1ed800da1be75cf501a556bc39a0472",
+        "reference-library/licenses/slay-the-robot/LICENSE": "0b2c1e3a67e6c37c0ca1979fe3d6abd99f09a7f999156508a8f07aa2801e1d7e",
+        "reference-library/licenses/slay-the-robot/addons/label_font_auto_sizer/LICENSE": "3b0d364720332be93cec5254ab7cf412edbfa974be4d5d2f4bbcab0abf42b4b4",
+        "reference-library/licenses/slay-the-robot/addons/smooth_scroll_container/LICENSE": "394cd742bee08daa92e4bf60cdbac06c5fbd09ebb291233e267e1a0d620b07b9",
+        "reference-library/licenses/slay-the-robot/addons/sound_manager/LICENSE": "671668f8e7fb0a2349085ee915c9648ad6b48341dc5c4c84d5a898fe1d8813aa",
+        "reference-library/licenses/whatajong/LICENSE": "0f1618a69cba05fc6e7292617c5742e76ab5ceca24f92f39d8765fc422f15695",
+        "reference-library/portable-profile.json": "ceb54112a0cceacb906203ef4c3ba10281b568c252342ab8a0aea5df926f89df",
+        "reference-library/prepare_home.py": "6adc6ac910d58194b5bdc1e34ad61ea75eedf1cb4d4f469b6cc26fdf90e0e93e",
         "sources.json": "7ac6c2a5154590d81aa1d76122540b754032dae0a8ad31c31272449082d8c39f",
         "templates/decision-model-policy.md": "ebee1f65e4db11fc44946ec6ecdb1a5844922a5b5d1ed9bedf036e7a891829a8",
         "templates/research-note.md": "01c2569c1e42a42fc36c5cde05e9b42e506f544e7bb6102eb49c29575247ba5c",
@@ -1163,8 +1187,8 @@
       ],
       "required": [],
       "source": "packages/research",
-      "source_revision": "0604356d356bd01d38e382ab50e7f9228056f86f",
-      "version": "1.11.0"
+      "source_revision": "e51c41090a11484878c6c28433f48b88ec969648",
+      "version": "1.12.0"
     },
     "skills": {
       "destination": "modules/skills",
@@ -1172,8 +1196,8 @@
         ".gitattributes": "8b7d05e308c8b3f2674f6f7311520f9b2421bccbec7d6abdcd79192d8fd99535",
         "AGENTS.md": "c4d351aac39a83e5b0595a1f51f2316b8a581ae6abb70ba7f875c6e7e32db1d1",
         "README.md": "8d9ea8de8c67a21170b16c46bce33184a2a594da98aba9849f8ef2c8a4d488ea",
-        "_release.json": "a109a5812dd9662a6a05d08e29640069bf0e921e37d1096152fef3fec591ad7a",
-        "catalog.json": "570c5ab8547e1c4012594804a8c97e541c4fce3bd8c7e8b72e5dd2a3e249b3ba",
+        "_release.json": "edcb9fd38742c142e31e27d107cc2f9b96d2c699535050c123aee1c3b48dd47f",
+        "catalog.json": "0c9c7f6839f2bb72b8643b3e24197d7195b134b9062dcd8d1f6e03a8282e5f08",
         "library/agent-blind-eval/SKILL.md": "10d8580707534354eb22f6c1a9ccb86be19fa7587ecdeed6efd43abe81f8d3fe",
         "library/agent-blind-eval/references/evaluation-protocol.md": "84475be418d07b89e148df4ea54b917a2bc5e4dacb44f85038c8cdf60887bea6",
         "library/bidirectional-steelman/SKILL.md": "fe063aa466c41f4f4179d246d9aae1a414913a0fc7912356eb05458a50e2423f",
@@ -1207,12 +1231,13 @@
         "library/systematic-debugging/references/condition-based-waiting.md": "e89fec8400d6cd50f43407cec9fab50976ba4d55d0ec2eb51c0bd68036b54c26",
         "library/systematic-debugging/references/defense-in-depth.md": "1e175fb86fc357e58c6aebf5441e481e1b7868b4380c0456b63a17eefbd18ba7",
         "library/systematic-debugging/references/root-cause-tracing.md": "6b0622269e098ca1399e123e553fd385f0b6412d88ef0e9c4f5a8ea9cf1cec7b",
-        "library/workflow-closure/SKILL.md": "d8013cfd68939a4972d93e4288813b5a740a973722d547ba0a43b548b9ec76c0",
+        "library/workflow-closure/SKILL.md": "051b00406d94b0709e77f360489348cd93bf5d42d4232fac7352a3748ec93eeb",
         "library/workflow-redesign/SKILL.md": "ff22be8ea4bd5bceb19d664aca178c99250e6886e80a7afe7892bcad447549f8",
         "library/workflow-redesign/references/delivery-and-validation.md": "3c59aa20d75780e4a755f3d65c9c563e64ebe7793d3a4ff3a869e5d7329ab134",
         "scripts/_runtime.py": "227ee4d4b9a1f782acf5a6f184fa53516665b193036b90ee04db59376ce87098",
         "scripts/skills.py": "6a5580c901a39762d2406ea8294c48f6b88e967ae89f4eba9671fb06853a42c9",
-        "skills.json": "cba019f3befcc2273b38947f20271c9418a5fcfbe11cdf8adf2dba12b7ee2d66",
+        "skills.json": "acab6b65409eb25073923d843072baec4c4e545355c59ee4526667f7e7f181c7",
+        "upgrades/1.12.0.md": "8aa10c1accdacf5831d0039023352f089ff20ef96ea4afddcb8c7b661408f087",
         "upgrades/1.3.0.md": "927cf0f66766df0d59fd6a34ba2dc3e1b5077e86d9ce9f501e38ba6a3198eab1",
         "upgrades/1.3.1.md": "f1a732b8b2f81b82124cc9bbb03a930e7b16ae24f67758a5acb9ccc798743216",
         "upgrades/1.8.0.md": "2d31b383f84b1871f539c82c142a0e9370d184251509c57d7519a959a42a8894"
@@ -1228,8 +1253,8 @@
       ],
       "required": [],
       "source": "packages/skills",
-      "source_revision": "1a7feff498ba7cf3f4fc57d21b1ba554779e67bb",
-      "version": "1.11.0"
+      "source_revision": "64db68f37ea71ece6136da08d52a38b17a47f8b6",
+      "version": "1.12.0"
     },
     "tools": {
       "destination": "modules/tools",
@@ -1237,12 +1262,17 @@
         "AGENTS.md": "7794bfd8100b90f2d8bee57ccb4f7774335c8cd57ff7a5330c8148cd871bfe7d",
         "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
         "LICENSE-NOTICE.md": "0eace850e891974dde88c681ad9fe765575147b85a77ee40788825985d8144e6",
-        "README.md": "6fb5695760bef2af9fbd29262fbcf339b48695d46b964030aaa49c65312753c4",
-        "_release.json": "b1383e69c7432cc5b5b53a07ac448960122b6c9c63c31c4c006f7947781c8f37",
+        "README.md": "b3a5c7ad3b676e5784f500f542439b3c92640d616c90f0c72ca5203080e40733",
+        "_release.json": "a9d424b960482be3baebd5c425e1d95eedf4bcf5126132c3603ca21f388e0a12",
         "docs/decision-model-policy.md": "ebee1f65e4db11fc44946ec6ecdb1a5844922a5b5d1ed9bedf036e7a891829a8",
         "integrations/browser/README.md": "c49c7c147af44c5c989e7aca94f9647898492f7c335ae05b9ad83cf3fd3c893e",
         "integrations/browser/extensions.json": "a90271700fea47f9c0a219efe242f088df4635c84459a77e88088d320a982b84",
         "integrations/browser/prepare.py": "7919334cc7760d4701ee64f8dc08832c571b2cfbafe74a1e1dac2fdfaba24b77",
+        "integrations/cutout/README.md": "cf4fde09f724fe3e5e41e3191183d378d19eac15235dfd4990ab6057a18bd2cb",
+        "integrations/cutout/cutout.py": "f6a5d3a93a5191d6aedda70d077295b088017df02c760d6cf80cdcf704aa4a09",
+        "integrations/cutout/requirements-windows-py312.lock": "17df241382f707c8736389387e831193c4ff8204caa3918f00fe956c08439f1c",
+        "integrations/cutout/source-lock.json": "b6f977df89ad6dc45c4749b66534303b907cbfaf0c5a808c80f91cfeb4c9124e",
+        "integrations/cutout/verify.py": "d0251c77fcdf31e87d4da30194db559c9bef2c0861fd1d27ad33cb8b14fbe1a3",
         "integrations/decision-models/README.md": "479f39cb530dabf1e684f9699cf996656b9527bc60ee763e7ccd3fc381478bfe",
         "integrations/decision-models/backends.py": "c48a2f6e2c7d5a6d16d1cff9269a5d6bffe32c435a37b2875e2e972abf74bb1d",
         "integrations/decision-models/download_weights.py": "7e250b89fd65d00f6b6be80bf9664771d050067a07ff0ed8787542e9c6cbcd09",
@@ -1278,6 +1308,13 @@
         "integrations/decision-models/vendor/startlux-model-metadata/NOTICE": "ec7d09e98f04667acf3a33358ee4e830f6ee3b41251af388035aec40d4e47fe2",
         "integrations/decision-models/vendor/startlux-model-metadata/README.md": "ffa948c109f5e6553cef76976eb55ce7605926192cac3a292738c973b8bad23b",
         "integrations/decision-models/verify_installation.py": "aa57bfd12e65101ea7f99fb9a66946628c2bda12a60575a3740487cce0e6a7fc",
+        "integrations/flux-klein/README.md": "9c2e1246efed4aefa074efa5d8cf9545fc91b4e6a8de9103c4bbe098a12be259",
+        "integrations/flux-klein/generate.py": "9911727859d9e41d18fe3c8c7f149b0197ab63dce46fa9d41c97fabc44154096",
+        "integrations/flux-klein/requirements-windows-py312.lock": "af1801d733a806408af5ee25d327de10907dbc0dac38073fc2ff604157012332",
+        "integrations/flux-klein/source-lock.json": "0722ce0ae11dc96b28cb0ef819275da391ee61d83372fe176763662d8c8ed372",
+        "integrations/flux-klein/start.ps1": "1f3eebbea05e0a819f1ccbe4dc15a786e6a4199b1987802417905060ba160921",
+        "integrations/flux-klein/stop.ps1": "0c130fb2bd317e5986eb13d818e255e0a5848bd7345252b92ed0fe885d8de5cd",
+        "integrations/flux-klein/verify.py": "22065e52e83be76a70cba70a0cb0c085ffa5afd0974ff6ad3b926132e560f509",
         "integrations/mcp/README.md": "a15bde998321e1c516faaf1551e9e18524dc8f989c31cb560d5d80fd36728d01",
         "integrations/mcp/THIRD_PARTY_NOTICES.txt": "82ddd2962655cf2e273aefee4ad0128cc5c2f653603098673ad55496847fd21b",
         "integrations/mcp/npm-package-lock.json": "782899efa8f2c7dee95a14fc2799c3ab00983065537b7949a3b3e0a6007ccb43",
@@ -1341,11 +1378,11 @@
         "integrations/rea/source-lock.json": "bea12efe8048ba1d414321bed9eb337631b6b463a1945c50abd359d9bae49c8f",
         "integrations/rea/vendor/REA-LICENSE.txt": "798f9e4d18e49b30bf2f12696c8ced73dc4e1413da375a333d01281543a1ea8b",
         "integrations/rea/vendor/rea-agents-6.4.0.tgz": "59eb1604b8db75f522d4a975c36ce6b4a2ad465e43bad165f9a8f728391db9b8",
-        "portable-profile.json": "a70f2959939157db595553d3af18a9d266b4e42ee6f45e8021f1be8f60b410ff",
+        "portable-profile.json": "3595acdd263cb72961c37bf4f7056044482e636fec22c6bb745ed8a2e4718f8d",
         "prepare_home.py": "c292df81660af22ff51c63e678dede6b1b62250ed244568cc9bb5bc037eb80c9",
-        "registry.json": "9c42f90b595bd34eaac6d4f0a7053cd9d05299e092aa09f2e4ecbfb3f7caf593",
+        "registry.json": "3865a424779e6a8b4cc224e33082c607f9a661ba62fb0f51eda8c58babe014e9",
         "toolbox.py": "8499d6c684ef2a7d5717a7e95a4082396ca95beae643303352aa6fd4910d8245",
-        "workflows.json": "ab945fbe1ecc91606ed4736643f5f568b5790f726bc64013970ac7c0d48b3464"
+        "workflows.json": "9cf343eaab6c7b180eb5af5d5bffba073e0ea454ac88d43b4afc7d223ff1564b"
       },
       "optional": [
         "research",
@@ -1357,8 +1394,8 @@
       ],
       "required": [],
       "source": "packages/tools",
-      "source_revision": "4f8000ff869735f9048203458b0809a225561934",
-      "version": "1.11.0"
+      "source_revision": "612776d50aa2fd35ea794794b61fe17b292ec702",
+      "version": "1.12.0"
     },
     "travel": {
       "destination": "modules/travel",
@@ -1482,10 +1519,10 @@
       "required": [],
       "source": "packages/travel",
       "source_revision": "52d1cf8fd85ff0602b5efe4013db94b1979c3b63",
-      "version": "1.11.0"
+      "version": "1.12.0"
     }
   },
-  "previous_version": "1.10.0",
+  "previous_version": "1.11.0",
   "schema_version": 1,
-  "version": "1.11.0"
+  "version": "1.12.0"
 }

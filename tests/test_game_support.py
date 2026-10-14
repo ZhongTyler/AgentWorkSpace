@@ -75,10 +75,13 @@ class GameSupportRelease(unittest.TestCase):
                 # Follow immutable published predecessors; a new release must not
                 # weaken the installer gate to accommodate an old test fixture.
                 history=advance_to_predecessor(ROOT,host,base/'history'/mode)
+                # Selected client Skills have their own predecessor chain.
+                self.skill(bundle,host,'upgrade','--apply')
+                original=game.read_bytes()
                 # Select an actual incoming change; unchanged local edits are preserved.
-                # Skills library is unchanged since 1.8.
-                readme=host/'modules/research/proactive/review.py';readme_before=readme.read_bytes()
-                self.assertNotEqual(w.digest(readme_before),w.catalog(ROOT)['components']['research']['files']['proactive/review.py'],'Conflict fixture needs an actual incoming file change')
+                # Workflow closure changed; this game entry retains its existing text.
+                readme=host/'modules/research/README.md';readme_before=readme.read_bytes()
+                self.assertNotEqual(w.digest(readme_before),w.catalog(ROOT)['components']['research']['files']['README.md'],'Conflict fixture needs an actual incoming file change')
                 readme.write_bytes(readme_before+b'\nLocal conflicting package edit.\n')
                 conflict=w.install(ROOT,host,'upgrade',[],True)
                 self.assertFalse(conflict['applied']);self.assertTrue(conflict['conflicts'])
@@ -97,14 +100,15 @@ class GameSupportRelease(unittest.TestCase):
                 self.assertFalse(self.skill(bundle,host,'upgrade')['applied'])
                 self.assertEqual(state_before,state.read_bytes())
                 game.write_bytes(original+b'\nConflicting user edit.\n')
-                refused=self.skill(bundle,host,'upgrade','--apply',ok=False)
-                self.assertTrue(refused['conflicts'])
+                unchanged=self.skill(bundle,host,'upgrade','--apply')
+                self.assertTrue(unchanged['applied'])
                 self.assertEqual(original+b'\nConflicting user edit.\n',game.read_bytes())
                 self.assertEqual(local,other.read_bytes())
+                self.skill(bundle,host,'rollback','--transaction',unchanged['transaction'],'--apply')
                 game.write_bytes(original)
                 selected=self.skill(bundle,host,'upgrade','--apply')
                 self.assertTrue(selected['applied'])
-                self.assertNotEqual(original,game.read_bytes())
+                self.assertEqual(original,game.read_bytes())
                 self.assertEqual((bundle/'library/game-decision-support/SKILL.md').read_bytes(),game.read_bytes())
                 self.assertEqual({'game-decision-support','humanizer-zh'},set(json.loads(state.read_text())['components']))
                 self.assertEqual(local,other.read_bytes())

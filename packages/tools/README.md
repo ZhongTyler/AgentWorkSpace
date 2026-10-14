@@ -24,6 +24,8 @@ python prepare_home.py --home <external-versioned-tools-home>
 | media | 公开正文、必要图片和 OCR；OCR 后仍实际读图。见 [媒体](integrations/media/README.md) |
 | browser | 可选扩展准备；安装或加载不证明宿主保存成功。见 [浏览器](integrations/browser/README.md) |
 | research-sources | 只读来源模板，使用者自行决定启用并授权。见 [来源连接](integrations/mcp/README.md) |
+| flux-klein | 可选本地生成/参考编辑候选；固定组件与显式准备，权重不附带。见 [FLUX klein](integrations/flux-klein/README.md) |
+| cutout | 可选CPU插画前景分割；孔洞、细叶和玻璃须实际查验。见 [抠图候选](integrations/cutout/README.md) |
 
 登记即发现，不是授权或实际业务接入。request 给出固定入口与回退；run 只执行已登记动作，仍须遵守宿主范围和输入输出授权。缺工具、低质量或不适合时回原流程，不能自动丢弃资料或替代最终审核。
 
@@ -40,3 +42,5 @@ python prepare_home.py --home <external-versioned-tools-home>
 新工具登记 registry.json：维护源、固定动作、许可、版本锁、依赖、恢复和输入输出边界。新调用方登记 workflows.json，并验证代表性真实材料、原路径对照、错误回退、授权/隐私、产物去向和使用记录；未通过前保持可选建议。周研究可合并轻量检查，不因安装本包创建调度；频率调整仍由宿主和用户决定。
 
 研究正文、模型推理输入、媒体、实验收据及账号保存在包外。公开版没有私人来源停用决定、连接状态、主机路径或旧路径联接。旧 Research helper 保持兼容；新工具优先在独立 Tools home 维护，不要求迁移历史证据。
+
+FLUX klein和CPU抠图维护组件随包保存固定版本与显式入口，权重与运行环境不附带。先准备外部Tools home，再自行配置验证；私人配对实验不包含在本版本。
