@@ -2,8 +2,14 @@
 import argparse
 from datetime import date, datetime
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
+
+_cost_spec = importlib.util.spec_from_file_location('research_cost', Path(__file__).with_name('cost.py'))
+_cost_module = importlib.util.module_from_spec(_cost_spec)
+_cost_spec.loader.exec_module(_cost_module)
+summarize_cost = _cost_module.summarize
 
 ROUTES = ('research', 'game-research')
 
@@ -35,12 +41,19 @@ def status(runs, reviews):
         key = item['route'] + ':' + item['scheduled_date']
         if key in completed:
             raise ValueError('Repeated execution in the same route/scheduled date: ' + key)
+        cost_path = runs / (item['scheduled_date'] + '-' + item['route'] + '.cost.json')
+        cost = 'unknown'
+        if cost_path.exists():
+            cost = summarize_cost(json.loads(local_file(runs, cost_path.name).read_text(encoding='utf-8-sig')))
+            if cost['run_key'] != key:
+                raise ValueError('Cost trace belongs to another scheduled run')
         completed[key] = {'key': key, 'receipt': path.name, 'report': item['report'],
                           'receipt_sha256': hashlib.sha256(path.read_bytes()).hexdigest(),
                           'metrics': item.get('metrics', {}),
                           'tool_usage': item.get('tool_usage', 'unknown'),
                           'model_decision': item.get('model_decision', 'unknown'),
                           'tool_health': item.get('tool_health', 'unknown'),
+                          'cost_trace': cost,
                           'cadence_assessment': item.get('cadence_assessment', {})}
     reviewed = set()
     for path in sorted(reviews.glob('*.json')):

@@ -75,8 +75,10 @@ class GameSupportRelease(unittest.TestCase):
                 # Follow immutable published predecessors; a new release must not
                 # weaken the installer gate to accommodate an old test fixture.
                 history=advance_to_predecessor(ROOT,host,base/'history'/mode)
-                # Research changes; Skills library is unchanged since 1.8.
-                readme=host/'modules/research/README.md';readme_before=readme.read_bytes()
+                # Select an actual incoming change; unchanged local edits are preserved.
+                # Skills library is unchanged since 1.8.
+                readme=host/'modules/research/proactive/review.py';readme_before=readme.read_bytes()
+                self.assertNotEqual(w.digest(readme_before),w.catalog(ROOT)['components']['research']['files']['proactive/review.py'],'Conflict fixture needs an actual incoming file change')
                 readme.write_bytes(readme_before+b'\nLocal conflicting package edit.\n')
                 conflict=w.install(ROOT,host,'upgrade',[],True)
                 self.assertFalse(conflict['applied']);self.assertTrue(conflict['conflicts'])

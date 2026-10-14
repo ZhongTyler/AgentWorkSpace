@@ -1,7 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { prepareAdapterIntake, prepareHostDecisionReceipt, prepareUnavailableFallback, validateFromDemoToSpecRequest, validateProducerDecision } from '../scripts/fromdemotospec-analysis-adapter.mjs';
+import { spawnSync } from 'node:child_process';
+import { adapterStatus, prepareAdapterIntake, prepareHostDecisionReceipt, prepareUnavailableFallback, validateFromDemoToSpecRequest, validateProducerDecision } from '../scripts/fromdemotospec-analysis-adapter.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const adapterRoot = path.join(root, 'adapters', 'game-analysis-decision');
@@ -16,6 +17,20 @@ for (const schemaName of ['fromdemotospec-analysis-request.schema.json', 'fromde
 }
 
 const contract = readJson(path.join(adapterRoot, 'contract.json'));
+const currentStatus = adapterStatus();
+assert(currentStatus.schema_version === 2 && currentStatus.request_contract === 'GameAnalysisDecision v2', 'Status must advertise the current v2 request route.');
+assert(currentStatus.commands.includes('consume-delivery') && currentStatus.receipt_contract === 'HostDecisionReceipt v1', 'Status must distinguish v2 consumption from v1 decision receipts.');
+assert(currentStatus.analysis_executed === false && currentStatus.ownership.host_write === false, 'Status is not analysis execution or permission.');
+assert(currentStatus.legacy.selection === 'explicit_schema_version_1_only' && currentStatus.legacy.external_contract.revision === contract.external_contract.revision, 'Legacy status must remain separately identifiable without rewriting historical contracts.');
+for (const [args, check] of [
+  [['status'], value => value.schema_version === 2 && value.commands.includes('consume-delivery')],
+  [['prepare-request', '--input', path.join(examples, 'request-v2.json')], value => value.schema_version === 2],
+  [['prepare-request', '--input', path.join(examples, 'fromdemotospec-request.json')], value => value.schema_version === 1]
+]) {
+  const result = spawnSync(process.execPath, [path.join(root, 'scripts/fromdemotospec-analysis-adapter.mjs'), ...args], {encoding: 'utf8'});
+  assert(result.status === 0, `Actual CLI failed: ${args[0]}: ${result.stderr || result.error}`);
+  assert(check(JSON.parse(result.stdout)), `CLI route/status mismatch: ${args.join(' ')}`);
+}
 assert(contract.adapter_id === 'fromdemotospec-adapter' && contract.status === 'ready', 'FromDemoToSpec adapter identity drifted.');
 assert(contract.external_contract.revision === 'ff66c413f3b623379f81ffbb50bf701876eec34f', 'External adapter revision must be explicitly pinned to the decision-rationale-review revision.');
 assert(contract.ownership.formal_decision_owner === 'fromdemotospec_host' && contract.ownership.accept_decision === false, 'FromDemoToSpec fact ownership or producer gate drifted.');

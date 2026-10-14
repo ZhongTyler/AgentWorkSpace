@@ -139,19 +139,31 @@ function argumentValue(args, name) {
   return args[index + 1];
 }
 
+function adapterStatus() {
+  return {
+    schema_version: 2,
+    adapter_id: contract.adapter_id,
+    status: 'binding_ready',
+    request_contract: 'GameAnalysisDecision v2',
+    receipt_contract: 'HostDecisionReceipt v1',
+    commands: ['prepare-request', 'consume-delivery', 'prepare-unavailable', 'prepare-host-decision'],
+    analysis_executed: false,
+    request_policy: contract.request_policy,
+    ownership: contract.ownership,
+    legacy: {
+      request_schema_version: 1,
+      selection: 'explicit_schema_version_1_only',
+      external_contract: contract.external_contract,
+      commands: contract.commands,
+      compatibility: contract.compatibility
+    }
+  };
+}
+
 async function runCli() {
   const [command, ...args] = process.argv.slice(2);
   if (command === 'status') {
-    process.stdout.write(`${JSON.stringify({
-      schema_version: 1,
-      adapter_id: contract.adapter_id,
-      status: contract.status,
-      external_contract: contract.external_contract,
-      commands: contract.commands,
-      compatibility: contract.compatibility,
-      request_policy: contract.request_policy,
-      ownership: contract.ownership
-    }, null, 2)}\n`);
+    process.stdout.write(`${JSON.stringify(adapterStatus(), null, 2)}\n`);
     return;
   }
   const input = readJson(path.resolve(argumentValue(args, '--input')));
@@ -180,9 +192,9 @@ async function runCli() {
     process.stdout.write(`${JSON.stringify(prepareHostDecisionReceipt(input), null, 2)}\n`);
     return;
   }
-  throw new Error('Usage: fromdemotospec-analysis-adapter.mjs status | prepare-request --input <json> | prepare-unavailable --input <json> | prepare-host-decision --input <json>');
+  throw new Error('Usage: fromdemotospec-analysis-adapter.mjs status | prepare-request --input <json> | consume-delivery --input <json> --consumer <json> | prepare-unavailable --input <json> | prepare-host-decision --input <json>');
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === scriptPath) await runCli();
 
-export { runCli, prepareAdapterIntake, prepareHostDecisionReceipt, prepareUnavailableFallback, validateFromDemoToSpecRequest, validateProducerDecision };
+export { runCli, adapterStatus, prepareAdapterIntake, prepareHostDecisionReceipt, prepareUnavailableFallback, validateFromDemoToSpecRequest, validateProducerDecision };

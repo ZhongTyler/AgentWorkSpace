@@ -46,6 +46,24 @@
 
 复盘报告给出维持、收窄来源或调整频率的条件化建议，仍由用户决定，不自动改正式来源或调度。复盘是用户已请求的决策节点，交付一次合并报告；日常有用增量与新保留候选按[简报规则](../reporting.md)报告一次，纯重复或无价值增量保持静默。
 
+## 从实际阶段边界记录成本
+
+从下一次实际执行开始，用 [cost.py](../cost.py) 在原 `runs/` 留同一计划日期、同一路线的 `.cost.json` 附件；它不是研究完成收据，不增加次数，也不写 Knowledge。开始时立即标记，阶段切换时再标记；无需逐工具或逐思考记录。例如从安装包根执行，运行记录写到包外：
+
+```powershell
+python proactive/cost.py --runs <external-runs> mark --route game-research --scheduled-date 2026-10-15 --phase discovery
+python proactive/cost.py --runs <external-runs> mark --route game-research --scheduled-date 2026-10-15 --phase review --evidence "原报告中的实际审核停点"
+python proactive/cost.py --runs <external-runs> summary --route game-research --scheduled-date 2026-10-15
+```
+
+以上为命令示例，不是已完成研究。`scheduled-date` 仍为原计划日期；通用线使用 `research`。可记录 `discovery`（发现/分析）、`ingestion`（消化）、`review`（复核）、`content_repair`（实质返修）、`workflow_recovery`（工具/流程恢复）、`coordination_wait`（交接/owner等待）、`approval_wait`（等待用户决定）、`closure`（交付/Git闭合）、`unallocated`（无法归因）。只记录真正发生的切换，沿现有成本附件恢复，不新增计数器或常驻服务。
+
+明确等待前切到对应 wait；恢复时标记下一实际阶段。宿主中断、关机或遗漏记录后的首次 mark 加 `--resume`，工具将上次标记至恢复的整段保守归为 `unallocated`，不冒充一直在执行。无法区分并行写作与审核的共享墙钟区间也用 `unallocated` 并在原报告说明，不能把两个 Agent 的持续时间相加当总耗时。
+
+只在本轮实际生命周期收尾后执行 `finish --route ... --scheduled-date ...`；发现完成但 Knowledge 排队、待终审或 Git 尚未闭合时，附件可保持 open，不阻止发现完成计数。`summary` 只汇总已观测的相邻边界；打开的尾部和首次标记前保持未测。已关闭附件拒绝改写。后来新授权的扩展任务若已超出关闭窗口，在原报告引用其独立真实证据，不回写历史计时。
+
+这些数值是阶段墙钟窗口，包含阶段内的工具等待，不能称为纯模型活跃时间。等待批准的墙钟不等于用户审阅分钟；人工操作、审核分钟、token和金额仍取真实证据，未知为 null/unknown。旧三批 partial 数据及已审报告保持原样。`review.py` 在四次合并窗口自动读取可用附件；缺附件保留 unknown，附件本身不证明研究或 Knowledge 完成。
+
 报告落在本目录；同时保存 `weekly_research_review` JSON，schema_version为1，status为recorded或awaiting_decision，report指向本目录实际Markdown，run_keys为工具选中八条key。工具核对每路四条、报告存在、没有重复复盘；同一复盘待决定时不反复提醒。
 
 ## 每轮分别评估频率

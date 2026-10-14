@@ -4,6 +4,8 @@ GameAnalysisDecision 提供分析、条件建议和待制作人决定的方案�
 
 ## 当前入口：v2
 
+`status` 展示当前 GameAnalysisDecision v2 请求及正文消费命令、独立保留的 HostDecisionReceipt v1，以及明确标为 legacy 的旧请求合同。`binding_ready` 仅说明适配接口，不证明外部分析已执行；实际可用性仍以对应请求/消费结果为准。
+
 直接提出问题即可，Agent 按需读 GameAnalysisDecision 的 `protocols/analysis.md`。只有跨程序传递才使用 [request-v2.json](../../examples/game-analysis-decision/request-v2.json) 的最小请求；`schema_version: 2` 显式选择新版。目标、来源范围、约束、预算和宿主引用保持原样传递，不再把请求转换成一条强制文档生产链。
 
 ```powershell

@@ -5,6 +5,7 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'scripts'))
 import workspace as w
 from publish import stage
 from test_tools import module
+from release_history import advance_to_predecessor, rollback_history
 
 class ModelPolicyRelease(unittest.TestCase):
  def test_shared_policy_and_recipient_authority(self):
@@ -55,13 +56,18 @@ class ModelPolicyRelease(unittest.TestCase):
     prepare=module('old_home_'+mode,host/'modules/tools/prepare_home.py');home=host/'tools/existing-v190';prepare.prepare(home,host/'modules/tools')
     keep[home/'runtime/model.bin']=b'USER WEIGHT CANARY';keep[home/'.tools-home.json']=(home/'.tools-home.json').read_bytes()
     for p,data in keep.items():p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(data)
-    readme=host/'modules/research/README.md';before=readme.read_bytes();readme.write_bytes(before+b'\nLocal conflicting change\n')
-    blocked=w.install(ROOT,host,'upgrade',[],True);self.assertFalse(blocked['applied']);self.assertTrue(blocked['conflicts']);self.assertEqual('1.9.0',w.state(host)['version'])
+    steps=advance_to_predecessor(ROOT,host,base/('policy-history-'+mode))
+    readme=host/'modules/research/proactive/review.py';before=readme.read_bytes()
+    self.assertNotEqual(w.digest(before),w.catalog(ROOT)['components']['research']['files']['proactive/review.py'],'Conflict fixture must select an actually changed upstream file')
+    readme.write_bytes(before+b'\nLocal conflicting change\n')
+    blocked=w.install(ROOT,host,'upgrade',[],True);self.assertFalse(blocked['applied']);self.assertTrue(blocked['conflicts']);self.assertEqual(w.catalog(ROOT)['previous_version'],w.state(host)['version'])
     readme.write_bytes(before);result=w.install(ROOT,host,'upgrade',[],True);self.assertTrue(result['applied'])
     self.assertTrue((host/'modules/tools/docs/decision-model-policy.md').is_file());self.assertTrue((host/'modules/research/templates/decision-model-policy.md').is_file())
     self.assertFalse((host/'.codex').exists())
     for p,data in keep.items():self.assertEqual(data,p.read_bytes())
-    self.assertTrue(w.rollback(host,result['transaction'],True)['applied']);self.assertEqual('1.9.0',w.state(host)['version'])
+    self.assertTrue(w.rollback(host,result['transaction'],True)['applied']);self.assertEqual(w.catalog(ROOT)['previous_version'],w.state(host)['version'])
+    rollback_history(host,steps)
+    self.assertEqual('1.9.0',w.state(host)['version'])
     self.assertFalse((host/'modules/tools/docs/decision-model-policy.md').exists())
     for p,data in keep.items():self.assertEqual(data,p.read_bytes())
 

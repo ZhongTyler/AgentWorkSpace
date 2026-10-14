@@ -65,7 +65,7 @@ Research 只保存队列与研究判断，长期原文和 Raw/Wiki 由 Knowledge
 1. 先按 canonical URL、原始出处、版本/内容身份查 `raw-sources` 与 scoring 记录，复用已消化项；新增确有价值且证据完整者才入选。排队不是已入库。
 2. 抓取完整正文、作者/日期/来源和必要媒体清单；图片、图表、视频内的关键含义需要实际读取。只有搜索摘要、演讲简介、未看必要视频片段或缺关键媒体时保留捕获缺口，不交 writer 编造。已有同文缺媒体走补证/修复，不伪造新篇增量。
 3. 读取 Knowledge 的 `AGENTS.md`、`README.md`、`RUNTIME_ROUTING.md`、`INGEST_PROTOCOL.md`、`INGEST_WRITER_ROUTING.md` 及其执行入口。核对活跃 registry、Git/owner；沿同一未完成批次恢复，冲突先排队，不把所有有用材料无限塞入本轮。
-4. 自动消化使用当前 `deferred + core`；新普通批次依合同走 `consolidated-v1` / `advance`。主复核配置需实际为 `gpt-6-sol / medium`，writer 为单一 `gpt-6-luna / xhigh`，不继承历史；核对宿主身份/配置和日志，不用自报代替验证。若探索会话配置不同，交给显式固定配置的 Knowledge 协调会话；该会话是否可被原生控制器绑定必须实际验证，不能预称支持。配置/控制器不支持时保全捕获与准确阻塞，后续在合规会话恢复。
+4. 自动消化使用当前 `deferred + core`；新普通批次依合同走 `consolidated-v1` / `advance`。主复核配置需实际为 `gpt-6-sol / medium`，writer 为单一 `gpt-6-luna / xhigh`，不继承历史；核对宿主身份/配置和日志，不用自报代替验证。探索主会话实际符合配置且可被控制器绑定时，由它直接协调复核，不再套一层协调子会话；仅配置不符时交给显式固定配置的 Knowledge 协调会话。身份或绑定未知时先核实，未知不等于配置不符；已有未完成 run 沿原固定身份恢复，不因本条重新派工。协调会话是否可被原生控制器绑定必须实际验证，不能预称支持。配置/控制器不支持时保全捕获与准确阻塞，后续在合规会话恢复。
 5. writer 写 Raw/Wiki，主复核不写正文；完整 source↔Raw、Raw→Wiki 核查。先 Raw checkpoint，后 Wiki；优先现有 Wiki，新页、评分、媒体、作用范围均按 Knowledge 合同，不自动扩建 Domain/Group/shared 原则。
 6. 自动推进至已验证 `awaiting_final_review`，向用户一次交汇总报告与当前精确哈希；仅用户批准该版本后才能 Finish 和逐级父仓 gitlink 闭合。本次常驻自动化授权不能充当未来报告的批准。同一哈希已通知且内容未变时，不每周重复提醒；保留停点，等待批准期间不重叠启动新批次。若控制器要求 checkpoint，按当前合同保存，不提前宣称整体入库完成。
 

@@ -1,5 +1,12 @@
 # Releases
 
+## 1.11.0 — 2026-10-14
+
+- Research reuses a verified compliant Knowledge parent; a separate coordinator is conditional, with existing run identities preserved.
+- Add optional observed phase-cost traces and consume them in the existing four-run review without counting traces as research runs or backfilling unknown history.
+- FromDemoToSpec status exposes current v2 requests/consumption, v1 decision receipts and explicit legacy request metadata separately.
+- Preserve host authority, user data, schedules and runtime/client state across installation, actual 1.10.0 upgrade, conflict refusal and rollback.
+
 ## 1.8.0 — 2026-10-12
 
 - Connect optional Research/REA artifact evidence to game development support across meta, Skills and Research.
