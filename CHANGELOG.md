@@ -1,5 +1,11 @@
 # Releases
 
+## 1.13.1 — 2026-10-14
+
+- Publish a portable Research validation guide and candidate template, with topic selection, report-linked status updates and existing review-window routing.
+- Exclude maintainer candidates/chat links and preserve recipient authority, external research data, unchanged schedules and other package bytes.
+- Reject private validation inputs and candidate records at publication; retain real predecessor upgrade/conflict/rollback verification.
+
 ## 1.13.0 — 2026-10-14
 
 - Add optional standalone GameProject: a portable Godot project workspace, template 0.2.4, with pinned new-project creation and maintenance checks.

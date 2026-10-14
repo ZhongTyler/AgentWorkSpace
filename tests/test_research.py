@@ -16,6 +16,74 @@ from publish import stage
 
 
 class ResearchRelease(unittest.TestCase):
+    def test_portable_validation_guide_contains_no_maintainer_backlog(self):
+        package = ROOT / 'packages/research'
+        guide = (package / 'validation/README.md').read_text(encoding='utf-8')
+        self.assertIn('开题先查', guide)
+        self.assertIn('包外研究目录', guide)
+        for private in ['codex://threads/', 'local-validation:', 'V-001', 'V-014', '当前本机索引']:
+            self.assertNotIn(private, guide)
+        self.assertTrue((package / 'templates/validation-candidate.md').is_file())
+        self.assertFalse((package / 'validation/verification.json').exists())
+
+    def test_private_validation_inputs_and_records_fail_before_git(self):
+        from unittest.mock import patch
+        with tempfile.TemporaryDirectory(prefix='validation-public-boundary-') as tmp:
+            source = Path(tmp) / 'source'
+            manifest = source / 'release-input/manifest.json'
+            manifest.parent.mkdir(parents=True)
+            for target in ['validation/private.md', 'validation/verification.json', 'validation/candidates.json']:
+                value = {'release_schema': 1, 'component_id': 'research', 'output_path': 'packages/research',
+                         'copy_files': [{'source': 'release-input/curated/' + target, 'target': target, 'sha256': 'a' * 64}],
+                         'expected_file_count': 1}
+                manifest.write_text(json.dumps(value), encoding='utf-8')
+                with patch('publish.git', side_effect=AssertionError('Git must not be reached')):
+                    with self.assertRaisesRegex(w.ContractError, 'portable guide'):
+                        stage(source, Path(tmp) / 'rejected')
+            for i, content in enumerate(['# Private\nV-001 real candidate\n', 'codex://threads/private-id', '<!-- local-validation:start --> private']):
+                target = 'validation/README.md'
+                saved = source / ('release-input/curated/' + target)
+                saved.parent.mkdir(parents=True, exist_ok=True)
+                saved.write_bytes(content.encode('utf-8'))
+                value['copy_files'] = [{'source': 'release-input/curated/' + target, 'target': target,
+                                        'sha256': w.digest(saved.read_bytes())}]
+                manifest.write_text(json.dumps(value), encoding='utf-8')
+                with patch('publish.git', side_effect=AssertionError('Git must not be reached')):
+                    with self.assertRaisesRegex(w.ContractError, 'Private validation'):
+                        stage(source, Path(tmp) / ('private-' + str(i)))
+
+    def test_actual_1130_upgrade_conflict_and_rollback_preserve_user_validation(self):
+        from release_history import published_bundle
+        with tempfile.TemporaryDirectory(prefix='validation-1130-upgrade-') as tmp:
+            base = Path(tmp)
+            old = published_bundle(ROOT, '1.13.0', base / 'old')
+            for mode in ['full', 'compatible']:
+                host = base / mode
+                host.mkdir()
+                authority = host / 'AGENTS.md'
+                if mode == 'compatible':
+                    authority.write_bytes(b'EXISTING HOST AUTHORITY')
+                w.install(old, host, 'init', ['research'], True, mode=mode)
+                private = host / 'research-notes/validation.md'
+                private.parent.mkdir()
+                private.write_bytes(b'PRIVATE CANDIDATE AND CHAT CANARY')
+                rules = authority.read_bytes()
+                result = w.install(ROOT, host, 'upgrade', [], True)
+                self.assertTrue(result['applied'])
+                guide = host / 'modules/research/validation/README.md'
+                self.assertTrue(guide.exists())
+                original = guide.read_bytes()
+                guide.write_bytes(original + b'\nUSER LIBRARY EDIT')
+                conflict = w.rollback(host, result['transaction'], False)
+                self.assertTrue(conflict['conflicts'])
+                self.assertFalse(conflict['applied'])
+                guide.write_bytes(original)
+                self.assertTrue(w.rollback(host, result['transaction'], True)['applied'])
+                self.assertEqual('1.13.0', w.state(host)['version'])
+                self.assertFalse(guide.exists())
+                self.assertEqual(b'PRIVATE CANDIDATE AND CHAT CANARY', private.read_bytes())
+                self.assertEqual(rules, authority.read_bytes())
+
     def advance_to_previous(self, host, destination):
         """Follow published predecessor contracts; never bypass the upgrade gate."""
         current = w.state(host)['version']

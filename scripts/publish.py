@@ -51,6 +51,7 @@ def stage(source, destination):
         if component == 'research':
             roots -= {'toolbox.py', 'prepare_home.py', 'registry.json', 'workflows.json', 'portable-profile.json'}
             roots.add('reference-library')
+            roots.add('validation')
         else:
             roots.add('docs')
         if any(manifest.get(key) for key in ('root_files', 'copy_directories', 'text_replacements')):
@@ -58,6 +59,8 @@ def stage(source, destination):
         for item in manifest.get('copy_files', []):
             name = relative(item['source'])
             target = relative(item['target'])
+            if target.startswith('validation/') and (component != 'research' or target != 'validation/README.md'):
+                raise ContractError('Validation publication permits only the portable guide')
             if target.startswith('reference-library/') and target not in {'reference-library/README.md','reference-library/catalog.json','reference-library/library.py','reference-library/prepare_home.py','reference-library/portable-profile.json'} and not target.startswith('reference-library/licenses/'):
                 raise ContractError('Reference library requires explicit portable metadata, code or license inputs')
             if component == 'tools' and target.startswith('docs/') and target != 'docs/decision-model-policy.md':
@@ -154,6 +157,9 @@ def stage(source, destination):
             raise ContractError('Forbidden file in package: ' + name)
     for path in destination.rglob('*.md'):
         text = path.read_text(encoding='utf-8')
+        if component == 'research' and path.relative_to(destination).as_posix() == 'validation/README.md':
+            if 'local-validation:' in text or 'codex://threads/' in text or re.search(r'\bV-\d{3}\b', text):
+                raise ContractError('Private validation candidates or thread links cannot be published')
         for pattern in validation.get('forbidden_patterns', []):
             if pattern in text:
                 raise ContractError('Forbidden reference: ' + pattern)
