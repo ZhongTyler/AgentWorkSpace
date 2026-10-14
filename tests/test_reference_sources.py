@@ -17,6 +17,16 @@ class ReferenceSources(unittest.TestCase):
                 for m in archive:
                     if m.isfile():
                         p=w.safe(old,m.name);p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(archive.extractfile(m).read())
+            # This historical test covers reference-library introduction in 1.12.0.
+            # The generic predecessor test separately covers the current release.
+            destination=ROOT
+            if w.catalog(ROOT)['version']!='1.12.0':
+                destination=base/'reference-release';destination.mkdir()
+                raw=subprocess.run(['git','-c','safe.directory='+ROOT.as_posix(),'-C',str(ROOT),'archive','v1.12.0'],capture_output=True,check=True).stdout
+                with tarfile.open(fileobj=io.BytesIO(raw)) as archive:
+                    for m in archive:
+                        if m.isfile():
+                            p=w.safe(destination,m.name);p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(archive.extractfile(m).read())
             for mode in ('full','compatible'):
                 host=base/mode
                 if mode=='compatible':host.mkdir();(host/'AGENTS.md').write_bytes(b'EXISTING HOST AUTHORITY')
@@ -26,9 +36,9 @@ class ReferenceSources(unittest.TestCase):
                 keep={host/'AGENTS.md':(host/'AGENTS.md').read_bytes(),host/'notes/private.md':b'PRIVATE',host/'references-old/runtime/archive.bin':b'OLD PINNED ARCHIVE',host/'tools-old/runtime/model.bin':b'USER WEIGHTS',host/'client/config.toml':b'CLIENT CONFIG',host/'research-runs/old.json':b'OLD TRACE'}
                 for p,content in keep.items():p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(content)
                 changed=host/'modules/research/README.md';original=changed.read_bytes();changed.write_bytes(original+b'\nLOCAL CHANGE')
-                blocked=w.install(ROOT,host,'upgrade',[],True);self.assertFalse(blocked['applied']);self.assertTrue(blocked['conflicts']);self.assertEqual('1.11.0',w.state(host)['version'])
+                blocked=w.install(destination,host,'upgrade',[],True);self.assertFalse(blocked['applied']);self.assertTrue(blocked['conflicts']);self.assertEqual('1.11.0',w.state(host)['version'])
                 changed.write_bytes(original)
-                upgraded=w.install(ROOT,host,'upgrade',[],True);self.assertTrue(upgraded['applied']);self.assertEqual(w.catalog(ROOT)['version'],w.state(host)['version'])
+                upgraded=w.install(destination,host,'upgrade',[],True);self.assertTrue(upgraded['applied']);self.assertEqual('1.12.0',w.state(host)['version'])
                 refs=host/'modules/research/reference-library';self.assertFalse((refs/'runtime').exists())
                 home=host/'references-new';module('upgraded_ref_prepare_'+mode,refs/'prepare_home.py').prepare(home,refs)
                 (home/'my-note.txt').write_bytes(b'KEEP NEW HOME')

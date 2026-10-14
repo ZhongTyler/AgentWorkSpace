@@ -11,7 +11,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'scripts'))
 import workspace as w
-from release_history import advance_to_predecessor,rollback_history
+from release_history import advance_to_predecessor,rollback_history,published_bundle
 
 
 class GameSupportRelease(unittest.TestCase):
@@ -54,6 +54,7 @@ class GameSupportRelease(unittest.TestCase):
                     if entry.isfile():
                         target=w.safe(old,entry.name);target.parent.mkdir(parents=True,exist_ok=True)
                         target.write_bytes(archive.extractfile(entry).read())
+            destination=published_bundle(ROOT,'1.12.0',base/'support-release')
             for mode in ('full','compatible'):
                 host=base/mode
                 args=[sys.executable,'-X','utf8','-B',old/'scripts/workspace.py','init',
@@ -74,25 +75,25 @@ class GameSupportRelease(unittest.TestCase):
                 before={p:p.read_bytes() for p in canaries}
                 # Follow immutable published predecessors; a new release must not
                 # weaken the installer gate to accommodate an old test fixture.
-                history=advance_to_predecessor(ROOT,host,base/'history'/mode)
+                history=advance_to_predecessor(destination,host,base/'history'/mode,history_repository=ROOT)
                 # Selected client Skills have their own predecessor chain.
                 self.skill(bundle,host,'upgrade','--apply')
                 original=game.read_bytes()
                 # Select an actual incoming change; unchanged local edits are preserved.
                 # Workflow closure changed; this game entry retains its existing text.
                 readme=host/'modules/research/README.md';readme_before=readme.read_bytes()
-                self.assertNotEqual(w.digest(readme_before),w.catalog(ROOT)['components']['research']['files']['README.md'],'Conflict fixture needs an actual incoming file change')
+                self.assertNotEqual(w.digest(readme_before),w.catalog(destination)['components']['research']['files']['README.md'],'Conflict fixture needs an actual incoming file change')
                 readme.write_bytes(readme_before+b'\nLocal conflicting package edit.\n')
-                conflict=w.install(ROOT,host,'upgrade',[],True)
+                conflict=w.install(destination,host,'upgrade',[],True)
                 self.assertFalse(conflict['applied']);self.assertTrue(conflict['conflicts'])
                 self.assertEqual(readme_before+b'\nLocal conflicting package edit.\n',readme.read_bytes())
-                self.assertEqual(w.catalog(ROOT)['previous_version'],w.state(host)['version'])
+                self.assertEqual(w.catalog(destination)['previous_version'],w.state(host)['version'])
                 self.assertEqual(original,game.read_bytes())
                 for p,data in before.items():self.assertEqual(data,p.read_bytes())
                 readme.write_bytes(readme_before)
-                preview=w.install(ROOT,host,'upgrade',[])
+                preview=w.install(destination,host,'upgrade',[])
                 self.assertFalse(preview['applied']);self.assertFalse(preview['conflicts'])
-                upgraded=w.install(ROOT,host,'upgrade',[],True)
+                upgraded=w.install(destination,host,'upgrade',[],True)
                 self.assertTrue(upgraded['applied'])
                 self.assertEqual(original,game.read_bytes(),'Package update must not update client skills')
                 self.assertTrue((host/'modules/research/game-research/development-support.md').is_file())
@@ -118,7 +119,7 @@ class GameSupportRelease(unittest.TestCase):
                 self.skill(bundle,host,'rollback','--transaction',selected['transaction'],'--apply')
                 self.assertEqual(original,game.read_bytes());self.assertEqual(local,other.read_bytes())
                 self.assertTrue(w.rollback(host,upgraded['transaction'],True)['applied'])
-                self.assertEqual(w.catalog(ROOT)['previous_version'],w.state(host)['version'])
+                self.assertEqual(w.catalog(destination)['previous_version'],w.state(host)['version'])
                 rollback_history(host,history)
                 self.assertEqual('1.7.0',w.state(host)['version'])
                 for p,data in before.items():self.assertEqual(data,p.read_bytes())

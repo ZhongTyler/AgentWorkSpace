@@ -1,5 +1,12 @@
 # Releases
 
+## 1.12.1 — 2026-10-14
+
+- Add conditional follow-up of adopted knowledge in the host's existing verification or milestone record, preserving applicability, unknowns and counterexamples.
+- Retain workflow-closure asynchronous task/version/instance checks already published in 1.12.0, including bounded waiting and recovery.
+- Preserve the selected-Skill catalog at 1.12.0 because its contents are unchanged; distinguish workspace upgrade/rollback from selected-client Skill transactions.
+- Add no mandatory ledger, automatic research/ingestion/playtest, runtime installation or project decision authority. Other packages and prior tags are retained.
+
 ## 1.12.0 — 2026-10-14
 
 - Publish optional pinned game-source references and portable Research/game-development routing, with external-home preparation, exact hashes and original license notices.

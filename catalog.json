@@ -385,7 +385,7 @@
       ],
       "source": "packages/brainstorm",
       "source_revision": "e4d7f2322f32412a9538ddf8dc6fca994ca9e5ca",
-      "version": "1.12.0"
+      "version": "1.12.1"
     },
     "fromdemotospec": {
       "destination": "modules/fromdemotospec",
@@ -461,7 +461,7 @@
       ],
       "source": "packages/fromdemotospec",
       "source_revision": "625f55a1bf56b9e16d0c8fd2c6b8ba44e19c1381",
-      "version": "1.12.0"
+      "version": "1.12.1"
     },
     "game-analysis-decision": {
       "destination": "modules/game-analysis-decision",
@@ -548,7 +548,7 @@
       "required": [],
       "source": "packages/game-analysis-decision",
       "source_revision": "0693c5030d33fd2e22ed66295e5e05d5be23c534",
-      "version": "1.12.0"
+      "version": "1.12.1"
     },
     "game-presentation": {
       "destination": "modules/game-presentation",
@@ -588,7 +588,7 @@
       "required": [],
       "source": "packages/game-presentation",
       "source_revision": "5bc2d49a86b3b02a4080b6c6dd12a2ef716ef971",
-      "version": "1.12.0"
+      "version": "1.12.1"
     },
     "knowledge": {
       "destination": "modules/knowledge",
@@ -719,7 +719,7 @@
       ],
       "source": "packages/knowledge",
       "source_revision": "a3d3f491a13d2879e898057fcb1d0f51189075e3",
-      "version": "1.12.0"
+      "version": "1.12.1"
     },
     "meta": {
       "destination": "",
@@ -751,7 +751,7 @@
         "collaboration/README.md": "8b51a99816fd3fbe4808472f4c2dd02eab445a1718b3444fa8d9dcc91a13f4cf",
         "collaboration/assisted.md": "d5613f3d12c8fec3565ba752000ba716711f32894a80a890eeaaf09827b718dd",
         "collaboration/inheritance/README.md": "55c94e25daddb16fdeb4603f69a5558790154a313af8124008c0b70204593243",
-        "collaboration/support-and-learning.md": "f4de765efa786141cd4917589c3416b54f5ed347151dc800bf866acc3cb8fcf2",
+        "collaboration/support-and-learning.md": "b3bebabaed0eadbf85ddffc3a7160fd650c7a1e454043bdd33517bc7bdf73089",
         "memory.md": "fc2b03d8ec9d3a9a4af711ff42bc9284f94e01549c7115bc5899caa4c03f395c",
         "reviews/README.md": "d5401a6e2d382526adadbafee7e0a2e918337590ba62e183a6721ab66c4981fc",
         "reviews/_observations.md": "146f8142cac697dc27aa6624a282294b4010d878bf6b412db4212176389135ff"
@@ -762,8 +762,8 @@
       ],
       "required": [],
       "source": "meta/workspace",
-      "source_revision": "da9a437f83e4f9e7f3ee0f5b3be60415fbebf6e2",
-      "version": "1.12.0"
+      "source_revision": "48f2004f532136a85eb22648cb989e3e32e44020",
+      "version": "1.12.1"
     },
     "prototype-assets": {
       "destination": "modules/prototype-assets",
@@ -1057,7 +1057,7 @@
       "required": [],
       "source": "packages/prototype-assets",
       "source_revision": "5abe108be291076b4e44717d17c740fca230c8e7",
-      "version": "1.12.0"
+      "version": "1.12.1"
     },
     "research": {
       "destination": "modules/research",
@@ -1188,7 +1188,7 @@
       "required": [],
       "source": "packages/research",
       "source_revision": "e51c41090a11484878c6c28433f48b88ec969648",
-      "version": "1.12.0"
+      "version": "1.12.1"
     },
     "skills": {
       "destination": "modules/skills",
@@ -1254,7 +1254,7 @@
       "required": [],
       "source": "packages/skills",
       "source_revision": "64db68f37ea71ece6136da08d52a38b17a47f8b6",
-      "version": "1.12.0"
+      "version": "1.12.1"
     },
     "tools": {
       "destination": "modules/tools",
@@ -1395,7 +1395,7 @@
       "required": [],
       "source": "packages/tools",
       "source_revision": "612776d50aa2fd35ea794794b61fe17b292ec702",
-      "version": "1.12.0"
+      "version": "1.12.1"
     },
     "travel": {
       "destination": "modules/travel",
@@ -1519,10 +1519,10 @@
       "required": [],
       "source": "packages/travel",
       "source_revision": "52d1cf8fd85ff0602b5efe4013db94b1979c3b63",
-      "version": "1.12.0"
+      "version": "1.12.1"
     }
   },
-  "previous_version": "1.11.0",
+  "previous_version": "1.12.0",
   "schema_version": 1,
-  "version": "1.12.0"
+  "version": "1.12.1"
 }

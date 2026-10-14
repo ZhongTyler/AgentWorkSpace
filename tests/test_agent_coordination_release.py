@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
 import workspace as w
 from test_tools import module
-from release_history import advance_to_predecessor, rollback_history
+from release_history import advance_to_predecessor, rollback_history, published_bundle
 
 
 class AgentCoordinationRelease(unittest.TestCase):
@@ -70,6 +70,7 @@ class AgentCoordinationRelease(unittest.TestCase):
                         target = w.safe(previous, entry.name)
                         target.parent.mkdir(parents=True, exist_ok=True)
                         target.write_bytes(archive.extractfile(entry).read())
+            destination = published_bundle(ROOT, '1.12.0', base / 'coordination-release')
             for mode in ('full', 'compatible'):
                 host = base / mode
                 args = [sys.executable, '-X', 'utf8', '-B', previous / 'scripts/workspace.py',
@@ -84,16 +85,16 @@ class AgentCoordinationRelease(unittest.TestCase):
                         host / 'client/config.toml': b'USER CLIENT CONFIG\n'}
                 for path, data in keep.items():
                     path.parent.mkdir(parents=True, exist_ok=True); path.write_bytes(data)
-                steps = advance_to_predecessor(ROOT, host, base / ('coordination-history-'+mode))
+                steps = advance_to_predecessor(destination, host, base / ('coordination-history-'+mode), history_repository=ROOT)
                 review = host / 'modules/research/README.md'
                 original = review.read_bytes(); review.write_bytes(original + b'\n# Local edit\n')
-                conflict = w.install(ROOT, host, 'upgrade', [], True)
+                conflict = w.install(destination, host, 'upgrade', [], True)
                 self.assertFalse(conflict['applied']); self.assertTrue(conflict['conflicts'])
-                self.assertEqual(w.state(host)['version'], w.catalog(ROOT)['previous_version'])
+                self.assertEqual(w.state(host)['version'], w.catalog(destination)['previous_version'])
                 self.assertTrue((host / 'modules/research/proactive/cost.py').exists())
                 review.write_bytes(original)
-                result = w.install(ROOT, host, 'upgrade', [], True)
-                self.assertTrue(result['applied']); self.assertEqual(w.state(host)['version'], w.catalog(ROOT)['version'])
+                result = w.install(destination, host, 'upgrade', [], True)
+                self.assertTrue(result['applied']); self.assertEqual(w.state(host)['version'], w.catalog(destination)['version'])
                 cost = host / 'modules/research/proactive/cost.py'
                 self.assertTrue(cost.is_file())
                 summary = self.command(sys.executable, '-X', 'utf8', '-B', cost, 'mark', '--runs',
@@ -101,7 +102,7 @@ class AgentCoordinationRelease(unittest.TestCase):
                                        '--scheduled-date', '2026-10-14', '--phase', 'discovery')
                 self.assertEqual(summary['status'], 'open'); self.assertIsNone(summary['monetary_cost'])
                 self.assertTrue(w.rollback(host, result['transaction'], True)['applied'])
-                self.assertEqual(w.state(host)['version'], w.catalog(ROOT)['previous_version'])
+                self.assertEqual(w.state(host)['version'], w.catalog(destination)['previous_version'])
                 rollback_history(host, steps)
                 self.assertEqual(w.state(host)['version'], '1.10.0')
                 self.assertFalse(cost.exists())

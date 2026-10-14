@@ -8,17 +8,32 @@ def run(args):
     if r.returncode:raise RuntimeError((r.stdout+r.stderr).decode('utf-8','replace'))
     return r.stdout
 
-def advance_to_predecessor(root,host,cache):
+def published_bundle(repository,version,destination):
+    """Restore a frozen historical release instead of interpreting it as latest."""
+    w.version(version)
+    destination.mkdir(parents=True)
+    raw=run(['git','-c','safe.directory='+repository.as_posix(),'-C',repository,'archive','v'+version])
+    with tarfile.open(fileobj=io.BytesIO(raw)) as archive:
+        for entry in archive:
+            if entry.isdir():continue
+            if not entry.isfile():raise AssertionError('Historical bundle contains a non-file')
+            p=w.safe(destination,entry.name);p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(archive.extractfile(entry).read())
+    if w.catalog(destination)['version']!=version:raise AssertionError('Historical catalog identity mismatch')
+    return destination
+
+
+def advance_to_predecessor(root,host,cache,history_repository=None):
+    history_repository=history_repository or root
     current=w.state(host)['version'];wanted=w.catalog(root)['previous_version'];chain=[]
     while wanted!=current:
         if wanted in chain:raise AssertionError('Published predecessor cycle')
         w.version(wanted);chain.append(wanted)
-        raw=run(['git','-c','safe.directory='+root.as_posix(),'-C',root,'show','v'+wanted+':catalog.json'])
+        raw=run(['git','-c','safe.directory='+history_repository.as_posix(),'-C',history_repository,'show','v'+wanted+':catalog.json'])
         wanted=json.loads(raw)['previous_version']
     steps=[]
     for version in reversed(chain):
         bundle=cache/version;bundle.mkdir(parents=True)
-        raw=run(['git','-c','safe.directory='+root.as_posix(),'-C',root,'archive','v'+version])
+        raw=run(['git','-c','safe.directory='+history_repository.as_posix(),'-C',history_repository,'archive','v'+version])
         with tarfile.open(fileobj=io.BytesIO(raw)) as archive:
             for entry in archive:
                 if entry.isfile():
