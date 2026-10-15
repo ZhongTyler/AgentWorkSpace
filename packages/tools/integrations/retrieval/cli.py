@@ -47,10 +47,14 @@ def main():
   q=sub.add_parser(name);q.add_argument('--config',type=pathlib.Path,required=True);q.add_argument('--mode',choices=['bm25','hybrid'],default='bm25');q.add_argument('--profile',default='local');q.add_argument('--request',default='-')
  q=sub.add_parser('export');q.add_argument('--config',type=pathlib.Path,required=True);q.add_argument('--profile',required=True);q.add_argument('--destination',type=pathlib.Path,required=True)
  q=sub.add_parser('serve');q.add_argument('--config',type=pathlib.Path,required=True);q.add_argument('--keys',type=pathlib.Path,required=True);q.add_argument('--port',type=int,default=18971);q.add_argument('--allow-hybrid',action='store_true')
+ q=sub.add_parser('refresh');q.add_argument('--root',type=pathlib.Path,required=True);q.add_argument('--binding',type=pathlib.Path,required=True);q.add_argument('--revision',default='HEAD')
  q=sub.add_parser('health')
  a=p.parse_args()
  try:
   if a.action=='build':out=build(a.root,a.home,a.revision,a.embedding_config)
+  elif a.action=='refresh':
+   from maintenance import refresh
+   request=json.loads(sys.stdin.read());out=refresh(a.root,a.binding,a.revision,request['review_paths'],request['review_ref'])
   elif a.action=='health':out={'status':'available','core':'retrieval-core-v1','default':'bm25','model_loaded':False,'external_query':False,'writes':False}
   elif a.action=='serve':
    from http_api import serve
@@ -65,5 +69,5 @@ def main():
    finally:store.close()
   print(json.dumps(out,ensure_ascii=False));return 0
  except (ValueError,KeyError,OSError,subprocess.SubprocessError) as e:
-  print(json.dumps({'status':'unavailable','reason':str(e),'fallback':'original Query','writes':a.action=='build'},ensure_ascii=False));return 2
+  print(json.dumps({'status':'unavailable','reason':str(e),'fallback':'original Query','writes':a.action in ['build','refresh']},ensure_ascii=False));return 2
 if __name__=='__main__':raise SystemExit(main())

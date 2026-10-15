@@ -70,3 +70,13 @@ node system/query/query-evidence.mjs read <read-input.json> --root <Knowledge根
 验证：`node tests/retrieval.contract.mjs`，必要时设置TOOLS_ROOT和PYTHON_EXECUTABLE指向测试目标；合成fixture与真实执行分开记录，不包含作者私料。
 
 需要给两种模式分配不同包/Python时，可在可信绑定中增加hybrid_runtime_config、hybrid_python；不提供则复用默认值。两路须来自同一获准资料版本，保持来源身份一致；请求不能覆盖这些路径。
+
+## 审核提交与索引维护
+
+本机显式启用绑定maintenance后，默认consolidated入库advance在精确批准并完成Knowledge退出提交后自动调用`retrieval-maintenance.mjs`，返回retrieval_maintenance实际状态；不改run、原审核或正文。busy/失败保留恢复入口，不能当作更新通过。无Wiki变化则不重建。
+
+旧版/手工Finish必须在退出提交后调用同一入口：`node system/query/retrieval-maintenance.mjs --root <Knowledge> --run <run.json> --revision HEAD`。它要求已提交completed run、精确批准报告/内容清单与Wiki字节一致，不替代原Finish验证。已审维护改文提交后，由维护owner调用：`node system/query/retrieval-maintenance.mjs --root <Knowledge> --revision HEAD --review-ref <实际审核记录> --paths '["wiki/实际页.md"]'`。该参数记录实际审核依据，不产生审核授权，也不把任意Git提交认作已审核。
+
+可信绑定maintenance示例：`{"enabled":true,"versions_root":"<Knowledge之外的私有运行目录>","refresh_hybrid":false}`。开启混合维护时再指定embedding_config。数据源/权限视图仍由宿主拥有，自动维护仅针对本机local视图，不自动同步网站。运行与恢复细节见Tools检索维护说明。
+
+已授权本机可显式运行 `node system/query/retrieval-maintenance.mjs --root <Knowledge> --install-hook true` 安装post-commit事件（该命令从Knowledge执行）。它只在本机维护配置启用后工作：本次提交包含已完成并精确批准的run.json时自动核验并更新；已审Wiki维护提交带 `Knowledge-Review-Ref: <实际审核记录>` 和 `Knowledge-Review-Paths: ["wiki/实际页.md"]` 两条消息尾注时走同一入口。没有审核事件的普通提交不刷新。尾注是责任owner的实际审核引用，不能制造批准或替代原审核。已有非本工具hook拒绝覆盖，由owner在原hook内接入事件或保留advance回调。hook失败不撤销Git提交，实际状态写包外events收据，失败需报告并在修复后显式恢复；无监听、轮询或后台模型。默认advance仍调用同一函数作为可移植回调，重复触发按内容去重。

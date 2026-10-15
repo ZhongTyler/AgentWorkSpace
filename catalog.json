@@ -413,7 +413,7 @@
       ],
       "source": "packages/brainstorm",
       "source_revision": "e4d7f2322f32412a9538ddf8dc6fca994ca9e5ca",
-      "version": "1.15.0"
+      "version": "1.16.0"
     },
     "fromdemotospec": {
       "destination": "modules/fromdemotospec",
@@ -489,7 +489,7 @@
       ],
       "source": "packages/fromdemotospec",
       "source_revision": "e4f70edf169526f4d57725c692fc42d300003ab9",
-      "version": "1.15.0"
+      "version": "1.16.0"
     },
     "game-analysis-decision": {
       "destination": "modules/game-analysis-decision",
@@ -576,7 +576,7 @@
       "required": [],
       "source": "packages/game-analysis-decision",
       "source_revision": "0693c5030d33fd2e22ed66295e5e05d5be23c534",
-      "version": "1.15.0"
+      "version": "1.16.0"
     },
     "game-presentation": {
       "destination": "modules/game-presentation",
@@ -620,7 +620,7 @@
       "required": [],
       "source": "packages/game-presentation",
       "source_revision": "60b77e08f0f60f03a84ee8423f8904ae72822c4f",
-      "version": "1.15.0"
+      "version": "1.16.0"
     },
     "game-project": {
       "destination": "modules/game-project",
@@ -717,7 +717,7 @@
       "required": [],
       "source": "packages/game-project",
       "source_revision": "60b77e08f0f60f03a84ee8423f8904ae72822c4f",
-      "version": "1.15.0"
+      "version": "1.16.0"
     },
     "knowledge": {
       "destination": "modules/knowledge",
@@ -728,7 +728,7 @@
         "Clippings/README.md": "2c4d9027f0102892ce45e0c0ee4594c4c0bf00cbaa89f3eb0db8540a12297478",
         "NOW.md": "c8823065c4b83ffbb505798f5f83d1f04512e9fb613188d6883e3d226ba23d61",
         "README.md": "a5ee218f2f95fae23456a66edc0f28f5b864ff7337bdaf32dd8d4e6139262966",
-        "_release.json": "3b700da57a95c32a8bd17d502f4e8c35930fc57251cf68b0b5be124260714e44",
+        "_release.json": "760919e3c9d83c8dd088959e6a8590f8dfcbbc38c12849c98f85dbd21e132927",
         "domains/README.md": "f512f40bd6787957c3e6d8bbecb7fc497a70d3c36757e4689a7103140209e9e1",
         "domains/domain-principles.template.md": "9f95ad115b05cb081b11dc9c479a45b7b18f93ebf31d9ee72a04732229ed19a6",
         "domains/domain.template.md": "209462a85148dc05573aab91181ae7a002d63e0b20867688a90c4e64cf173fca",
@@ -816,19 +816,20 @@
         "system/maintenance/setup-wizard.zh-CN.json": "decb273cdad4a0443b1c4e4a2c6d43db08feffad995664f13fcf91f30faf2e8d",
         "system/maintenance/wiki-semantic-review-closures.json": "6a0f2e93043147840171b8e6e810b9b8cf04e11a0ca13234473a004757582079",
         "system/maintenance/wiki-split-closures.json": "246f867f77cfbe61fd392297925d4f498946eff28bcf3d66f62a6e22ed3c8209",
-        "system/protocols/INGEST_PROTOCOL.md": "663d0bce4a3f00ae6e823cbd997e2bae2319cbe8349795de866c09c7fe39afc0",
+        "system/protocols/INGEST_PROTOCOL.md": "5d214f9bc182b3dea5ef24a12331eb132c1d843a643dc9ae369db47421e9b210",
         "system/protocols/INGEST_WRITER_ROUTING.md": "32eb5884869951880ef9510fa99ffe6f4b34b5a67bf90d1945b9325cacab34d5",
         "system/protocols/MODEL_ROUTING.md": "395d972201124bbbea52d5c934b3ab46a2bbe94fcf96ff5b937c501d9cbad0d7",
-        "system/protocols/QUERY_PROTOCOL.md": "a7c4902bb0f1b2d255fbf64b11a8e35b751d1ceafcd5d9fc7082a9c606abc4f1",
+        "system/protocols/QUERY_PROTOCOL.md": "1a696981fc8d5d47292a344d077d90a642848172eb13ccf8cd37d00c3a508050",
         "system/protocols/RUNTIME_ROUTING.md": "def905d1ea3060c0c4605ecf8b81c3526a51725060d08f003583842dc770f341",
         "system/protocols/SCORING_SYSTEM.md": "ed782526af8b07cc148987142c83c7a7a4a33f5288d6282b364ca31d296c37e5",
         "system/protocols/WIKI-LINK-STANDARD.md": "f266b77de8a333a604e167c7af39f992a5e1cba1ebb7d7c1fcf170ab64b592bf",
-        "system/query/README.md": "c6cf57d64790a2368b46c2190911deb9240be65e47af92b372410e4becad3f8c",
+        "system/query/README.md": "f5dbefdbd70e8077b9788ccf9c898c27d625fdddcdd5bef5a67cfd754f6e0a12",
         "system/query/query-evidence-check.mjs": "1d1ec45673f2a977f43fba0564ec42d906caf6d00ec56240877c6400321cd37a",
         "system/query/query-evidence.mjs": "39bc1f00a6c87ffb9b34a3a4b25cca5102e866c9fd2d6f7aabda91edc19e15d4",
         "system/query/request.template.json": "c21266cced471d9b0775948ab964cb8df3c503237d2440cc1713a41a7f23ddf6",
         "system/query/retrieval-adapter.mjs": "97056f03a3a3c46f922a79143675580b3b7f5517e2eb004ff74d325f5eb1db17",
-        "system/query/retrieval.local.example.json": "9b5a59c4ee4e13adde3e603035edfe5abb09ca744d7d40379a0efc8e7dd0ddbf",
+        "system/query/retrieval-maintenance.mjs": "56a3acb41c95c9ec7414df569ae6826741f202cade302e235bffff2c74073a93",
+        "system/query/retrieval.local.example.json": "2442d753e161a2aea94687b1febe17ddd0a7c8302fd3c70429dccbf6ec3fdd48",
         "system/registry/KNOWLEDGE_SCOPE.md": "6d8a262668abbc2bc04bc70c7d459a7b6339de5cc2fa145e33bf0d7d2fe282b9",
         "system/registry/KNOWLEDGE_STATUS.md": "f383354eddb7607f9fe1e6f4a872550985ed6ed94116f3e6bfed6af6b350f188",
         "system/registry/clipping-path-migrations.json": "c4bbffb25f2351d2f2ba578b0cfe0cc7d47465c527e59e873831e0b9f6b41fcb",
@@ -838,6 +839,8 @@
         "system/registry/quick-reference.md": "56618e5eeeea2fea687fd048f2bc547f64f34291f92ac0c2a680290dacf8ba1a",
         "system/registry/raw-list.md": "3f463374447e8cba113da7982de68157d596a149a20caf5c43a9a45209fb913f",
         "system/registry/skipped-sources.md": "841b3411998dfe8e20a0974958939163e4d2171d0541554eda9d3b473bd66736",
+        "tests/retrieval-hook.contract.mjs": "e20b38036299edb567da9b46ddb2eb607b513a4fff33094400199fb632993d3f",
+        "tests/retrieval-maintenance.contract.mjs": "5bdff2e000bf553dafbcadefa0a811e7dd447eabf5dec8278a0277484ec58a37",
         "tests/retrieval.contract.mjs": "fae589e3450cc3b26c8719bbdc5100e68e333fc1fbe8b69ea80a4d3ceab355d2",
         "wiki/README.md": "c9c553242525b50a70cd9153a6be7583918f7bcedc52fe1edc30ef234566b24f",
         "wiki/wiki.template.md": "fa9cb8c1b8b3d6e9db64f92a86fc6ae4d5d7da3922c45f59aa098d94e7398eda"
@@ -850,8 +853,8 @@
         "host-governance"
       ],
       "source": "packages/knowledge",
-      "source_revision": "44b8d87c16526383373dddba1a6039adf1ed1c3b",
-      "version": "1.15.0"
+      "source_revision": "1f156938db986768b952f7c195f5d1e35c7f25e9",
+      "version": "1.16.0"
     },
     "meta": {
       "destination": "",
@@ -895,7 +898,7 @@
       "required": [],
       "source": "meta/workspace",
       "source_revision": "bf581aca252b0e13191a3190756a8a79344d116f",
-      "version": "1.15.0"
+      "version": "1.16.0"
     },
     "prototype-assets": {
       "destination": "modules/prototype-assets",
@@ -1189,20 +1192,20 @@
       "required": [],
       "source": "packages/prototype-assets",
       "source_revision": "5abe108be291076b4e44717d17c740fca230c8e7",
-      "version": "1.15.0"
+      "version": "1.16.0"
     },
     "research": {
       "destination": "modules/research",
       "files": {
-        ".agents/skills/research-study/SKILL.md": "f2a9d870bccf74e386d0093bc74a923ab6a23b8f6afbcf7164f29dabe1b2db68",
+        ".agents/skills/research-study/SKILL.md": "af3082e1cfd7ac062201b2397b7644597eae1101d3d0d2f8b7c1b6626e54c202",
         "AGENTS.md": "d95ee9f26a93102cb32d3b3f3d74681fa368286c139e1d62ff4be8651aa6236b",
         "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
         "LICENSE-NOTICE.md": "15cd4ccbc67b328e368766cbbd8a3f69fc490406cfa8df16535f21825add0db8",
         "README.md": "6583e56244d18db739215827086dfc3bc20c059fe66ff57f1447ca439ba69bcd",
-        "RESEARCH_PROTOCOL.md": "f481f2a7e9167920eff6f7e4c3c586d27944033a54b7155151485bf6905b80e4",
-        "_release.json": "574c89436d8284c6e73ebbff341a341d86a4ec9b60b6a7b6c6851949b0e6e0e0",
+        "RESEARCH_PROTOCOL.md": "01b35f1723780e63db03a5927ff4bacba5cccb5723bb2632455fb205422a231f",
+        "_release.json": "3ad3a0bce2f8fca3748b4a1474abded18d5ee8af45f442edc93c4dda4424e606",
         "game-research/README.md": "350021842fd9918c300dcfc9e8a1373d7ddf68f4e65b669d2d7e5ac64e354ffd",
-        "game-research/development-support.md": "d30013d6b7de31e19d715a883dc18dc3183bc335acbd5f6132e05291efd288b0",
+        "game-research/development-support.md": "c02ca9a3749099f0eae21d67ba3d4c1d7e6e7619147e9aa3893461d10cf0d92b",
         "game-research/media-capture.md": "3b545556365e6a92c50623ecd59037fe172083e33627a1e9a6aab973b3e07aa6",
         "game-research/selection-lenses.json": "902cce1e90533197fe688287877146759c2989e57a0f7748b96eb441ff2f894e",
         "game-research/sources.json": "c02c2872e635542a18c699648e6c751b99ccca6110390ad8cd8288e91741b7d4",
@@ -1321,8 +1324,8 @@
       ],
       "required": [],
       "source": "packages/research",
-      "source_revision": "9cef13b7a99cff94af6b274db34aadcf87234b6c",
-      "version": "1.15.0"
+      "source_revision": "125d46c105bc10c5a400666385bcf6edfc907f59",
+      "version": "1.16.0"
     },
     "skills": {
       "destination": "modules/skills",
@@ -1330,15 +1333,15 @@
         ".gitattributes": "8b7d05e308c8b3f2674f6f7311520f9b2421bccbec7d6abdcd79192d8fd99535",
         "AGENTS.md": "c4d351aac39a83e5b0595a1f51f2316b8a581ae6abb70ba7f875c6e7e32db1d1",
         "README.md": "7b65a49c5f3e140aea3396c4d8b193646adb1c43191e50f4abadfa5c79126beb",
-        "_release.json": "8dc03b83633c3c6f58e8bd0e5e1f8d09f81705a5528941e3b57752f6c0aba8d3",
-        "catalog.json": "2a131934cea4aa0b3884b2ad308ff7528366e63aa5f79e8f8b959def4a7b5fb9",
+        "_release.json": "366d96892e11193f3036e07df952cd63f50857c8d104a4473183ae36cf5b466f",
+        "catalog.json": "83fa94434e0125567779958a9a711ae831f1eab2852de334a8c44a3da6c633c3",
         "library/agent-blind-eval/SKILL.md": "10d8580707534354eb22f6c1a9ccb86be19fa7587ecdeed6efd43abe81f8d3fe",
         "library/agent-blind-eval/references/evaluation-protocol.md": "84475be418d07b89e148df4ea54b917a2bc5e4dacb44f85038c8cdf60887bea6",
         "library/bidirectional-steelman/SKILL.md": "fe063aa466c41f4f4179d246d9aae1a414913a0fc7912356eb05458a50e2423f",
         "library/dual-layer-explainer/SKILL.md": "64161613dc81576315fb5571897cf65214bc9793015e14038204a46e24e53417",
         "library/evidence-audit/SKILL.md": "b33a27d488d420f41e964bd0e12999ad161e6d59ecd5a222fb4aad87e80c3d54",
         "library/feedback-loop/SKILL.md": "ff8412076381671cb20db91df169c1cdccd5d19ea65deaa6a9a997a5beeab49a",
-        "library/game-decision-support/SKILL.md": "6bb325254c1494e4787d13d862665cf1f2d5740a72b07fb1cd5e56b09bfd34cb",
+        "library/game-decision-support/SKILL.md": "351f52c57f3e1418b1d2d3cf9da95a9e5a55179beef7174b66ccc890209c8c4c",
         "library/game-presentation/SKILL.md": "676b106d49d4e5699320668ae0b0131fb44e07f0a367d7f21a81802c0a04d393",
         "library/godot-gdscript-patterns/SKILL.md": "52013b9a2a6a3db8aba35cc6bb671d547ab526d1d7913c169ccb77878be257c5",
         "library/godot-gdscript-patterns/references/LICENSE": "f89abb55d9f073f38f1703e4518f0613c788c6174be7f13b8dfe48a1c076c746",
@@ -1371,10 +1374,11 @@
         "library/workflow-redesign/references/delivery-and-validation.md": "3c59aa20d75780e4a755f3d65c9c563e64ebe7793d3a4ff3a869e5d7329ab134",
         "scripts/_runtime.py": "227ee4d4b9a1f782acf5a6f184fa53516665b193036b90ee04db59376ce87098",
         "scripts/skills.py": "6a5580c901a39762d2406ea8294c48f6b88e967ae89f4eba9671fb06853a42c9",
-        "skills.json": "a7dc215efd0745b00ad42e2aac40cf5d9f2cbd6bcbacb739ec5b57b95ffa2757",
+        "skills.json": "2a879030695c5f98b6de9549017b68a9f8883e8c12ac72a02460903ff367e60c",
         "upgrades/1.12.0.md": "8aa10c1accdacf5831d0039023352f089ff20ef96ea4afddcb8c7b661408f087",
         "upgrades/1.14.0.md": "a031d0b5ee02a57f28e0e23c648c86a537fff72af1065858e496fde4bd88a0d6",
         "upgrades/1.14.1.md": "f654279a97a3e38b1da6b5e950e63ea232d78e89acf7ecce8cda177d4d32a18c",
+        "upgrades/1.16.0.md": "9c84b40dccac69cbb161a89c6003c9a3393e496a21ddfa26a539243a872cd6c8",
         "upgrades/1.3.0.md": "927cf0f66766df0d59fd6a34ba2dc3e1b5077e86d9ce9f501e38ba6a3198eab1",
         "upgrades/1.3.1.md": "f1a732b8b2f81b82124cc9bbb03a930e7b16ae24f67758a5acb9ccc798743216",
         "upgrades/1.8.0.md": "2d31b383f84b1871f539c82c142a0e9370d184251509c57d7519a959a42a8894"
@@ -1390,8 +1394,8 @@
       ],
       "required": [],
       "source": "packages/skills",
-      "source_revision": "60b77e08f0f60f03a84ee8423f8904ae72822c4f",
-      "version": "1.15.0"
+      "source_revision": "6094f835e2d87a584fadac9fa24fbc4e2d7f99bc",
+      "version": "1.16.0"
     },
     "tools": {
       "destination": "modules/tools",
@@ -1400,7 +1404,7 @@
         "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
         "LICENSE-NOTICE.md": "0eace850e891974dde88c681ad9fe765575147b85a77ee40788825985d8144e6",
         "README.md": "8bcb77bcdfb9d7f24bb17b3af956f2de07c76bd47323177e7397bd8c3f4b35b8",
-        "_release.json": "6e221ab55dbb8d9143bd2dc79baa109fb8aa3a4ef00c016f8087d93ae4a86262",
+        "_release.json": "55cfd18d772eddbb85a4610f6a4b00bab1d084394e7687866af221b2eb5d536d",
         "docs/decision-model-policy.md": "ebee1f65e4db11fc44946ec6ecdb1a5844922a5b5d1ed9bedf036e7a891829a8",
         "docs/local-image-validation.md": "77b63169c6a7ef137115eba0d19d0372ca281ae1477961d7ce532814a90307dc",
         "integrations/birefnet/README.md": "9f23ef0255312df7695e899e0e46cdc9fca684701fa39b5232aafc1c9d3dfb13",
@@ -1533,17 +1537,18 @@
         "integrations/realesrgan/README.md": "0381bb57870a8bca5dd0af5545b248df33175adb0ac6c9af67a1d66c497c6136",
         "integrations/realesrgan/source-lock.json": "fe85ad67cced6e522f8fb017cd7b8d344f44c3722d400cd60ed52394666c7918",
         "integrations/realesrgan/upscale.py": "3cb24e4288a4502950640117dea240097d453f951b4e4b7b2e4c2403c60b3914",
-        "integrations/retrieval/README.md": "d342ce460abe936b3a6b26aa7b669f9efabf47a32f178a9b4c99ff4c1dfaf64d",
-        "integrations/retrieval/cli.py": "4a9e83efbfc8617a08d3cc699308896d833bca06611b20a15942183ad61a3d60",
+        "integrations/retrieval/README.md": "5f21651f6862102e9274380903394f68f9aa2567b8e6330692a67666fbba4564",
+        "integrations/retrieval/cli.py": "e9d5fbb79e4f6f8eb262c3b5fdd7340ea2bce6d7cc555c9b9416b63554f237c9",
         "integrations/retrieval/core.py": "f5a3040debfba2e2352439bd7278e4016750a990a1dd4b0b720a2c4e379cc3ac",
         "integrations/retrieval/http_api.py": "86493a639c318a07c1c16357a1b825bfb25d5f775ab4a0f15ec7e43384487f79",
+        "integrations/retrieval/maintenance.py": "8201e95a1cf9f0726f2e4cb9134e7907600fa955883e413074e1da0bb6172f5b",
         "integrations/retrieval/optional-embedding.lock.json": "af8f6c3f3dba3bb10566b520cad6aa725cb0c50c04a75fba53692d48019f7878",
         "integrations/retrieval/requirements-optional.txt": "3a7230cf72af37c7e3e0ea8ec1d5527c4859cbb900bd9e7d227038106d3344e7",
         "integrations/retrieval/service.py": "865052a7359b8aa056fe4b1ca639adeed5d9f59d891e4551cca85f49f695d23f",
         "integrations/retrieval/test_contract.py": "39bb704ea0eca47bc9ceeb0506444d1094618d5751d5272e5c25a63b34e10756",
-        "portable-profile.json": "46ea92d0075c0de3640ec43ea869b0f64b2d38e47f39a36dac34a6cd9c162ef0",
+        "portable-profile.json": "4bf21286f2f15159b29a0b7f388550fd2bd52c625aa37ce8ef2457529af07f05",
         "prepare_home.py": "c292df81660af22ff51c63e678dede6b1b62250ed244568cc9bb5bc037eb80c9",
-        "registry.json": "054c0d3d0e059713a6430bbdb408f91c0a45c52de666c5a4e213496d32e0e40e",
+        "registry.json": "370660970e0302da7a1e60a7e2f4c29b366d8f6ec7972ef7f686cea2aa3c35da",
         "toolbox.py": "fb6925ee27111223e4fdf005cc88348e33c50499f77525a4b0fd5155395193f6",
         "workflows.json": "b4f56056c03247ce8fa96cfb5dbf9986d5c01f968574868c6465f845985247af"
       },
@@ -1557,8 +1562,8 @@
       ],
       "required": [],
       "source": "packages/tools",
-      "source_revision": "9436a1a051c58e7628c1b24ee6d62b1b310c7c2b",
-      "version": "1.15.0"
+      "source_revision": "9f646fa19c8c9b10b54dc3898105e1911fb3c6d0",
+      "version": "1.16.0"
     },
     "travel": {
       "destination": "modules/travel",
@@ -1682,10 +1687,10 @@
       "required": [],
       "source": "packages/travel",
       "source_revision": "52d1cf8fd85ff0602b5efe4013db94b1979c3b63",
-      "version": "1.15.0"
+      "version": "1.16.0"
     }
   },
-  "previous_version": "1.14.1",
+  "previous_version": "1.15.0",
   "schema_version": 1,
-  "version": "1.15.0"
+  "version": "1.16.0"
 }

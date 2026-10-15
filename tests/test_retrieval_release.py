@@ -22,6 +22,12 @@ class RetrievalRelease(unittest.TestCase):
    env={**os.environ,'TOOLS_ROOT':str(host/'modules/tools'),'PYTHON_EXECUTABLE':sys.executable}
    r=subprocess.run(['node',str(host/'modules/knowledge/tests/retrieval.contract.mjs')],capture_output=True,env=env);self.assertEqual(0,r.returncode,r.stderr.decode(errors='replace'));self.assertEqual('pass',json.loads(r.stdout)['status'])
    self.assertFalse((host/'modules/knowledge/system/query/retrieval.local.json').exists());self.assertFalse(list((host/'modules/knowledge').rglob('*.sqlite')))
+ def test_installed_post_review_refresh_and_actual_hook(self):
+  with tempfile.TemporaryDirectory(prefix='retrieval-lifecycle-installed-') as tmp:
+   host=pathlib.Path(tmp)/'host';result=w.install(ROOT,host,'init',['tools','knowledge'],True);self.assertTrue(result['applied'])
+   env={**os.environ,'TOOLS_ROOT':str(host/'modules/tools'),'PYTHON_EXECUTABLE':sys.executable}
+   for name in ['retrieval-maintenance.contract.mjs','retrieval-hook.contract.mjs']:
+    p=subprocess.run(['node',str(host/'modules/knowledge/tests'/name)],env=env,capture_output=True);self.assertEqual(0,p.returncode,p.stderr.decode(errors='replace')+p.stdout.decode(errors='replace'));self.assertIn('"status":"pass"',p.stdout.decode())
  def test_immediate_predecessor_upgrade_conflict_and_reverse(self):
   with tempfile.TemporaryDirectory(prefix='retrieval-upgrade-') as tmp:
    tmp=pathlib.Path(tmp);old=tmp/'old';old.mkdir();raw=subprocess.check_output(['git','-c','safe.directory='+ROOT.as_posix(),'-C',str(ROOT),'archive','v'+w.catalog(ROOT)['previous_version']])
@@ -36,7 +42,7 @@ class RetrievalRelease(unittest.TestCase):
     installed=prior.install(old,host,'init',['tools','knowledge']+(['meta'] if mode=='compatible' else []),True,mode=mode);self.assertTrue(installed['applied'])
     protected={host/'modules/knowledge/wiki/user.md':b'PRIVATE ORIGINAL\r\n',host/'modules/knowledge/system/query/retrieval.local.json':b'{"private":"binding"}',host/'external-tools/runtime/model.bin':b'OWN RUNTIME'}
     for p,b in protected.items():p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(b)
-    authority=(host/'AGENTS.md').read_bytes();managed=host/'modules/knowledge/system/query/query-evidence.mjs';original=managed.read_bytes();managed.write_bytes(original+b'\n// User edit\n')
+    authority=(host/'AGENTS.md').read_bytes();managed=host/'modules/knowledge/system/query/README.md';original=managed.read_bytes();managed.write_bytes(original+b'\n// User edit\n')
     denied=w.install(ROOT,host,'upgrade',[],False);self.assertTrue(denied['conflicts']);self.assertTrue(managed.read_bytes().endswith(b'// User edit\n'));managed.write_bytes(original)
     upgrade=w.install(ROOT,host,'upgrade',[],True);self.assertTrue(upgrade['applied']);self.assertTrue((host/'modules/tools/integrations/retrieval/core.py').is_file());self.assertTrue(w.rollback(host,upgrade['transaction'],True)['applied']);self.assertEqual(original,managed.read_bytes());self.assertEqual(authority,(host/'AGENTS.md').read_bytes())
     for p,b in protected.items():self.assertEqual(b,p.read_bytes())

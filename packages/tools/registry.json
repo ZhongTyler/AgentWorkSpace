@@ -176,14 +176,16 @@
         "read",
         "export",
         "serve",
-        "health"
+        "health",
+        "refresh"
       ],
       "required_sources": [
         "core.py",
         "service.py",
         "cli.py",
         "http_api.py",
-        "test_contract.py"
+        "test_contract.py",
+        "maintenance.py"
       ],
       "required_runtime": [],
       "limits": "Read-only candidates/context; explicit maintenance builds outside Knowledge, immutable approved-source versions, original Query fallback; hybrid only pinned local assets; website gateway/provider remains host-owned"

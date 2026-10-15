@@ -89,3 +89,7 @@ Query 发现旧锚点、疑似内容冲突或陈旧状态时只交接带位置�
 ## 7. 行为验证与实际限制
 
 入口：`powershell -NoProfile -ExecutionPolicy Bypass -File system/maintenance/checklists/run-query-contract.ps1`；完整机械测试为 `tests/query-evidence.contract.ps1` 和 `tests/wiki-group-query-selection.contract.ps1`。测试在隔离 fixture 中检验发现、全文／章节、禁用来源、越界、陈旧复用与只读。它们不证明语义质量、查阅收益或真人满意；实际同题比较和宿主消费证据另存任务审计。
+
+## 按需检索选路
+
+研究或游戏设计/开发需要已有经验、机制、案例或反例时，默认从本协议的Query discover进入，而不以只搜标题/直接rg代替完整候选发现；已知路径读取和项目事实核对仍可直接进行。先用默认BM25；真实跨表达漏项、同义词补充后仍缺关键候选时，Agent可有界切hybrid，无需用户逐次点名。查看实际used_mode及失败原因，失败回原Query/真实文件；不常规两路联跑，不以向量分数当证据置信度。候选发现后仍沿全文read/reuse/verify，不把命中当实读。

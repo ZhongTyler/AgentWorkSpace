@@ -1,10 +1,10 @@
 {
   "component_id": "knowledge",
-  "file_count": 118,
-  "generated_at": "2026-10-15T15:48:52+08:00",
+  "file_count": 121,
+  "generated_at": "2026-10-15T16:45:50+08:00",
   "generator_version": "3.0.0",
-  "manifest_sha256": "69a309fbd56fde64dc7439f1c5f7ad08d24af8b58d362a0dee83f29957b58503",
+  "manifest_sha256": "224009dbabd5728c6adccd256a8517a113a445b4da2e80c3557040b63d7dce54",
   "preview": false,
   "release_schema": 1,
-  "source_revision": "44b8d87c16526383373dddba1a6039adf1ed1c3b"
+  "source_revision": "1f156938db986768b952f7c195f5d1e35c7f25e9"
 }

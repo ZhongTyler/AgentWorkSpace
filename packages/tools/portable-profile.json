@@ -135,11 +135,12 @@
     "integrations/realesrgan/README.md": "0381bb57870a8bca5dd0af5545b248df33175adb0ac6c9af67a1d66c497c6136",
     "integrations/realesrgan/source-lock.json": "fe85ad67cced6e522f8fb017cd7b8d344f44c3722d400cd60ed52394666c7918",
     "integrations/realesrgan/upscale.py": "3cb24e4288a4502950640117dea240097d453f951b4e4b7b2e4c2403c60b3914",
-    "integrations/retrieval/cli.py": "4a9e83efbfc8617a08d3cc699308896d833bca06611b20a15942183ad61a3d60",
+    "integrations/retrieval/cli.py": "e9d5fbb79e4f6f8eb262c3b5fdd7340ea2bce6d7cc555c9b9416b63554f237c9",
     "integrations/retrieval/core.py": "f5a3040debfba2e2352439bd7278e4016750a990a1dd4b0b720a2c4e379cc3ac",
     "integrations/retrieval/http_api.py": "86493a639c318a07c1c16357a1b825bfb25d5f775ab4a0f15ec7e43384487f79",
+    "integrations/retrieval/maintenance.py": "8201e95a1cf9f0726f2e4cb9134e7907600fa955883e413074e1da0bb6172f5b",
     "integrations/retrieval/optional-embedding.lock.json": "af8f6c3f3dba3bb10566b520cad6aa725cb0c50c04a75fba53692d48019f7878",
-    "integrations/retrieval/README.md": "d342ce460abe936b3a6b26aa7b669f9efabf47a32f178a9b4c99ff4c1dfaf64d",
+    "integrations/retrieval/README.md": "5f21651f6862102e9274380903394f68f9aa2567b8e6330692a67666fbba4564",
     "integrations/retrieval/requirements-optional.txt": "3a7230cf72af37c7e3e0ea8ec1d5527c4859cbb900bd9e7d227038106d3344e7",
     "integrations/retrieval/service.py": "865052a7359b8aa056fe4b1ca639adeed5d9f59d891e4551cca85f49f695d23f",
     "integrations/retrieval/test_contract.py": "39bb704ea0eca47bc9ceeb0506444d1094618d5751d5272e5c25a63b34e10756",
@@ -147,7 +148,7 @@
     "LICENSE-NOTICE.md": "0eace850e891974dde88c681ad9fe765575147b85a77ee40788825985d8144e6",
     "prepare_home.py": "c292df81660af22ff51c63e678dede6b1b62250ed244568cc9bb5bc037eb80c9",
     "README.md": "8bcb77bcdfb9d7f24bb17b3af956f2de07c76bd47323177e7397bd8c3f4b35b8",
-    "registry.json": "054c0d3d0e059713a6430bbdb408f91c0a45c52de666c5a4e213496d32e0e40e",
+    "registry.json": "370660970e0302da7a1e60a7e2f4c29b366d8f6ec7972ef7f686cea2aa3c35da",
     "toolbox.py": "fb6925ee27111223e4fdf005cc88348e33c50499f77525a4b0fd5155395193f6",
     "workflows.json": "b4f56056c03247ce8fa96cfb5dbf9986d5c01f968574868c6465f845985247af"
   }

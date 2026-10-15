@@ -1,5 +1,11 @@
 # Releases
 
+## 1.16.0
+
+- Add opt-in post-review index refresh with scope and exact approval checks, atomic activation, idempotence and Query fallback.
+- Route Research and game-decision-support knowledge gaps through default BM25 and bounded optional hybrid.
+- Preserve original knowledge, audits and recipient runtimes; add fresh/upgrade/recovery synthetic checks. No hook, model, schedule or website is enabled by package installation.
+
 ## 1.15.0 — 2026-10-15
 
 - Publish optional Tools retrieval: BM25 default, explicit local hybrid, immutable source versions and scoped views.

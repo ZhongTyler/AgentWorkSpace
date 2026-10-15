@@ -7,7 +7,7 @@
         "SKILL.md": "10d8580707534354eb22f6c1a9ccb86be19fa7587ecdeed6efd43abe81f8d3fe"
       },
       "source": "library/agent-blind-eval",
-      "version": "1.14.1"
+      "version": "1.16.0"
     },
     "bidirectional-steelman": {
       "destination": ".agents/skills/bidirectional-steelman",
@@ -15,7 +15,7 @@
         "SKILL.md": "fe063aa466c41f4f4179d246d9aae1a414913a0fc7912356eb05458a50e2423f"
       },
       "source": "library/bidirectional-steelman",
-      "version": "1.14.1"
+      "version": "1.16.0"
     },
     "dual-layer-explainer": {
       "destination": ".agents/skills/dual-layer-explainer",
@@ -23,7 +23,7 @@
         "SKILL.md": "64161613dc81576315fb5571897cf65214bc9793015e14038204a46e24e53417"
       },
       "source": "library/dual-layer-explainer",
-      "version": "1.14.1"
+      "version": "1.16.0"
     },
     "evidence-audit": {
       "destination": ".agents/skills/evidence-audit",
@@ -31,15 +31,15 @@
         "SKILL.md": "b33a27d488d420f41e964bd0e12999ad161e6d59ecd5a222fb4aad87e80c3d54"
       },
       "source": "library/evidence-audit",
-      "version": "1.14.1"
+      "version": "1.16.0"
     },
     "game-decision-support": {
       "destination": ".agents/skills/game-decision-support",
       "files": {
-        "SKILL.md": "6bb325254c1494e4787d13d862665cf1f2d5740a72b07fb1cd5e56b09bfd34cb"
+        "SKILL.md": "351f52c57f3e1418b1d2d3cf9da95a9e5a55179beef7174b66ccc890209c8c4c"
       },
       "source": "library/game-decision-support",
-      "version": "1.14.1"
+      "version": "1.16.0"
     },
     "game-presentation": {
       "destination": ".agents/skills/game-presentation",
@@ -47,7 +47,7 @@
         "SKILL.md": "676b106d49d4e5699320668ae0b0131fb44e07f0a367d7f21a81802c0a04d393"
       },
       "source": "library/game-presentation",
-      "version": "1.14.1"
+      "version": "1.16.0"
     },
     "godot-gdscript-patterns": {
       "destination": ".agents/skills/godot-gdscript-patterns",
@@ -59,7 +59,7 @@
         "SKILL.md": "52013b9a2a6a3db8aba35cc6bb671d547ab526d1d7913c169ccb77878be257c5"
       },
       "source": "library/godot-gdscript-patterns",
-      "version": "1.14.1"
+      "version": "1.16.0"
     },
     "horizontal-vertical-research": {
       "destination": ".agents/skills/horizontal-vertical-research",
@@ -67,7 +67,7 @@
         "SKILL.md": "0fbdadab1c44621447503479ac603bebf7f97941f3804d85f38fbe92733835f4"
       },
       "source": "library/horizontal-vertical-research",
-      "version": "1.14.1"
+      "version": "1.16.0"
     },
     "humanizer-zh": {
       "destination": ".agents/skills/humanizer-zh",
@@ -77,7 +77,7 @@
         "SKILL.md": "9b07aa76be9885405f78749bf5d808292f43c283dd43644b2cbc17b8e71f00ac"
       },
       "source": "library/humanizer-zh",
-      "version": "1.14.1"
+      "version": "1.16.0"
     },
     "problem-clarifier": {
       "destination": ".agents/skills/problem-clarifier",
@@ -85,7 +85,7 @@
         "SKILL.md": "946cb75bfc29032e73f0a2ff517b14e149dad0c141f5837795408d55a0275062"
       },
       "source": "library/problem-clarifier",
-      "version": "1.14.1"
+      "version": "1.16.0"
     },
     "property-based-testing": {
       "destination": ".agents/skills/property-based-testing",
@@ -100,7 +100,7 @@
         "SKILL.md": "5bfa9a87dbefc85f5c2a3666da2932ef6ae38c1b4b1bffd8a08e43d1259542dc"
       },
       "source": "library/property-based-testing",
-      "version": "1.14.1"
+      "version": "1.16.0"
     },
     "reference-deconstruction": {
       "destination": ".agents/skills/reference-deconstruction",
@@ -108,7 +108,7 @@
         "SKILL.md": "c4118326aebb3baa253704518c3e199ad07cf57188cd970511575a97f09c3794"
       },
       "source": "library/reference-deconstruction",
-      "version": "1.14.1"
+      "version": "1.16.0"
     },
     "reversible-experiment-design": {
       "destination": ".agents/skills/reversible-experiment-design",
@@ -116,7 +116,7 @@
         "SKILL.md": "618aee268063af4763dacd0a8517f4e2482091d610124ccb9e3b9398c3000560"
       },
       "source": "library/reversible-experiment-design",
-      "version": "1.14.1"
+      "version": "1.16.0"
     },
     "systematic-debugging": {
       "destination": ".agents/skills/systematic-debugging",
@@ -129,7 +129,7 @@
         "SKILL.md": "01f9f45d532619be1fe24911a196af0341680579c3bdec8bb5a9940f7d708e6c"
       },
       "source": "library/systematic-debugging",
-      "version": "1.14.1"
+      "version": "1.16.0"
     },
     "workflow-closure": {
       "destination": ".agents/skills/workflow-closure",
@@ -137,7 +137,7 @@
         "SKILL.md": "051b00406d94b0709e77f360489348cd93bf5d42d4232fac7352a3748ec93eeb"
       },
       "source": "library/workflow-closure",
-      "version": "1.14.1"
+      "version": "1.16.0"
     },
     "workflow-redesign": {
       "destination": ".agents/skills/workflow-redesign",
@@ -146,18 +146,18 @@
         "SKILL.md": "ff22be8ea4bd5bceb19d664aca178c99250e6886e80a7afe7892bcad447549f8"
       },
       "source": "library/workflow-redesign",
-      "version": "1.14.1"
+      "version": "1.16.0"
     },
     "feedback-loop": {
       "destination": ".agents/skills/feedback-loop",
       "source": "library/feedback-loop",
-      "version": "1.14.1",
+      "version": "1.16.0",
       "files": {
         "SKILL.md": "ff8412076381671cb20db91df169c1cdccd5d19ea65deaa6a9a997a5beeab49a"
       }
     }
   },
-  "previous_version": "1.14.0",
+  "previous_version": "1.14.1",
   "schema_version": 1,
-  "version": "1.14.1"
+  "version": "1.16.0"
 }
