@@ -1,6 +1,6 @@
 # Skills
 
-这是一份可选择安装的方法库。安装本 package 只把库放进 modules/skills，不会自动启用其中全部 Skill。包含开发方法、研究与决策、中文润色、工作流及游戏支持共 17 项；按实际任务选择，普通任务无需为了展示流程调用 Skill。
+这是一份可选择安装的方法库。安装本 package 只把库放进 modules/skills，不会自动启用其中全部 Skill。包含开发方法、研究与决策、中文润色、工作流及游戏支持共 18 项；按实际任务选择，普通任务无需为了展示流程调用 Skill。
 
 Python 3.10+，无第三方依赖。先列出目录，再选择安装到用户工作区（默认 Codex 的 .agents/skills）：
 
@@ -27,3 +27,5 @@ python scripts/skills.py rollback --target <workspace> --transaction <transactio
 许可按每个 Skill 的原来源保留：Humanizer-zh、systematic-debugging、godot-gdscript-patterns 为其声明的 MIT；property-based-testing 为 CC BY-SA 4.0，含来源与变更说明。其他原创内容原授权不变，不对整个集合施加覆盖原许可的新限制。入口校验与可安装性不代表方法长期效果已经验证。
 
 `feedback-loop`在观察、调节、复现或比较成为当前瓶颈时使用，涵盖数值、AI、输入、生成、性能和表现。正文只引用meta的共用反馈方法；未装meta也可沿Skill中的固定版本公开链接读取，不复制方法或强制安装整套框架。普通修改与现有工具足够时不预建平台，长期触发率/净节时尚无保证。
+
+`interaction-design`只拥有界面状态与操作反馈的共用方法，网页视觉方向仍归frontend-design，游戏资产与引擎交付仍归GamePresentation。可独立选装；[现有frontend的可选接线](integrations/frontend-design.md)不自动改写外部Skill。游戏流程也可按需引用同一入口，不复制方法或互相加载整套流程。

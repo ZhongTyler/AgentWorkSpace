@@ -1,10 +1,10 @@
 {
   "component_id": "game-presentation",
   "file_count": 26,
-  "generated_at": "2026-10-15T12:38:41+08:00",
+  "generated_at": "2026-10-15T16:58:34+08:00",
   "generator_version": "3.0.0",
   "manifest_sha256": "492dfee19a2bba9b093adc846c15b11173efb6d64de7f2dc2acccd0c5520e834",
   "preview": false,
   "release_schema": 1,
-  "source_revision": "60b77e08f0f60f03a84ee8423f8904ae72822c4f"
+  "source_revision": "8964ab8fc5cf96f847f206b09b4f718bc60ad07e"
 }

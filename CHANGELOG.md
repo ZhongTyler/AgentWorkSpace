@@ -1,5 +1,12 @@
 # Releases
 
+## 1.17.0 — 2026-10-15
+
+- Add optional interaction-design with one shared method for state continuity, focus, cancellation, input alternatives and reduced motion.
+- Wire GamePresentation selectively and provide a manual frontend hook, preserving third-party Skills and licenses.
+- Update bilingual and package README, upgrade/recovery guidance and verified selected installation. Other ten component inventories remain unchanged from 1.16.0.
+
+
 ## 1.16.0
 
 - Add opt-in post-review index refresh with scope and exact approval checks, atomic activation, idempotence and Query fallback.

@@ -19,3 +19,5 @@ node --test tests/delivery.test.mjs tests/workbench-delivery.test.mjs tests/publ
 现有源项目曾验证 PNG/WAV/OGG/OTF 及 Godot 打包恢复；TTF 和其他引擎不继承实例证明。公开包工程测试只验证合同、事务及合成样例，不证明美术、听感或跨项目效果。版权和原素材许可不因公开改变。
 
 Windows 目录落盘遇到 EPERM/EACCES/EBUSY 时，最多追加 6 次短暂重试，总等待不超过 1.575 秒；目标在等待中出现、权限持续不足或其他错误仍明确失败，不覆盖另一写入者。
+
+界面交互问题沿[workflow的UI状态反馈](workflow.md#ui状态反馈)按需引用interaction-design。共用方法由Skill拥有，本包保留游戏表现、规则边界与实际引擎验证；不新增必装依赖。

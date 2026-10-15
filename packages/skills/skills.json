@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "version": "1.16.0",
+  "version": "1.17.0",
   "skills": [
     {
       "id": "game-presentation",
@@ -107,6 +107,12 @@
     {
       "id": "humanizer-zh",
       "description": "润色已有中文文本，保留事实、确定程度与作者声音，减少空话、重复和模板化表达",
+      "optional_modules": [],
+      "install_requires": []
+    },
+    {
+      "id": "interaction-design",
+      "description": "网页、App与游戏UI的状态连续、焦点、操作反馈与交互动效",
       "optional_modules": [],
       "install_requires": []
     }
