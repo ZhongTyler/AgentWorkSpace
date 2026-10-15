@@ -71,7 +71,7 @@ def stage(source, destination):
                 raise ContractError('Research input is outside the reviewed public whitelist')
             vendors = ('integrations/mcp/vendor/', 'integrations/rea/vendor/')
             if component == 'tools':
-                vendors += ('integrations/decision-models/vendor/',)
+                vendors += ('integrations/decision-models/vendor/', 'integrations/anatomy/vendor/')
             if target.endswith(('.tgz', '.tar.gz', '.zip')) and not target.startswith(vendors):
                 raise ContractError('Research archives must use the reviewed vendor directory')
     if component == 'game-project':

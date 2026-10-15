@@ -1,5 +1,12 @@
 # Releases
 
+## 1.20.0
+
+- Add optional pinned MIT Anatomy source, offline external-home restore and fixed sample build to Tools.
+- Route dual-layer explanations to an already configured tool when useful; preserve text/diagram fallback and independent Skill selection.
+- Exclude private research, trial copies and runtime; document predecessor upgrade, conflicts and separate external-home recovery. Learning and video outcomes remain unverified.
+
+
 ## 1.19.0 — 2026-10-15
 
 - Add one optional Chinese-font selection reference to game-presentation, covering Maoken discovery, original licenses, fixed versions and target-render checks.

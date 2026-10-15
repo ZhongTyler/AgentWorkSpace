@@ -144,7 +144,7 @@ The distribution contains **one meta foundation and eleven peer packages**. Meta
 | [Travel](packages/travel/README.md) | “Research and plan this trip…”; generate a private offline website | `modules/travel` | Works alone; no required package, account service or server; browser verification is optional |
 | [PrototypeAssets](packages/prototype-assets/README.md) | 119 assets with provenance/license records and verification/export tools | `modules/prototype-assets` | Runtime copies and licenses remain usable without their source package |
 | [Research](packages/research/README.md) | Research Markdown, URLs and questions; game/source references and optional proactive exploration | `modules/research` | Works alone; Knowledge, MCP, media tools and host scheduling require separate setup/authority |
-| [Tools](packages/tools/README.md) | Decision models, REA, image candidates, capture, source connections and optional read-only retrieval | `modules/tools` | Works alone; set up runtime outside the package and validate business integration |
+| [Tools](packages/tools/README.md) | Decision models, REA, image candidates, capture, sources, read-only retrieval and interactive explanations | `modules/tools` | Works alone; set up runtime outside the package and validate business integration |
 
 Follow a package name in the table for its quick start, task workflow, requirements and usage boundaries. Use `init` as shown above for installation. To add a package to an existing installation, preview with `add --packages <package-id>`, then apply with `--apply`.
 

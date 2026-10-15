@@ -1,6 +1,6 @@
 # Workspace Tools
 
-独立、可选的通用工具包：本地决策模型、REA、网页/图片采集、浏览器辅助和只读来源连接。Research 保存研究问题与试验，Knowledge 保存知识，项目保存决定与采用反馈；Tools 维护可复用实现、固定调用、版本、许可与恢复。Skills 方法仍由独立 Skills 包管理，工具专属 REA skill 随工具保存。
+独立、可选的通用工具包：本地决策模型、REA、网页/图片采集、浏览器辅助、只读来源连接和原理交互解释。Research 保存研究问题与试验，Knowledge 保存知识，项目保存决定与采用反馈；Tools 维护可复用实现、固定调用、版本、许可与恢复。Skills 方法仍由独立 Skills 包管理，工具专属 REA skill 随工具保存。
 
 ## 开始使用
 
@@ -19,6 +19,7 @@ python prepare_home.py --home <external-versioned-tools-home>
 
 | 入口 | 适用情况 |
 |---|---|
+| anatomy | 按需用SVG/HTML解释概念、结构与过程；固定MIT源码，显式包外恢复，不自动制片。见[Anatomy](integrations/anatomy/README.md) |
 | retrieval | BM25默认的可重建只读检索；混合按需、Knowledge原Query回退、网站接口预留。见[integrations/retrieval](integrations/retrieval/README.md)；不附知识正文或索引 |
 | decisions | Intern 可选批量主题分流；Laya 实验；StartLux 仅非商业研究对照。见 integrations/decision-models/README.md |
 | rea | 指定发行包的静态实现分析；源码足够时直接读。见 [REA](integrations/rea/README.md) |

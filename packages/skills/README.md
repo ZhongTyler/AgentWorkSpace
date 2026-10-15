@@ -31,3 +31,5 @@ python scripts/skills.py rollback --target <workspace> --transaction <transactio
 `interaction-design`只拥有界面状态与操作反馈的共用方法，网页视觉方向仍归frontend-design，游戏资产与引擎交付仍归GamePresentation。可独立选装；[现有frontend的可选接线](integrations/frontend-design.md)不自动改写外部Skill。游戏流程也可按需引用同一入口，不复制方法或互相加载整套流程。
 
 中文字体新增/替换、缺字或嵌入交付时，可单独读取game-presentation所附的[字体选型参考](library/game-presentation/references/font-selection.md)：猫啃发现→作者具体版本与原许可→真实显示与包检查。没有字体二进制、下载服务或新增Skill；[frontend的可选薄入口](integrations/frontend-design.md)仍由用户审阅后手工合并，不改第三方原文。
+
+`dual-layer-explainer`可按问题选择Tools包中的Anatomy交互解释。Tools与客户端Skill各自可选；工具不在本包复制，未配置时继续文字/简图。先准备包外Tools home并显式恢复，再按需制作；学习收益与视频制片另行判断。

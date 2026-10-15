@@ -13,7 +13,8 @@
         "browser",
         "research-sources",
         "flux-klein",
-        "cutout"
+        "cutout",
+        "anatomy"
       ],
       "default_path": "Original Research; Intern only when useful for a batch"
     },
@@ -86,6 +87,16 @@
         "retrieval"
       ],
       "default_path": "Same read-only snapshot/core; current website gateway/provider and authorization; no automatic deployment"
+    },
+    {
+      "id": "explanation",
+      "owner": "Recipient host",
+      "entry": "README.md",
+      "stage": "optional_host_binding_required",
+      "tools": [
+        "anatomy"
+      ],
+      "default_path": "Text, simple diagrams or existing lightweight interaction; Anatomy only when useful for personal understanding, video separate"
     }
   ]
 }

@@ -5,18 +5,23 @@ import workspace as w
 from release_history import published_bundle
 
 class FontRelease(unittest.TestCase):
+ @classmethod
+ def setUpClass(cls):
+  cls.cache=tempfile.TemporaryDirectory(prefix="font-frozen-");cls.bundle=published_bundle(ROOT,"1.19.0",pathlib.Path(cls.cache.name)/"bundle")
+ @classmethod
+ def tearDownClass(cls):cls.cache.cleanup()
  def skill(self,host,platform,*args,ok=True):
   p=subprocess.run([sys.executable,'-X','utf8','-B',str(host/'modules/skills/scripts/skills.py'),*args,'--target',str(host),'--platform',platform],capture_output=True)
   self.assertEqual(p.returncode==0,ok,(p.stdout+p.stderr).decode('utf8','replace'));return json.loads(p.stdout)
  def test_scope_and_fresh_selected_reference(self):
-  current=w.catalog(ROOT)
+  current=w.catalog(self.bundle)
   old=json.loads(subprocess.check_output(['git','-c','safe.directory='+ROOT.as_posix(),'-C',str(ROOT),'show','v1.18.0:catalog.json']))
   self.assertEqual({'skills','game-presentation'},{k for k,v in current['components'].items() if v['files']!=old['components'][k]['files']})
-  reference=ROOT/'packages/skills/library/game-presentation/references/font-selection.md'
+  reference=self.bundle/'packages/skills/library/game-presentation/references/font-selection.md'
   self.assertIn('https://www.maoken.com/',reference.read_text('utf8'))
-  self.assertIn('/blob/v1.19.0/packages/skills/library/game-presentation/references/font-selection.md',(ROOT/'packages/game-presentation/workflow.md').read_text('utf8'))
+  self.assertIn('/blob/v1.19.0/packages/skills/library/game-presentation/references/font-selection.md',(self.bundle/'packages/game-presentation/workflow.md').read_text('utf8'))
   for component in ['skills','game-presentation']:
-   for p in (ROOT/'packages'/component).rglob('*'):
+   for p in (self.bundle/'packages'/component).rglob('*'):
     if not p.is_file():continue
     self.assertNotIn(p.suffix.lower(),['.ttf','.otf','.woff','.woff2'])
     if p.suffix in ['.md','.json']:
@@ -25,7 +30,7 @@ class FontRelease(unittest.TestCase):
       self.assertNotIn(private,text,str(p))
   with tempfile.TemporaryDirectory(prefix='font-fresh-') as tmp:
    host=pathlib.Path(tmp)/'host'
-   self.assertTrue(w.install(ROOT,host,'init',['skills','game-presentation'],True)['applied'])
+   self.assertTrue(w.install(self.bundle,host,'init',['skills','game-presentation'],True)['applied'])
    for platform,folder in [('codex','.agents'),('codebuddy','.codebuddy')]:
     self.assertFalse((host/folder/'skills/game-presentation').exists())
     self.assertTrue(self.skill(host,platform,'install','--names','game-presentation','--apply')['applied'])
@@ -43,7 +48,7 @@ class FontRelease(unittest.TestCase):
     for platform,folder in [('codex','.agents'),('codebuddy','.codebuddy')]:
      self.assertTrue(self.skill(host,platform,'install','--names','game-presentation','--apply')['applied'])
      selected[platform]=(host/folder/'skills/game-presentation/SKILL.md').read_bytes()
-    package=w.install(ROOT,host,'upgrade',[],True);self.assertTrue(package['applied'])
+    package=w.install(self.bundle,host,'upgrade',[],True);self.assertTrue(package['applied'])
     for platform,folder in [('codex','.agents'),('codebuddy','.codebuddy')]:
      entry=host/folder/'skills/game-presentation/SKILL.md'
      self.assertEqual(selected[platform],entry.read_bytes())

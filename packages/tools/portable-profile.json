@@ -5,6 +5,12 @@
     "AGENTS.md": "7794bfd8100b90f2d8bee57ccb4f7774335c8cd57ff7a5330c8148cd871bfe7d",
     "docs/decision-model-policy.md": "ebee1f65e4db11fc44946ec6ecdb1a5844922a5b5d1ed9bedf036e7a891829a8",
     "docs/local-image-validation.md": "77b63169c6a7ef137115eba0d19d0372ca281ae1477961d7ce532814a90307dc",
+    "integrations/anatomy/anatomy.py": "9bf0ef88a274ba40e07229676439109eddf4317c478fe864706132a69a230249",
+    "integrations/anatomy/README.md": "c729bfaad14f55d42de8beb5993b19277987d28faf4fac1392f4116f1881554a",
+    "integrations/anatomy/source-lock.json": "4332524f0ce41ca59d1523c37111fbb51b767ddcedaef3acfc8580ada54d4ede",
+    "integrations/anatomy/test_contract.py": "6facdf70e9219ae29ebbffd89f44e5ebe1a51b8346fd66bf418667e9b2c5a65a",
+    "integrations/anatomy/vendor/anatomy-bc943e40c59998be5da61f9d39c6a983b1116099.zip": "b6b95bdaf3370cc2ac73d5bc4a63c86d41f8acddeb763b15c20df6e69bca8c7e",
+    "integrations/anatomy/vendor/LICENSE.txt": "87c078ab9d90a3044f359e6b563d4e6afea7aa060897cf4f21618687b3856796",
     "integrations/birefnet/cutout.py": "0104116ba2046a7aa73405c714f1c6cd7b826d9e24337592190d0485f8b21889",
     "integrations/birefnet/README.md": "9f23ef0255312df7695e899e0e46cdc9fca684701fa39b5232aafc1c9d3dfb13",
     "integrations/birefnet/source-lock.json": "d176af1fb5484c3ba300a967456ded6dd360a322b657669b8fa87e4130c5c929",
@@ -145,11 +151,11 @@
     "integrations/retrieval/service.py": "865052a7359b8aa056fe4b1ca639adeed5d9f59d891e4551cca85f49f695d23f",
     "integrations/retrieval/test_contract.py": "39bb704ea0eca47bc9ceeb0506444d1094618d5751d5272e5c25a63b34e10756",
     "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
-    "LICENSE-NOTICE.md": "0eace850e891974dde88c681ad9fe765575147b85a77ee40788825985d8144e6",
+    "LICENSE-NOTICE.md": "5eadf0e523425e9fb744ad9f943cd6a8bb8f3c5bea0c224297db94a8e3655a83",
     "prepare_home.py": "c292df81660af22ff51c63e678dede6b1b62250ed244568cc9bb5bc037eb80c9",
-    "README.md": "8bcb77bcdfb9d7f24bb17b3af956f2de07c76bd47323177e7397bd8c3f4b35b8",
-    "registry.json": "370660970e0302da7a1e60a7e2f4c29b366d8f6ec7972ef7f686cea2aa3c35da",
-    "toolbox.py": "fb6925ee27111223e4fdf005cc88348e33c50499f77525a4b0fd5155395193f6",
-    "workflows.json": "b4f56056c03247ce8fa96cfb5dbf9986d5c01f968574868c6465f845985247af"
+    "README.md": "6448a7898d3107c4b66f910b96034827331a7588508077f1c98d02333a8e5eb3",
+    "registry.json": "b688e201718ff836584b79e371a3ab496041bbdf61a831e95ad50501871fe89c",
+    "toolbox.py": "6a671efae98014256c4a9ac82be2afcb266e69297c3ba8b54228816cb905e137",
+    "workflows.json": "50b1a424e65233becb02c2498e4d29582c54c612c09414702f3844e3cb8dbe64"
   }
 }

@@ -189,6 +189,31 @@
       ],
       "required_runtime": [],
       "limits": "Read-only candidates/context; explicit maintenance builds outside Knowledge, immutable approved-source versions, original Query fallback; hybrid only pinned local assets; website gateway/provider remains host-owned"
+    },
+    {
+      "id": "anatomy",
+      "root": "integrations/anatomy",
+      "maintenance": "README.md",
+      "status": "optional_recipient_validation_required",
+      "actions": [
+        "guide",
+        "status",
+        "restore",
+        "example"
+      ],
+      "required_sources": [
+        "anatomy.py",
+        "source-lock.json",
+        "vendor/LICENSE.txt",
+        "test_contract.py"
+      ],
+      "required_runtime": [
+        "runtime/upstream/SKILL.md",
+        "runtime/upstream/kit/iso-kit.mjs",
+        "runtime/upstream/scripts/inline-kit.mjs",
+        "runtime/upstream/examples/dial-indicator/build.mjs"
+      ],
+      "limits": "Personal understanding; optional SVG/HTML mechanisms; original text/diagram fallback; video/TTS separate and unverified; no global skill, MCP, paid calls or project changes by registration"
     }
   ]
 }
