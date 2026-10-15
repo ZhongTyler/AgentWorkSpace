@@ -63,7 +63,7 @@ def stage(source, destination):
                 raise ContractError('Validation publication permits only the portable guide')
             if target.startswith('reference-library/') and target not in {'reference-library/README.md','reference-library/catalog.json','reference-library/library.py','reference-library/prepare_home.py','reference-library/portable-profile.json'} and not target.startswith('reference-library/licenses/'):
                 raise ContractError('Reference library requires explicit portable metadata, code or license inputs')
-            if component == 'tools' and target.startswith('docs/') and target != 'docs/decision-model-policy.md':
+            if component == 'tools' and target.startswith('docs/') and target not in {'docs/decision-model-policy.md','docs/local-image-validation.md'}:
                 raise ContractError('Tools documentation requires the explicit portable policy whitelist')
             if name != 'release-input/curated/' + target or target.split('/')[0] not in roots or any(
                     part in {'.git', '.runtime', 'runtime', 'node_modules', '__pycache__', 'private', 'raw', 'runs', 'checks', 'local-status.json', 'validation.json', 'connection-status.json', 'runtime-copy-receipt.json', 'install-paths.json', '.tools-home.json'}

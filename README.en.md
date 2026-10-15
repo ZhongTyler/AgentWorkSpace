@@ -37,6 +37,7 @@ flowchart TB
     Presentation["GamePresentation<br/>Resources into the engine"]:::assets
 
     Tools -. "Set up and validate" .-> Research
+    Tools -. "Local generation/processing candidates" .-> Presentation
     Research -. "Ingest with authorization" .-> Knowledge
     Research -. "Investigate evidence gaps" .-> Analysis
     Knowledge -. "Knowledge context" .-> Brainstorm
@@ -63,7 +64,7 @@ Meta or a reviewed existing framework supplies collaboration rules. **Skills pro
 |---|---|---|
 | Turn a game idea into a prototype | Explore and narrow concepts with Brainstorm, then develop with FromDemoToSpec; use Knowledge or GameAnalysisDecision for gaps in a decision, and return playtest questions to analysis or brainstorming | Concept and scope, a playable prototype, verification and playtest feedback |
 | Investigate a reference mechanism or development tool | Research checks sources; select REA in Tools when artifact evidence is necessary; send useful material to Knowledge with authorization | Sources, applicability limits and the actual effect on a project judgment |
-| Add presentation and assets to a game | GamePresentation defines purposes and prepares or selects resources; PrototypeAssets can supply assets with provenance and license records | In-project resources and licenses, delivery and recovery records |
+| Add presentation and assets to a game | GamePresentation defines purposes and reviews candidates; optionally use Tools for local generation/processing or PrototypeAssets for provenance-reviewed assets | Adopted in-project resources and licenses, delivery and recovery records |
 | Plan a trip | Use Travel alone, configuring collection or browser checks as needed | Trip plans, research and a private offline website outside the package |
 
 These are usage examples, not completed public case studies or a fixed sequence that every task must follow.

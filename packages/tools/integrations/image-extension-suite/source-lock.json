@@ -1,0 +1,57 @@
+{
+  "status": "optional_recipient_validation_required",
+  "verified_components_by_stage": {
+    "G": [
+      {
+        "model": "circlestone-labs/Anima",
+        "revision": "f973fc41ec7545364ac9776c2440285f43ff2a30",
+        "license": "other",
+        "path": "split_files/diffusion_models/anima-turbo-v1.1.safetensors",
+        "size": 4182230656,
+        "sha256": "fba11953276b57edf59d1dc4f1857ac05aa079c56f982b4d7c20298d57d3f7eb"
+      },
+      {
+        "model": "circlestone-labs/Anima",
+        "revision": "f973fc41ec7545364ac9776c2440285f43ff2a30",
+        "license": "other",
+        "path": "split_files/text_encoders/qwen_3_06b_base.safetensors",
+        "size": 1192135096,
+        "sha256": "cd2a512003e2f9f3cd3c32a9c3573f820bb28c940f73c57b1ddaa983d9223eba"
+      },
+      {
+        "model": "circlestone-labs/Anima",
+        "revision": "f973fc41ec7545364ac9776c2440285f43ff2a30",
+        "license": "other",
+        "path": "split_files/vae/qwen_image_vae.safetensors",
+        "size": 253806246,
+        "sha256": "a70580f0213e67967ee9c95f05bb400e8fb08307e017a924bf3441223e023d1f"
+      }
+    ],
+    "H": [
+      {
+        "model": "Comfy-Org/z_image_turbo",
+        "revision": "6fc90a3b1b653e935a0d175e260736de25b84df5",
+        "license": "apache-2.0",
+        "path": "split_files/diffusion_models/z_image_turbo_int8_convrot.safetensors",
+        "size": 6201001296,
+        "sha256": "be517ebd47c912a5626a588e1aeea43e6be4a43c0cdcd2b48a2a780d9f358635"
+      },
+      {
+        "model": "Comfy-Org/z_image_turbo",
+        "revision": "6fc90a3b1b653e935a0d175e260736de25b84df5",
+        "license": "apache-2.0",
+        "path": "split_files/text_encoders/qwen_3_4b_fp4_mixed.safetensors",
+        "size": 3479416193,
+        "sha256": "7ca32dcf07dfe7692945d80fff86e3a74cb83c6206b9b223ac6836b939bb85d6"
+      },
+      {
+        "model": "Comfy-Org/z_image_turbo",
+        "revision": "6fc90a3b1b653e935a0d175e260736de25b84df5",
+        "license": "apache-2.0",
+        "path": "split_files/vae/ae.safetensors",
+        "size": 335304388,
+        "sha256": "afc8e28272cd15db3919bacdb6918ce9c1ed22e96cb12c4d5ed0fba823529e38"
+      }
+    ]
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "model_id": "ZhengPeng7/BiRefNet-matting",
+  "revision": "eccde0a8cbdce7ac5fecfeb06340fe7b949e85d9",
+  "license": "mit",
+  "bytes": 884878856,
+  "sha256": "a9875de5b1e6c8eb5fdaa8c727a82927ce442cdc87ba3abee6a77e6fa46c25bb",
+  "file": "runtime/model.safetensors",
+  "source_files": [
+    {
+      "file": "birefnet.py",
+      "sha256": "2a45b4e0ece72d7c4212bca1a988e7d7e52bfe9f98ec59c58b8809c8a8b7a831"
+    },
+    {
+      "file": "BiRefNet_config.py",
+      "sha256": "e7b8c2a74f6cea6a59553d517f71d47f2c1d90e670a13416af17c25fe2f3dc52"
+    },
+    {
+      "file": "config.json",
+      "sha256": "b2b235983b80fbff325976ca517bb7eda25e915b84a97b150eca41266cf8a13b"
+    },
+    {
+      "file": "README.md",
+      "sha256": "e43576e298fcfd143239f7c1dc080e1d03f4eef5e78156da4f0466d93f2c45a1"
+    },
+    {
+      "file": "requirements.txt",
+      "sha256": "bdfdd83a090d31a2acf64f7350653fa63cd8b5d9d6e0ff3e135bea7ce3786341"
+    }
+  ],
+  "official_url": "https://huggingface.co/ZhengPeng7/BiRefNet-matting/resolve/eccde0a8cbdce7ac5fecfeb06340fe7b949e85d9/model.safetensors"
+}

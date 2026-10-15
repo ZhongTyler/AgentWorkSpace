@@ -1,10 +1,10 @@
 {
   "component_id": "tools",
-  "file_count": 123,
-  "generated_at": "2026-10-14T11:18:51+08:00",
+  "file_count": 141,
+  "generated_at": "2026-10-15T09:51:08+08:00",
   "generator_version": "3.0.0",
-  "manifest_sha256": "f210381126022abdcf413afced09c1444269202b7370917e1e19629d9e764681",
+  "manifest_sha256": "f5b814cde33ed0539df902c0e31a463392e07b496ac602c97d132e7bf877ceaa",
   "preview": false,
   "release_schema": 1,
-  "source_revision": "612776d50aa2fd35ea794794b61fe17b292ec702"
+  "source_revision": "bb7a425ec7a4ce58cf48e50367c9be0e29e6efa7"
 }

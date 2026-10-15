@@ -144,6 +144,25 @@
         "runtime/isnetis.onnx"
       ],
       "limits": "Offline CPU anime-seg illustration segmentation; verify actual holes, thin parts and dark/light backgrounds; no optical-glass guarantee; preserve native alpha; no automatic project adoption"
+    },
+    {
+      "id": "local-image",
+      "root": "integrations/local-image",
+      "maintenance": "README.md",
+      "status": "optional_recipient_validation_required",
+      "actions": [
+        "health",
+        "run"
+      ],
+      "required_sources": [
+        "pipeline.py",
+        "profiles.py",
+        "worker.py",
+        "runtime_support.py",
+        "example.json"
+      ],
+      "required_runtime": [],
+      "limits": "Explicit local image task; three fixed profiles; source/candidate/user adoption separate; shared existing models; no cloud, auto-install, system changes or game publication"
     }
   ]
 }

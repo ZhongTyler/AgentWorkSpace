@@ -1,0 +1,35 @@
+{
+  "tag": "v0.2.5.0",
+  "asset_id": 63494469,
+  "archive_url": "https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-windows.zip",
+  "archive_bytes": 45474481,
+  "archive_sha256_measured": "abc02804e17982a3be33675e4d471e91ea374e65b70167abc09e31acb412802d",
+  "hash_provenance": "locally measured official release transport; no publisher detached checksum found",
+  "files": [
+    {
+      "file": "portable/models/realesrgan-x4plus-anime.bin",
+      "bytes": 8943500,
+      "sha256": "fe01c269cfd10cdef8e018ab66ebe750cf79c7af4d1f9c16c737e1295229bacc"
+    },
+    {
+      "file": "portable/models/realesrgan-x4plus-anime.param",
+      "bytes": 30290,
+      "sha256": "2b8fb6e0ae4d2d85704ca08c119a2f5ea40add4f2ecd512eb7f4cd44b6127ed4"
+    },
+    {
+      "file": "portable/models/realesrgan-x4plus.bin",
+      "bytes": 33424520,
+      "sha256": "713ee713b0353afaa27976f0563a64a5043bd70b9bd8936c2e26e25ebcdbcddf"
+    },
+    {
+      "file": "portable/models/realesrgan-x4plus.param",
+      "bytes": 116029,
+      "sha256": "35330ececcea33b6c397a72548e788d5d53becee4734c50b7fada36e89f10a86"
+    },
+    {
+      "file": "portable/realesrgan-ncnn-vulkan.exe",
+      "bytes": 6161408,
+      "sha256": "07e49f7cbb4ede01ae4dd4c399d3a7e5846e3d2085c3128eff881e55cb7b1a0c"
+    }
+  ]
+}

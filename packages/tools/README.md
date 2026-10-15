@@ -26,6 +26,7 @@ python prepare_home.py --home <external-versioned-tools-home>
 | research-sources | 只读来源模板，使用者自行决定启用并授权。见 [来源连接](integrations/mcp/README.md) |
 | flux-klein | 可选本地生成/参考编辑候选；固定组件与显式准备，权重不附带。见 [FLUX klein](integrations/flux-klein/README.md) |
 | cutout | 可选CPU插画前景分割；孔洞、细叶和玻璃须实际查验。见 [抠图候选](integrations/cutout/README.md) |
+| local-image | FLUX/Anima/Z三profile统一生成、已有PNG加工、哈希恢复和审图交接。见[本地素材](integrations/local-image/README.md)及[测试限制](docs/local-image-validation.md)；接收者自行配置验证 |
 
 登记即发现，不是授权或实际业务接入。request 给出固定入口与回退；run 只执行已登记动作，仍须遵守宿主范围和输入输出授权。缺工具、低质量或不适合时回原流程，不能自动丢弃资料或替代最终审核。
 

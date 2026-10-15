@@ -3,11 +3,11 @@
     "agent-blind-eval": {
       "destination": ".agents/skills/agent-blind-eval",
       "files": {
-        "references/evaluation-protocol.md": "84475be418d07b89e148df4ea54b917a2bc5e4dacb44f85038c8cdf60887bea6",
-        "SKILL.md": "10d8580707534354eb22f6c1a9ccb86be19fa7587ecdeed6efd43abe81f8d3fe"
+        "SKILL.md": "10d8580707534354eb22f6c1a9ccb86be19fa7587ecdeed6efd43abe81f8d3fe",
+        "references/evaluation-protocol.md": "84475be418d07b89e148df4ea54b917a2bc5e4dacb44f85038c8cdf60887bea6"
       },
       "source": "library/agent-blind-eval",
-      "version": "1.12.0"
+      "version": "1.14.0"
     },
     "bidirectional-steelman": {
       "destination": ".agents/skills/bidirectional-steelman",
@@ -15,7 +15,7 @@
         "SKILL.md": "fe063aa466c41f4f4179d246d9aae1a414913a0fc7912356eb05458a50e2423f"
       },
       "source": "library/bidirectional-steelman",
-      "version": "1.12.0"
+      "version": "1.14.0"
     },
     "dual-layer-explainer": {
       "destination": ".agents/skills/dual-layer-explainer",
@@ -23,7 +23,7 @@
         "SKILL.md": "64161613dc81576315fb5571897cf65214bc9793015e14038204a46e24e53417"
       },
       "source": "library/dual-layer-explainer",
-      "version": "1.12.0"
+      "version": "1.14.0"
     },
     "evidence-audit": {
       "destination": ".agents/skills/evidence-audit",
@@ -31,7 +31,7 @@
         "SKILL.md": "b33a27d488d420f41e964bd0e12999ad161e6d59ecd5a222fb4aad87e80c3d54"
       },
       "source": "library/evidence-audit",
-      "version": "1.12.0"
+      "version": "1.14.0"
     },
     "game-decision-support": {
       "destination": ".agents/skills/game-decision-support",
@@ -39,27 +39,27 @@
         "SKILL.md": "6bb325254c1494e4787d13d862665cf1f2d5740a72b07fb1cd5e56b09bfd34cb"
       },
       "source": "library/game-decision-support",
-      "version": "1.12.0"
+      "version": "1.14.0"
     },
     "game-presentation": {
       "destination": ".agents/skills/game-presentation",
       "files": {
-        "SKILL.md": "966f88ad7b901e88be8d4af99310d24ffe817fd1874c30c400a6749b3bdbf8e4"
+        "SKILL.md": "676b106d49d4e5699320668ae0b0131fb44e07f0a367d7f21a81802c0a04d393"
       },
       "source": "library/game-presentation",
-      "version": "1.12.0"
+      "version": "1.14.0"
     },
     "godot-gdscript-patterns": {
       "destination": ".agents/skills/godot-gdscript-patterns",
       "files": {
+        "SKILL.md": "52013b9a2a6a3db8aba35cc6bb671d547ab526d1d7913c169ccb77878be257c5",
         "references/advanced-patterns.md": "659531834c96b493caeeba32303eeacafe0ed482439933beb0a1765af7288bec",
         "references/details.md": "e2d0f3115fce45ba1dad5b950e91318e0d9bc509b0fad7119d210b608d3576c2",
         "references/LICENSE": "f89abb55d9f073f38f1703e4518f0613c788c6174be7f13b8dfe48a1c076c746",
-        "references/UPSTREAM.md": "dfee4a95efc9039e0de8397e9324e53b3b3d5e81d6c7e3859f56626440f59a55",
-        "SKILL.md": "52013b9a2a6a3db8aba35cc6bb671d547ab526d1d7913c169ccb77878be257c5"
+        "references/UPSTREAM.md": "dfee4a95efc9039e0de8397e9324e53b3b3d5e81d6c7e3859f56626440f59a55"
       },
       "source": "library/godot-gdscript-patterns",
-      "version": "1.12.0"
+      "version": "1.14.0"
     },
     "horizontal-vertical-research": {
       "destination": ".agents/skills/horizontal-vertical-research",
@@ -67,17 +67,17 @@
         "SKILL.md": "0fbdadab1c44621447503479ac603bebf7f97941f3804d85f38fbe92733835f4"
       },
       "source": "library/horizontal-vertical-research",
-      "version": "1.12.0"
+      "version": "1.14.0"
     },
     "humanizer-zh": {
       "destination": ".agents/skills/humanizer-zh",
       "files": {
+        "SKILL.md": "9b07aa76be9885405f78749bf5d808292f43c283dd43644b2cbc17b8e71f00ac",
         "references/LICENSE": "aa00e74769e1b9d8e7fa7094dbfcca9b129a0ded6dce1cf4da050b99146d2fa7",
-        "references/UPSTREAM.md": "100ceb8c078468179585e4a085c0bd8edd8b2e1f43814b9c73ac5917039bd8e8",
-        "SKILL.md": "9b07aa76be9885405f78749bf5d808292f43c283dd43644b2cbc17b8e71f00ac"
+        "references/UPSTREAM.md": "100ceb8c078468179585e4a085c0bd8edd8b2e1f43814b9c73ac5917039bd8e8"
       },
       "source": "library/humanizer-zh",
-      "version": "1.12.0"
+      "version": "1.14.0"
     },
     "problem-clarifier": {
       "destination": ".agents/skills/problem-clarifier",
@@ -85,22 +85,22 @@
         "SKILL.md": "946cb75bfc29032e73f0a2ff517b14e149dad0c141f5837795408d55a0275062"
       },
       "source": "library/problem-clarifier",
-      "version": "1.12.0"
+      "version": "1.14.0"
     },
     "property-based-testing": {
       "destination": ".agents/skills/property-based-testing",
       "files": {
+        "SKILL.md": "5bfa9a87dbefc85f5c2a3666da2932ef6ae38c1b4b1bffd8a08e43d1259542dc",
         "references/generating.md": "c0e72dfc89babe3c32de718b81b94044362c85e776d7475e950dfeaab78bb58e",
         "references/interpreting-failures.md": "dbae7db8773712ba03268a3d56ea5aa6720af0650a5189580bfd88aa2edc3f9a",
         "references/libraries.md": "f7218acf8e668130ef3048983472579d04e12030c5401926f666363e5f69c686",
         "references/LICENSE": "7abe19ec9bb73b36141b999b861d24ad855e808bafe0f81e84cce28556f6c297",
         "references/refactoring.md": "6eb5c206f575704791f089608bb06e41d6eed91b9d3c7fb27912f969aed07a18",
         "references/reviewing.md": "110b08118a1e7b1a2566def6e9d2a0bf43fc2deefce857d2ce3b4382b07bc774",
-        "references/UPSTREAM.md": "58bfb5f1e9b770b9850b0a374f884e80a9b7eacb435a2ce540d3412806909f82",
-        "SKILL.md": "5bfa9a87dbefc85f5c2a3666da2932ef6ae38c1b4b1bffd8a08e43d1259542dc"
+        "references/UPSTREAM.md": "58bfb5f1e9b770b9850b0a374f884e80a9b7eacb435a2ce540d3412806909f82"
       },
       "source": "library/property-based-testing",
-      "version": "1.12.0"
+      "version": "1.14.0"
     },
     "reference-deconstruction": {
       "destination": ".agents/skills/reference-deconstruction",
@@ -108,7 +108,7 @@
         "SKILL.md": "c4118326aebb3baa253704518c3e199ad07cf57188cd970511575a97f09c3794"
       },
       "source": "library/reference-deconstruction",
-      "version": "1.12.0"
+      "version": "1.14.0"
     },
     "reversible-experiment-design": {
       "destination": ".agents/skills/reversible-experiment-design",
@@ -116,20 +116,20 @@
         "SKILL.md": "618aee268063af4763dacd0a8517f4e2482091d610124ccb9e3b9398c3000560"
       },
       "source": "library/reversible-experiment-design",
-      "version": "1.12.0"
+      "version": "1.14.0"
     },
     "systematic-debugging": {
       "destination": ".agents/skills/systematic-debugging",
       "files": {
+        "SKILL.md": "01f9f45d532619be1fe24911a196af0341680579c3bdec8bb5a9940f7d708e6c",
         "references/condition-based-waiting-example.ts": "40ae5ebe497fdf310200e43fe986552546d0a22837c0d39e855db1cfd33eb88e",
         "references/condition-based-waiting.md": "e89fec8400d6cd50f43407cec9fab50976ba4d55d0ec2eb51c0bd68036b54c26",
         "references/defense-in-depth.md": "1e175fb86fc357e58c6aebf5441e481e1b7868b4380c0456b63a17eefbd18ba7",
         "references/LICENSE": "a37e0e9697144819e1d965176ac4ae5bc3fa02d11e7812036bbcadf6dafe2400",
-        "references/root-cause-tracing.md": "6b0622269e098ca1399e123e553fd385f0b6412d88ef0e9c4f5a8ea9cf1cec7b",
-        "SKILL.md": "01f9f45d532619be1fe24911a196af0341680579c3bdec8bb5a9940f7d708e6c"
+        "references/root-cause-tracing.md": "6b0622269e098ca1399e123e553fd385f0b6412d88ef0e9c4f5a8ea9cf1cec7b"
       },
       "source": "library/systematic-debugging",
-      "version": "1.12.0"
+      "version": "1.14.0"
     },
     "workflow-closure": {
       "destination": ".agents/skills/workflow-closure",
@@ -137,19 +137,19 @@
         "SKILL.md": "051b00406d94b0709e77f360489348cd93bf5d42d4232fac7352a3748ec93eeb"
       },
       "source": "library/workflow-closure",
-      "version": "1.12.0"
+      "version": "1.14.0"
     },
     "workflow-redesign": {
       "destination": ".agents/skills/workflow-redesign",
       "files": {
-        "references/delivery-and-validation.md": "3c59aa20d75780e4a755f3d65c9c563e64ebe7793d3a4ff3a869e5d7329ab134",
-        "SKILL.md": "ff22be8ea4bd5bceb19d664aca178c99250e6886e80a7afe7892bcad447549f8"
+        "SKILL.md": "ff22be8ea4bd5bceb19d664aca178c99250e6886e80a7afe7892bcad447549f8",
+        "references/delivery-and-validation.md": "3c59aa20d75780e4a755f3d65c9c563e64ebe7793d3a4ff3a869e5d7329ab134"
       },
       "source": "library/workflow-redesign",
-      "version": "1.12.0"
+      "version": "1.14.0"
     }
   },
-  "previous_version": "1.8.0",
+  "previous_version": "1.12.0",
   "schema_version": 1,
-  "version": "1.12.0"
+  "version": "1.14.0"
 }

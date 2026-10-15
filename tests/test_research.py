@@ -57,6 +57,7 @@ class ResearchRelease(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix='validation-1130-upgrade-') as tmp:
             base = Path(tmp)
             old = published_bundle(ROOT, '1.13.0', base / 'old')
+            bridge = published_bundle(ROOT, '1.13.1', base / 'bridge')
             for mode in ['full', 'compatible']:
                 host = base / mode
                 host.mkdir()
@@ -68,7 +69,7 @@ class ResearchRelease(unittest.TestCase):
                 private.parent.mkdir()
                 private.write_bytes(b'PRIVATE CANDIDATE AND CHAT CANARY')
                 rules = authority.read_bytes()
-                result = w.install(ROOT, host, 'upgrade', [], True)
+                result = w.install(bridge, host, 'upgrade', [], True)
                 self.assertTrue(result['applied'])
                 guide = host / 'modules/research/validation/README.md'
                 self.assertTrue(guide.exists())
@@ -77,6 +78,13 @@ class ResearchRelease(unittest.TestCase):
                 conflict = w.rollback(host, result['transaction'], False)
                 self.assertTrue(conflict['conflicts'])
                 self.assertFalse(conflict['applied'])
+                # The next release leaves Research bytes unchanged: preserve its user edit.
+                latest = w.install(ROOT, host, 'upgrade', [], True)
+                self.assertTrue(latest['applied'])
+                self.assertEqual(original + b'\nUSER LIBRARY EDIT', guide.read_bytes())
+                self.assertTrue(w.rollback(host, latest['transaction'], True)['applied'])
+                self.assertEqual('1.13.1', w.state(host)['version'])
+                self.assertEqual(original + b'\nUSER LIBRARY EDIT', guide.read_bytes())
                 guide.write_bytes(original)
                 self.assertTrue(w.rollback(host, result['transaction'], True)['applied'])
                 self.assertEqual('1.13.0', w.state(host)['version'])

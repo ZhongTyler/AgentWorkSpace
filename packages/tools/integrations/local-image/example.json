@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "assets": [
+    {
+      "id": "brass-key",
+      "profile": "flux",
+      "prompt": "One large brass key with a visible hole in its circular bow, plain background, complete uncropped game icon.",
+      "width": 768,
+      "height": 768,
+      "seed": 101,
+      "target_size": [128, 128],
+      "cutout": "cpu",
+      "upscale": "none"
+    }
+  ]
+}

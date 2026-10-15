@@ -29,7 +29,7 @@
         "browser",
         "research-sources"
       ],
-      "default_path": "Original game research and Knowledge contracts"
+      "default_path": "Original game research and Knowledge contracts; GameHOT is an optional cached candidate source with immediate original-source fallback"
     },
     {
       "id": "knowledge",
@@ -65,6 +65,16 @@
         "cutout"
       ],
       "default_path": "Host contracts; no automatic priority or project decisions"
+    },
+    {
+      "id": "local-image",
+      "owner": "Recipient host",
+      "entry": "README.md",
+      "stage": "optional_host_binding_required",
+      "tools": [
+        "local-image"
+      ],
+      "default_path": "Original generated-art/asset acceptance; unavailable local runtime queues or explicit alternative, never implicit cloud"
     }
   ]
 }

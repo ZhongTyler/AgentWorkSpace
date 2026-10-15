@@ -5,6 +5,7 @@ import sys
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'scripts'))
 import workspace as w
 from publish import stage
+from release_history import published_bundle
 def module(name,path):
     spec=importlib.util.spec_from_file_location(name,path);m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);return m
 
@@ -79,15 +80,21 @@ class ReferenceSources(unittest.TestCase):
                     if m.isfile():
                         p=w.safe(old,m.name);p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(archive.extractfile(m).read())
             prior=old/'packages/skills';current=ROOT/'packages/skills'
+            bridge=published_bundle(ROOT,'1.12.0',base/'bridge')/'packages/skills'
             def run(bundle,*args):
                 r=subprocess.run([sys.executable,'-X','utf8','-B',str(bundle/'scripts/skills.py'),*args,'--target',str(host)],capture_output=True)
                 return r,json.loads(r.stdout)
             r,_=run(prior,'install','--names','workflow-closure','--apply');self.assertEqual(0,r.returncode)
             skill=host/'.agents/skills/workflow-closure/SKILL.md';before=skill.read_bytes();skill.write_bytes(before+b'\nLOCAL EDIT')
-            r,blocked=run(current,'upgrade','--apply');self.assertNotEqual(0,r.returncode);self.assertTrue(blocked['conflicts'])
-            skill.write_bytes(before);r,upgraded=run(current,'upgrade','--apply');self.assertEqual(0,r.returncode);self.assertTrue(upgraded['applied']);self.assertNotEqual(before,skill.read_bytes())
+            r,blocked=run(bridge,'upgrade','--apply');self.assertNotEqual(0,r.returncode);self.assertTrue(blocked['conflicts'])
+            skill.write_bytes(before);r,bridged=run(bridge,'upgrade','--apply');self.assertEqual(0,r.returncode);self.assertTrue(bridged['applied']);self.assertNotEqual(before,skill.read_bytes())
             self.assertIn('异步',skill.read_text(encoding='utf-8'))
-            r,back=run(current,'rollback','--transaction',upgraded['transaction'],'--apply');self.assertEqual(0,r.returncode);self.assertTrue(back['applied']);self.assertEqual(before,skill.read_bytes())
+            middle=skill.read_bytes();skill.write_bytes(middle+b'\nLOCAL EDIT')
+            # This release changes another Skill, so an unchanged edited body is preserved.
+            r,upgraded=run(current,'upgrade','--apply');self.assertEqual(0,r.returncode);self.assertTrue(upgraded['applied']);self.assertEqual(middle+b'\nLOCAL EDIT',skill.read_bytes())
+            r,back=run(current,'rollback','--transaction',upgraded['transaction'],'--apply');self.assertEqual(0,r.returncode);self.assertTrue(back['applied']);self.assertEqual(middle+b'\nLOCAL EDIT',skill.read_bytes())
+            r,blocked=run(bridge,'rollback','--transaction',bridged['transaction']);self.assertNotEqual(0,r.returncode);self.assertTrue(blocked['conflicts']);skill.write_bytes(middle)
+            r,back=run(bridge,'rollback','--transaction',bridged['transaction'],'--apply');self.assertEqual(0,r.returncode);self.assertTrue(back['applied']);self.assertEqual(before,skill.read_bytes())
     def test_publisher_rejects_reference_private_receipt_and_runtime_before_read(self):
         for target in ('reference-library/capture-20261014.json','reference-library/runtime/source/a','reference-library/integration-check-20261014.json'):
             with tempfile.TemporaryDirectory() as t:

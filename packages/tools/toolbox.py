@@ -15,6 +15,21 @@ BASE=Path(__file__).resolve().parent
 
 def data(path): return json.loads(path.read_text(encoding='utf-8-sig'))
 
+def source_pause_state(base, config):
+    """Check current Research selection; preserve conservative standalone defaults."""
+    if not config.is_file():return {'status':'unavailable','scope':'No host config; not an external connection check'}
+    import tomllib
+    servers=tomllib.loads(config.read_text(encoding='utf-8')).get('mcp_servers',{})
+    ids=['research-v2ex','research-stackoverflow','research-xiaohongshu']
+    policy=base.parent/'Research/sources.json'
+    if policy.is_file():
+        rows=data(policy)['sources']
+        resumed={row.get('mcp') for row in rows if row.get('selection_policy')=='on_request_by_user' and row.get('resume_authorized_at')}
+        ids=[name for name in ids if name not in resumed]
+    states={name:servers.get(name,{}).get('enabled',False) for name in ids}
+    if any(states.values()):raise ValueError('A user-disabled source is enabled; no automatic config repair')
+    return {'disabled':ids,'selection_source':'Research/sources.json' if policy.is_file() else 'standalone defaults','secrets_printed':False,'external_authorization_checked':False}
+
 def contained(base,value):
     path=(base/value).resolve()
     if not path.is_relative_to(base.resolve()): raise ValueError('Tool path escapes its owner')
@@ -161,13 +176,7 @@ def health(workflow=None,integrity=False,base=BASE):
     record('skills:canonical_sources',method_sources)
     def pause_state():
         config=Path(os.environ.get('CODEX_HOME',str(Path.home()/'.codex')))/'config.toml'
-        if not config.is_file():return {'status':'unavailable','scope':'No host config; not an external connection check'}
-        import tomllib
-        servers=tomllib.loads(config.read_text(encoding='utf-8')).get('mcp_servers',{})
-        ids=['research-v2ex','research-stackoverflow','research-xiaohongshu']
-        states={i:servers.get(i,{}).get('enabled',False) for i in ids}
-        if any(states.values()):raise ValueError('A user-disabled source is enabled; no automatic config repair')
-        return {'disabled':ids,'secrets_printed':False,'external_authorization_checked':False}
+        return source_pause_state(base,config)
     record('sources:user_pause',pause_state)
     for name in selected:
         old=base.parent/'Research/integrations'/tools[name]['root'].split('/')[-1]
@@ -200,8 +209,16 @@ def launch(workflow,tool,action,args,base=BASE):
             cmd=[node,str(folder/'runtime/node_modules/rea-agents/scripts/rea.mjs'),'--version']
         else:cmd=[node,str(folder/'runtime/node_modules/rea-agents/scripts/rea.mjs'),'analyze-javascript-application',*args]
     elif tool=='media':cmd=[sys.executable,'-X','utf8','-B',str(folder/('capture.py' if action=='capture' else 'ocr.py')),*args]
+    elif tool=='local-image':
+        # The launcher fixes the program/action; it is not a shell or arbitrary Python entry.
+        parse=argparse.ArgumentParser();parse.add_argument('--tools-home',type=Path,default=base)
+        selected,remaining=parse.parse_known_args(args)
+        if action not in ('health','run'):raise ValueError('Unknown local-image action')
+        python=selected.tools_home/'integrations/cutout/runtime/venv/Scripts/python.exe'
+        if not python.is_file():raise ValueError('Local processing Python unavailable; restore through the tool guide')
+        cmd=[str(python),'-X','utf8','-B',str(folder/'pipeline.py'),'--tools-home',str(selected.tools_home),action,*remaining]
     else:raise ValueError('Action has no executable launcher')
-    return subprocess.run(cmd,cwd=folder,check=False).returncode
+    return subprocess.run(cmd,cwd=base.parent if tool=='local-image' else folder,check=False).returncode
 
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__);sub=parser.add_subparsers(dest='command',required=True)

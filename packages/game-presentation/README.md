@@ -2,6 +2,8 @@
 
 游戏表现资源从用途规格、样张、生成或选型，到真实引擎接入与恢复的工作流。直接让 Agent 阅读 [workflow](workflow.md)，位图制作读 [generated-art](generated-art.md)，资产管理读 [project-assets](project-assets.md)。仅需局部修改时按实际缺口进入，不强制整套流程。
 
+用户选择本地生图时，读[本地素材流程](local-image-workflow.md)：可选Tools统一生成/加工，再用实际尺寸审图工作台核验候选。安装不下载模型、不启动生成、不授予清理或项目采用；性能停止条件和未采用路线限制保留。
+
 核心不依赖其他发布包。手工或生成 PNG 可以走工作台；外部素材可来自 <asset-source> 或符合相同来源、许可、哈希合同的目录。GameAnalysisDecision、FromDemoToSpec、图像生成工具均为可选能力，缺少时仍可做规格、选型与现有资源交付；生成与引擎验证需要实际相应工具，不能冒充执行。
 
 Node.js 22+；实际引擎验证需要 Godot 4。先建立独立用户项目：

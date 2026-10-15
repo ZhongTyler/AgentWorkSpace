@@ -37,6 +37,7 @@ flowchart TB
     Presentation["GamePresentation<br/>表现与引擎接入"]:::assets
 
     Tools -. "配置并验证后选用" .-> Research
+    Tools -. "本地生成/加工候选" .-> Presentation
     Research -. "授权后消化材料" .-> Knowledge
     Research -. "按问题补查" .-> Analysis
     Knowledge -. "知识上下文" .-> Brainstorm
@@ -63,7 +64,7 @@ meta 或经过审阅的现有框架提供协作约束；**Skills 提供按需选
 |---|---|---|
 | 把一个游戏想法做成原型 | Brainstorm 探索与收敛，FromDemoToSpec 接续开发；有判断缺口时借用 Knowledge 或 GameAnalysisDecision，试玩问题再交回分析或脑暴 | 概念与范围、可玩原型、验证与试玩反馈 |
 | 调查参考机制或开发工具 | Research 查证；确需发行产物证据时，选用 Tools 中的 REA；有用材料获准后交 Knowledge | 来源、适用条件，以及对项目判断的实际影响 |
-| 给游戏补表现与素材 | GamePresentation 定义用途、选型或制作资源；PrototypeAssets 可提供有来源与许可记录的素材 | 工程内的资源与许可，以及交付、恢复记录 |
+| 给游戏补表现与素材 | GamePresentation 定义用途与审图；可选 Tools 本地生成/加工，或 PrototypeAssets 提供有来源与许可记录的素材 | 审核采用后的工程资源与许可，以及交付、恢复记录 |
 | 规划一趟旅行 | 单独使用 Travel，按需要配置采集或浏览器验收能力 | 包外的行程、研究材料与私人离线网站 |
 
 这些是用法示例，不是已完成的公开案例，也不要求每次按固定顺序运行所有包。
