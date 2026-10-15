@@ -70,6 +70,9 @@ class NewPackages(unittest.TestCase):
   for name in ['godot-gdscript-patterns','property-based-testing','systematic-debugging','humanizer-zh']:
    self.assertTrue((base/name/'references/LICENSE').is_file())
   self.assertIn('Attribution-ShareAlike',(base/'property-based-testing/references/LICENSE').read_text(encoding='utf-8'))
-  self.assertEqual(17,len(json.loads((ROOT/'packages/skills/skills.json').read_text(encoding='utf-8'))['skills']))
+  listed={row['id'] for row in json.loads((ROOT/'packages/skills/skills.json').read_text(encoding='utf-8'))['skills']}
+  actual={path.parent.name for path in base.glob('*/SKILL.md')}
+  self.assertEqual(actual,listed)
+  self.assertTrue({'godot-gdscript-patterns','property-based-testing','systematic-debugging','humanizer-zh','game-decision-support','interaction-design'}.issubset(listed))
 
 if __name__=='__main__':unittest.main()

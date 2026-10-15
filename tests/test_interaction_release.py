@@ -20,18 +20,20 @@ class InteractionRelease(unittest.TestCase):
   for name in ['packages/skills/library/game-presentation/SKILL.md','packages/game-presentation/workflow.md']:
    self.assertIn('/blob/v1.17.0/packages/skills/library/interaction-design/SKILL.md',(ROOT/name).read_text(encoding='utf-8'))
   contract=w.catalog(ROOT)['components'];self.assertNotIn('skills',contract['game-presentation']['required'])
+  # This historical delta belongs to the immutable1.17.0 release, not every later HEAD.
+  interaction=json.loads(subprocess.check_output(['git','-c','safe.directory='+ROOT.as_posix(),'-C',str(ROOT),'show','v1.17.0:catalog.json']))['components']
   old=json.loads(subprocess.check_output(['git','-c','safe.directory='+ROOT.as_posix(),'-C',str(ROOT),'show','v1.16.0:catalog.json']))
-  self.assertEqual(['game-presentation','skills'],sorted(k for k,v in contract.items() if v['files']!=old['components'][k]['files']))
+  self.assertEqual(['game-presentation','skills'],sorted(k for k,v in interaction.items() if v['files']!=old['components'][k]['files']))
  def test_predecessor_upgrade_selected_conflict_and_recovery(self):
   with tempfile.TemporaryDirectory(prefix='aws-interaction-') as tmp:
-   base=pathlib.Path(tmp);old=published_bundle(ROOT,'1.16.0',base/'old')
+   base=pathlib.Path(tmp);old=published_bundle(ROOT,'1.16.0',base/'old');interaction=published_bundle(ROOT,'1.17.0',base/'interaction')
    for mode in ['full','compatible']:
     host=base/mode;host.mkdir();private=host/'private.md';private.write_bytes(b'PRIVATE CANARY')
     if mode=='compatible':(host/'AGENTS.md').write_bytes(b'EXISTING AUTHORITY')
     self.assertTrue(w.install(old,host,'init',['skills','game-presentation']+(['meta'] if mode=='compatible' else []),True,mode=mode)['applied'])
     authority=(host/'AGENTS.md').read_bytes()
     for platform in ['codex','codebuddy']:self.skill(host,'install','--names','game-presentation','--platform',platform,'--apply')
-    upgrade=w.install(ROOT,host,'upgrade',[],True);self.assertTrue(upgrade['applied'])
+    upgrade=w.install(interaction,host,'upgrade',[],True);self.assertTrue(upgrade['applied'])
     frontend=host/'.agents/skills/frontend-design/SKILL.md';frontend.parent.mkdir(parents=True,exist_ok=True);frontend.write_bytes(b'ORIGINAL BODY\nLICENSE retained\n')
     original=frontend.read_bytes()
     for platform,folder in [('codex','.agents'),('codebuddy','.codebuddy')]:

@@ -24,15 +24,15 @@ class FeedbackRelease(unittest.TestCase):
   self.assertFalse((ROOT/'packages/research/experiments').exists());self.assertFalse((ROOT/'packages/research/docs').exists())
  def test_1140_upgrade_selection_conflict_and_reverse(self):
   with tempfile.TemporaryDirectory(prefix='aws-feedback-recovery-') as tmp:
-   base=pathlib.Path(tmp);old=published_bundle(ROOT,'1.14.0',base/'old')
+   base=pathlib.Path(tmp);old=published_bundle(ROOT,'1.14.0',base/'old');feedback=published_bundle(ROOT,'1.14.1',base/'feedback')
    for mode in ['full','compatible']:
     host=base/mode;host.mkdir();notes=host/'private-research.md';notes.write_bytes(b'PRIVATE CANARY')
     if mode=='compatible':(host/'AGENTS.md').write_bytes(b'EXISTING AUTHORITY')
     packages=['skills','fromdemotospec','game-presentation','research','game-project']+(['meta'] if mode=='compatible' else [])
     self.assertTrue(w.install(old,host,'init',packages,True,mode=mode)['applied'])
     authority=(host/'AGENTS.md').read_bytes();self.assertFalse((host/'.agents/skills/feedback-loop').exists())
-    self.assertFalse(w.install(ROOT,host,'upgrade',[])['applied'])
-    upgraded=w.install(ROOT,host,'upgrade',[],True);self.assertTrue(upgraded['applied'])
+    self.assertFalse(w.install(feedback,host,'upgrade',[])['applied'])
+    upgraded=w.install(feedback,host,'upgrade',[],True);self.assertTrue(upgraded['applied'])
     self.assertFalse((host/'.agents/skills/feedback-loop').exists())
     self.assertEqual(authority,(host/'AGENTS.md').read_bytes())
     method=host/('collaboration/support-and-learning.md' if mode=='full' else 'modules/meta/collaboration/support-and-learning.md')

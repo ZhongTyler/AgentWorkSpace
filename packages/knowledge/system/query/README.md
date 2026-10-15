@@ -49,6 +49,13 @@ node system/query/query-evidence.mjs read <read-input.json> --root <Knowledge根
 
 `stop_reason` 为 `needs_answered/bounded_discovery_exhausted/budget_exhausted/sources_unavailable/user_scope_reached`。关键缺口未闭合不得宣称 answered；来源身份、推导、未知和用户验收分开。宿主收到 `knowledge_query_result` 后还必须实际使用证据，准备 ContextBrief 不等于这一步。
 
+### 草稿后的核查与修订
+
+交付前按[统一方法](answer-review.md)核对实际答案中的条件、反例和来源性质，不能以检索／引用检查替代。普通回答可就地完成，程序宿主可调用`node system/query/query-evidence.mjs review <input.json|-> --root <Knowledge>`：沿用request、receipts，加answer和三个answer_checks（condition/counterexample/provenance）。由责任Agent判断相关性和语义覆盖，工具只核验当前答案短句、引用、版本／权限和预算，缺项返回answer_revision_required并退出2；ready不等于语义认证。修改后以当前答案重新运行。
+
+`assemble`可选携带同一answer和answer_checks，重新核查未就绪则拒绝组装；仅sources/claims的原调用保持兼容，不冒充已检查最终答案。完整字段和边界由统一方法拥有。本轮不改变检索默认、读取、审核或索引维护。
+
+
 ## 错误与可观察成本
 
 无文件 `missing`、越界 `denied`、权限 `permission_denied`、禁用 `disabled`、媒体 `media_unreadable`、旧或歧义标题 `unavailable`（带原因）、单位超预算 `budget_exhausted`。CLI 非法请求／拒绝／无效证据退出 2；正常缺口仍为可解释结果，调用者检查 `status` 而非仅退出码。

@@ -15,6 +15,23 @@ from publish import inventory
 
 
 class Runtime(unittest.TestCase):
+    def test_unregistered_regression_file_rejected_even_with_matching_inventory(self):
+        shell = shutil.which('pwsh') or shutil.which('powershell')
+        self.assertIsNotNone(shell)
+        with tempfile.TemporaryDirectory(prefix='knowledge-test-boundary-') as temporary:
+            host = Path(temporary) / 'host'
+            self.assertTrue(w.install(ROOT, host, 'init', ['knowledge'], True)['applied'])
+            knowledge = host / 'modules/knowledge'
+            # Even an updated file count must not authorize unknown test contents.
+            (knowledge / 'tests/unregistered.txt').write_bytes(b'SYNTHETIC UNREGISTERED FILE')
+            marker = knowledge / '_release.json'
+            value = json.loads(marker.read_text(encoding='utf-8'))
+            value['file_count'] += 1
+            marker.write_bytes((json.dumps(value) + '\n').encode('utf-8'))
+            result = subprocess.run([shell, '-NoProfile', '-File', str(knowledge / 'system/maintenance/checklists/run-release-contract.ps1')], capture_output=True, timeout=60)
+            self.assertNotEqual(0, result.returncode)
+            self.assertIn(b'Unexpected regression test file: unregistered.txt', result.stdout + result.stderr)
+
     def test_real_compatible_package_preserves_host_and_reuses_governance(self):
         import compatibility as c
         shell = shutil.which('pwsh') or shutil.which('powershell')

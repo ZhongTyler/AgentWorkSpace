@@ -125,6 +125,31 @@ export function reuseSource(input,root=defaultRoot){
  if(verified.status!=='evidence_consistent')return failure('reuse_invalid','Source bytes, scope, permission or applicability changed',{issues:verified.issues});
  return {...input.receipt,status:'source_reused',read_event:'version_checked_prior_content_reused',applicability:'requires_task_review',claim_support:'not_verified',metrics:{version_checks:1,content_chars_returned:input.receipt.content.length},writes:false};
 }
+/** Check the caller's semantic assessment against this exact answer and fresh read receipts.
+ * This verifies bindings/coverage declarations, never infers entailment or completeness. */
+export function reviewAnswer(input,root=defaultRoot){
+ const req=normalizeRequest(input.request),answer=input.answer,checks=input.answer_checks;
+ if(typeof answer!=='string'||!answer.trim())throw new Error('answer must be nonempty text');
+ const kinds=['condition','counterexample','provenance'];
+ if(!Array.isArray(checks)||checks.length!==3||new Set(checks.map(c=>c?.kind)).size!==3||checks.some(c=>!kinds.includes(c?.kind)))throw new Error('answer_checks requires condition, counterexample and provenance exactly once');
+ const issues=[],citations=[],ids=new Set();
+ for(const c of checks){
+  if(!['applicable','not_applicable'].includes(c.applicability)||typeof c.reason!=='string'||!c.reason.trim()||!Array.isArray(c.items))throw new Error('Each answer check requires applicability, reason and items');
+  if(c.applicability==='not_applicable'&&c.items.length||c.applicability==='applicable'&&!c.items.length)throw new Error('Check applicability and items disagree');
+  for(const item of c.items){
+   if(typeof item.id!=='string'||!item.id.trim()||ids.has(item.id)||typeof item.requirement!=='string'||!item.requirement.trim()||!Array.isArray(item.evidence)||!item.evidence.length)throw new Error('Review items require unique id, requirement and actual read evidence');
+   ids.add(item.id);citations.push(...item.evidence);
+   if(!['covered','missing','uncertain'].includes(item.status)||typeof item.rationale!=='string'||!item.rationale.trim())throw new Error('Review item requires semantic status and rationale');
+   if(item.status!=='covered')issues.push({id:item.id,kind:c.kind,reason:item.status});
+   else if(typeof item.answer_quote!=='string'||!item.answer_quote.trim()||!answer.includes(item.answer_quote))issues.push({id:item.id,kind:c.kind,reason:'answer_quote_missing'});
+  }
+ }
+ const receipts=input.receipts??[];
+ const verification=verifyEvidence({request:req,receipts,citations},root);
+ if(verification.status!=='evidence_consistent')return failure('invalid_evidence','Answer review references changed, unread or out-of-scope sources',{verification});
+ if(new Set(receipts.map(r=>r.ref)).size>req.budget.max_sources||receipts.reduce((n,r)=>n+r.content.length,0)>req.budget.max_content_chars)return failure('budget_exhausted','Answer review exceeds declared read budget');
+ return {schema_version:1,kind:'knowledge_answer_review',status:issues.length?'answer_revision_required':'answer_review_ready',answer_sha256:hash(answer),context_sha256:req.context_sha256,checks_sha256:hash(JSON.stringify(checks)),answer_checks:checks,issues,verification,claim_support:'not_verified',semantic_review:'caller_assessed_not_independently_verified',inventory_completeness:'requires_agent_review',writes:false};
+}
 export function assembleResult(input,root=defaultRoot){
  const req=normalizeRequest(input.request);const receipts=input.receipts??[],claims=input.claims??[],gaps=input.gaps??[],stop=input.stop_reason;
  if(!['needs_answered','bounded_discovery_exhausted','budget_exhausted','sources_unavailable','user_scope_reached'].includes(stop))throw new Error('explicit stop_reason is required');
@@ -135,11 +160,16 @@ export function assembleResult(input,root=defaultRoot){
  for(const c of claims){if(!c.text||!c.applicability||!['source_statement','agent_inference'].includes(c.kind))throw new Error('Each claim requires text, kind and applicability');if(c.kind==='source_statement'&&!c.evidence?.length)throw new Error('Source statements require actual quoted read evidence');}
  if(stop==='needs_answered'&&gaps.some(g=>g.critical!==false))throw new Error('Critical gaps cannot be marked answered');
  if(['budget_exhausted','sources_unavailable','bounded_discovery_exhausted'].includes(stop)&&!gaps.length)throw new Error('Incomplete stops require explicit gaps');
- return {schema_version:1,kind:'knowledge_query_result',status:'assembled',need:req.need,sources:receipts.map(({content,navigation,...r})=>r),claims:claims.map(c=>({...c,semantic_status:'agent_assessed_not_tool_verified'})),gaps,stop_reason:stop,verification,source_availability:req.sources,source_support:'agent_assessment_required',user_acceptance:'not_requested',writes:false};
+ let answerReview;
+ if(input.answer!==undefined||input.answer_checks!==undefined){
+  answerReview=reviewAnswer({...input,request:req},root);
+  if(answerReview.status!=='answer_review_ready')return failure(answerReview.status,'Revise or explicitly narrow the answer before assembly',{answer_review:answerReview});
+ }
+ return {schema_version:1,kind:'knowledge_query_result',status:'assembled',need:req.need,sources:receipts.map(({content,navigation,...r})=>r),claims:claims.map(c=>({...c,semantic_status:'agent_assessed_not_tool_verified'})),gaps,stop_reason:stop,verification,...(answerReview?{answer:input.answer,answer_review:answerReview}:{}),source_availability:req.sources,source_support:'agent_assessment_required',user_acceptance:'not_requested',writes:false};
 }
 export function main(argv=process.argv.slice(2)){
  const [action,jsonPath,...rest]=argv;const pos=rest.indexOf('--root');const root=pos>=0?path.resolve(rest[pos+1]):defaultRoot;
- if(!jsonPath||!['discover','read','reuse','verify','assemble'].includes(action))throw new Error('Usage: node system/query/query-evidence.mjs discover|read|reuse|verify|assemble <request.json|-> [--root <Knowledge>]');
- const input=JSON.parse(fs.readFileSync(jsonPath==='-'?0:jsonPath,'utf8').replace(/^\uFEFF/,''));const result=({discover,read:readSource,reuse:reuseSource,verify:verifyEvidence,assemble:assembleResult})[action](input,root);console.log(JSON.stringify(result,null,2));if(['invalid','invalid_evidence','denied','permission_denied'].includes(result.status))process.exitCode=2;
+ if(!jsonPath||!['discover','read','reuse','verify','review','assemble'].includes(action))throw new Error('Usage: node system/query/query-evidence.mjs discover|read|reuse|verify|review|assemble <request.json|-> [--root <Knowledge>]');
+ const input=JSON.parse(fs.readFileSync(jsonPath==='-'?0:jsonPath,'utf8').replace(/^\uFEFF/,''));const result=({discover,read:readSource,reuse:reuseSource,verify:verifyEvidence,review:reviewAnswer,assemble:assembleResult})[action](input,root);console.log(JSON.stringify(result,null,2));if(['invalid','invalid_evidence','answer_revision_required','denied','permission_denied'].includes(result.status))process.exitCode=2;
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){try{main();}catch(e){console.error(JSON.stringify(failure('invalid_request',e.message)));process.exitCode=2;}}
