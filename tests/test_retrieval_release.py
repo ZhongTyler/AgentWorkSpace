@@ -2,6 +2,7 @@
 import hashlib,importlib.util,json,os,pathlib,subprocess,sys,tempfile,unittest
 ROOT=pathlib.Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'scripts'))
 import workspace as w
+from release_history import published_bundle
 class RetrievalRelease(unittest.TestCase):
  def test_public_scope_and_optional_dependency(self):
   tools=ROOT/'packages/tools';knowledge=ROOT/'packages/knowledge'
@@ -30,7 +31,7 @@ class RetrievalRelease(unittest.TestCase):
     p=subprocess.run(['node',str(host/'modules/knowledge/tests'/name)],env=env,capture_output=True);self.assertEqual(0,p.returncode,p.stderr.decode(errors='replace')+p.stdout.decode(errors='replace'));self.assertIn('"status":"pass"',p.stdout.decode())
  def test_immediate_predecessor_upgrade_conflict_and_reverse(self):
   with tempfile.TemporaryDirectory(prefix='retrieval-upgrade-') as tmp:
-   tmp=pathlib.Path(tmp);old=tmp/'old';old.mkdir();raw=subprocess.check_output(['git','-c','safe.directory='+ROOT.as_posix(),'-C',str(ROOT),'archive','v'+w.catalog(ROOT)['previous_version']])
+   tmp=pathlib.Path(tmp);destination=published_bundle(ROOT,'1.16.0',tmp/'retrieval-release');old=tmp/'old';old.mkdir();raw=subprocess.check_output(['git','-c','safe.directory='+ROOT.as_posix(),'-C',str(ROOT),'archive','v'+w.catalog(destination)['previous_version']])
    import tarfile,io
    with tarfile.open(fileobj=io.BytesIO(raw)) as archive:
     for item in archive:
@@ -43,7 +44,7 @@ class RetrievalRelease(unittest.TestCase):
     protected={host/'modules/knowledge/wiki/user.md':b'PRIVATE ORIGINAL\r\n',host/'modules/knowledge/system/query/retrieval.local.json':b'{"private":"binding"}',host/'external-tools/runtime/model.bin':b'OWN RUNTIME'}
     for p,b in protected.items():p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(b)
     authority=(host/'AGENTS.md').read_bytes();managed=host/'modules/knowledge/system/query/README.md';original=managed.read_bytes();managed.write_bytes(original+b'\n// User edit\n')
-    denied=w.install(ROOT,host,'upgrade',[],False);self.assertTrue(denied['conflicts']);self.assertTrue(managed.read_bytes().endswith(b'// User edit\n'));managed.write_bytes(original)
-    upgrade=w.install(ROOT,host,'upgrade',[],True);self.assertTrue(upgrade['applied']);self.assertTrue((host/'modules/tools/integrations/retrieval/core.py').is_file());self.assertTrue(w.rollback(host,upgrade['transaction'],True)['applied']);self.assertEqual(original,managed.read_bytes());self.assertEqual(authority,(host/'AGENTS.md').read_bytes())
+    denied=w.install(destination,host,'upgrade',[],False);self.assertTrue(denied['conflicts']);self.assertTrue(managed.read_bytes().endswith(b'// User edit\n'));managed.write_bytes(original)
+    upgrade=w.install(destination,host,'upgrade',[],True);self.assertTrue(upgrade['applied']);self.assertTrue((host/'modules/tools/integrations/retrieval/core.py').is_file());self.assertTrue(w.rollback(host,upgrade['transaction'],True)['applied']);self.assertEqual(original,managed.read_bytes());self.assertEqual(authority,(host/'AGENTS.md').read_bytes())
     for p,b in protected.items():self.assertEqual(b,p.read_bytes())
 if __name__=='__main__':unittest.main()

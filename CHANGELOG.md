@@ -1,5 +1,12 @@
 # Releases
 
+## 1.19.0 — 2026-10-15
+
+- Add one optional Chinese-font selection reference to game-presentation, covering Maoken discovery, original licenses, fixed versions and target-render checks.
+- Route GamePresentation and provide an optional manual frontend hook; preserve existing fonts, third-party Skills and licenses.
+- Ship no font binaries, MCP, client or new Skill. Keep the other ten component inventories unchanged from 1.18.0; document separate package/selected-Skill/manual-hook recovery.
+
+
 ## 1.17.0 — 2026-10-15
 
 - Add optional interaction-design with one shared method for state continuity, focus, cancellation, input alternatives and reduced motion.

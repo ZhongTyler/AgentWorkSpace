@@ -413,7 +413,7 @@
       ],
       "source": "packages/brainstorm",
       "source_revision": "e4d7f2322f32412a9538ddf8dc6fca994ca9e5ca",
-      "version": "1.18.0"
+      "version": "1.19.0"
     },
     "fromdemotospec": {
       "destination": "modules/fromdemotospec",
@@ -489,7 +489,7 @@
       ],
       "source": "packages/fromdemotospec",
       "source_revision": "e4f70edf169526f4d57725c692fc42d300003ab9",
-      "version": "1.18.0"
+      "version": "1.19.0"
     },
     "game-analysis-decision": {
       "destination": "modules/game-analysis-decision",
@@ -576,15 +576,15 @@
       "required": [],
       "source": "packages/game-analysis-decision",
       "source_revision": "0693c5030d33fd2e22ed66295e5e05d5be23c534",
-      "version": "1.18.0"
+      "version": "1.19.0"
     },
     "game-presentation": {
       "destination": "modules/game-presentation",
       "files": {
         ".gitattributes": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da",
         "AGENTS.md": "ffe0f3d61d70dd2bf71db37deea226f041ffa4fe6b9843d3e87c0d3f88e8b71e",
-        "README.md": "91d847a805bf692d838de28b978e3206817dc216c5b490503d555e33018b0b04",
-        "_release.json": "d404db37baceaef4324de9639ced02866c72da45b77b61236601c07aa5f0475e",
+        "README.md": "5eb090cb0ec2c6285e07763d5dcfd6015347c1e292df58d11c01862d59814476",
+        "_release.json": "8cd4cd1dbc9d80164b099ea28ae9dea5bec92b5bb478e0a15ff0284ab7edbb3e",
         "adapters/README.md": "d66f7c53d3b19bf6d3f5efb3d8f29b4017ca8403a038cedb8b2dd595f8ba5397",
         "adapters/godot/README.md": "febf8ad6db1d29c510f9b9165198772e540dcf94982a69a1f4222296c7bb9726",
         "adapters/godot/deliver.mjs": "3a782a48f6dcb0efb0771290f57abf89016d737603998b1f591e78b737501bff",
@@ -607,7 +607,7 @@
         "tests/delivery.test.mjs": "fe30744ddd1d5462babdfa70b7cc880f476267f4a6b39a7566861752bb2a8adf",
         "tests/publish-directory.test.mjs": "4ca631c0d1f83939b6dc2a6e969798a8686d864217713f78b2f18ca5b7601ad0",
         "tests/workbench-delivery.test.mjs": "e9e610a726bbb8b1d66181cc76d926982d2c9d0e0d7da2b3e33ef9a136bf5d99",
-        "workflow.md": "a243fd1d820dfb9ce48670b746b056d31a218c2d3c830dfc80612e3f441568e4"
+        "workflow.md": "a74993b001dc747eff9c13c2b804f6d53622b7d38c35b35496f647715a7a6d44"
       },
       "optional": [
         "asset-catalog",
@@ -619,8 +619,8 @@
       ],
       "required": [],
       "source": "packages/game-presentation",
-      "source_revision": "8964ab8fc5cf96f847f206b09b4f718bc60ad07e",
-      "version": "1.18.0"
+      "source_revision": "58b693beabc1a78a464664644aeec1d07119d974",
+      "version": "1.19.0"
     },
     "game-project": {
       "destination": "modules/game-project",
@@ -717,7 +717,7 @@
       "required": [],
       "source": "packages/game-project",
       "source_revision": "60b77e08f0f60f03a84ee8423f8904ae72822c4f",
-      "version": "1.18.0"
+      "version": "1.19.0"
     },
     "knowledge": {
       "destination": "modules/knowledge",
@@ -856,7 +856,7 @@
       ],
       "source": "packages/knowledge",
       "source_revision": "a92522f8d5123bebf4a47dcfbdba90a720289de0",
-      "version": "1.18.0"
+      "version": "1.19.0"
     },
     "meta": {
       "destination": "",
@@ -900,7 +900,7 @@
       "required": [],
       "source": "meta/workspace",
       "source_revision": "bf581aca252b0e13191a3190756a8a79344d116f",
-      "version": "1.18.0"
+      "version": "1.19.0"
     },
     "prototype-assets": {
       "destination": "modules/prototype-assets",
@@ -1194,7 +1194,7 @@
       "required": [],
       "source": "packages/prototype-assets",
       "source_revision": "5abe108be291076b4e44717d17c740fca230c8e7",
-      "version": "1.18.0"
+      "version": "1.19.0"
     },
     "research": {
       "destination": "modules/research",
@@ -1327,17 +1327,17 @@
       "required": [],
       "source": "packages/research",
       "source_revision": "67539e4e9e03712b150e60025401139583d0927f",
-      "version": "1.18.0"
+      "version": "1.19.0"
     },
     "skills": {
       "destination": "modules/skills",
       "files": {
         ".gitattributes": "8b7d05e308c8b3f2674f6f7311520f9b2421bccbec7d6abdcd79192d8fd99535",
         "AGENTS.md": "c4d351aac39a83e5b0595a1f51f2316b8a581ae6abb70ba7f875c6e7e32db1d1",
-        "README.md": "90ac957d3b264cb4ad57e8c16a9015c95a9607888066d29c7ed256f1696af99f",
-        "_release.json": "98225525bd4efa03941922e6d00b96bb4b5b0fd21e45cd5865827d5aae0b4cea",
-        "catalog.json": "489b71edc3250890e3a700baf7592edd74f6cf8b34daaaad4506114b9c55c349",
-        "integrations/frontend-design.md": "476e9bb112ae8247a6c378bb1db0ca9335f467c81a1d26136a3c96a38ae29cce",
+        "README.md": "2627205848e50665e7d846f703d7f67771fa330f2a51d42fda1643a45d0e932d",
+        "_release.json": "600f99315852076003162b9dc8f3a1269310ab0dd46e4ce9078bca3de9d18dd3",
+        "catalog.json": "b4efbd731f1a9db887c364bf2be4adab5431b80ba5c34fa985cb378fc9105ec0",
+        "integrations/frontend-design.md": "9cdf3c295a1fd2c44a17517430ea06bc380456813c8b2e35604d16d94c7e544e",
         "library/agent-blind-eval/SKILL.md": "10d8580707534354eb22f6c1a9ccb86be19fa7587ecdeed6efd43abe81f8d3fe",
         "library/agent-blind-eval/references/evaluation-protocol.md": "84475be418d07b89e148df4ea54b917a2bc5e4dacb44f85038c8cdf60887bea6",
         "library/bidirectional-steelman/SKILL.md": "fe063aa466c41f4f4179d246d9aae1a414913a0fc7912356eb05458a50e2423f",
@@ -1345,7 +1345,8 @@
         "library/evidence-audit/SKILL.md": "b33a27d488d420f41e964bd0e12999ad161e6d59ecd5a222fb4aad87e80c3d54",
         "library/feedback-loop/SKILL.md": "ff8412076381671cb20db91df169c1cdccd5d19ea65deaa6a9a997a5beeab49a",
         "library/game-decision-support/SKILL.md": "2e3ce0594d7441354eb1e51e1be50a616106ea00c5863fd7eb3bd0b32447a7ce",
-        "library/game-presentation/SKILL.md": "8b82de6a28bbd1155531891bda96b7f3c8d8c7fea09b3e9fcf77be2547286984",
+        "library/game-presentation/SKILL.md": "fd36b9f9a3f04e5fc66c50e00c1b5a4984c1272f5ea2185df649b890918146e1",
+        "library/game-presentation/references/font-selection.md": "03e88b860e92801c382eebb53a4373dd5f5d612267c9216a746aaa75605abf75",
         "library/godot-gdscript-patterns/SKILL.md": "52013b9a2a6a3db8aba35cc6bb671d547ab526d1d7913c169ccb77878be257c5",
         "library/godot-gdscript-patterns/references/LICENSE": "f89abb55d9f073f38f1703e4518f0613c788c6174be7f13b8dfe48a1c076c746",
         "library/godot-gdscript-patterns/references/UPSTREAM.md": "dfee4a95efc9039e0de8397e9324e53b3b3d5e81d6c7e3859f56626440f59a55",
@@ -1379,13 +1380,14 @@
         "library/workflow-redesign/references/delivery-and-validation.md": "3c59aa20d75780e4a755f3d65c9c563e64ebe7793d3a4ff3a869e5d7329ab134",
         "scripts/_runtime.py": "227ee4d4b9a1f782acf5a6f184fa53516665b193036b90ee04db59376ce87098",
         "scripts/skills.py": "6a5580c901a39762d2406ea8294c48f6b88e967ae89f4eba9671fb06853a42c9",
-        "skills.json": "77c1c667a45a787b686105c8ce4a8db2fb96afaaf983f5b9e9970fe05287725b",
+        "skills.json": "c838596d01d9b56a675ca74146f89ca5312d40553e72a3fad91a36162574a598",
         "upgrades/1.12.0.md": "8aa10c1accdacf5831d0039023352f089ff20ef96ea4afddcb8c7b661408f087",
         "upgrades/1.14.0.md": "a031d0b5ee02a57f28e0e23c648c86a537fff72af1065858e496fde4bd88a0d6",
         "upgrades/1.14.1.md": "f654279a97a3e38b1da6b5e950e63ea232d78e89acf7ecce8cda177d4d32a18c",
         "upgrades/1.16.0.md": "9c84b40dccac69cbb161a89c6003c9a3393e496a21ddfa26a539243a872cd6c8",
         "upgrades/1.17.0.md": "a8502eeac73e6ed755cb41d2ab35cf94d4f2d2038723a4890b0b34d29317a917",
         "upgrades/1.18.0.md": "c9eaa3e51776797caad98aab9bd5631ded1a961222eeb469b5ccc332e2f3bda4",
+        "upgrades/1.19.0.md": "8aabdc30cc0ae61ed2e79b413375771d72da76f34776cc6c4d80d2cfd6849336",
         "upgrades/1.3.0.md": "927cf0f66766df0d59fd6a34ba2dc3e1b5077e86d9ce9f501e38ba6a3198eab1",
         "upgrades/1.3.1.md": "f1a732b8b2f81b82124cc9bbb03a930e7b16ae24f67758a5acb9ccc798743216",
         "upgrades/1.8.0.md": "2d31b383f84b1871f539c82c142a0e9370d184251509c57d7519a959a42a8894"
@@ -1401,8 +1403,8 @@
       ],
       "required": [],
       "source": "packages/skills",
-      "source_revision": "172d8e6c86ea5511f1428b3ec1c91c7573ab863b",
-      "version": "1.18.0"
+      "source_revision": "58b693beabc1a78a464664644aeec1d07119d974",
+      "version": "1.19.0"
     },
     "tools": {
       "destination": "modules/tools",
@@ -1570,7 +1572,7 @@
       "required": [],
       "source": "packages/tools",
       "source_revision": "9f646fa19c8c9b10b54dc3898105e1911fb3c6d0",
-      "version": "1.18.0"
+      "version": "1.19.0"
     },
     "travel": {
       "destination": "modules/travel",
@@ -1694,10 +1696,10 @@
       "required": [],
       "source": "packages/travel",
       "source_revision": "52d1cf8fd85ff0602b5efe4013db94b1979c3b63",
-      "version": "1.18.0"
+      "version": "1.19.0"
     }
   },
-  "previous_version": "1.17.0",
+  "previous_version": "1.18.0",
   "schema_version": 1,
-  "version": "1.18.0"
+  "version": "1.19.0"
 }

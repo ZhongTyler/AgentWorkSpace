@@ -21,3 +21,5 @@ node --test tests/delivery.test.mjs tests/workbench-delivery.test.mjs tests/publ
 Windows 目录落盘遇到 EPERM/EACCES/EBUSY 时，最多追加 6 次短暂重试，总等待不超过 1.575 秒；目标在等待中出现、权限持续不足或其他错误仍明确失败，不覆盖另一写入者。
 
 界面交互问题沿[workflow的UI状态反馈](workflow.md#ui状态反馈)按需引用interaction-design。共用方法由Skill拥有，本包保留游戏表现、规则边界与实际引擎验证；不新增必装依赖。
+
+中文字体选型、缺字或嵌入交付时，可沿[字体参考](https://github.com/ZhongTyler/AgentWorkSpace/blob/v1.19.0/packages/skills/library/game-presentation/references/font-selection.md)或宿主等价规范，按需从猫啃发现，再核对作者许可与具体版本。方法由Skill单独维护，不新增必装依赖，也不随包提供字体文件；实际显示与项目采用仍须验证。

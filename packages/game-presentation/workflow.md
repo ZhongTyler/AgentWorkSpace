@@ -40,6 +40,7 @@
 ## 资源与工具边界
 资源需求由项目工作单提出，规划/清单/规格/源/工作版/交付版统一进入 [项目资源工作台](project-assets.md)。<asset-source> 提供稳定 ID、来源、许可证据、哈希与已审核精选；引擎适配器复制到项目并保留收据。项目不运行时引用资源库路径。
 CC0/MIT/OFL 等许可按真实适用对象逐项处理；可商用不等于可公开再分发原素材。未知或限制许可阻断导入发布，不能填默认 true。
+中文字体新增/替换、缺字、数字可读性或字体嵌入交付时，按需沿已安装game-presentation Skill的references/font-selection.md、[固定版本字体参考](https://github.com/ZhongTyler/AgentWorkSpace/blob/v1.19.0/packages/skills/library/game-presentation/references/font-selection.md)或宿主等价规范。从猫啃发现后回作者原许可与具体版本核查，再沿原资源工作台及实际引擎/包验证；不自动加入下载白名单，不批量预装。
 AI 生成图按 [生图到正式项目](generated-art.md) 执行，制作卡见 [模板](templates/generated-art-card.md)；先单体真实尺寸与引擎小样，再同风格扩展。原图、加工候选、采用收据与运行精选分开，不自动升级为共享库资产。外部研究见 依据与取舍（宿主可选参考，按当前项目入口定位）。第三方 Godot 插件是代码依赖，另查权限、自动加载和发布包内容。
 工具由目标决定。MCP 用于编辑器操作与验证，图像生成用于样张或位图，Godot 原生节点用于真实界面与动效；工具不可用不扩大授权，也不自动阻断可替代步骤。
 
