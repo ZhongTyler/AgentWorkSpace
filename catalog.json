@@ -413,7 +413,7 @@
       ],
       "source": "packages/brainstorm",
       "source_revision": "e4d7f2322f32412a9538ddf8dc6fca994ca9e5ca",
-      "version": "1.14.0"
+      "version": "1.14.1"
     },
     "fromdemotospec": {
       "destination": "modules/fromdemotospec",
@@ -422,7 +422,7 @@
         "04-agent-learning-feedback.md": "74673a31913bd688b1b8b954c8f314cc1cdb15e073c9c814f85e19bb5356d884",
         "AGENTS.md": "935db929e8275efcf849711dc02656aaa5e732f33729de9ead5f78c2d0f4ee8d",
         "README.md": "dc925971784952898fef680a938644502e314bb8da033ab028bbe8b9edff871b",
-        "_release.json": "60c1a392918795e33986cbdfd562266f7e6d9a7bf45b42f2693b564fc3c360ef",
+        "_release.json": "dc03732e0ce0d63dcc32053518332fc74f8371422a94dc801e1a6c0d2c89687c",
         "adapters/game-analysis-decision/README.md": "aa9de02acba7c811f1bf3c0b87a3001a77b0c269c2209fd93b56a0ce28d5c9a0",
         "adapters/game-analysis-decision/contract.json": "d637d3460412ea17cfc77c76b132e93880fe906dacca52fc8b7996e311607397",
         "adapters/game-analysis-decision/fromdemotospec-analysis-request.schema.json": "a6172b110073acfb8b5f5050c23580f6e457b18c627b69f203a6627a91cb3846",
@@ -448,7 +448,7 @@
         "paths/single-file.md": "85603c191558aa8bb4118730420e609b81c015bb74c2d1647f1a3112c854dbf8",
         "protocols/handoff-and-production.md": "4f9b9d136fd0f21381833edcbd3d68bc9ce84ffa8909141358e514a213fca692",
         "protocols/presentation.md": "7abd3de23ca3eb5b69b70fd80a89012dc65c63cb6aae71533dfff47ccbca987f",
-        "protocols/prototype-workflow.md": "9f20b19c8353296fe06c05dafc94acc506cf3408d065c8e28e070d5d5935d218",
+        "protocols/prototype-workflow.md": "14cc692f5f32b320e53698f26f429326970c43a2ac8e4d31bc395a5051005614",
         "protocols/quality-and-evidence.md": "505f08650e2add94fbeb53194e409ca0b2999e245c3abedc30ce4e7a5893e200",
         "scripts/README.md": "89107a076d4bfa751cc90270ba060edd43cdf0dc5c3ef5719b1916afe54ac43d",
         "scripts/fromdemotospec-analysis-adapter.mjs": "b580b9bab6e325da527df8dd08e41974d283f478b04eb9fc06b4142203d143fe",
@@ -488,8 +488,8 @@
         "host-governance"
       ],
       "source": "packages/fromdemotospec",
-      "source_revision": "625f55a1bf56b9e16d0c8fd2c6b8ba44e19c1381",
-      "version": "1.14.0"
+      "source_revision": "e4f70edf169526f4d57725c692fc42d300003ab9",
+      "version": "1.14.1"
     },
     "game-analysis-decision": {
       "destination": "modules/game-analysis-decision",
@@ -576,7 +576,7 @@
       "required": [],
       "source": "packages/game-analysis-decision",
       "source_revision": "0693c5030d33fd2e22ed66295e5e05d5be23c534",
-      "version": "1.14.0"
+      "version": "1.14.1"
     },
     "game-presentation": {
       "destination": "modules/game-presentation",
@@ -584,7 +584,7 @@
         ".gitattributes": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da",
         "AGENTS.md": "ffe0f3d61d70dd2bf71db37deea226f041ffa4fe6b9843d3e87c0d3f88e8b71e",
         "README.md": "518a0c5f33966ab3d1e53116d5be61f5c819210a7e2a5c49fcb3e542033af8c7",
-        "_release.json": "46aa09538193e6a953be6237ee4af9b93f6e86bb49c413d2dedffd3ca6ff4bc1",
+        "_release.json": "2f5be79950f54958d887ab01af68f270b8a4dd0f1712905cabc661357969150f",
         "adapters/README.md": "d66f7c53d3b19bf6d3f5efb3d8f29b4017ca8403a038cedb8b2dd595f8ba5397",
         "adapters/godot/README.md": "febf8ad6db1d29c510f9b9165198772e540dcf94982a69a1f4222296c7bb9726",
         "adapters/godot/deliver.mjs": "3a782a48f6dcb0efb0771290f57abf89016d737603998b1f591e78b737501bff",
@@ -607,7 +607,7 @@
         "tests/delivery.test.mjs": "fe30744ddd1d5462babdfa70b7cc880f476267f4a6b39a7566861752bb2a8adf",
         "tests/publish-directory.test.mjs": "4ca631c0d1f83939b6dc2a6e969798a8686d864217713f78b2f18ca5b7601ad0",
         "tests/workbench-delivery.test.mjs": "e9e610a726bbb8b1d66181cc76d926982d2c9d0e0d7da2b3e33ef9a136bf5d99",
-        "workflow.md": "816335198825d6ff1d5b90631712da40bc117bab279fe330ba16286d295de782"
+        "workflow.md": "b70824d253ab7a1cd553867642a6fc7369a9621769a9201ff244ad2e9cac1222"
       },
       "optional": [
         "asset-catalog",
@@ -619,18 +619,18 @@
       ],
       "required": [],
       "source": "packages/game-presentation",
-      "source_revision": "2739220cddad042147a9a8f7c6f53364e77a3ed5",
-      "version": "1.14.0"
+      "source_revision": "60b77e08f0f60f03a84ee8423f8904ae72822c4f",
+      "version": "1.14.1"
     },
     "game-project": {
       "destination": "modules/game-project",
       "files": {
         "AGENTS.md": "8b4bd15a1b76069edabfce9437cc149e7ee87d3332aded30931e1114e23b0c11",
         "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
-        "README.md": "75db1279b4fb7155c727468e46289c3c4399eb1da69ef7853ab234ab6d9eceb0",
-        "_release.json": "dffe981885e18fd05559ced35754b9655fcaca3dacbd4adf315c502886bcbe9e",
+        "README.md": "78cb9dfb02122e58749be5e016d9eac957234088bea0d31152631a7feb82c6c3",
+        "_release.json": "44fd65e9516a6799081ec8c0c1ba5e7fa0077ce2ae50a31dd0b3482c265cc6b8",
         "scripts/create-project.py": "0367a3e1395aef7a8f5939d3e4747c028d2f4351eac730143de4fae9061c3a88",
-        "template-inventory.json": "92b10a3c2a65110c3985f597d4e823776e5c76a6944aa42dc97b3c1cca6060bc",
+        "template-inventory.json": "450cb4c5fb2b799044884b0f2f84dfcd51920c3eae8bf1041e1f9d7363bf61bb",
         "template/.gitignore": "bf546405b3f5beacdb78471924ff2ef82551093c5f715292ebb18ae348902c77",
         "template/AGENTS.md": "76fb0dd7156415c073d22705114ac9bc3b0c578dd34d244898774f4549b58842",
         "template/Game/README.md": "37ab5dd6b956513308170ab4e817cc6f16c50b434900a1ff5dc4a585a85b838a",
@@ -672,10 +672,10 @@
         "template/docs/validation/README.md": "f397f742345712d05662f3ec5cda5c3c01de8b4d11c561e2ae478d4f05ff9cae",
         "template/docs/validation/archive/README.md": "c660c15266ff9f31aafedfe0d084c344eb861a6febffb0fec3aa7e570d6514a1",
         "template/docs/validation/draft/README.md": "e44a2f950e25da92714739ec881fdd20459466e8f2d0449858b0d1b3a624c1d4",
-        "template/maintenance/CHANGELOG.md": "97cef556c6d89a01e1e673cf4f7bc7aacfd273df04625d840353f65aff2e69c3",
+        "template/maintenance/CHANGELOG.md": "9ec9ddbce6725ffea4dddddbb8ade9808572e08a552e5d685bc30db259f7447d",
         "template/maintenance/README.md": "5617359ae065946a708e7299fec9ea6428baf8f6eb7eadccef3b6b18a2130966",
         "template/maintenance/previews/README.md": "f302a2459f6e5d928cfc954ade6fad2f15a4a4a512eae4601f0bf42215617202",
-        "template/maintenance/project-config.json": "7019a5ddded378e21d57e8cd79f58b3ec0202570558622db39e2a8f40833ff87",
+        "template/maintenance/project-config.json": "3e93cae4cbb162d9036ce7131b16989f575ed55ce44c83fa5129fafd1b88c799",
         "template/maintenance/scripts/README.md": "b39f10d025b43e2287bdf98bbf78de84f5409f46b4ae283bd1e01d39b23f5543",
         "template/maintenance/scripts/check-assets.mjs": "9629e28a08d2909ed1d220711b15a5763cf60a142615ed7a6bc9c94bea77b575",
         "template/maintenance/scripts/check-build-layout.mjs": "515bb3e2269208a0844cec09a8b164d12ad327fde17017629bab50897306c2b3",
@@ -688,7 +688,7 @@
         "template/maintenance/status-references.json": "d413446b5892407224f2bf45c240f9f9197eaeb04ece680b01c29fee54d7130a",
         "template/maintenance/workflows/README.md": "08e9f12c126e033c113a58697827b9597aa2a7185de0ba0667efd06b38d185e9",
         "template/maintenance/workflows/assets.md": "41a553c066fcbdbfd14ae538f5963496dffc26fed9f08a262c8ec89e6a1609bb",
-        "template/maintenance/workflows/change.md": "431eb2da2d82e4a84914068c81890df698d5e51c4e1864ce2453fcbdc199ec7f",
+        "template/maintenance/workflows/change.md": "190fd852ae554e48d13f8b1e8b747210a1ccaf0b212036f8ea66fc8ea9643cb1",
         "template/maintenance/workflows/decision-reception.md": "07c6dee0c4689dd4832562824aac891c447cfe5ba0b4c857f5120b02c6bc6b57",
         "template/maintenance/workflows/delivery.md": "98761a39f67825c165805e7dc1804ff834be59350d86e3c67615b25bdbffb8dd",
         "template/maintenance/workflows/document-lifecycle.md": "98b56e91f94e2661b447f4fd5ad80302a147ccdc16fbd2935aa54fabc7291a00",
@@ -716,8 +716,8 @@
       ],
       "required": [],
       "source": "packages/game-project",
-      "source_revision": "b179204ad6022bcf53bc4cc1153da7e9c6a979fb",
-      "version": "1.14.0"
+      "source_revision": "60b77e08f0f60f03a84ee8423f8904ae72822c4f",
+      "version": "1.14.1"
     },
     "knowledge": {
       "destination": "modules/knowledge",
@@ -848,7 +848,7 @@
       ],
       "source": "packages/knowledge",
       "source_revision": "a3d3f491a13d2879e898057fcb1d0f51189075e3",
-      "version": "1.14.0"
+      "version": "1.14.1"
     },
     "meta": {
       "destination": "",
@@ -880,7 +880,7 @@
         "collaboration/README.md": "8b51a99816fd3fbe4808472f4c2dd02eab445a1718b3444fa8d9dcc91a13f4cf",
         "collaboration/assisted.md": "d5613f3d12c8fec3565ba752000ba716711f32894a80a890eeaaf09827b718dd",
         "collaboration/inheritance/README.md": "55c94e25daddb16fdeb4603f69a5558790154a313af8124008c0b70204593243",
-        "collaboration/support-and-learning.md": "b3bebabaed0eadbf85ddffc3a7160fd650c7a1e454043bdd33517bc7bdf73089",
+        "collaboration/support-and-learning.md": "efcd83a1c3f33b32ad62d6b45ba969c653ba63c80a0b62e7162d55e1d5fda742",
         "memory.md": "fc2b03d8ec9d3a9a4af711ff42bc9284f94e01549c7115bc5899caa4c03f395c",
         "reviews/README.md": "d5401a6e2d382526adadbafee7e0a2e918337590ba62e183a6721ab66c4981fc",
         "reviews/_observations.md": "146f8142cac697dc27aa6624a282294b4010d878bf6b412db4212176389135ff"
@@ -891,8 +891,8 @@
       ],
       "required": [],
       "source": "meta/workspace",
-      "source_revision": "48f2004f532136a85eb22648cb989e3e32e44020",
-      "version": "1.14.0"
+      "source_revision": "bf581aca252b0e13191a3190756a8a79344d116f",
+      "version": "1.14.1"
     },
     "prototype-assets": {
       "destination": "modules/prototype-assets",
@@ -1186,7 +1186,7 @@
       "required": [],
       "source": "packages/prototype-assets",
       "source_revision": "5abe108be291076b4e44717d17c740fca230c8e7",
-      "version": "1.14.0"
+      "version": "1.14.1"
     },
     "research": {
       "destination": "modules/research",
@@ -1196,8 +1196,8 @@
         "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
         "LICENSE-NOTICE.md": "15cd4ccbc67b328e368766cbbd8a3f69fc490406cfa8df16535f21825add0db8",
         "README.md": "6583e56244d18db739215827086dfc3bc20c059fe66ff57f1447ca439ba69bcd",
-        "RESEARCH_PROTOCOL.md": "6d04bd2a424dbb62f799234248030f38b748af21acb6d568dfa50fbd540b1f18",
-        "_release.json": "3cbbe9be640e4dd8b6fb7fde4f3840d0f9def4c60f9aa302ff06b25fcceb23e7",
+        "RESEARCH_PROTOCOL.md": "f481f2a7e9167920eff6f7e4c3c586d27944033a54b7155151485bf6905b80e4",
+        "_release.json": "574c89436d8284c6e73ebbff341a341d86a4ec9b60b6a7b6c6851949b0e6e0e0",
         "game-research/README.md": "350021842fd9918c300dcfc9e8a1373d7ddf68f4e65b669d2d7e5ac64e354ffd",
         "game-research/development-support.md": "d30013d6b7de31e19d715a883dc18dc3183bc335acbd5f6132e05291efd288b0",
         "game-research/media-capture.md": "3b545556365e6a92c50623ecd59037fe172083e33627a1e9a6aab973b3e07aa6",
@@ -1318,22 +1318,23 @@
       ],
       "required": [],
       "source": "packages/research",
-      "source_revision": "96ce6e19dfa2a58badd307fe0b6c2e4dcf017422",
-      "version": "1.14.0"
+      "source_revision": "9cef13b7a99cff94af6b274db34aadcf87234b6c",
+      "version": "1.14.1"
     },
     "skills": {
       "destination": "modules/skills",
       "files": {
         ".gitattributes": "8b7d05e308c8b3f2674f6f7311520f9b2421bccbec7d6abdcd79192d8fd99535",
         "AGENTS.md": "c4d351aac39a83e5b0595a1f51f2316b8a581ae6abb70ba7f875c6e7e32db1d1",
-        "README.md": "8d9ea8de8c67a21170b16c46bce33184a2a594da98aba9849f8ef2c8a4d488ea",
-        "_release.json": "5daec35071b5cc6b8f47af8410d49646b8853812dbd057ad416fd0639854e0c0",
-        "catalog.json": "f10d66bd26c946ce7136af4a8b06d86e80ab8144084d01cdbca45c4b45c984d2",
+        "README.md": "7b65a49c5f3e140aea3396c4d8b193646adb1c43191e50f4abadfa5c79126beb",
+        "_release.json": "8dc03b83633c3c6f58e8bd0e5e1f8d09f81705a5528941e3b57752f6c0aba8d3",
+        "catalog.json": "2a131934cea4aa0b3884b2ad308ff7528366e63aa5f79e8f8b959def4a7b5fb9",
         "library/agent-blind-eval/SKILL.md": "10d8580707534354eb22f6c1a9ccb86be19fa7587ecdeed6efd43abe81f8d3fe",
         "library/agent-blind-eval/references/evaluation-protocol.md": "84475be418d07b89e148df4ea54b917a2bc5e4dacb44f85038c8cdf60887bea6",
         "library/bidirectional-steelman/SKILL.md": "fe063aa466c41f4f4179d246d9aae1a414913a0fc7912356eb05458a50e2423f",
         "library/dual-layer-explainer/SKILL.md": "64161613dc81576315fb5571897cf65214bc9793015e14038204a46e24e53417",
         "library/evidence-audit/SKILL.md": "b33a27d488d420f41e964bd0e12999ad161e6d59ecd5a222fb4aad87e80c3d54",
+        "library/feedback-loop/SKILL.md": "ff8412076381671cb20db91df169c1cdccd5d19ea65deaa6a9a997a5beeab49a",
         "library/game-decision-support/SKILL.md": "6bb325254c1494e4787d13d862665cf1f2d5740a72b07fb1cd5e56b09bfd34cb",
         "library/game-presentation/SKILL.md": "676b106d49d4e5699320668ae0b0131fb44e07f0a367d7f21a81802c0a04d393",
         "library/godot-gdscript-patterns/SKILL.md": "52013b9a2a6a3db8aba35cc6bb671d547ab526d1d7913c169ccb77878be257c5",
@@ -1367,9 +1368,10 @@
         "library/workflow-redesign/references/delivery-and-validation.md": "3c59aa20d75780e4a755f3d65c9c563e64ebe7793d3a4ff3a869e5d7329ab134",
         "scripts/_runtime.py": "227ee4d4b9a1f782acf5a6f184fa53516665b193036b90ee04db59376ce87098",
         "scripts/skills.py": "6a5580c901a39762d2406ea8294c48f6b88e967ae89f4eba9671fb06853a42c9",
-        "skills.json": "1430eb1823f1883d66e9783cdbf99160042c074508b32ec7d325381acaa18222",
+        "skills.json": "a7dc215efd0745b00ad42e2aac40cf5d9f2cbd6bcbacb739ec5b57b95ffa2757",
         "upgrades/1.12.0.md": "8aa10c1accdacf5831d0039023352f089ff20ef96ea4afddcb8c7b661408f087",
         "upgrades/1.14.0.md": "a031d0b5ee02a57f28e0e23c648c86a537fff72af1065858e496fde4bd88a0d6",
+        "upgrades/1.14.1.md": "f654279a97a3e38b1da6b5e950e63ea232d78e89acf7ecce8cda177d4d32a18c",
         "upgrades/1.3.0.md": "927cf0f66766df0d59fd6a34ba2dc3e1b5077e86d9ce9f501e38ba6a3198eab1",
         "upgrades/1.3.1.md": "f1a732b8b2f81b82124cc9bbb03a930e7b16ae24f67758a5acb9ccc798743216",
         "upgrades/1.8.0.md": "2d31b383f84b1871f539c82c142a0e9370d184251509c57d7519a959a42a8894"
@@ -1385,8 +1387,8 @@
       ],
       "required": [],
       "source": "packages/skills",
-      "source_revision": "2739220cddad042147a9a8f7c6f53364e77a3ed5",
-      "version": "1.14.0"
+      "source_revision": "60b77e08f0f60f03a84ee8423f8904ae72822c4f",
+      "version": "1.14.1"
     },
     "tools": {
       "destination": "modules/tools",
@@ -1545,7 +1547,7 @@
       "required": [],
       "source": "packages/tools",
       "source_revision": "bb7a425ec7a4ce58cf48e50367c9be0e29e6efa7",
-      "version": "1.14.0"
+      "version": "1.14.1"
     },
     "travel": {
       "destination": "modules/travel",
@@ -1669,10 +1671,10 @@
       "required": [],
       "source": "packages/travel",
       "source_revision": "52d1cf8fd85ff0602b5efe4013db94b1979c3b63",
-      "version": "1.14.0"
+      "version": "1.14.1"
     }
   },
-  "previous_version": "1.13.1",
+  "previous_version": "1.14.0",
   "schema_version": 1,
-  "version": "1.14.0"
+  "version": "1.14.1"
 }

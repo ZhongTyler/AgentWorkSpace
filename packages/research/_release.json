@@ -1,10 +1,10 @@
 {
   "component_id": "research",
   "file_count": 114,
-  "generated_at": "2026-10-14T21:39:30+08:00",
+  "generated_at": "2026-10-15T12:32:01+08:00",
   "generator_version": "3.0.0",
-  "manifest_sha256": "dbc6cbb85a09e3b7b12a00fd6e133c19808f0c41bc5dbd064c770e31d63eb616",
+  "manifest_sha256": "d1029380377486f2d46e1f3891740e0955070f7ea7252314a2291b6183ef79c1",
   "preview": false,
   "release_schema": 1,
-  "source_revision": "96ce6e19dfa2a58badd307fe0b6c2e4dcf017422"
+  "source_revision": "9cef13b7a99cff94af6b274db34aadcf87234b6c"
 }

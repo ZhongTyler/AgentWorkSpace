@@ -58,6 +58,7 @@ class ResearchRelease(unittest.TestCase):
             base = Path(tmp)
             old = published_bundle(ROOT, '1.13.0', base / 'old')
             bridge = published_bundle(ROOT, '1.13.1', base / 'bridge')
+            destination = published_bundle(ROOT, '1.14.0', base / 'next-historical-release')
             for mode in ['full', 'compatible']:
                 host = base / mode
                 host.mkdir()
@@ -79,7 +80,7 @@ class ResearchRelease(unittest.TestCase):
                 self.assertTrue(conflict['conflicts'])
                 self.assertFalse(conflict['applied'])
                 # The next release leaves Research bytes unchanged: preserve its user edit.
-                latest = w.install(ROOT, host, 'upgrade', [], True)
+                latest = w.install(destination, host, 'upgrade', [], True)
                 self.assertTrue(latest['applied'])
                 self.assertEqual(original + b'\nUSER LIBRARY EDIT', guide.read_bytes())
                 self.assertTrue(w.rollback(host, latest['transaction'], True)['applied'])

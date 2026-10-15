@@ -70,6 +70,6 @@ class NewPackages(unittest.TestCase):
   for name in ['godot-gdscript-patterns','property-based-testing','systematic-debugging','humanizer-zh']:
    self.assertTrue((base/name/'references/LICENSE').is_file())
   self.assertIn('Attribution-ShareAlike',(base/'property-based-testing/references/LICENSE').read_text(encoding='utf-8'))
-  self.assertEqual(16,len(json.loads((ROOT/'packages/skills/skills.json').read_text(encoding='utf-8'))['skills']))
+  self.assertEqual(17,len(json.loads((ROOT/'packages/skills/skills.json').read_text(encoding='utf-8'))['skills']))
 
 if __name__=='__main__':unittest.main()

@@ -61,7 +61,7 @@ class GameProjectRelease(unittest.TestCase):
         self.assertFalse((package / 'plans').exists())
         self.assertFalse(list(package.rglob('project.godot')))
         config = json.loads((package / 'template/maintenance/project-config.json').read_text(encoding='utf-8'))
-        self.assertEqual('0.2.4', config['template']['version'])
+        self.assertEqual('0.2.5', config['template']['version'])
         self.assertEqual('not_initialized', config['engine']['state'])
         for path in package.rglob('*.md'):
             text = path.read_text(encoding='utf-8')

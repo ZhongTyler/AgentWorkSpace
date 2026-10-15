@@ -2,7 +2,7 @@
   "schema_version": 1,
   "template": {
     "name": "godot-project",
-    "version": "0.2.4"
+    "version": "0.2.5"
   },
   "project": {
     "id": "__PROJECT_ID__",

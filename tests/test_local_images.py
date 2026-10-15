@@ -44,7 +44,7 @@ class LocalImages(unittest.TestCase):
    self.assertEqual(['game-presentation'],sorted(p.name for p in (host/'.agents/skills').iterdir()));self.assertEqual(b'OWN AUTHORITY',(host/'AGENTS.md').read_bytes())
  def test_real_1131_upgrade_conflict_and_reverse_preserve_external_state(self):
   with tempfile.TemporaryDirectory(prefix='aws-image-upgrade-') as tmp:
-   base=pathlib.Path(tmp);old=published_bundle(ROOT,'1.13.1',base/'old')
+   base=pathlib.Path(tmp);old=published_bundle(ROOT,'1.13.1',base/'old');destination=published_bundle(ROOT,'1.14.0',base/'image-release')
    for mode in ['full','compatible']:
     host=base/mode;host.mkdir();(host/'private.txt').write_bytes(b'KEEP')
     if mode=='compatible':(host/'AGENTS.md').write_bytes(b'OWN RULES')
@@ -52,7 +52,7 @@ class LocalImages(unittest.TestCase):
     selected_script=host/'modules/skills/scripts/skills.py';self.command(sys.executable,selected_script,'install','--target',host,'--names','game-presentation','--apply')
     selected_path=host/'.agents/skills/game-presentation/SKILL.md';selected_before=selected_path.read_bytes()
     authority=(host/'AGENTS.md').read_bytes();external=host/'outside/model.bin';external.parent.mkdir();external.write_bytes(b'EXTERNAL RUNTIME')
-    result=w.install(ROOT,host,'upgrade',[],True);self.assertTrue(result['applied'])
+    result=w.install(destination,host,'upgrade',[],True);self.assertTrue(result['applied'])
     self.assertEqual(selected_before,selected_path.read_bytes())
     selected_path.write_bytes(selected_before+b'\nUSER SKILL EDIT')
     denied=subprocess.run([sys.executable,str(selected_script),'upgrade','--target',str(host),'--names','game-presentation','--apply'],capture_output=True)

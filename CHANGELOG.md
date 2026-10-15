@@ -1,5 +1,12 @@
 # Releases
 
+## 1.14.1 — 2026-10-15
+
+- Publish one shared feedback method for observation, tuning, reproduction, comparison and recovery, with an optional thin `feedback-loop` Skill.
+- Connect existing FromDemoToSpec, GamePresentation, Research and GameProject change workflows; new project copies use template 0.2.5. The Skills library now offers 17 optional entries.
+- Reuse adequate tools before adding a feedback interface. Preserve recipient authority, frozen data, decisions and separate state/configuration recovery; no automatic workbench, model, MCP or schedule activation.
+- Exclude private research, game experiments and local runtime. Verify actual predecessor upgrade, selective Skill installation, conflicts and reverse recovery; see [verification and limits](docs/releases/1.14.1-validation.md).
+
 ## 1.13.1 — 2026-10-14
 
 - Publish a portable Research validation guide and candidate template, with topic selection, report-linked status updates and existing review-window routing.

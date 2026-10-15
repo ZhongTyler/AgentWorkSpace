@@ -79,7 +79,7 @@ class ReferenceSources(unittest.TestCase):
                 for m in archive:
                     if m.isfile():
                         p=w.safe(old,m.name);p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(archive.extractfile(m).read())
-            prior=old/'packages/skills';current=ROOT/'packages/skills'
+            prior=old/'packages/skills';current=published_bundle(ROOT,'1.14.0',base/'unchanged-closure-release')/'packages/skills'
             bridge=published_bundle(ROOT,'1.12.0',base/'bridge')/'packages/skills'
             def run(bundle,*args):
                 r=subprocess.run([sys.executable,'-X','utf8','-B',str(bundle/'scripts/skills.py'),*args,'--target',str(host)],capture_output=True)

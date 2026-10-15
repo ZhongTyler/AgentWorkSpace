@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "version": "1.14.0",
+  "version": "1.14.1",
   "skills": [
     {
       "id": "game-presentation",
@@ -18,6 +18,12 @@
         "knowledge",
         "research"
       ],
+      "install_requires": []
+    },
+    {
+      "id": "feedback-loop",
+      "description": "观察、调节、复现或比较受阻时引用共用方法，复用或补齐最小反馈入口",
+      "optional_modules": [],
       "install_requires": []
     },
     {
