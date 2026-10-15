@@ -1,5 +1,12 @@
 # Releases
 
+## 1.15.0 — 2026-10-15
+
+- Publish optional Tools retrieval: BM25 default, explicit local hybrid, immutable source versions and scoped views.
+- Add the Knowledge thin consumer with original Query fallback, preserving full-source evidence and exact ingestion review.
+- Share search/context/read protocol with future website adapters; no site deployment, provider credentials, private corpus/index or model assets bundled.
+- Verify synthetic cross-package behavior, source privacy, installation and immediate-predecessor upgrade/conflicts/reverse recovery. See [limits](docs/releases/1.15.0-validation.md).
+
 ## 1.14.1 — 2026-10-15
 
 - Publish one shared feedback method for observation, tuning, reproduction, comparison and recovery, with an optional thin `feedback-loop` Skill.

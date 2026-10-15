@@ -6,5 +6,27 @@
   "license": "Apache-2.0",
   "files": 65,
   "runtime_binary_sha256": "0d2552059c1e5f4e05270895f04f71de9a592232be421517e65f1b726a447ece",
-  "note": "Existing binary reused; exact build provenance not re-established. Build saved source to reproduce a new binary."
+  "note": "Historical compatibility archive and original binary fingerprint retained. Current opt-in bounded reader is separately pinned below; original executable remains available for rollback.",
+  "bounded_note_reader": {
+    "checked_at": "2026-10-15",
+    "patch_file": "patches/xhs-note-ready-v1.json",
+    "builder": "scripts/build-xhs-note-reader.py",
+    "patch_sha256": "16e9a33aa4a08ea13f81d71bc2fd27fb43dae6f474f79b421dda23f60edfdad9",
+    "archive_sha256": "46c81afe49a52893a6ade0035235155af4a41d59608e1fa6e36701fb84e5963f",
+    "embed_version": "148.0.7778.215",
+    "embed_file_sha256": "0393690332434cdd92967bb0f00787143c9c0091de48e87d239ae59419181d90",
+    "compiler": "go version go1.24.13 windows/amd64",
+    "build_flags": [
+      "-trimpath",
+      "-buildvcs=false"
+    ],
+    "binary_sha256": "d05347a45f9ef4291081b8d62743967e5daef32239b3c2323a045a0f89ac46ac",
+    "runtime_filename": "xhs-note-ready-20261015.exe",
+    "license": "Apache-2.0",
+    "build_exit_code": 0,
+    "module_downloads_allowed": false,
+    "scope": "Only detail readiness: 30s bound, exact note title instead of whole DOM stability, one attempt",
+    "actual_capture_seconds": 6.143,
+    "not_covered": "Other notes, full searches, albums, comments expansion and all-site stability"
+  }
 }

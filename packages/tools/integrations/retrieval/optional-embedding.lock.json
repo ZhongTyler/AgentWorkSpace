@@ -1,0 +1,71 @@
+{
+  "embedding_profile": "b7cb30c2cdd19185c2adc54ee84eb5c6a5bad9af7b85c3e8c5817c4eb0e42815",
+  "original": "BAAI/bge-small-zh-v1.5",
+  "files": [
+    {
+      "repo": "BAAI/bge-small-zh-v1.5",
+      "revision": "7999e1d3359715c523056ef9478215996d62a620",
+      "file": "README.md",
+      "bytes": 27670,
+      "sha256": "c48a4eeea77f6b1d38b48ec1c5b8d4f86d5550cc43fa345a0db1b2ca1d082369"
+    },
+    {
+      "repo": "BAAI/bge-small-zh-v1.5",
+      "revision": "7999e1d3359715c523056ef9478215996d62a620",
+      "file": "config.json",
+      "bytes": 776,
+      "sha256": "3853a7979202c348751b753e36f579c41d8da7d36af617d3d907e1fc9b441f2a"
+    },
+    {
+      "repo": "Xenova/bge-small-zh-v1.5",
+      "revision": "75c43b069aac4d136ba6bc1122f995fedcfd2781",
+      "file": "README.md",
+      "bytes": 1057,
+      "sha256": "cb22054df1a98f7ee9d5b281d023e67c27cc316e1733baf03fc994d95c3048ab"
+    },
+    {
+      "repo": "Xenova/bge-small-zh-v1.5",
+      "revision": "75c43b069aac4d136ba6bc1122f995fedcfd2781",
+      "file": "config.json",
+      "bytes": 716,
+      "sha256": "d4193ead3a810fd694fa8a31d7fc72fbaebc0668b603e398734bf2f6538ff42f"
+    },
+    {
+      "repo": "Xenova/bge-small-zh-v1.5",
+      "revision": "75c43b069aac4d136ba6bc1122f995fedcfd2781",
+      "file": "tokenizer.json",
+      "bytes": 439125,
+      "sha256": "48cea5d44424912a6fd1ea647bf4fe50b55ab8b1e5879c3275f80e339e8fae26"
+    },
+    {
+      "repo": "Xenova/bge-small-zh-v1.5",
+      "revision": "75c43b069aac4d136ba6bc1122f995fedcfd2781",
+      "file": "tokenizer_config.json",
+      "bytes": 367,
+      "sha256": "e6f3b96db926a37d4039995fbf5ad17de158dfb8f6343d607e4dbaad18d75f5a"
+    },
+    {
+      "repo": "Xenova/bge-small-zh-v1.5",
+      "revision": "75c43b069aac4d136ba6bc1122f995fedcfd2781",
+      "file": "onnx/model_quantized.onnx",
+      "bytes": 24010842,
+      "sha256": "15b717c382bcb518ba457b93ea6850ede7f4f1cd8937454aa06972366cd19bcc"
+    }
+  ],
+  "encoding": {
+    "provider": "CPUExecutionProvider",
+    "threads": 2,
+    "batch": 1,
+    "max_tokens": 512,
+    "pooling": "CLS + L2 normalize",
+    "query_prefix": "为这个句子生成表示以用于检索相关文章：",
+    "document_prefix": "",
+    "dimensions_expected": 512
+  },
+  "dependencies": {
+    "numpy": "2.5.4",
+    "onnxruntime": "1.31.0",
+    "tokenizers": "0.22.1"
+  },
+  "license": "Original BAAI metadata declares MIT; converted ONNX identifies that base model; verify model, conversion and input rights independently; no weights bundled"
+}

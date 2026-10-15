@@ -38,9 +38,10 @@
       "stage": "optional_host_binding_required",
       "tools": [
         "media",
-        "research-sources"
+        "research-sources",
+        "retrieval"
       ],
-      "default_path": "Original ingestion/routing/full-source/final-review contracts"
+      "default_path": "BM25 discovery when configured; explicit hybrid, immediate original Query fallback; original full-source/ingestion/final-review contracts remain"
     },
     {
       "id": "brainstorm",
@@ -75,6 +76,16 @@
         "local-image"
       ],
       "default_path": "Original generated-art/asset acceptance; unavailable local runtime queues or explicit alternative, never implicit cloud"
+    },
+    {
+      "id": "website-knowledge",
+      "owner": "Recipient host",
+      "entry": "README.md",
+      "stage": "optional_host_binding_required",
+      "tools": [
+        "retrieval"
+      ],
+      "default_path": "Same read-only snapshot/core; current website gateway/provider and authorization; no automatic deployment"
     }
   ]
 }

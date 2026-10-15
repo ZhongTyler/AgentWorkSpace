@@ -1,6 +1,6 @@
 # Query：只读发现、正文读取与证据交付
 
-运行规则由 [QUERY_PROTOCOL](../protocols/QUERY_PROTOCOL.md) 拥有。本目录提供无服务、无数据库的 Node 工具；依赖本仓 `system/integrations/query-principles.mjs`，不需要 GameAnalysisDecision 或父工作区。运行中不写文件、不更新索引／NOW。
+运行规则由 [QUERY_PROTOCOL](../protocols/QUERY_PROTOCOL.md) 拥有。本目录保留独立Node原Query，并可通过[Tools薄适配层](retrieval-adapter.mjs)使用包外只读检索索引；依赖本仓 `system/integrations/query-principles.mjs`，不需要 GameAnalysisDecision 或父工作区。运行中不写文件、不更新索引／NOW。
 
 ## 从实际内容开始
 
@@ -56,3 +56,17 @@ node system/query/query-evidence.mjs read <read-input.json> --root <Knowledge根
 发现阶段为提取标题／章节会读取 Wiki 字节，记录 `metrics.file_reads/bytes_read`；不会声称只扫描文件名。正文补查上限限制词法搜索范围，不能将未查范围说成不存在。返回字符不是 token；当前没有持久缓存，因此也无缓存同步开销。语义召回和正确性由独立效果检查衡量。
 
 行为验证：`node system/query/query-evidence-check.mjs`；在临时库演练，不改真实知识。提供 宿主测试入口 便于总测试入口调用（纯发布包可以只用 Node 检查）。测试成功仅证明所列机械行为。
+
+
+
+## 可选检索后端
+
+只有本机可信绑定存在时增强discover，算法唯一源为Tools/integrations/retrieval。维护时在Tools显式build一个新版本home，复制[绑定示例](retrieval.local.example.json)到system/query/retrieval.local.json并填写Python、Tools home和runtime config；本机绑定不入Git/发布。包外绑定也可由宿主进程显式设置KNOWLEDGE_RETRIEVAL_CONFIG。普通Query不安装、不联网、不建索引。
+
+请求可加`"retrieval":{"mode":"hybrid"}`或`"retrieval":{"mode":"legacy"}`；默认bm25，不加载模型。没有绑定、空库、运行时/模型不可用、索引/源失效均保留原Query输出，并在retrieval说明实际used_mode及回退原因。Tools仍为可选依赖，独立Knowledge不要求安装它。
+
+新后端只补Wiki候选；Domain/已批准Group/原则/显式路径沿原导航，其余source权限、全文/章节理由、hash/reuse/verify/assemble与精确终审不变。候选content_read:false，不能拿小节包替代机制全文阅读。离线向量召回不是置信度或项目事实证明。网站复用Tools只读协议与获准视图，身份/回答provider由网站拥有，本次没有部署网站。
+
+验证：`node tests/retrieval.contract.mjs`，必要时设置TOOLS_ROOT和PYTHON_EXECUTABLE指向测试目标；合成fixture与真实执行分开记录，不包含作者私料。
+
+需要给两种模式分配不同包/Python时，可在可信绑定中增加hybrid_runtime_config、hybrid_python；不提供则复用默认值。两路须来自同一获准资料版本，保持来源身份一致；请求不能覆盖这些路径。

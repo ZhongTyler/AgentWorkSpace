@@ -209,6 +209,7 @@ def launch(workflow,tool,action,args,base=BASE):
             cmd=[node,str(folder/'runtime/node_modules/rea-agents/scripts/rea.mjs'),'--version']
         else:cmd=[node,str(folder/'runtime/node_modules/rea-agents/scripts/rea.mjs'),'analyze-javascript-application',*args]
     elif tool=='media':cmd=[sys.executable,'-X','utf8','-B',str(folder/('capture.py' if action=='capture' else 'ocr.py')),*args]
+    elif tool=='retrieval':cmd=[sys.executable,'-X','utf8','-B',str(folder/'cli.py'),action,*args]
     elif tool=='local-image':
         # The launcher fixes the program/action; it is not a shell or arbitrary Python entry.
         parse=argparse.ArgumentParser();parse.add_argument('--tools-home',type=Path,default=base)

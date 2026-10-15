@@ -4,6 +4,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {pathToFileURL} from 'node:url';
 import {queryPrinciples} from '../integrations/query-principles.mjs';
+import {discoverWithRetrieval} from './retrieval-adapter.mjs';
 export const defaultRoot = path.resolve(import.meta.dirname, '../..');
 const hash = value => crypto.createHash('sha256').update(value).digest('hex');
 const slash = value => value.replaceAll('\\', '/');
@@ -68,7 +69,8 @@ function listFiles(root,folder,errors){
  const visit=(dir)=>{for(const entry of fs.readdirSync(dir,{withFileTypes:true}).sort((a,b)=>a.name.localeCompare(b.name,'en'))){const relative=slash(path.relative(fs.realpathSync(root),path.join(dir,entry.name)));try{const actual=safe(root,relative);if(entry.isSymbolicLink()){errors.push({path:relative,reason:'linked_discovery_entry_skipped'});continue;}if(entry.isDirectory())visit(actual);else if(entry.isFile()&&entry.name.endsWith('.md')&&!/^(README\.md|.*\.template\.md)$/i.test(entry.name))result.push(relative);}catch(e){errors.push({path:relative,reason:e.code??e.message});}}};
  visit(full);return result;
 }
-export function discover(input,root=defaultRoot){
+export function discover(input,root=defaultRoot){return discoverWithRetrieval(input,root,{legacy:discoverLegacy,normalize:normalizeRequest});}
+export function discoverLegacy(input,root=defaultRoot){
  const req=normalizeRequest(input);if(!req.sources.knowledge)return failure('disabled','Knowledge disabled',{need:req.need,candidates:[],metrics:{file_reads:0,bytes_read:0}});
  const errors=[],reads=new Map(),terms=termsFor(req),signals=new Map();
  const load=relative=>{if(!reads.has(relative)){const bytes=fs.readFileSync(safe(root,relative));reads.set(relative,bytes);}return reads.get(relative).toString('utf8');};

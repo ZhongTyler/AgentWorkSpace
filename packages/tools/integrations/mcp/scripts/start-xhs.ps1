@@ -1,10 +1,19 @@
 param(
-    [Parameter(Mandatory=$true)][string]$Executable,
+    [string]$Executable = '',
     [string]$Runtime = (Join-Path $env:LOCALAPPDATA 'ResearchMCP/xiaohongshu'),
     [string]$Browser = '',
-    [int]$Port = 18062
+    [ValidateRange(1,65535)][int]$Port = 18062,
+    [switch]$BoundedReader
 )
 $ErrorActionPreference = 'Stop'
+if ($BoundedReader) {
+    if ($Executable) { throw 'Choose either -Executable or -BoundedReader' }
+    $readerLock = Get-Content -LiteralPath (Join-Path $PSScriptRoot '../xhs-compat-lock.json') -Raw | ConvertFrom-Json
+    $Executable = Join-Path $Runtime $readerLock.bounded_note_reader.runtime_filename
+    if ((Get-FileHash -LiteralPath $Executable -Algorithm SHA256).Hash.ToLowerInvariant() -ne $readerLock.bounded_note_reader.binary_sha256) { throw 'Bounded reader fingerprint differs; do not start an unknown build' }
+}
+if (-not $Executable) { throw 'Specify -Executable or the installed pinned -BoundedReader' }
+if (Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue) { throw 'Port already has a listener; inspect ownership before starting another service' }
 $resolvedExe = (Resolve-Path -LiteralPath $Executable).Path
 if (-not (Test-Path -LiteralPath $resolvedExe -PathType Leaf)) { throw 'MCP executable not found' }
 New-Item -ItemType Directory -Path $Runtime -Force | Out-Null

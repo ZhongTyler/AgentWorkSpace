@@ -19,6 +19,7 @@ python prepare_home.py --home <external-versioned-tools-home>
 
 | 入口 | 适用情况 |
 |---|---|
+| retrieval | BM25默认的可重建只读检索；混合按需、Knowledge原Query回退、网站接口预留。见[integrations/retrieval](integrations/retrieval/README.md)；不附知识正文或索引 |
 | decisions | Intern 可选批量主题分流；Laya 实验；StartLux 仅非商业研究对照。见 integrations/decision-models/README.md |
 | rea | 指定发行包的静态实现分析；源码足够时直接读。见 [REA](integrations/rea/README.md) |
 | media | 公开正文、必要图片和 OCR；OCR 后仍实际读图。见 [媒体](integrations/media/README.md) |

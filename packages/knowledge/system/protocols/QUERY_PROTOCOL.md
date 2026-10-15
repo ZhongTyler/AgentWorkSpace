@@ -31,7 +31,7 @@ L0、L1、L2、L3 只用于理解历史收据或用户旧称：分别是不查�
 
 ## 3. 发现：标题不是证据，找不到标题也不是知识不存在
 
-最小工具入口是 [query-evidence.mjs](../query/query-evidence.mjs)。使用当前文件，不要求库迁移或新数据库。
+最小工具入口是 [query-evidence.mjs](../query/query-evidence.mjs)。独立原Query继续可用；配置Tools只读版本包后默认BM25，显式hybrid选择混合，legacy走原路；过期或不可用即回原Query，不自动建包、外发或替换全文阅读/审核。见[查询说明](../query/README.md)。
 
 1. 从问题词、已知同义表达、索引、标题和章节发现候选。工具中的小型同义词表只提供发现信号；Agent 可通过 `terms/reformulations` 补本题术语。
 2. Domain、已批准 active Wiki Group、相关页和原则 ID 按需要介入。`candidate_members`、未批准或 inactive Group 不可扩展。相关页和 Group 默认一跳，继续展开须有具体未决问题，去重并计入同一预算。
@@ -62,7 +62,7 @@ Group 是候选来源而不是独立的固定优先级。可以先看最有相�
 
 `read` 返回实际正文、稳定身份／相对路径、源字节 hash、完整页／章节行范围、内容 hash、任务对象与范围、来源链接及 `claim_support:not_verified`。`source_read` 表示工具确实返回正文；Agent 是否理解、材料是否支持判断仍需回答里的利用核对。
 
-`reuse` 重新检查原文件版本、正文范围、当前权限与问题／对象／适用范围。复用标记 `source_reused`，不声称本轮重新阅读全文。正文不变但问题或对象改变时拒绝直接复用，重新读取或审查；禁止把旧结论缓存为新事实。当前工具不创建持久索引；以后派生缓存也必须可重建、版本漂移回退真实文件。
+`reuse` 重新检查原文件版本、正文范围、当前权限与问题／对象／适用范围。复用标记 `source_reused`，不声称本轮重新阅读全文。正文不变但问题或对象改变时拒绝直接复用，重新读取或审查；禁止把旧结论缓存为新事实。普通Query不创建或更新索引；可选Tools维护阶段显式从已审提交建包，版本漂移回原Query及真实文件，原审核不变。
 
 `verify` 检查收到的正文、范围、源版本及引用原句相符，返回 `evidence_consistent`，**不是语义 PASS**。`assemble` 复用同一事实形成宿主结果：本题需要、实际来源及版本、`source_statement` 与 `agent_inference`、适用条件、关键缺口和停止理由。工具标明 `agent_assessed_not_tool_verified`；CLI 不推断真实用户认可，也不自行生成语义判断。
 

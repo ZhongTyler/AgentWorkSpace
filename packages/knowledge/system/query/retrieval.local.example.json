@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "python": "python",
+  "tools_root": "../../../../modules/tools",
+  "runtime_config": "../../../../tool-runtime/retrieval/v1/config.json"
+}

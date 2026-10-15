@@ -10,3 +10,6 @@ system/integrations/ima-config.local.json
 .tmp/
 *.tmp
 *.bak
+
+# Local retrieval binding is never distributed.
+system/query/retrieval.local.json
