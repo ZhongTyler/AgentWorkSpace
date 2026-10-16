@@ -1,10 +1,10 @@
 {
   "component_id": "skills",
-  "file_count": 59,
-  "generated_at": "2026-10-15T23:32:36+08:00",
+  "file_count": 60,
+  "generated_at": "2026-10-16T17:31:58+08:00",
   "generator_version": "3.0.0",
-  "manifest_sha256": "4072cd85259ccdfebacb03f7b68fbca9441a5ca10b07f188fe3aa97ee23db257",
+  "manifest_sha256": "65193ab3084e4bae58cad84e4ea47e674f36ee27f8823e9785f4b91551c8a87b",
   "preview": false,
   "release_schema": 1,
-  "source_revision": "4406bc2d020b7371ddf8173106bbb66af027e230"
+  "source_revision": "1c653810f10f233cec5260e81b7d8fce44efde7b"
 }

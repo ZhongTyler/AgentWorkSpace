@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "version": "1.20.0",
+  "version": "1.20.1",
   "skills": [
     {
       "id": "game-presentation",
@@ -46,7 +46,7 @@
     },
     {
       "id": "dual-layer-explainer",
-      "description": "直观与专业两层解释概念",
+      "description": "以直观模型对应专业机制，按需操作算法、检索、推断与资源过程",
       "optional_modules": [],
       "install_requires": []
     },

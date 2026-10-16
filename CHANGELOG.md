@@ -1,5 +1,12 @@
 # Releases
 
+## 1.20.1
+
+- Expand dual-layer explanations to abstract algorithms, retrieval, inference, resource and handoff processes.
+- Add understanding-gap routes in meta and selective Skills; retain text/diagram fallback, transparent calculations, conditions and counterexamples.
+- Keep tools optional and separate package/selected-Skill recovery. Private reports, experiments and runtime are excluded.
+
+
 ## 1.20.0
 
 - Add optional pinned MIT Anatomy source, offline external-home restore and fixed sample build to Tools.

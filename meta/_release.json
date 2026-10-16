@@ -1,10 +1,10 @@
 {
   "component_id": "meta",
   "file_count": 69,
-  "generated_at": "2026-10-15T12:32:00+08:00",
+  "generated_at": "2026-10-16T17:31:57+08:00",
   "generator_version": "3.0.0",
   "manifest_sha256": "7d9cd8eb28165d23ad9760e7f1bab93300ab80fbcfff71d8ea5b7e689684e7e7",
   "preview": false,
   "release_schema": 1,
-  "source_revision": "bf581aca252b0e13191a3190756a8a79344d116f"
+  "source_revision": "adaf7a5d5e2332802adca405241229ce23ec0ac5"
 }

@@ -8,4 +8,6 @@
 
 通用方法见 .agents/skills 的名称与触发描述，按缺口加载正文；assisted 仅显式请求时加载。跨任务支持与学习见 collaboration/support-and-learning.md。
 
+机制理解有缺口时，按需选择 `dual-layer-explainer`；可操作解释不限机械结构，仍保留文字/简图和未配置工具时的回退。
+
 NOW.md 只导航真实当前任务；memory.md 与 USER_PROFILE.md 仅在相关且获授权时使用/维护，不默认推断个人画像。历史归档按当时合同解释，不当成当前指令。

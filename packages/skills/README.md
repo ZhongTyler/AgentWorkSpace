@@ -32,4 +32,4 @@ python scripts/skills.py rollback --target <workspace> --transaction <transactio
 
 中文字体新增/替换、缺字或嵌入交付时，可单独读取game-presentation所附的[字体选型参考](library/game-presentation/references/font-selection.md)：猫啃发现→作者具体版本与原许可→真实显示与包检查。没有字体二进制、下载服务或新增Skill；[frontend的可选薄入口](integrations/frontend-design.md)仍由用户审阅后手工合并，不改第三方原文。
 
-`dual-layer-explainer`可按问题选择Tools包中的Anatomy交互解释。Tools与客户端Skill各自可选；工具不在本包复制，未配置时继续文字/简图。先准备包外Tools home并显式恢复，再按需制作；学习收益与视频制片另行判断。
+`dual-layer-explainer`按机制理解缺口触发：算法、协议、检索、推断/信息缺失、资源与交接过程均可按需解释；可操作模型应让操作、画面与读数共用计算，区分合成输入、示教特征、规则与真实模型，并给出条件、反例和恢复。可按问题选择Tools包中的Anatomy交互解释。Tools与客户端Skill各自可选；工具不在本包复制，未配置时继续文字/简图。先准备包外Tools home并显式恢复，再按需制作；学习收益与视频制片另行判断。

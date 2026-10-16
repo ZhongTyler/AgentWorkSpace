@@ -6,22 +6,27 @@ from release_history import published_bundle
 from publish import stage
 
 class AnatomyRelease(unittest.TestCase):
+ @classmethod
+ def setUpClass(cls):
+  cls.cache=tempfile.TemporaryDirectory(prefix='anatomy-frozen-');cls.bundle=published_bundle(ROOT,'1.20.0',pathlib.Path(cls.cache.name)/'bundle')
+ @classmethod
+ def tearDownClass(cls):cls.cache.cleanup()
  def cli(self,script,*args,ok=True):
   r=subprocess.run([sys.executable,'-X','utf8','-B',str(script),*map(str,args)],capture_output=True,timeout=180)
   self.assertEqual(r.returncode==0,ok,(r.stdout+r.stderr).decode('utf8','replace'));return json.loads(r.stdout) if r.stdout else None
  def skill(self,host,platform,*args,ok=True):return self.cli(host/'modules/skills/scripts/skills.py',*args,'--target',host,'--platform',platform,ok=ok)
  def test_public_scope_and_pinned_archive(self):
-  current=w.catalog(ROOT);old=json.loads(subprocess.check_output(['git','-C',str(ROOT),'show','v1.19.0:catalog.json']))
+  current=w.catalog(self.bundle);old=json.loads(subprocess.check_output(['git','-C',str(ROOT),'show','v1.19.0:catalog.json']))
   self.assertEqual({'tools','skills'},{k for k,v in current['components'].items() if v['files']!=old['components'][k]['files']})
-  source=ROOT/'packages/tools/integrations/anatomy';lock=json.loads((source/'source-lock.json').read_text('utf8'));archive=source/lock['archive']
+  source=self.bundle/'packages/tools/integrations/anatomy';lock=json.loads((source/'source-lock.json').read_text('utf8'));archive=source/lock['archive']
   self.assertEqual(lock['sha256'],hashlib.sha256(archive.read_bytes()).hexdigest());self.assertEqual(lock['bytes'],archive.stat().st_size)
   with zipfile.ZipFile(archive) as z:
    actual={n[len(lock['prefix']):]:hashlib.sha256(z.read(n)).hexdigest() for n in z.namelist() if not n.endswith('/')}
    self.assertEqual({r['path']:r['sha256'] for r in lock['files']},actual);self.assertEqual(147,len(actual));self.assertEqual((source/'vendor/LICENSE.txt').read_bytes(),z.read(lock['prefix']+'LICENSE'))
   for package in ['tools','skills']:
-   for p in (ROOT/'packages'/package).rglob('*'):
+   for p in (self.bundle/'packages'/package).rglob('*'):
     if not p.is_file():continue
-    self.assertFalse(set(p.relative_to(ROOT).parts)&{'runtime','experiments','project-snapshot','validation.json','browser-receipt.json'})
+    self.assertFalse(set(p.relative_to(self.bundle).parts)&{'runtime','experiments','project-snapshot','validation.json','browser-receipt.json'})
     if p.suffix.lower() not in ['.zip','.tgz','.gz','.png','.jpg']:
      text=p.read_text('utf8')
      self.assertNotRegex(text,r'\bV-\d{3}\b');self.assertNotRegex(text,r'(?:anatomy|experiment)-\d{8}')
@@ -30,7 +35,7 @@ class AnatomyRelease(unittest.TestCase):
  def test_fresh_external_restore_actual_build_and_boundaries(self):
   with tempfile.TemporaryDirectory(prefix='anatomy-recipient-') as tmp:
    base=pathlib.Path(tmp);host=base/'host';host.mkdir();(host/'AGENTS.md').write_bytes(b'HOST AUTHORITY')
-   self.assertTrue(w.install(ROOT,host,'init',['tools'],True,mode='compatible')['applied']);package=host/'modules/tools'
+   self.assertTrue(w.install(self.bundle,host,'init',['tools'],True,mode='compatible')['applied']);package=host/'modules/tools'
    self.assertFalse((host/'.agents').exists());self.assertFalse(any(package.rglob('runtime')))
    self.cli(package/'integrations/anatomy/anatomy.py','restore',ok=False);self.assertFalse(any(package.rglob('runtime')))
    home=base/'tools-v120';self.assertTrue(self.cli(package/'prepare_home.py','--home',home)['prepared'])
@@ -55,7 +60,7 @@ class AnatomyRelease(unittest.TestCase):
     canaries[host/'AGENTS.md']=(host/'AGENTS.md').read_bytes();selected={}
     for platform,folder in [('codex','.agents'),('codebuddy','.codebuddy')]:
      self.assertTrue(self.skill(host,platform,'install','--names','dual-layer-explainer','--apply')['applied']);selected[platform]=(host/folder/'skills/dual-layer-explainer/SKILL.md').read_bytes()
-    package=w.install(ROOT,host,'upgrade',[],True);self.assertTrue(package['applied']);self.assertFalse(any((host/'modules/tools').rglob('runtime')))
+    package=w.install(self.bundle,host,'upgrade',[],True);self.assertTrue(package['applied']);self.assertFalse(any((host/'modules/tools').rglob('runtime')))
     for platform,folder in [('codex','.agents'),('codebuddy','.codebuddy')]:
      entry=host/folder/'skills/dual-layer-explainer/SKILL.md';self.assertEqual(selected[platform],entry.read_bytes())
      updated=self.skill(host,platform,'upgrade','--apply');self.assertTrue(updated['applied']);self.assertIn('integrations/anatomy/README.md',entry.read_text('utf8'));self.assertFalse((entry.parent.parent/'interaction-design').exists())
