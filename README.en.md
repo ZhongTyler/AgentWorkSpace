@@ -192,6 +192,8 @@ Maintain content and behavior in their source repositories, then publish directl
 
 Before releasing, check affected source contracts, package runtime behavior and upgrades from the previous version. Run `python -B -m unittest discover -s tests -v`. Write the upgrade guide, seal the inventory with `scripts/build_catalog.py --version <version> --previous <previous-version>`, then run `workspace.py verify`. Tag the verified commit and check a fresh remote clone after publication.
 
+GitHub Release titles use `vMAJOR.MINOR.PATCH — Short English summary`, with the version first and no repository-name prefix. Generate metadata and validate the API readback using `scripts/release_metadata.py`; see the [release process](docs/release-process.md) for tag, asset and historical-title rules.
+
 Use the relative links at the top to switch between this page and [简体中文](README.md). Keep both pages aligned on features, commands, versions, limitations and licenses. Package documentation is currently mainly in Chinese.
 
 ## Licensing and content boundaries

@@ -192,6 +192,8 @@ python scripts/workspace.py rollback --target <workspace-path> --transaction <tr
 
 发布前验证受影响的来源合同、包内运行和上一版升级，运行 `python -B -m unittest discover -s tests -v`。写好升级说明后，用 `scripts/build_catalog.py --version <version> --previous <previous-version>` 固定库存，再运行 `workspace.py verify`。tag 对应已验证提交，公开后从远端新克隆复核。
 
+GitHub Release 标题统一为 `vMAJOR.MINOR.PATCH — 简短英文更新主题`，版本号在前，不加仓库名前缀。通过 `scripts/release_metadata.py` 生成并校验远端读回结果；tag、附件和历史标题整理的规则见[发布流程](docs/release-process.md)。
+
 中文首页和 [English](README.en.md) 用相对链接切换。更新时同时核对两页的功能、命令、版本、限制和许可；不要只翻译开头，也不要让两种语言描述不同的行为。包内详细文档目前以中文为主。
 
 ## 许可与内容边界
