@@ -5,28 +5,34 @@ import workspace as w
 from release_history import published_bundle
 
 class AbstractExplanationRelease(unittest.TestCase):
+ @classmethod
+ def setUpClass(cls):
+  cls.cache=tempfile.TemporaryDirectory(prefix='abstract-explanation-frozen-')
+  cls.bundle=ROOT if w.catalog(ROOT)['version']=='1.20.1' else published_bundle(ROOT,'1.20.1',pathlib.Path(cls.cache.name)/'bundle')
+ @classmethod
+ def tearDownClass(cls):cls.cache.cleanup()
  def skill(self,host,platform,*args,ok=True):
   r=subprocess.run([sys.executable,'-X','utf8','-B',str(host/'modules/skills/scripts/skills.py'),*args,'--target',str(host),'--platform',platform],capture_output=True)
   self.assertEqual(r.returncode==0,ok,(r.stdout+r.stderr).decode('utf8','replace'));return json.loads(r.stdout)
  def test_scope_routes_and_truth_boundaries(self):
-  current=w.catalog(ROOT);old=json.loads(subprocess.check_output(['git','-c','safe.directory='+ROOT.as_posix(),'-C',str(ROOT),'show','v1.20.0:catalog.json']))
+  current=w.catalog(self.bundle);old=json.loads(subprocess.check_output(['git','-c','safe.directory='+ROOT.as_posix(),'-C',str(ROOT),'show','v1.20.0:catalog.json']))
   self.assertEqual({'meta','skills'},{k for k,v in current['components'].items() if v['files']!=old['components'][k]['files']})
-  portable=(ROOT/'packages/skills/library/dual-layer-explainer/SKILL.md').read_text('utf8')
-  self.assertEqual(portable,(ROOT/'meta/workspace/.agents/skills/dual-layer-explainer/SKILL.md').read_text('utf8'))
+  portable=(self.bundle/'packages/skills/library/dual-layer-explainer/SKILL.md').read_text('utf8')
+  self.assertEqual(portable,(self.bundle/'meta/workspace/.agents/skills/dual-layer-explainer/SKILL.md').read_text('utf8'))
   for phrase in ['算法与协议','合成输入','示教向量','规则重排','真实模型','同一模型','条件、反例','恢复','不要求安装','interaction-design']:
    self.assertIn(phrase,portable)
-  self.assertIn('dual-layer-explainer',(ROOT/'meta/workspace/AI_INDEX.md').read_text('utf8'))
-  self.assertIn('dual-layer-explainer',(ROOT/'meta/workspace/collaboration/support-and-learning.md').read_text('utf8'))
-  listing=json.loads((ROOT/'packages/skills/skills.json').read_text('utf8'));row=next(x for x in listing['skills'] if x['id']=='dual-layer-explainer')
+  self.assertIn('dual-layer-explainer',(self.bundle/'meta/workspace/AI_INDEX.md').read_text('utf8'))
+  self.assertIn('dual-layer-explainer',(self.bundle/'meta/workspace/collaboration/support-and-learning.md').read_text('utf8'))
+  listing=json.loads((self.bundle/'packages/skills/skills.json').read_text('utf8'));row=next(x for x in listing['skills'] if x['id']=='dual-layer-explainer')
   self.assertEqual([],row['install_requires']);self.assertEqual(18,len(listing['skills']))
   for component in ['meta/workspace','packages/skills']:
-   for p in (ROOT/component).rglob('*'):
+   for p in (self.bundle/component).rglob('*'):
     if not p.is_file():continue
-    self.assertFalse(set(p.relative_to(ROOT).parts)&{'experiments','runtime','runs','raw'})
+    self.assertFalse(set(p.relative_to(self.bundle).parts)&{'experiments','runtime','runs','raw'})
     if p.suffix.lower() in {'.md','.json','.py'}:
      text=p.read_text('utf8');self.assertNotIn('codex://threads/',text);self.assertNotRegex(text,r'127\.0\.0\.1:\d+')
      self.assertNotRegex(text,r'(?:experiment|explainer)-\d{8}');self.assertNotIn(ROOT.as_posix(),text)
-  self.assertFalse((ROOT/'packages/research/experiments').exists())
+  self.assertFalse((self.bundle/'packages/research/experiments').exists())
  def test_real_1200_package_selected_skill_conflicts_and_reverse(self):
   with tempfile.TemporaryDirectory(prefix='abstract-explanation-upgrade-') as tmp:
    base=pathlib.Path(tmp);old=published_bundle(ROOT,'1.20.0',base/'old')
@@ -44,8 +50,8 @@ class AbstractExplanationRelease(unittest.TestCase):
      self.assertTrue(self.skill(host,platform,'install','--names','dual-layer-explainer','--apply')['applied'])
      folder='.agents' if platform=='codex' else '.codebuddy';selected[platform]=(host/folder/'skills/dual-layer-explainer/SKILL.md').read_bytes()
     changed=host/'modules/skills/library/dual-layer-explainer/SKILL.md';original=changed.read_bytes();changed.write_bytes(original+b'\nUSER PACKAGE EDIT')
-    refused=w.install(ROOT,host,'upgrade',[],True);self.assertTrue(refused['conflicts']);self.assertEqual(original+b'\nUSER PACKAGE EDIT',changed.read_bytes());changed.write_bytes(original)
-    tx=w.install(ROOT,host,'upgrade',[],True);self.assertTrue(tx['applied'])
+    refused=w.install(self.bundle,host,'upgrade',[],True);self.assertTrue(refused['conflicts']);self.assertEqual(original+b'\nUSER PACKAGE EDIT',changed.read_bytes());changed.write_bytes(original)
+    tx=w.install(self.bundle,host,'upgrade',[],True);self.assertTrue(tx['applied'])
     method=host/('collaboration/support-and-learning.md' if mode=='full' else 'modules/meta/collaboration/support-and-learning.md')
     self.assertIn('## 机制理解',method.read_text('utf8'))
     if mode=='full':self.assertIn('示教向量',(host/'.agents/skills/dual-layer-explainer/SKILL.md').read_text('utf8'))

@@ -413,7 +413,7 @@
       ],
       "source": "packages/brainstorm",
       "source_revision": "e4d7f2322f32412a9538ddf8dc6fca994ca9e5ca",
-      "version": "1.20.1"
+      "version": "1.21.0"
     },
     "fromdemotospec": {
       "destination": "modules/fromdemotospec",
@@ -489,7 +489,7 @@
       ],
       "source": "packages/fromdemotospec",
       "source_revision": "e4f70edf169526f4d57725c692fc42d300003ab9",
-      "version": "1.20.1"
+      "version": "1.21.0"
     },
     "game-analysis-decision": {
       "destination": "modules/game-analysis-decision",
@@ -576,7 +576,7 @@
       "required": [],
       "source": "packages/game-analysis-decision",
       "source_revision": "0693c5030d33fd2e22ed66295e5e05d5be23c534",
-      "version": "1.20.1"
+      "version": "1.21.0"
     },
     "game-presentation": {
       "destination": "modules/game-presentation",
@@ -620,7 +620,7 @@
       "required": [],
       "source": "packages/game-presentation",
       "source_revision": "58b693beabc1a78a464664644aeec1d07119d974",
-      "version": "1.20.1"
+      "version": "1.21.0"
     },
     "game-project": {
       "destination": "modules/game-project",
@@ -717,7 +717,7 @@
       "required": [],
       "source": "packages/game-project",
       "source_revision": "60b77e08f0f60f03a84ee8423f8904ae72822c4f",
-      "version": "1.20.1"
+      "version": "1.21.0"
     },
     "knowledge": {
       "destination": "modules/knowledge",
@@ -856,7 +856,7 @@
       ],
       "source": "packages/knowledge",
       "source_revision": "a92522f8d5123bebf4a47dcfbdba90a720289de0",
-      "version": "1.20.1"
+      "version": "1.21.0"
     },
     "meta": {
       "destination": "",
@@ -900,7 +900,7 @@
       "required": [],
       "source": "meta/workspace",
       "source_revision": "adaf7a5d5e2332802adca405241229ce23ec0ac5",
-      "version": "1.20.1"
+      "version": "1.21.0"
     },
     "prototype-assets": {
       "destination": "modules/prototype-assets",
@@ -1194,7 +1194,7 @@
       "required": [],
       "source": "packages/prototype-assets",
       "source_revision": "5abe108be291076b4e44717d17c740fca230c8e7",
-      "version": "1.20.1"
+      "version": "1.21.0"
     },
     "research": {
       "destination": "modules/research",
@@ -1327,7 +1327,7 @@
       "required": [],
       "source": "packages/research",
       "source_revision": "67539e4e9e03712b150e60025401139583d0927f",
-      "version": "1.20.1"
+      "version": "1.21.0"
     },
     "skills": {
       "destination": "modules/skills",
@@ -1406,7 +1406,7 @@
       "required": [],
       "source": "packages/skills",
       "source_revision": "1c653810f10f233cec5260e81b7d8fce44efde7b",
-      "version": "1.20.1"
+      "version": "1.21.0"
     },
     "tools": {
       "destination": "modules/tools",
@@ -1414,8 +1414,8 @@
         "AGENTS.md": "7794bfd8100b90f2d8bee57ccb4f7774335c8cd57ff7a5330c8148cd871bfe7d",
         "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
         "LICENSE-NOTICE.md": "5eadf0e523425e9fb744ad9f943cd6a8bb8f3c5bea0c224297db94a8e3655a83",
-        "README.md": "6448a7898d3107c4b66f910b96034827331a7588508077f1c98d02333a8e5eb3",
-        "_release.json": "65a3449faa62e4506d96a4537f70ea0808ae86783e3e8e353639a37bd7f0c741",
+        "README.md": "7e2c5cfa7af35b299473224886bece8b512dfbf47202452c5d9126c4461d511e",
+        "_release.json": "7b561a7a372de468242433cc86020e8f435df929a3d9e6468b454add09e186a8",
         "docs/decision-model-policy.md": "ebee1f65e4db11fc44946ec6ecdb1a5844922a5b5d1ed9bedf036e7a891829a8",
         "docs/local-image-validation.md": "77b63169c6a7ef137115eba0d19d0372ca281ae1477961d7ce532814a90307dc",
         "integrations/anatomy/README.md": "c729bfaad14f55d42de8beb5993b19277987d28faf4fac1392f4116f1881554a",
@@ -1488,8 +1488,19 @@
         "integrations/local-image/runtime_support.py": "32b5563a21d4a6b337e0bfdd450c7e1da3fa01678141d8351003a61cf7e98353",
         "integrations/local-image/setup.md": "0496b911a659466ed5bb38aec387c0300ca7521ecf1efe30bec2092ddbbf26cc",
         "integrations/local-image/worker.py": "619a7aaf4c8ef31ded121a2399dd9789209e80c443bf45b103f55d0e570b4748",
-        "integrations/mcp/README.md": "a15bde998321e1c516faaf1551e9e18524dc8f989c31cb560d5d80fd36728d01",
+        "integrations/mcp/README.md": "362458bb9b8934606a8609587c6b438840f69c19fa5c202feb0fcfae3888ede3",
         "integrations/mcp/THIRD_PARTY_NOTICES.txt": "82ddd2962655cf2e273aefee4ad0128cc5c2f653603098673ad55496847fd21b",
+        "integrations/mcp/demand/README.md": "837fefa42f66aaaa2b36b756e8df35221b0ac3e47b07ea4e3f1ba839da8a85ef",
+        "integrations/mcp/demand/demand_admin.py": "b25a1d3a6098c2c9a584bb7f7d1c361aadef611e1f59fa79ca99062fd89bd606",
+        "integrations/mcp/demand/demand_broker.py": "1aee6afa2b3d7b4fbb7335e968521f06fd1b3b3bda1399dbc1b540f164a41d6b",
+        "integrations/mcp/demand/demand_common.py": "1f11264c27961397776a0bf8db2f1834c1d846c3ab8c4db5feb5e9a6f4cd0a9f",
+        "integrations/mcp/demand/demand_fixture.py": "115f50deb60ced84ec9adaad55a16c7644754e165c6f4977cb98dae7dbcf97f1",
+        "integrations/mcp/demand/demand_http.py": "057fe0534676282dda374e2fa0b6474f1a5e3619aef01e34d76eb7f3e0bdcadf",
+        "integrations/mcp/demand/demand_http_headers.py": "25e1e5b2b81e06d9b1eb5a463dcfe5c37d2d5345c8e3f8f371f6b71ac7e11923",
+        "integrations/mcp/demand/demand_http_spawn.ps1": "0df4db1d748da6ca4f66d5e308ce471a9bd06b6042582a897032ed2ea1339646",
+        "integrations/mcp/demand/demand_plugin.py": "64d6abc73e02200f51c8fb0c7c6b3dc8856a677de4d9ec16b56856cbeadd1efe",
+        "integrations/mcp/demand/demand_portable_install.py": "5c7231cfa35765c17a7ccff1abbc3e0112a78b1b046c61a6c79fea5ec424bc31",
+        "integrations/mcp/demand/test_portable.py": "6712fa768ab4f861a704616f646add9f4544232f3b8d6168709285d4b10de77d",
         "integrations/mcp/npm-package-lock.json": "782899efa8f2c7dee95a14fc2799c3ab00983065537b7949a3b3e0a6007ccb43",
         "integrations/mcp/package-lock.json": "fa342b31e639871d43fa809eae106e4a463d4860da83f1848b01373e9c24ef11",
         "integrations/mcp/package.json": "469bdf785019a16b58dded84328d748ecfbacad9403bbb25e89f2cf4e169cc9a",
@@ -1563,7 +1574,7 @@
         "integrations/retrieval/requirements-optional.txt": "3a7230cf72af37c7e3e0ea8ec1d5527c4859cbb900bd9e7d227038106d3344e7",
         "integrations/retrieval/service.py": "865052a7359b8aa056fe4b1ca639adeed5d9f59d891e4551cca85f49f695d23f",
         "integrations/retrieval/test_contract.py": "39bb704ea0eca47bc9ceeb0506444d1094618d5751d5272e5c25a63b34e10756",
-        "portable-profile.json": "b6e5079421299c2993ffb21ecb4f1d89f3a6cca8b33820e1eb653cfc405d3948",
+        "portable-profile.json": "e25e463eb425857295e8a422a4d40a193dde3265a0720bb00c34c132a8f09819",
         "prepare_home.py": "c292df81660af22ff51c63e678dede6b1b62250ed244568cc9bb5bc037eb80c9",
         "registry.json": "b688e201718ff836584b79e371a3ab496041bbdf61a831e95ad50501871fe89c",
         "toolbox.py": "6a671efae98014256c4a9ac82be2afcb266e69297c3ba8b54228816cb905e137",
@@ -1579,8 +1590,8 @@
       ],
       "required": [],
       "source": "packages/tools",
-      "source_revision": "1054a2dc427e969158f43f8b2b638d3ab6364048",
-      "version": "1.20.1"
+      "source_revision": "2f034efe1d3434dd84e4d2f8547cfb4555449d0c",
+      "version": "1.21.0"
     },
     "travel": {
       "destination": "modules/travel",
@@ -1704,10 +1715,10 @@
       "required": [],
       "source": "packages/travel",
       "source_revision": "52d1cf8fd85ff0602b5efe4013db94b1979c3b63",
-      "version": "1.20.1"
+      "version": "1.21.0"
     }
   },
-  "previous_version": "1.20.0",
+  "previous_version": "1.20.1",
   "schema_version": 1,
-  "version": "1.20.1"
+  "version": "1.21.0"
 }

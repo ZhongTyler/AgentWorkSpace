@@ -25,7 +25,7 @@ python prepare_home.py --home <external-versioned-tools-home>
 | rea | 指定发行包的静态实现分析；源码足够时直接读。见 [REA](integrations/rea/README.md) |
 | media | 公开正文、必要图片和 OCR；OCR 后仍实际读图。见 [媒体](integrations/media/README.md) |
 | browser | 可选扩展准备；安装或加载不证明宿主保存成功。见 [浏览器](integrations/browser/README.md) |
-| research-sources | 只读来源模板，使用者自行决定启用并授权。见 [来源连接](integrations/mcp/README.md) |
+| research-sources | 只读来源模板，使用者自行决定启用并授权。见 [来源连接](integrations/mcp/README.md)；可选[共享按需入口](integrations/mcp/demand/README.md) |
 | flux-klein | 可选本地生成/参考编辑候选；固定组件与显式准备，权重不附带。见 [FLUX klein](integrations/flux-klein/README.md) |
 | cutout | 可选CPU插画前景分割；孔洞、细叶和玻璃须实际查验。见 [抠图候选](integrations/cutout/README.md) |
 | local-image | FLUX/Anima/Z三profile统一生成、已有PNG加工、哈希恢复和审图交接。见[本地素材](integrations/local-image/README.md)及[测试限制](docs/local-image-validation.md)；接收者自行配置验证 |

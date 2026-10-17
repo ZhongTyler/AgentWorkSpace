@@ -63,6 +63,12 @@ def stage(source, destination):
                 raise ContractError('Validation publication permits only the portable guide')
             if target.startswith('reference-library/') and target not in {'reference-library/README.md','reference-library/catalog.json','reference-library/library.py','reference-library/prepare_home.py','reference-library/portable-profile.json'} and not target.startswith('reference-library/licenses/'):
                 raise ContractError('Reference library requires explicit portable metadata, code or license inputs')
+            if component == 'tools' and target.startswith('integrations/mcp/demand/'):
+                public = {'README.md', 'demand_fixture.py', 'test_portable.py', 'demand_portable_install.py',
+                          'demand_common.py', 'demand_admin.py', 'demand_broker.py', 'demand_plugin.py',
+                          'demand_http.py', 'demand_http_headers.py', 'demand_http_spawn.ps1'}
+                if target.removeprefix('integrations/mcp/demand/') not in public:
+                    raise ContractError('MCP demand publication permits reviewed source only')
             if component == 'tools' and target.startswith('docs/') and target not in {'docs/decision-model-policy.md','docs/local-image-validation.md'}:
                 raise ContractError('Tools documentation requires the explicit portable policy whitelist')
             if name != 'release-input/curated/' + target or target.split('/')[0] not in roots or any(

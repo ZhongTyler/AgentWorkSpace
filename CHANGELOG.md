@@ -1,5 +1,13 @@
 # Releases
 
+## 1.21.0
+
+- Add optional Windows MCP discovery sharing over one same-user loopback HTTP gateway; start business workers on first call and retain session ownership.
+- Provide read-only planning, explicit native catalog capture, guarded configuration switching/checking and independent rollback. Package installation activates nothing.
+- Preserve selected server names, disabled state and tool approval rules; reject remote transports, prior demand owners and private runtime files at publication.
+- Keep plugin-cache/CUA modifications outside the portable installer. The optional shorter core unload setting is restricted to the locally verified core version.
+- Exclude credentials, real catalogs, chats and runtime; verify source lifecycle and recipient predecessor upgrade/conflict/recovery separately.
+
 ## 1.20.1
 
 - Expand dual-layer explanations to abstract algorithms, retrieval, inference, resource and handoff processes.

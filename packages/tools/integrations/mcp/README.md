@@ -40,3 +40,7 @@ node --test integrations/mcp/tests/juejin-reader.test.mjs
 ```
 
 这些检查覆盖安装/恢复、冲突与读取边界；实时服务、授权、所有正文/图片及研究收益仍需按实际任务验证。失败时继续可用的文件/网页入口；用户停用来源不自动绕回。研究方法和发布说明见[包入口](../../README.md)。
+
+## 可选的共享按需入口
+
+Windows Codex 可按需选择[共享 HTTP 入口](demand/README.md)，减少每聊天的重复运行进程。安装本包不会捕获目录、修改客户端配置或启动后台。
