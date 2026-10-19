@@ -1,5 +1,12 @@
 # Releases
 
+## 1.21.1
+
+- Update only Research's protocol, thin research-study entry, report template, proactive guide and package introduction.
+- Compare existing conclusions and real experiments before claiming novelty; prioritize traceable failure and repair cases, including reviewer mistakes.
+- Separate diagnosis from repair validation, and literature screening from local feasibility or measured effects. Preserve conditional, lightweight research.
+- Keep private reports, experiment data, candidates, accounts and runtime out of the release; preserve other package content and recipient schedules.
+
 ## 1.21.0
 
 - Add optional Windows MCP discovery sharing over one same-user loopback HTTP gateway; start business workers on first call and retain session ownership.

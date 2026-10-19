@@ -413,7 +413,7 @@
       ],
       "source": "packages/brainstorm",
       "source_revision": "e4d7f2322f32412a9538ddf8dc6fca994ca9e5ca",
-      "version": "1.21.0"
+      "version": "1.21.1"
     },
     "fromdemotospec": {
       "destination": "modules/fromdemotospec",
@@ -489,7 +489,7 @@
       ],
       "source": "packages/fromdemotospec",
       "source_revision": "e4f70edf169526f4d57725c692fc42d300003ab9",
-      "version": "1.21.0"
+      "version": "1.21.1"
     },
     "game-analysis-decision": {
       "destination": "modules/game-analysis-decision",
@@ -576,7 +576,7 @@
       "required": [],
       "source": "packages/game-analysis-decision",
       "source_revision": "0693c5030d33fd2e22ed66295e5e05d5be23c534",
-      "version": "1.21.0"
+      "version": "1.21.1"
     },
     "game-presentation": {
       "destination": "modules/game-presentation",
@@ -620,7 +620,7 @@
       "required": [],
       "source": "packages/game-presentation",
       "source_revision": "58b693beabc1a78a464664644aeec1d07119d974",
-      "version": "1.21.0"
+      "version": "1.21.1"
     },
     "game-project": {
       "destination": "modules/game-project",
@@ -717,7 +717,7 @@
       "required": [],
       "source": "packages/game-project",
       "source_revision": "60b77e08f0f60f03a84ee8423f8904ae72822c4f",
-      "version": "1.21.0"
+      "version": "1.21.1"
     },
     "knowledge": {
       "destination": "modules/knowledge",
@@ -856,7 +856,7 @@
       ],
       "source": "packages/knowledge",
       "source_revision": "a92522f8d5123bebf4a47dcfbdba90a720289de0",
-      "version": "1.21.0"
+      "version": "1.21.1"
     },
     "meta": {
       "destination": "",
@@ -900,7 +900,7 @@
       "required": [],
       "source": "meta/workspace",
       "source_revision": "adaf7a5d5e2332802adca405241229ce23ec0ac5",
-      "version": "1.21.0"
+      "version": "1.21.1"
     },
     "prototype-assets": {
       "destination": "modules/prototype-assets",
@@ -1194,18 +1194,18 @@
       "required": [],
       "source": "packages/prototype-assets",
       "source_revision": "5abe108be291076b4e44717d17c740fca230c8e7",
-      "version": "1.21.0"
+      "version": "1.21.1"
     },
     "research": {
       "destination": "modules/research",
       "files": {
-        ".agents/skills/research-study/SKILL.md": "bb2f53f10a69fbb1fa1896868dad6bf885653e562ad303543f9de2f8421f0355",
+        ".agents/skills/research-study/SKILL.md": "60dcc483193b76f83fca278aabd0b7574422b802c3c04076799c96ce1d56b159",
         "AGENTS.md": "d95ee9f26a93102cb32d3b3f3d74681fa368286c139e1d62ff4be8651aa6236b",
         "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
         "LICENSE-NOTICE.md": "15cd4ccbc67b328e368766cbbd8a3f69fc490406cfa8df16535f21825add0db8",
-        "README.md": "6583e56244d18db739215827086dfc3bc20c059fe66ff57f1447ca439ba69bcd",
-        "RESEARCH_PROTOCOL.md": "927f7dad0dccc9bafeace51791d9912a95c971ad856b135ead22479d8079b127",
-        "_release.json": "11283b3753929b1fe22ca552f1f4c7dcb141baae59a96cfa1deed359adca3bf0",
+        "README.md": "bd663dd251b0ec1233eb94a7214a72bca38f7cc0eeb305bfb1989a41e50b64e3",
+        "RESEARCH_PROTOCOL.md": "52c14033bd3d95628fa5824eb302acb7e2841efc770829a616abf1c49fc30edf",
+        "_release.json": "25a955d2ac8261d5c5e5a8264fc6412e3b99f6790adfae1b511bf274f22dad32",
         "game-research/README.md": "350021842fd9918c300dcfc9e8a1373d7ddf68f4e65b669d2d7e5ac64e354ffd",
         "game-research/development-support.md": "c58fbee65927a2365b5e99a5fec67a5d4e5b6dd2e8a98e30f65660f187127a21",
         "game-research/media-capture.md": "3b545556365e6a92c50623ecd59037fe172083e33627a1e9a6aab973b3e07aa6",
@@ -1278,7 +1278,7 @@
         "integrations/rea/source-lock.json": "bea12efe8048ba1d414321bed9eb337631b6b463a1945c50abd359d9bae49c8f",
         "integrations/rea/vendor/REA-LICENSE.txt": "798f9e4d18e49b30bf2f12696c8ced73dc4e1413da375a333d01281543a1ea8b",
         "integrations/rea/vendor/rea-agents-6.4.0.tgz": "59eb1604b8db75f522d4a975c36ce6b4a2ad465e43bad165f9a8f728391db9b8",
-        "proactive/README.md": "ed1ace44169ef429c4d8021577f3144c88697e46aed08b8a9d821ec7ee8939a6",
+        "proactive/README.md": "d34de946028f566fee551e1c04bd529a1397c18ce5db26c50322837c99eb8ab8",
         "proactive/cost.py": "50bf3624b3c3907ed83681e3a464882ef04b608ee8691ed878019ee60d1bac51",
         "proactive/reporting.md": "53f4de096ecd93c18a6cf15baad603343d8c211dc1cbe136c658412f62a689b0",
         "proactive/review.py": "02920f90bc6f3aa3e295f3a47aa752296df472641fe0c11ce147d75760664455",
@@ -1310,7 +1310,7 @@
         "reference-library/prepare_home.py": "6adc6ac910d58194b5bdc1e34ad61ea75eedf1cb4d4f469b6cc26fdf90e0e93e",
         "sources.json": "7ac6c2a5154590d81aa1d76122540b754032dae0a8ad31c31272449082d8c39f",
         "templates/decision-model-policy.md": "ebee1f65e4db11fc44946ec6ecdb1a5844922a5b5d1ed9bedf036e7a891829a8",
-        "templates/research-note.md": "a1ee68852abc0f13ca86188c019ac27a00d44d97fd8fc83d63bcac3f6907b842",
+        "templates/research-note.md": "bbfc4ede5289d2498665b717125615bb39a4feaffbb55a034f17f884f4f83965",
         "templates/tool-storage.md": "fe540623a5ef4f323b0968983d509191e07f460f3f95ce71ac4b82b2bcfc580a",
         "templates/validation-candidate.md": "4103ba17a92b6a2b437346f521168cf4f62b58cc66522238f4b1c4e0812dbe54",
         "validation/README.md": "9e5c1d5be06fb4bdea6e14461586efcd8aa40aee56aba2a781c74dc9063263a3"
@@ -1326,8 +1326,8 @@
       ],
       "required": [],
       "source": "packages/research",
-      "source_revision": "67539e4e9e03712b150e60025401139583d0927f",
-      "version": "1.21.0"
+      "source_revision": "6887c31ab4085c207a054b05f2f1296afa6b036d",
+      "version": "1.21.1"
     },
     "skills": {
       "destination": "modules/skills",
@@ -1406,7 +1406,7 @@
       "required": [],
       "source": "packages/skills",
       "source_revision": "1c653810f10f233cec5260e81b7d8fce44efde7b",
-      "version": "1.21.0"
+      "version": "1.21.1"
     },
     "tools": {
       "destination": "modules/tools",
@@ -1591,7 +1591,7 @@
       "required": [],
       "source": "packages/tools",
       "source_revision": "2f034efe1d3434dd84e4d2f8547cfb4555449d0c",
-      "version": "1.21.0"
+      "version": "1.21.1"
     },
     "travel": {
       "destination": "modules/travel",
@@ -1715,10 +1715,10 @@
       "required": [],
       "source": "packages/travel",
       "source_revision": "52d1cf8fd85ff0602b5efe4013db94b1979c3b63",
-      "version": "1.21.0"
+      "version": "1.21.1"
     }
   },
-  "previous_version": "1.20.1",
+  "previous_version": "1.21.0",
   "schema_version": 1,
-  "version": "1.21.0"
+  "version": "1.21.1"
 }
