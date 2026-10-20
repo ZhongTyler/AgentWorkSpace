@@ -137,7 +137,7 @@ Agent 按审计返回的 criteria 审阅现有规则与接口，记录理由、�
 | [Brainstorm](packages/brainstorm/README.md) | “一起脑暴这个问题……”；会话随任务创建 | `modules/brainstorm` | 无需其他业务包；Knowledge、GameAnalysisDecision 可选 |
 | [FromDemoToSpec](packages/fromdemotospec/README.md) | “制作一个可玩原型……”；在独立项目目录开发 | `modules/fromdemotospec` | 无需其他业务包；知识、分析、表现与素材包按需接入 |
 | [Knowledge](packages/knowledge/README.md) | “查询知识库”或“消化这些材料”；空库也可查询 | `modules/knowledge` | 无需其他业务包；首次 Ingest 前配置知识范围与本地 Git |
-| [Skills](packages/skills/README.md) | 18 项开发、研究、表达、交互与工作流方法，按名字选择安装 | `modules/skills` | 不需要其他模块；安装库不会自动启用全部 Skill |
+| [Skills](packages/skills/README.md) | 19 项开发、研究、表达、交互与工作流方法，按名字选择安装 | `modules/skills` | 不需要其他模块；安装库不会自动启用全部 Skill |
 | [GameAnalysisDecision](packages/game-analysis-decision/README.md) | 有事实依据的游戏问题分析、条件建议与方法校正 | `modules/game-analysis-decision` | 可单独使用；Knowledge 与其他宿主包可选 |
 | [GameProject](packages/game-project/README.md) | 创建或选择性接入 Godot 项目工作区：维护、决定、资源与构建骨架 | `modules/game-project` | 可单独使用；新建包外副本，已有项目先审阅，不预装游戏或引擎 |
 | [GamePresentation](packages/game-presentation/README.md) | 表现规格、资源制作与 Godot 交付、恢复 | `modules/game-presentation` | 可使用手工或生成来源；PrototypeAssets 可选 |

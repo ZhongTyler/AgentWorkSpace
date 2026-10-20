@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "version": "1.20.1",
+  "version": "1.22.0",
   "skills": [
     {
       "id": "game-presentation",
@@ -113,6 +113,12 @@
     {
       "id": "interaction-design",
       "description": "网页、App与游戏UI的状态连续、焦点、操作反馈与交互动效",
+      "optional_modules": [],
+      "install_requires": []
+    },
+    {
+      "id": "citation-management",
+      "description": "按需核对学术引用元数据、解析DOI/PMID/arXiv与整理BibTeX",
       "optional_modules": [],
       "install_requires": []
     }

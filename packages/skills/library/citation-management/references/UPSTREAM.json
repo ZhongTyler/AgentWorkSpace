@@ -1,0 +1,31 @@
+{
+  "source": "K-Dense-AI/scientific-agent-skills",
+  "upstream_commit": "330c8e764435a731eff571e3efdda70b363d0792",
+  "adaptation": "tyler-on-demand-20260915",
+  "import_date": "2026-10-20",
+  "license": "MIT",
+  "files": {
+    "assets/bibtex_template.bib": "bf03cc646e6bc6aaba85d632b8e25b26c2830419892f3c17a7d844805d3a721e",
+    "assets/citation_checklist.md": "305ff79e25b2654f1a5dc2163c03e7ab14e6c9578b1ea0f2d30f97195578d2c6",
+    "LICENSE": "09b02a3c9df3053c55531d503357a9c7cde275970e6c3ceaa1ddf5f0e90b40c1",
+    "references/best_practices.md": "925a5aa58b249006b3743f7d6df256ee8861f9dd97e0c27b5f5b4cfcf91f9b5f",
+    "references/bibtex_formatting.md": "89fde5b4e04112ee62dcfe086780f000906681ec7b102c094c875c3656eaed6f",
+    "references/citation_validation.md": "2428f93cc9b6bff8d8784f9a09063774df82225757a06a8213ebf2ef37aa522e",
+    "references/core_workflow.md": "4d3cc7bfa74d9c3f9f5b34073b03eaa9ba11ad5104dac437ecca56774f886f2f",
+    "references/example_workflows.md": "d1106cbd7c866cabb82dccd7b9763881d279ada64283016aa59d049c5bfda2f5",
+    "references/google_scholar_search.md": "18e8af47001fd427692243d04b9c975c5454e9ce9929bfe42843775f3d845680",
+    "references/metadata_extraction.md": "aa8be4ac76c6e274ce5ef2f034c6578e0f263baf71f030a0f2eeb92fcd810b45",
+    "references/pubmed_search.md": "f25e7adf200fee05f83e3434e1a08b6ec25d1ee2563a19325b94e443ff7cde59",
+    "references/script_reference.md": "e6f1a87d6cd25bd7043fc0e4c88693a327ad2a7019515408392c58cff408330d",
+    "references/search_strategies.md": "a91bbd11c7246a5c03e64544bbc476d4089b397a55260f4979055ff177c9874f",
+    "scripts/_common.py": "87540160163671b972c2fccb4d0a42db3cca2603c664d26d5da3ca5dbc7dfdd2",
+    "scripts/doi_to_bibtex.py": "45dbdbc365e63c65dc7e32945186122dd1cd7cb003ca5fbe103876952b4d9171",
+    "scripts/extract_metadata.py": "d4922e47d21e38e8b414bfa9772eeac8c3df856b7179f33cd45f89ff777d4422",
+    "scripts/format_bibtex.py": "cc74fdc4d5819df8db3999e59f96469cebfb353ecf406a49a5a0fc60896707cb",
+    "scripts/search_google_scholar.py": "839228bc7a9b4c3b23e4b0d5c4c13ff024db423deeec4908b13261367b19b90e",
+    "scripts/search_openalex.py": "b98f276748a121b5fdd8a6a9066f4094b85f585b64ed292710ad589df2495a3f",
+    "scripts/search_pubmed.py": "a01a8034775939264ffb0b5454956b15c7915babea6f1af2fd822b95e1082884",
+    "scripts/validate_citations.py": "b20abad7a10f722a7c404adc9884bec339fc960c82373698e73e49ba2015fba5",
+    "SKILL.md": "25291c43c3f52447c0cf860b8e4df2eca739f2e315dd5946b016893d8ded42e7"
+  }
+}

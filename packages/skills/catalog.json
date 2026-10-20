@@ -7,7 +7,7 @@
         "SKILL.md": "10d8580707534354eb22f6c1a9ccb86be19fa7587ecdeed6efd43abe81f8d3fe"
       },
       "source": "library/agent-blind-eval",
-      "version": "1.20.1"
+      "version": "1.22.0"
     },
     "bidirectional-steelman": {
       "destination": ".agents/skills/bidirectional-steelman",
@@ -15,7 +15,7 @@
         "SKILL.md": "fe063aa466c41f4f4179d246d9aae1a414913a0fc7912356eb05458a50e2423f"
       },
       "source": "library/bidirectional-steelman",
-      "version": "1.20.1"
+      "version": "1.22.0"
     },
     "dual-layer-explainer": {
       "destination": ".agents/skills/dual-layer-explainer",
@@ -23,7 +23,7 @@
         "SKILL.md": "be408708e2761d381000a5e112ee3da7d4f372c3479853a175a22c8ff9d23d2a"
       },
       "source": "library/dual-layer-explainer",
-      "version": "1.20.1"
+      "version": "1.22.0"
     },
     "evidence-audit": {
       "destination": ".agents/skills/evidence-audit",
@@ -31,7 +31,7 @@
         "SKILL.md": "b33a27d488d420f41e964bd0e12999ad161e6d59ecd5a222fb4aad87e80c3d54"
       },
       "source": "library/evidence-audit",
-      "version": "1.20.1"
+      "version": "1.22.0"
     },
     "game-decision-support": {
       "destination": ".agents/skills/game-decision-support",
@@ -39,7 +39,7 @@
         "SKILL.md": "2e3ce0594d7441354eb1e51e1be50a616106ea00c5863fd7eb3bd0b32447a7ce"
       },
       "source": "library/game-decision-support",
-      "version": "1.20.1"
+      "version": "1.22.0"
     },
     "game-presentation": {
       "destination": ".agents/skills/game-presentation",
@@ -48,7 +48,7 @@
         "SKILL.md": "fd36b9f9a3f04e5fc66c50e00c1b5a4984c1272f5ea2185df649b890918146e1"
       },
       "source": "library/game-presentation",
-      "version": "1.20.1"
+      "version": "1.22.0"
     },
     "godot-gdscript-patterns": {
       "destination": ".agents/skills/godot-gdscript-patterns",
@@ -60,7 +60,7 @@
         "SKILL.md": "52013b9a2a6a3db8aba35cc6bb671d547ab526d1d7913c169ccb77878be257c5"
       },
       "source": "library/godot-gdscript-patterns",
-      "version": "1.20.1"
+      "version": "1.22.0"
     },
     "horizontal-vertical-research": {
       "destination": ".agents/skills/horizontal-vertical-research",
@@ -68,7 +68,7 @@
         "SKILL.md": "0fbdadab1c44621447503479ac603bebf7f97941f3804d85f38fbe92733835f4"
       },
       "source": "library/horizontal-vertical-research",
-      "version": "1.20.1"
+      "version": "1.22.0"
     },
     "humanizer-zh": {
       "destination": ".agents/skills/humanizer-zh",
@@ -78,7 +78,7 @@
         "SKILL.md": "9b07aa76be9885405f78749bf5d808292f43c283dd43644b2cbc17b8e71f00ac"
       },
       "source": "library/humanizer-zh",
-      "version": "1.20.1"
+      "version": "1.22.0"
     },
     "problem-clarifier": {
       "destination": ".agents/skills/problem-clarifier",
@@ -86,7 +86,7 @@
         "SKILL.md": "946cb75bfc29032e73f0a2ff517b14e149dad0c141f5837795408d55a0275062"
       },
       "source": "library/problem-clarifier",
-      "version": "1.20.1"
+      "version": "1.22.0"
     },
     "property-based-testing": {
       "destination": ".agents/skills/property-based-testing",
@@ -101,7 +101,7 @@
         "SKILL.md": "5bfa9a87dbefc85f5c2a3666da2932ef6ae38c1b4b1bffd8a08e43d1259542dc"
       },
       "source": "library/property-based-testing",
-      "version": "1.20.1"
+      "version": "1.22.0"
     },
     "reference-deconstruction": {
       "destination": ".agents/skills/reference-deconstruction",
@@ -109,7 +109,7 @@
         "SKILL.md": "c4118326aebb3baa253704518c3e199ad07cf57188cd970511575a97f09c3794"
       },
       "source": "library/reference-deconstruction",
-      "version": "1.20.1"
+      "version": "1.22.0"
     },
     "reversible-experiment-design": {
       "destination": ".agents/skills/reversible-experiment-design",
@@ -117,7 +117,7 @@
         "SKILL.md": "618aee268063af4763dacd0a8517f4e2482091d610124ccb9e3b9398c3000560"
       },
       "source": "library/reversible-experiment-design",
-      "version": "1.20.1"
+      "version": "1.22.0"
     },
     "systematic-debugging": {
       "destination": ".agents/skills/systematic-debugging",
@@ -130,7 +130,7 @@
         "SKILL.md": "01f9f45d532619be1fe24911a196af0341680579c3bdec8bb5a9940f7d708e6c"
       },
       "source": "library/systematic-debugging",
-      "version": "1.20.1"
+      "version": "1.22.0"
     },
     "workflow-closure": {
       "destination": ".agents/skills/workflow-closure",
@@ -138,7 +138,7 @@
         "SKILL.md": "051b00406d94b0709e77f360489348cd93bf5d42d4232fac7352a3748ec93eeb"
       },
       "source": "library/workflow-closure",
-      "version": "1.20.1"
+      "version": "1.22.0"
     },
     "workflow-redesign": {
       "destination": ".agents/skills/workflow-redesign",
@@ -147,12 +147,12 @@
         "SKILL.md": "ff22be8ea4bd5bceb19d664aca178c99250e6886e80a7afe7892bcad447549f8"
       },
       "source": "library/workflow-redesign",
-      "version": "1.20.1"
+      "version": "1.22.0"
     },
     "feedback-loop": {
       "destination": ".agents/skills/feedback-loop",
       "source": "library/feedback-loop",
-      "version": "1.20.1",
+      "version": "1.22.0",
       "files": {
         "SKILL.md": "ff8412076381671cb20db91df169c1cdccd5d19ea65deaa6a9a997a5beeab49a"
       }
@@ -160,14 +160,44 @@
     "interaction-design": {
       "destination": ".agents/skills/interaction-design",
       "source": "library/interaction-design",
-      "version": "1.20.1",
+      "version": "1.22.0",
       "files": {
         "references/interaction-method.md": "659498c4bf76ccf4494cb821d47f9b9304fa166fd7a17dedea3f43c5ff295ff6",
         "SKILL.md": "968e2a5f7f24ce242fa549537c40e6cfbc2d52c174b87bf6b1c916cdedd64fda"
       }
+    },
+    "citation-management": {
+      "destination": ".agents/skills/citation-management",
+      "files": {
+        "assets/bibtex_template.bib": "bf03cc646e6bc6aaba85d632b8e25b26c2830419892f3c17a7d844805d3a721e",
+        "assets/citation_checklist.md": "305ff79e25b2654f1a5dc2163c03e7ab14e6c9578b1ea0f2d30f97195578d2c6",
+        "references/best_practices.md": "925a5aa58b249006b3743f7d6df256ee8861f9dd97e0c27b5f5b4cfcf91f9b5f",
+        "references/bibtex_formatting.md": "89fde5b4e04112ee62dcfe086780f000906681ec7b102c094c875c3656eaed6f",
+        "references/citation_validation.md": "2428f93cc9b6bff8d8784f9a09063774df82225757a06a8213ebf2ef37aa522e",
+        "references/core_workflow.md": "4d3cc7bfa74d9c3f9f5b34073b03eaa9ba11ad5104dac437ecca56774f886f2f",
+        "references/example_workflows.md": "d1106cbd7c866cabb82dccd7b9763881d279ada64283016aa59d049c5bfda2f5",
+        "references/google_scholar_search.md": "18e8af47001fd427692243d04b9c975c5454e9ce9929bfe42843775f3d845680",
+        "references/LICENSE": "09b02a3c9df3053c55531d503357a9c7cde275970e6c3ceaa1ddf5f0e90b40c1",
+        "references/metadata_extraction.md": "aa8be4ac76c6e274ce5ef2f034c6578e0f263baf71f030a0f2eeb92fcd810b45",
+        "references/pubmed_search.md": "f25e7adf200fee05f83e3434e1a08b6ec25d1ee2563a19325b94e443ff7cde59",
+        "references/script_reference.md": "e6f1a87d6cd25bd7043fc0e4c88693a327ad2a7019515408392c58cff408330d",
+        "references/search_strategies.md": "a91bbd11c7246a5c03e64544bbc476d4089b397a55260f4979055ff177c9874f",
+        "references/UPSTREAM.json": "1bd252dc7f4730550b0021884eb63309c2c6446137eb93a2f39c7c1120cd831c",
+        "scripts/_common.py": "87540160163671b972c2fccb4d0a42db3cca2603c664d26d5da3ca5dbc7dfdd2",
+        "scripts/doi_to_bibtex.py": "45dbdbc365e63c65dc7e32945186122dd1cd7cb003ca5fbe103876952b4d9171",
+        "scripts/extract_metadata.py": "d4922e47d21e38e8b414bfa9772eeac8c3df856b7179f33cd45f89ff777d4422",
+        "scripts/format_bibtex.py": "cc74fdc4d5819df8db3999e59f96469cebfb353ecf406a49a5a0fc60896707cb",
+        "scripts/search_google_scholar.py": "839228bc7a9b4c3b23e4b0d5c4c13ff024db423deeec4908b13261367b19b90e",
+        "scripts/search_openalex.py": "b98f276748a121b5fdd8a6a9066f4094b85f585b64ed292710ad589df2495a3f",
+        "scripts/search_pubmed.py": "a01a8034775939264ffb0b5454956b15c7915babea6f1af2fd822b95e1082884",
+        "scripts/validate_citations.py": "b20abad7a10f722a7c404adc9884bec339fc960c82373698e73e49ba2015fba5",
+        "SKILL.md": "2255164df05f564020524f162c1a5c6fc63f130d522e55f581dbc29db3ef7608"
+      },
+      "source": "library/citation-management",
+      "version": "1.22.0"
     }
   },
-  "previous_version": "1.20.0",
+  "previous_version": "1.20.1",
   "schema_version": 1,
-  "version": "1.20.1"
+  "version": "1.22.0"
 }

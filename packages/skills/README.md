@@ -1,6 +1,6 @@
 # Skills
 
-这是一份可选择安装的方法库。安装本 package 只把库放进 modules/skills，不会自动启用其中全部 Skill。包含开发方法、研究与决策、中文润色、工作流及游戏支持共 18 项；按实际任务选择，普通任务无需为了展示流程调用 Skill。
+这是一份可选择安装的方法库。安装本 package 只把库放进 modules/skills，不会自动启用其中全部 Skill。包含开发方法、研究与决策、中文润色、工作流及游戏支持共 19 项；按实际任务选择，普通任务无需为了展示流程调用 Skill。
 
 Python 3.10+，无第三方依赖。先列出目录，再选择安装到用户工作区（默认 Codex 的 .agents/skills）：
 
@@ -33,3 +33,5 @@ python scripts/skills.py rollback --target <workspace> --transaction <transactio
 中文字体新增/替换、缺字或嵌入交付时，可单独读取game-presentation所附的[字体选型参考](library/game-presentation/references/font-selection.md)：猫啃发现→作者具体版本与原许可→真实显示与包检查。没有字体二进制、下载服务或新增Skill；[frontend的可选薄入口](integrations/frontend-design.md)仍由用户审阅后手工合并，不改第三方原文。
 
 `dual-layer-explainer`按机制理解缺口触发：算法、协议、检索、推断/信息缺失、资源与交接过程均可按需解释；可操作模型应让操作、画面与读数共用计算，区分合成输入、示教特征、规则与真实模型，并给出条件、反例和恢复。可按问题选择Tools包中的Anatomy交互解释。Tools与客户端Skill各自可选；工具不在本包复制，未配置时继续文字/简图。先准备包外Tools home并显式恢复，再按需制作；学习收益与视频制片另行判断。
+
+`citation-management` 提供学术标识符解析、元数据核对、BibTeX 格式化与去重。8 个脚本、引用、模板与 MIT 许可完整交付；安装器本身仍只需 Python 标准库。离线格式化无需第三方库；联网解析/检索脚本按需需要 requests，Google Scholar 另可选 scholarly，安装本包不会安装这些依赖或保证服务可用。只核对元数据不证明论文支持某项论断，实质结论仍需阅读相关原文。来源快照及本地适配见该 Skill 的 references/UPSTREAM.json；不声称上游最新版或引用质量已获评测。
