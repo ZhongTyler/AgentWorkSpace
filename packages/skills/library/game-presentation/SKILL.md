@@ -22,3 +22,5 @@ description: 按用途推进游戏美术、UI、动画和音效资源准备、�
 中文字体新增/替换、缺字、数字可读性或字体嵌入交付时，按需读[字体选型](references/font-selection.md)。猫啃用于发现，作者具体版本与原许可用于核查，再沿宿主资产流程验证；已有字体足够时复用，不批量下载或自动安装。网页可只读取该参考，不必加载完整游戏工作流。
 
 新页面或重要改版中，信息主次、布局或主要操作仍需选择时，沿宿主等价方法，或 meta 的 `collaboration/interface-design.md`（兼容模式为 `modules/meta/collaboration/interface-design.md`），或[固定版本界面比较方法](https://github.com/ZhongTyler/AgentWorkSpace/blob/v1.23.0/meta/workspace/collaboration/interface-design.md)。用代表内容与统一视觉方向比较必要的结构取舍，再接回真实状态和权限；已确定方案或小修直接执行。`frontend-design`、`prototype` 与交互方法只按实际缺口选择，不隐式安装、另加审批或要求加载整套网页工作流。
+
+已有设计稿需要评审可用性、层级或一致性时，按需使用可发现的 `design-critique`；准备实施而当前切片缺布局、组件状态或边界规格时，使用 `design-handoff`。两项可从Skills包分别选装，或沿宿主等价方法完成；未安装时也可读取[固定评审入口](https://github.com/ZhongTyler/AgentWorkSpace/blob/v1.24.0/packages/skills/library/design-critique/SKILL.md)和[固定交付入口](https://github.com/ZhongTyler/AgentWorkSpace/blob/v1.24.0/packages/skills/library/design-handoff/SKILL.md)。结果回到宿主已有规格与任务记录；区分实测、提案和未知，按实际引擎映射输入与控件。既定小修直接执行，评审不自动授权改版，不要求meta、Tools、Figma或其他Skill。

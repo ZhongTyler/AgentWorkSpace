@@ -1,6 +1,6 @@
 # Skills
 
-这是一份可选择安装的方法库。安装本 package 只把库放进 modules/skills，不会自动启用其中全部 Skill。包含开发方法、研究与决策、中文润色、工作流及游戏支持共 19 项；按实际任务选择，普通任务无需为了展示流程调用 Skill。
+这是一份可选择安装的方法库。安装本 package 只把库放进 modules/skills，不会自动启用其中全部 Skill。包含开发方法、研究与决策、中文润色、工作流及游戏支持共 21 项；按实际任务选择，普通任务无需为了展示流程调用 Skill。
 
 Python 3.10+，无第三方依赖。先列出目录，再选择安装到用户工作区（默认 Codex 的 .agents/skills）：
 
@@ -39,3 +39,5 @@ python scripts/skills.py rollback --target <workspace> --transaction <transactio
 界面布局与信息主次仍有实质取舍时，可沿 meta 的共用界面比较方法使用代表内容、适量方案和真实接入；未装 meta 可由[可选 frontend 接线](integrations/frontend-design.md)读取固定版本方法。[已有 prototype 的宿主接线](integrations/prototype.md)与第三方原 Skill 分开维护，不随包安装或自动改写。明确设计与局部修复直接执行，不要求每次比较三稿。
 
 `workflow-redesign`补充产品复用的保留/改造/新增范围及多阶段材料状态，`reference-deconstruction`把案例事实、候选方法与未来任务入口连接起来。GamePresentation 可按 UI 缺口引用同一方法。工程可达与升级验证不等于长期效果已测得。
+
+`design-critique`在有稿待评审时使用，`design-handoff`在设计准备进入实现且规格仍有缺口时使用；小修不必额外生成整套文档。两项均保留固定上游原件、Apache-2.0许可、完整连接器参考和薄适配，可脱离meta、Tools和其他Skill使用。截图无法证明隐藏状态或精确尺寸；连接器与外发权限按宿主决定，安装不会连接服务或自动修改设计。私人试验、预览和运行收据不随库分发，当前材料不证明跨项目质量或长期省工。

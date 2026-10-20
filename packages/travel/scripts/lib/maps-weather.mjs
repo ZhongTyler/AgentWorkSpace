@@ -1,6 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import {pathToFileURL} from 'node:url';
 import { inside, loadTrip, write, read, uid, routeUrl, routeHash, dayHash, now, hash, safeUrl } from './core.mjs';
+import {mapProvider, routePrecision} from './maps.mjs';
 
 export function scaffoldRoutes(project, mode) {
   if(!['driving','walking','bicycling','transit','official'].includes(mode))throw Error('Choose --mode explicitly; script cannot infer safe travel mode');
@@ -25,7 +27,7 @@ export function drivingOverviews(trip){
     const flush=()=>{if(stops.length>1){out.push({id:'overview-'+day.date+'-'+(++n),date:day.date,mode:'driving',stops:[...stops],legIds:[...legs],branch:'default'});}stops=[];legs=[];};
     for(const id of day.routeIds){
       const r=trip.routes.find(x=>x.id===id);
-      if(!r||r.mode!=='driving'||(r.branch&&r.branch!=='default')){flush();continue;}
+      if(!r||r.mode!=='driving'||r.status==='pending'||(r.branch&&r.branch!=='default')){flush();continue;}
       if(stops.length && (stops.at(-1)!==r.stops[0]||stops.length+r.stops.length-1>5))flush();
       stops.push(...(stops.length?r.stops.slice(1):r.stops));legs.push(id);
     }
@@ -55,7 +57,12 @@ export async function captureRoute(project,id,{allowPrivate=false,executablePath
   if(!r)throw Error('Unknown route');
   if(r.stops.some(id=>trip.places.find(p=>p.id===id)?.private)&&!allowPrivate)throw Error('Private addresses require --allow-private for this capture');
   const url=routeUrl(trip,r);if(!url||r.mode==='official')throw Error('Use operator guide, not a fabricated map');
-  let chromium;try{({chromium}=await import('playwright'));}catch{throw Error('Optional dependency missing: install Playwright as described in setup');}
+  if(!routePrecision(trip,r))throw Error('Route lacks registered coordinates for '+mapProvider(trip)+'; add places.location before capturing, otherwise the screenshot is only a search page');
+  let chromium;try{
+    const modulePath=process.env.TRAVEL_PLAYWRIGHT_MODULE;
+    const m=modulePath?await import(pathToFileURL(path.resolve(modulePath)).href):await import('playwright');
+    chromium=m.chromium;
+  }catch{throw Error('Optional dependency missing: install Playwright as described in setup');}
   const browser=await chromium.launch({headless:true,...(executablePath?{executablePath}:{})});
   try{
     const page=await browser.newPage({viewport:{width:1440,height:1000}});

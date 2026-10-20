@@ -1,32 +1,39 @@
 // A disposable route draft: never writes itinerary facts or computes road geometry/ETA.
-export function splitDirections(stops, mode, places) {
+import { hasLocation, amapNavigation, amapSearch, googleDirections } from './maps.mjs';
+
+export function splitDirections(stops, mode, places, provider = 'google', city = '') {
   if (!['driving','walking','bicycling','transit'].includes(mode)) throw Error('Unsupported direction mode');
   if (stops.length<2) return [];
   const resolve=id=>{
     const p=places.find(p=>p.id===id);
-    if(!p?.mapUrl||!p.address)throw Error('Missing exact registered destination: '+id);
-    const original=new URL(p.mapUrl);
-    if(original.protocol!=='https:'||!/(^|\.)google\.(com|no|se)$/.test(original.hostname))throw Error('Not a registered Google Maps point');
-    return {text:p.address,placeId:original.searchParams.get('query_place_id')};
+    if(!p?.address)throw Error('Missing exact registered destination: '+id);
+    if(provider==='google'){
+      if(!p.mapUrl)throw Error('Missing exact registered destination: '+id);
+      const original=new URL(p.mapUrl);
+      if(original.protocol!=='https:'||!/(^|\.)google\.(com|no|se)$/.test(original.hostname))throw Error('Not a registered Google Maps point');
+    }
+    return p;
   };
-  const points=stops.map(resolve),max=mode==='transit'?2:5,out=[];
+  const points=stops.map(resolve);
+  if(provider==='amap'){
+    // Amap needs real coordinates; without them only the endpoints can be searched.
+    if(!points.every(hasLocation))return [{stops:[...stops],href:amapSearch(points.at(-1).name,city),exact:false}];
+    const out=[];
+    for(let offset=0;offset<points.length-1;offset+=4)out.push({stops:stops.slice(offset,offset+5),href:amapNavigation(points.slice(offset,offset+5),mode),exact:true});
+    return out;
+  }
+  const max=mode==='transit'?2:5,out=[];
   let offset=0;
   while(offset<points.length-1){
-    let size=Math.min(max,points.length-offset),url;
+    let size=Math.min(max,points.length-offset),href='';
     while(size>=2){
-      const section=points.slice(offset,offset+size);
-      url=new URL('https://www.google.com/maps/dir/');
-      url.searchParams.set('api','1');url.searchParams.set('travelmode',mode);
-      url.searchParams.set('origin',section[0].text);url.searchParams.set('destination',section.at(-1).text);
-      if(section[0].placeId)url.searchParams.set('origin_place_id',section[0].placeId);
-      if(section.at(-1).placeId)url.searchParams.set('destination_place_id',section.at(-1).placeId);
-      if(size>2){url.searchParams.set('waypoints',section.slice(1,-1).map(p=>p.text).join('|'));
-        if(section.slice(1,-1).every(p=>p.placeId))url.searchParams.set('waypoint_place_ids',section.slice(1,-1).map(p=>p.placeId).join('|'));}
-      if(url.href.length<=2048)break;
+      href=googleDirections(points.slice(offset,offset+size),mode);
+      if(href.length<=2048)break;
       size--;
     }
     if(size<2)throw Error('Addresses exceed Google Maps URL limit; open each point separately');
-    out.push({stops:stops.slice(offset,offset+size),href:url.href});offset+=size-1;
+    out.push({stops:stops.slice(offset,offset+size),href,exact:true});
+    offset+=size-1;
   }
   return out;
 }

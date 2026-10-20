@@ -1,0 +1,12 @@
+[
+  {
+    "id":"synthetic-arrival",
+    "text":"先处理行李，再开始步行；这是合成示例，不是真实旅游结论。",
+    "kind":"recommendation","status":"supported",
+    "scope":"仅用于功能测试，不适用于现实目的地。",
+    "checkedAt":"2026-01-01","reviewAfter":"2099-01-01",
+    "wikiIds":["demo-guide"],
+    "rationale":"示例比较轻装步行和带行李游览；不代表任何真实寄存服务可用。",
+    "evidence":[{"url":"https://example.com/travel-note","title":"合成功能样本，不是旅游依据","kind":"secondary","relation":"supports","locator":"Synthetic fixture paragraph","supports":"仅检验链接、定位说明和结论关联的接线。","checkedAt":"2026-01-01"}]
+  }
+]

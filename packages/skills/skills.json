@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "version": "1.23.0",
+  "version": "1.24.0",
   "skills": [
     {
       "id": "game-presentation",
@@ -119,6 +119,18 @@
     {
       "id": "citation-management",
       "description": "按需核对学术引用元数据、解析DOI/PMID/arXiv与整理BibTeX",
+      "optional_modules": [],
+      "install_requires": []
+    },
+    {
+      "id": "design-critique",
+      "description": "按目标用户与阶段评审可用性、信息层级和一致性，给出有依据的优先建议",
+      "optional_modules": [],
+      "install_requires": []
+    },
+    {
+      "id": "design-handoff",
+      "description": "从准备实施的设计补齐布局、组件状态、边界与验收规格",
       "optional_modules": [],
       "install_requires": []
     }

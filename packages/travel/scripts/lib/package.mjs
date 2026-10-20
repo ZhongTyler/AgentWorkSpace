@@ -7,7 +7,7 @@ import { ROOT, VERSION, files, inside, hash, write, read } from './core.mjs';
 export const publicRoots=Object.freeze(['README.md','AGENTS.md','SKILL.md','00-全流程与事实分工.md','package.json','.gitignore','.gitattributes','THIRD_PARTY.md','LICENSE','LICENSE-NOTICE.md','scripts','web','skills','运行','流程','模板','examples','tests','schemas']);
 function packageBytes(file){
   const bytes=fs.readFileSync(file);
-  return /\.(md|json|mjs|js|css|txt)$/.test(file)||['LICENSE','.gitignore','.gitattributes'].includes(path.basename(file))?Buffer.from(bytes.toString('utf8').replaceAll('\r\n','\n')):bytes;
+  return /\.(md|json|mjs|js|css|html|txt)$/.test(file)||['LICENSE','.gitignore','.gitattributes'].includes(path.basename(file))?Buffer.from(bytes.toString('utf8').replaceAll('\r\n','\n')):bytes;
 }
 export function bundleFiles(root=ROOT){
   // Select before traversing. Sibling trips, profiles and runtime directories must never be read.
@@ -18,11 +18,11 @@ export function bundleFiles(root=ROOT){
   });
 }
 export function packageCheck(root=ROOT){
-  const errors=[],all=bundleFiles(root),required=['AGENTS.md','SKILL.md','运行/快速开始.md','运行/角色与步骤.md','运行/小红书安装与登录.md','运行/数据合同.md','运行/品质复现与验收.md','运行/视觉层级与全量巡检.md','skills/travel-presentation/SKILL.md','scripts/lib/quality.mjs','scripts/travel.mjs','scripts/browser-audit.mjs','web/app.js','web/editorial.css','web/hierarchy.css','tests/core.test.mjs'];
+  const errors=[],all=bundleFiles(root),required=['AGENTS.md','SKILL.md','运行/快速开始.md','运行/角色与步骤.md','运行/小红书安装与登录.md','运行/数据合同.md','运行/品质复现与验收.md','运行/视觉层级与全量巡检.md','skills/travel-presentation/SKILL.md','scripts/lib/quality.mjs','scripts/travel.mjs','scripts/browser-audit.mjs','scripts/frontend.mjs','模板/前端组件合同.json','examples/frontend/fixtures.json','examples/frontend/template.html','web/app.js','web/editorial.css','web/hierarchy.css','tests/core.test.mjs','tests/frontend-contract.test.mjs'];
   for(const p of required)if(!fs.existsSync(path.join(root,p)))errors.push('Missing '+p);
   for(const file of all){
     const rel=path.relative(root,file).replaceAll(path.sep,'/');
-    if(!/\.(md|json|mjs|js|css)$/.test(file))continue;
+    if(!/\.(md|json|mjs|js|css|html)$/.test(file))continue;
     const text=fs.readFileSync(file,'utf8');
     if(/(?<![\\\w])[A-Z]:[\\/]/i.test(text)&&!rel.startsWith('tests/'))errors.push(rel+': machine-specific path');
     if(file.endsWith('.md'))for(const m of text.matchAll(/!?\[[^\]]*\]\(([^)\n]+)\)/g)){

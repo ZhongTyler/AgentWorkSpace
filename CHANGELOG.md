@@ -1,5 +1,12 @@
 # Releases
 
+## 1.24.0 — 2026-10-20
+
+- Add independent design-critique and design-handoff selections with pinned originals, Apache-2.0 notices and portable host adapters; Skills now offers 21 methods.
+- Route review and implementation-specification gaps conditionally from meta and GamePresentation; existing workflows and optional connectors retain their authority.
+- Refresh Travel to public workflow0.5.0: design baseline, data-bound frontends, map-provider routing, live fact references and conclusion-level provenance. No private trips or cancelled independent-trial acceptance are bundled or claimed.
+- Upgrade from1.23.0 with separate package/client ownership, conflict checks and reverse recovery; no automatic module, Skill, connector or runtime activation.
+
 ## 1.23.0
 
 - Add a shared, task-triggered interface comparison method in meta: representative content, meaningful layout alternatives, and integration into real state and permissions.

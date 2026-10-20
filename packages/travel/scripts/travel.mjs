@@ -14,6 +14,9 @@ import {routeAccessReport} from './lib/route-access.mjs';
 import {intake,sourceAudit} from './lib/intake.mjs';
 import {archiveInfo} from './lib/archive-info.mjs';
 import {quality} from './lib/quality.mjs';
+import {frontendBuild,frontendCheck,frontendAudit} from './frontend.mjs';
+import {semanticAudit,claimsAudit} from './lib/semantic.mjs';
+import {prepareAcceptance,acceptanceCheck} from './acceptance.mjs';
 
 export function parse(argv){
   const [command='help',...rest]=argv,opts={};
@@ -33,6 +36,8 @@ const commands={
  capture:['project','id','network','allow-private','browser'],weather:['project','network'],
  'mcp-install':['runtime','tag','network'],'mcp-start':['runtime','port','executable','network'],'mcp-login':['runtime','endpoint','network'],'mcp-status':['runtime','endpoint'],
  'mcp-search':['project','query','runtime','endpoint','network'],'mcp-extract':['project','query','ids','runtime','endpoint','network','refresh'],
+ 'semantic-audit':['project','strict'],'claims-audit':['project','as-of','strict'],'frontend-build':['project'],'frontend-check':['project'],'frontend-audit':['project','browser'],
+ 'acceptance-prepare':['workspace','file'],'acceptance-check':['workspace'],
  'package-check':[],pack:['out'],release:['apply','out'],'verify-package':['root'],'install-skill':['workspace']
 };
 export async function run(argv){
@@ -54,6 +59,13 @@ export async function run(argv){
     case 'status':return {freshness:freshness(project()),research:researchStatus(project()).counts};
     case 'budget':return budget(loadTrip(project()));
     case 'quality':return quality(project());
+    case 'semantic-audit':{const r=semanticAudit(project());const passed=r.valid&&(!o.strict||!r.warnings.length);if(!passed)process.exitCode=1;return {...r,strict:!!o.strict,passed};}
+    case 'claims-audit':{const r=claimsAudit(project(),{asOf:o['as-of']});const passed=r.valid&&(!o.strict||!r.warnings.length);if(!passed)process.exitCode=1;return {...r,strict:!!o.strict,passed};}
+    case 'acceptance-prepare':return prepareAcceptance(path.resolve(need('workspace')),json());
+    case 'acceptance-check':{const r=acceptanceCheck(path.resolve(need('workspace')));if(!r.engineeringPassed)process.exitCode=1;return r;}
+    case 'frontend-build':{const r=frontendBuild(project());if(!r.valid)process.exitCode=1;return r;}
+    case 'frontend-check':{const r=frontendCheck(project());if(!r.valid)process.exitCode=1;return r;}
+    case 'frontend-audit':{const r=await frontendAudit(project(),{browser:o.browser});if(!r.valid)process.exitCode=1;return r;}
     case 'asset':return importAsset(project(),path.resolve(need('file')),read(path.resolve(need('metadata'))),need('target'));
     case 'candidates':return register(project(),json());
     case 'screen':return screen(project(),need('id'),need('decision'),need('reason'))||{updated:true};

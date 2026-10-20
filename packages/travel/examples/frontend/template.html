@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>合成组件测试，不是旅行网站成品</title>
+<style>:root{--background:#f5f7f7;--text:#163d46;--accent:#236878}*{box-sizing:border-box}body{margin:0;background:var(--background);color:var(--text);font-family:system-ui,sans-serif}main{max-width:55rem;padding:24px;margin:auto;overflow-wrap:anywhere}section{margin-block:24px;border-top:1px solid var(--accent)}h1{font-size:2rem}small{display:block}</style>
+</head><body><main><small>合成测试台 · 不代表已认可的设计</small><h1></h1><section id="orders"></section><section id="routes"></section><section id="weather"></section><section id="places"></section></main>
+<script type="application/json" id="trip-data">__TRAVEL_DATA__</script>
+<script>
+const data=JSON.parse(document.querySelector('#trip-data').textContent);
+document.querySelector('h1').textContent=data.title;
+document.querySelector('#orders').textContent=data.orders.some(o=>o.status==='booked')?data.orders.filter(o=>o.status==='booked').map(o=>o.title).join('、'):'暂无预订';
+document.querySelector('#routes').textContent=!data.routes.length?'暂无路线':data.routes.some(r=>r.pending)?'路线待定':'路线可查看';
+document.querySelector('#weather').textContent=data.weather.length?data.weather.map(w=>w.name+' '+(w.temperature||'已有天气快照')).join('、'):'暂无天气';
+document.querySelector('#places').textContent=data.places.map(p=>p.name+' · '+(p.address||'地址待补')).join('、');
+</script></body></html>

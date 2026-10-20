@@ -19,6 +19,10 @@ property-based-testing 的上游内容与其改编继续按 CC BY-SA 4.0 处理�
 
 Upstream property-based-testing content and adaptations remain under CC BY-SA 4.0, not MIT. Retain attribution, license links and change notices when redistributing or adapting, and follow the original license for adaptations.
 
+## Anthropic design Skills
+
+`design-critique` and `design-handoff` retain Apache-2.0 from `anthropics/knowledge-work-plugins` revision `a266ab8c3c754a3ccf7a634044fc1595fc06e50e`. Each directory includes its [critique license](packages/skills/library/design-critique/LICENSE) or [handoff license](packages/skills/library/design-handoff/LICENSE), original Skill bytes and `references/UPSTREAM.json` with source identity and changes. Original bodies and descriptions remain intact; the connector path, command-menu metadata and recipient adapter are explicitly adapted. Inclusion does not imply Anthropic endorsement or provide Figma/other connector access.
+
 ## 素材与字体 / Assets and fonts
 
 [PrototypeAssets 来源目录](packages/prototype-assets/catalog/sources.json)和[正式精选来源目录](packages/prototype-assets/catalog/formal-sources.json)逐项记录来源、许可标识与收据路径；[许可目录](packages/prototype-assets/licenses)保留许可证据。媒体文件不因装入本仓而转为 MIT。

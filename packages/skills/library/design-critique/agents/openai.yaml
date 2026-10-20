@@ -1,0 +1,5 @@
+interface:
+  display_name: "Design critique"
+  short_description: "Review usability, hierarchy and consistency"
+policy:
+  allow_implicit_invocation: true

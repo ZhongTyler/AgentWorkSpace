@@ -19,7 +19,7 @@ test('copy to clean workspace runs demo/build/tests without source workspace or 
  run('scripts/travel.mjs',['validate','--project',project]);
  run('scripts/travel.mjs',['build','--project',project]);
  const state=JSON.parse(run('scripts/travel.mjs',['status','--project',project]));assert.equal(state.freshness.build,true);
- const r=spawnSync(process.execPath,['--test',...['core','mcp','intake','route-access'].map(name=>path.join(target,'tests/'+name+'.test.mjs'))],{cwd:root,encoding:'utf8',timeout:30000});assert.equal(r.status,0,r.stdout+r.stderr);
+ const r=spawnSync(process.execPath,['--test',...['core','mcp','intake','route-access','frontend-contract','narrative','claims'].map(name=>path.join(target,'tests/'+name+'.test.mjs'))],{cwd:root,encoding:'utf8',timeout:60000});assert.equal(r.status,0,r.stdout+r.stderr);
  fs.appendFileSync(inside(target,'web/app.js'),'\n// changed after pack');
  assert.equal(verifyPackage(target).valid,false);
  assert.throws(()=>pack(target),/new directory/);

@@ -23,6 +23,7 @@
     "guides": {"type": "array","items":{"$ref":"#/$defs/idObject"}},
     "journal": {"type": "array","items":{"allOf":[{"$ref":"#/$defs/idObject"},{"properties":{"kind":{"enum":["intro","experience"]}}}]}},
     "researchCoverage": {"type": "array"},
+    "claims": {"type":"array","description":"Optional conclusion-level evidence; see 运行/结论级溯源.md","items":{"allOf":[{"$ref":"#/$defs/idObject"},{"type":"object","required":["text","kind","status","scope","checkedAt","reviewAfter","wikiIds","evidence"],"properties":{"kind":{"enum":["fact","recommendation","experience","uncertain"]},"status":{"enum":["supported","disputed","unverified"]},"wikiIds":{"type":"array","items":{"type":"string"}},"evidence":{"type":"array"}}}]}},
     "weatherLocations": {"type": "array","items":{"$ref":"#/$defs/idObject"}},
     "days": {"type": "array","items":{"type":"object","required":["date","timezone","party","city","summary","stayId","timeline","meals","routeIds","weatherIds","notes"],"properties":{"date":{"type":"string","format":"date"},"party":{"type":"integer","minimum":1},"timeline":{"type":"array"},"meals":{"type":"array"},"routeIds":{"type":"array","items":{"type":"string"}},"weatherIds":{"type":"array","items":{"type":"string"}}}}}
   },

@@ -1,6 +1,8 @@
 // Pure, adapter-driven checks. Does not fetch, edit sources, bless hashes or deploy.
+import { mapProvider, mapUrlMatches } from './maps.mjs';
 export function websiteHealth(data, { today, now = new Date().toISOString(), assetExists = () => true, sourceText = {}, regressions = [] } = {}) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(today ?? '')) throw Error('Explicit local today required');
+  const provider = data.mapProvider || data.map?.provider || mapProvider({ days: data.days, mapProvider: data.mapProvider });
   const errors = [], warnings = [];
   const add = (level, code, target, detail) => (level === 'error' ? errors : warnings).push({ code, target, detail });
   const dates = new Set(data.days.map(d => d.date));
@@ -25,7 +27,7 @@ export function websiteHealth(data, { today, now = new Date().toISOString(), ass
     if (data.journal.chapters.filter(c => c.date === day.date).length !== 1) add('error', 'journal-date', day.date, '手册缺失或重复');
   }
   for (const p of places.values()) {
-    if (p.navigation !== false && !/^https:\/\/(?:www\.)?google\.com\/maps\//.test(p.mapUrl ?? '')) add('error', 'place-map', p.id, '地点卡无有效地图点入口');
+    if (p.navigation !== false && !mapUrlMatches(p.mapUrl, provider)) add('error', 'place-map', p.id, '地点卡无有效地图点入口');
   }
   const todoIds = new Set();
   for (const t of data.todos) {

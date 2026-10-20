@@ -3,6 +3,9 @@ import { inside, uid, safeUrl, dateRange, routeHash, dayHash, hash, read } from 
 import {inspectRouteAccess} from './route-access.mjs';
 import {captureAudit} from './intake.mjs';
 import {scheduleReport} from './operations.mjs';
+import {MAP_PROVIDERS, mapProvider, mapUrlMatches, hasLocation} from './maps.mjs';
+import {inspectNarratives} from './narrative.mjs';
+import {inspectClaims} from './claims.mjs';
 
 export function validate(trip, project) {
   const errors = [], warnings = [];
@@ -11,6 +14,9 @@ export function validate(trip, project) {
   try {
     if (trip.schemaVersion !== 1) fail('schemaVersion', 'unsupported version');
     if(!trip.title||!/^[A-Z]{3}$/.test(trip.referenceCurrency||'')||!trip.rates||!trip.preferences)fail('trip','title/referenceCurrency/rates/preferences required');
+    if(trip.mapProvider!=null&&!MAP_PROVIDERS.includes(trip.mapProvider))fail('mapProvider','must be amap or google');
+    if(trip.mapCity!=null&&typeof trip.mapCity!=='string')fail('mapCity','must be text');
+    const provider=mapProvider(trip);
     const dates = dateRange(trip.start, trip.end);
     for (const key of ['places','catalog','orders','todos','routes','expenses','knowledge','shopping','guides','journal','researchCoverage','weatherLocations','days']) {
       if (!Array.isArray(trip[key])) throw Error(key + ' must be an array');
@@ -57,12 +63,21 @@ export function validate(trip, project) {
         aliases.set(key, p.id);
       }
       url(p.mapUrl, p.id);
+      if(p.location!=null){
+        if(typeof p.location!=='object'||Array.isArray(p.location))fail(p.id,'location must be an object');
+        else if(!Number.isFinite(p.location.lng)||Math.abs(p.location.lng)>180||!Number.isFinite(p.location.lat)||Math.abs(p.location.lat)>90)fail(p.id,'location needs valid lng/lat');
+      }
+      if(p.mapUrl&&!mapUrlMatches(p.mapUrl,provider))warn(p.id,'地图入口不是'+provider+'，与本次地图设置不一致');
       if (!p.review?.by || !p.review?.at || !p.review?.evidence) warn(p.id, 'exact entity/entrance not reviewed');
       if (p.photo) {
         file(p.photo.file, p.id);
         url(p.photo.source, p.id);
         if (!p.photo.caption || !p.photo.license || !p.photo.source) fail(p.id, 'photo needs caption, license and source');
       }
+    }
+    if(provider==='amap'){
+      const missing=trip.places.filter(p=>!hasLocation(p)).length;
+      if(missing)warn('map',missing+' 个地点未登记高德坐标：分段只能搜索端点，不能一键导航');
     }
     for (const c of trip.catalog) {
       if(!c.name||!c.placeId||!c.city)fail(c.id,'catalog needs name/placeId/city');
@@ -84,6 +99,10 @@ export function validate(trip, project) {
       let previousEnd = '';
       for (const t of d.timeline) {
         ref(t.placeId, placeIds, d.date); ref(t.routeId, routeIds, d.date);
+        if(t.orderId){
+          ref(t.orderId,orderIds,d.date);const booking=trip.orders.find(o=>o.id===t.orderId);
+          if(booking&&(booking.status!=='booked'||booking.date!==d.date||(booking.placeId&&booking.placeId!==t.placeId)||t.start>booking.start||t.end<(booking.end||booking.start)))fail(d.date,'timeline does not contain linked booking '+t.orderId);
+        }
         if (!/^\d\d:\d\d$/.test(t.start || '') || !/^\d\d:\d\d$/.test(t.end || '') || [t.start,t.end].some(x=>+x.slice(0,2)>23||+x.slice(3)>59) || t.end < t.start) fail(d.date, 'invalid same-day time window; split midnight');
         if ((!t.branch || t.branch === 'default') && t.start < previousEnd) fail(d.date, 'default timeline overlaps');
         if (!t.branch || t.branch === 'default') previousEnd = t.end;
@@ -112,6 +131,7 @@ export function validate(trip, project) {
     }
     for (const date of dates) if(!seenDays.has(date)) fail('days','missing date '+date);
     if(trip.days.some((d,i)=>i && d.date<trip.days[i-1].date)) fail('days','dates must be chronological');
+    let pendingLegs=0;
     for(const r of trip.routes) {
       if(!dates.includes(r.date)) fail(r.id,'route date outside trip');
       if(!Array.isArray(r.stops)||r.stops.length<2||r.stops.length>5) { fail(r.id,'use 2–5 exact stops'); continue; }
@@ -124,6 +144,8 @@ export function validate(trip, project) {
       if(r.mode==='official' && !safeUrl(r.officialUrl)) fail(r.id,'official transport needs operator URL');
       const day=trip.days.find(d=>d.date===r.date);
       if(day && !day.routeIds.includes(r.id)) warn(r.id,'route not selected by day');
+      if(r.status!=null && r.status!=='pending') fail(r.id,'unknown route status; use pending or omit');
+      if(r.status==='pending'){pendingLegs++;continue;}
       if(r.reviewedBasis && day && r.reviewedBasis!==dayHash(day)) fail(r.id,'day changed since route review');
       if(!r.reviewedBasis) warn(r.id,'day-route match needs semantic review');
       if(r.review?.routeHash&&r.review.routeHash!==routeHash(trip,r))fail(r.id,'place/mode changed since route review');
@@ -134,6 +156,7 @@ export function validate(trip, project) {
         if(r.capture.reviewed !== true) warn(r.id,'screenshot captured but not reviewed');
       } else if(r.mode!=='official') warn(r.id,'no current route screenshot');
     }
+    if(pendingLegs) warn('routes', pendingLegs+' 段路线待定：只保留当天顺序，交通方式、走向与导航链接均未定');
     for(const o of trip.orders) {
       if(!o.title||!o.category)fail(o.id,'order needs title/category');
       ref(o.placeId,placeIds,o.id); price(o.amount,o.id);
@@ -194,6 +217,12 @@ export function validate(trip, project) {
         for(const o of review.outcomes||[]) if(o.file && hash(fs.readFileSync(inside(project,o.file)))!==o.hash) warn(n.id,'Wiki edited since digestion; audit retained coverage');
       }
     }
+    const prose=inspectNarratives(trip,trip.knowledge.filter(k=>fs.existsSync(inside(project,k.path))).map(k=>({id:k.id,text:fs.readFileSync(inside(project,k.path),'utf8')})));
+    for(const e of prose.errors)fail(e.where,e.message);
+    for(const w of prose.warnings)warn(w.where,w.message);
+    const claims=inspectClaims(trip,trip.knowledge.filter(k=>fs.existsSync(inside(project,k.path))).map(k=>({id:k.id,text:fs.readFileSync(inside(project,k.path),'utf8')})),(fs.existsSync(registryFile)?read(registryFile):[]).map(r=>({...r,...(r.review?{digestion:read(inside(project,r.review))}:{})})));
+    for(const e of claims.errors)fail(e.where,e.message);
+    for(const w of claims.warnings)warn(w.where,w.message);
   } catch(e) { fail('structure',e.message); }
   return {valid:!errors.length,errors,warnings};
 }

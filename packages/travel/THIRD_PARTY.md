@@ -9,7 +9,8 @@
 |[Playwright](https://playwright.dev/)|地图截图/浏览器验收|使用者选装；不捆绑浏览器|
 |[MCP规范](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports)|HTTP/SSE接入|仅协议实现，不捆绑服务SDK|
 |[Open-Meteo](https://open-meteo.com/en/docs)|预报快照|网页保留来源；服务条款/商业用途另核，不提供无限可用保证|
-|[Google Maps URLs](https://developers.google.com/maps/documentation/urls/guide)|路线和实体链接|截图及素材使用遵守其条款，地图不是合法停车许可|
+|[Google Maps URLs](https://developers.google.com/maps/documentation/urls/guide)|境外行程的路线和实体链接|截图及素材使用遵守其条款，地图不是合法停车许可|
+|[高德地图 URI API](https://lbs.amap.com/api/uri-api/guide/travel/route)|国内行程的地点入口与分段导航|仅生成跳转链接，不调用收费接口、不批量抓取；坐标需为GCJ-02|
 |[Humanizer-zh](https://github.com/op7418/Humanizer-zh)|可选中文文案编辑规则|固定版本见[来源记录](skills/humanizer-zh/SOURCE.md)；MIT许可与版权原样保留，不运行上游测试或把它当事实核验器|
 
 内容研究和图片再传播权是两件事。原始笔记保留链接并限制在获准用途；配图需要实际使用权。下载不创造转载许可。上游在线规则会变化，使用时按实际页面复查。

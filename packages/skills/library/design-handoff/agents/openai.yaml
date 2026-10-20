@@ -1,0 +1,5 @@
+interface:
+  display_name: "Design handoff"
+  short_description: "Turn a ready design into a developer spec"
+policy:
+  allow_implicit_invocation: true

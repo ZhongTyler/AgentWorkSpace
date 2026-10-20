@@ -123,3 +123,5 @@ UI若选择生图→切图→导入，需把采用样张的各个可见组成映
 每个切片写入受影响的宿主文档并提交恢复点；未采用草案与替代素材不伪装为正式资源。更新/回退须检查所有权和当前哈希。
 阶段交付及实际反例触发时，先区分项目局部问题、资源处理错误、分析不足和服务介入遗漏，再沿所属协议学习；已有复盘复用，不重复创建台账。复盘以具体错误、返工、遗漏和验收证据修正工作流；一项目通过只支持本项目范围。可迁移操作再提炼薄 Skill，引用本文件，不复制第二份 SSOT。
 完成报告分别给出工程通过、项目效果认可和通用性待观察；制作人尚未验收时工作单保持待验收。
+
+已有设计稿需要评审可用性、层级或一致性时，按需使用可发现的 `design-critique`；准备实施而当前切片缺布局、组件状态或边界规格时，使用 `design-handoff`。两项可从Skills包分别选装，或沿宿主等价方法完成；未安装时也可读取[固定评审入口](https://github.com/ZhongTyler/AgentWorkSpace/blob/v1.24.0/packages/skills/library/design-critique/SKILL.md)和[固定交付入口](https://github.com/ZhongTyler/AgentWorkSpace/blob/v1.24.0/packages/skills/library/design-handoff/SKILL.md)。结果回到宿主已有规格与任务记录；区分实测、提案和未知，按实际引擎映射输入与控件。既定小修直接执行，评审不自动授权改版，不要求meta、Tools、Figma或其他Skill。

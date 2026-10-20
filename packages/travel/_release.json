@@ -1,10 +1,10 @@
 {
   "component_id": "travel",
-  "file_count": 110,
-  "generated_at": "2026-10-11T18:30:44+08:00",
+  "file_count": 131,
+  "generated_at": "2026-10-20T23:13:41+08:00",
   "generator_version": "3.0.0",
-  "manifest_sha256": "f621cb393742fef557ed2bff108a33545f1c3b163b972856d782ed929bc30742",
+  "manifest_sha256": "c35256098eee10b6a0a61171318a5f5dcd6456525eebb61acd14992d787ca9a6",
   "preview": false,
   "release_schema": 1,
-  "source_revision": "52d1cf8fd85ff0602b5efe4013db94b1979c3b63"
+  "source_revision": "e4b445be6a072af7bb99af8ae6d562b57a5a085f"
 }

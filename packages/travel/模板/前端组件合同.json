@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "baseline": "draft-1",
+  "template": "frontend/template.html",
+  "output": "frontend/index.html",
+  "spec": "frontend/DESIGN-SPEC.md",
+  "fixtures": "frontend/fixtures.json",
+  "tokenFile": "frontend/template.html",
+  "tokens": ["--background", "--text", "--accent"],
+  "bindings": [
+    {"id":"trip-title","component":"page-heading","source":"title","projection":"title","transform":"identity","required":true,"maxChars":120,"multiline":false},
+    {"id":"order-status","component":"orders","source":"orders[].status","projection":"orders[].status","transform":"identity","required":true},
+    {"id":"route-pending","component":"routes","source":"routes[].status","projection":"routes[].pending","transform":"pending"},
+    {"id":"weather","component":"weather","projection":"weather","transform":"derived"}
+  ],
+  "widths": [320,390,1440],
+  "views": [
+    {"hash":"#overview","checks":[{"selector":"h1","count":1,"visible":true}]}
+  ]
+}

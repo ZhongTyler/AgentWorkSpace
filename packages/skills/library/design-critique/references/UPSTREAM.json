@@ -1,0 +1,15 @@
+{
+  "repository": "anthropics/knowledge-work-plugins",
+  "revision": "a266ab8c3c754a3ccf7a634044fc1595fc06e50e",
+  "source_url": "https://github.com/anthropics/knowledge-work-plugins/blob/a266ab8c3c754a3ccf7a634044fc1595fc06e50e/design/skills/design-critique/SKILL.md",
+  "original_sha256": "3a4f260eb9f60b431782bf6d90f22afb480c0c67860267a032df58a3e1bd19cd",
+  "original_file": "SKILL.original.txt",
+  "license": "Apache-2.0",
+  "license_sha256": "a6946284993aeec75c7d75906064b66210c46051e562077efb30eb6dcfe72e26",
+  "changes": [
+    "Remove Claude argument-hint metadata",
+    "Carry the original connector reference locally",
+    "Add the portable host adapter pointer and implicit-selection metadata"
+  ],
+  "maintenance": "Tools owns the pinned originals; this directory is a generated public projection"
+}

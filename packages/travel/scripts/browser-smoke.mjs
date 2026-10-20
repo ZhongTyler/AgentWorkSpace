@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import {pathToFileURL} from 'node:url';
 import {createRequire} from 'node:module';
 import {inside,loadTrip,write,now,hash,inputHash} from './lib/core.mjs';
+import {mapProvider,hasLocation} from './lib/maps.mjs';
 
 const args=process.argv.slice(2),value=k=>{const i=args.indexOf('--'+k);return i<0?undefined:args[i+1];};
 const require=createRequire(import.meta.url);
@@ -57,7 +58,7 @@ try{
    if(route&&route.mode!=='official'){
      const original=await page.locator('.draft-stops li>.place').allTextContents();
      if(original.length>1){await page.locator('[data-draft-move="0"][data-delta="1"]').click();assert.equal((await page.locator('.draft-stops li>.place').allTextContents())[1],original[0]);await page.reload();assert.equal((await page.locator('.draft-stops li>.place').allTextContents())[1],original[0]);await page.locator('[data-draft-reset]').click();assert.deepEqual(await page.locator('.draft-stops li>.place').allTextContents(),original);}
-     const allExact=route.stops.every(id=>{try{return /(^|\.)google\.(com|no|se)$/.test(new URL(trip.places.find(p=>p.id===id).mapUrl).hostname);}catch{return false;}});
+     const allExact=mapProvider(trip)==='amap'?route.stops.every(id=>hasLocation(trip.places.find(p=>p.id===id))):route.stops.every(id=>{try{return /(^|\.)google\.(com|no|se)$/.test(new URL(trip.places.find(p=>p.id===id).mapUrl).hostname);}catch{return false;}});
      assert.equal(await page.locator('.draft-links a').count()>0,allExact);
      await page.locator('[data-draft-add]').click();assert.equal(await page.locator('.draft-stops li').count(),original.length+1);await page.locator('[data-draft-remove]').last().click();assert.equal(await page.locator('.draft-stops li').count(),original.length);
    }

@@ -1,0 +1,22 @@
+[
+  {
+    "id":"has-data","state":"populated",
+    "patch":{"orders":[{"title":"合成预订","status":"booked"}],"routes":[{"pending":false}],"weather":[{"name":"合成城市","temperature":"10–18°C"}]},
+    "views":[{"hash":"#overview","checks":[{"selector":"#orders","includes":"合成预订"},{"selector":"#orders","excludes":"暂无预订"},{"selector":"#routes","includes":"路线可查看"},{"selector":"#routes","excludes":"路线待定"},{"selector":"#weather","includes":"10–18°C"},{"selector":"#weather","excludes":"暂无天气"}]}]
+  },
+  {
+    "id":"no-data","state":"empty",
+    "patch":{"orders":[],"routes":[],"weather":[]},
+    "views":[{"hash":"#overview","checks":[{"selector":"#orders","includes":"暂无预订"},{"selector":"#routes","includes":"暂无路线"},{"selector":"#weather","includes":"暂无天气"}]}]
+  },
+  {
+    "id":"missing-fields","state":"missing",
+    "patch":{"places":[{"id":"synthetic","name":"合成地点"}],"routes":[{"pending":true}]},
+    "views":[{"hash":"#overview","checks":[{"selector":"#places","includes":"地址待补"},{"selector":"#routes","includes":"路线待定"}]}]
+  },
+  {
+    "id":"long-heading","state":"long-text",
+    "patch":{"title":"合成长标题：海岸与山谷之间的一次慢旅行 / A-long-unbroken-place-name-for-small-screens"},
+    "views":[{"hash":"#overview","checks":[{"selector":"h1","includes":"合成长标题"}]}]
+  }
+]
