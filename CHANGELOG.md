@@ -1,5 +1,12 @@
 # Releases
 
+## 1.22.1
+
+- Update only Research's protocol v0.10, thin study entry, report template and introduction.
+- Evaluate original direct use and complete delivery value alongside thin adaptation, reimplementation and non-adoption; preserve version/license/resource and full-cost evidence.
+- Distinguish saved sources, installation, host discovery, actual consumption, project adoption and measured benefit. Route to selected external methods only when available and relevant.
+- Exclude private research, experiments and client Skill installations; preserve all other packages, recipient data, accounts and schedules.
+
 ## 1.21.1
 
 - Update only Research's protocol, thin research-study entry, report template, proactive guide and package introduction.
