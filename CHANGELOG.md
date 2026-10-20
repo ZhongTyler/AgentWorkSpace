@@ -1,5 +1,13 @@
 # Releases
 
+## 1.23.0
+
+- Add a shared, task-triggered interface comparison method in meta: representative content, meaningful layout alternatives, and integration into real state and permissions.
+- Update workflow-redesign, reference-deconstruction and game-presentation routes; keep 19 selectable Skills and preserve the distinction between case evidence, inferred mechanisms and measured benefit.
+- Provide optional manual hooks for existing frontend-design and prototype installations without redistributing or modifying third-party Skills.
+- Preserve the other ten component file maps, recipient data, host authority and separate package / selected-Skill upgrade transactions. No fixed three-variant requirement or additional approval gate.
+- Fix the historical citation-upgrade test to use its real release, retaining the declared-predecessor version protection.
+
 ## 1.22.1
 
 - Update only Research's protocol v0.10, thin study entry, report template and introduction.

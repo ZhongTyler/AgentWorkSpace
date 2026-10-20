@@ -72,6 +72,7 @@ class CitationReleaseTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix='citation-upgrade-') as temporary:
             base = Path(temporary)
             old = published_bundle(ROOT, '1.21.1', base / 'old')
+            release = published_bundle(ROOT, '1.22.0', base / 'release')
             host = base / 'host'
             self.assertTrue(w.install(old, host, 'init', ['skills'], True, mode='compatible')['applied'])
             self.assertTrue(self.skill(host, 'codex', 'install', '--names', 'dual-layer-explainer', '--apply', bundle=old)['applied'])
@@ -79,23 +80,26 @@ class CitationReleaseTests(unittest.TestCase):
             prior = entry.read_bytes()
             private = host / 'private.md'
             private.write_bytes(b'USER DATA')
-            intermediate = advance_to_predecessor(ROOT, host, base / 'steps')
-            package = w.install(ROOT, host, 'upgrade', [], True)
+            # This introduces citations in 1.22.0. A later library has a new
+            # declared predecessor; jumping a selected Skill directly to latest
+            # would test an invalid chain instead of this historical transition.
+            intermediate = advance_to_predecessor(release, host, base / 'steps', history_repository=ROOT)
+            package = w.install(release, host, 'upgrade', [], True)
             self.assertTrue(package['applied'])
             self.assertFalse((host / '.agents/skills/citation-management').exists())
             self.assertEqual(prior, entry.read_bytes())
-            selected = self.skill(host, 'codex', 'upgrade', '--apply')
+            selected = self.skill(host, 'codex', 'upgrade', '--apply', bundle=release)
             self.assertTrue(selected['applied'])
-            addition = self.skill(host, 'codex', 'install', '--names', 'citation-management', '--apply')
+            addition = self.skill(host, 'codex', 'install', '--names', 'citation-management', '--apply', bundle=release)
             new_entry = host / '.agents/skills/citation-management/SKILL.md'
             clean = new_entry.read_bytes()
             new_entry.write_bytes(clean + b'\nUSER EDIT')
-            self.assertTrue(self.skill(host, 'codex', 'rollback', '--transaction', addition['transaction'], '--apply', success=False)['conflicts'])
+            self.assertTrue(self.skill(host, 'codex', 'rollback', '--transaction', addition['transaction'], '--apply', bundle=release, success=False)['conflicts'])
             self.assertEqual(clean + b'\nUSER EDIT', new_entry.read_bytes())
             new_entry.write_bytes(clean)
-            self.assertTrue(self.skill(host, 'codex', 'rollback', '--transaction', addition['transaction'], '--apply')['applied'])
+            self.assertTrue(self.skill(host, 'codex', 'rollback', '--transaction', addition['transaction'], '--apply', bundle=release)['applied'])
             self.assertFalse(new_entry.exists())
-            self.assertTrue(self.skill(host, 'codex', 'rollback', '--transaction', selected['transaction'], '--apply')['applied'])
+            self.assertTrue(self.skill(host, 'codex', 'rollback', '--transaction', selected['transaction'], '--apply', bundle=release)['applied'])
             self.assertTrue(w.rollback(host, package['transaction'], True)['applied'])
             rollback_history(host, intermediate)
             self.assertEqual('1.21.1', w.state(host)['version'])

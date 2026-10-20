@@ -15,3 +15,13 @@
 ```
 
 [固定版本字体参考](https://github.com/ZhongTyler/AgentWorkSpace/blob/v1.19.0/packages/skills/library/game-presentation/references/font-selection.md)。这份参考不要求启用整个Skill或安装game-presentation包。手工路由与选定Skill、package分别恢复，撤销只移除自己新增的片段，保留原正文与后续修改；安装器不改外部frontend-design，也不安装字体或加入资产下载白名单。
+
+## 可选界面比较入口
+
+当新界面或重要改版的布局、层级或主要操作仍需选择时，可把以下短入口合并到现有任务路由；已有同义入口直接复用。
+
+```text
+先明确使用者任务、必须保留的行为与主要取舍，建立视觉方向，再用相同代表内容比较少量有结构差异的可操作原型。明确方案和局部修复直接执行。正式采用须接回真实组件、状态和权限；模拟动作标明，原型可点击不等于正式功能贯通。
+```
+
+完整方法优先读宿主等价入口；有 meta 时读 collaboration/interface-design.md，兼容模式读 modules/meta/collaboration/interface-design.md，否则读[固定版本方法](https://github.com/ZhongTyler/AgentWorkSpace/blob/v1.23.0/meta/workspace/collaboration/interface-design.md)。原型可选使用已有 prototype；[prototype 的接线边界](prototype.md)另列。此入口与上面的字体、交互入口可并存，按缺口选择。安装器不修改第三方 Skill；手动接线前保留自己的恢复点，撤销时只移除本次片段，保留正文、许可、字体/交互路由与后续改动。

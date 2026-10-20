@@ -35,3 +35,7 @@ python scripts/skills.py rollback --target <workspace> --transaction <transactio
 `dual-layer-explainer`按机制理解缺口触发：算法、协议、检索、推断/信息缺失、资源与交接过程均可按需解释；可操作模型应让操作、画面与读数共用计算，区分合成输入、示教特征、规则与真实模型，并给出条件、反例和恢复。可按问题选择Tools包中的Anatomy交互解释。Tools与客户端Skill各自可选；工具不在本包复制，未配置时继续文字/简图。先准备包外Tools home并显式恢复，再按需制作；学习收益与视频制片另行判断。
 
 `citation-management` 提供学术标识符解析、元数据核对、BibTeX 格式化与去重。8 个脚本、引用、模板与 MIT 许可完整交付；安装器本身仍只需 Python 标准库。离线格式化无需第三方库；联网解析/检索脚本按需需要 requests，Google Scholar 另可选 scholarly，安装本包不会安装这些依赖或保证服务可用。只核对元数据不证明论文支持某项论断，实质结论仍需阅读相关原文。来源快照及本地适配见该 Skill 的 references/UPSTREAM.json；不声称上游最新版或引用质量已获评测。
+
+界面布局与信息主次仍有实质取舍时，可沿 meta 的共用界面比较方法使用代表内容、适量方案和真实接入；未装 meta 可由[可选 frontend 接线](integrations/frontend-design.md)读取固定版本方法。[已有 prototype 的宿主接线](integrations/prototype.md)与第三方原 Skill 分开维护，不随包安装或自动改写。明确设计与局部修复直接执行，不要求每次比较三稿。
+
+`workflow-redesign`补充产品复用的保留/改造/新增范围及多阶段材料状态，`reference-deconstruction`把案例事实、候选方法与未来任务入口连接起来。GamePresentation 可按 UI 缺口引用同一方法。工程可达与升级验证不等于长期效果已测得。

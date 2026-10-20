@@ -20,3 +20,5 @@ description: 按用途推进游戏美术、UI、动画和音效资源准备、�
 界面状态、选择焦点、布局切换、拖拽或交互动效命中当前任务时，按需加载可发现的 `interaction-design`，或读取[固定版本交互方法入口](https://github.com/ZhongTyler/AgentWorkSpace/blob/v1.17.0/packages/skills/library/interaction-design/SKILL.md)；已有宿主等价规范也可复用。保持稳定对象身份、选择和焦点，快速重复/反向输入服从最新状态，验证取消恢复、实际输入替代和减少运动。不因资产制作加载整套网页流程，也不要求安装Skills包。
 
 中文字体新增/替换、缺字、数字可读性或字体嵌入交付时，按需读[字体选型](references/font-selection.md)。猫啃用于发现，作者具体版本与原许可用于核查，再沿宿主资产流程验证；已有字体足够时复用，不批量下载或自动安装。网页可只读取该参考，不必加载完整游戏工作流。
+
+新页面或重要改版中，信息主次、布局或主要操作仍需选择时，沿宿主等价方法，或 meta 的 `collaboration/interface-design.md`（兼容模式为 `modules/meta/collaboration/interface-design.md`），或[固定版本界面比较方法](https://github.com/ZhongTyler/AgentWorkSpace/blob/v1.23.0/meta/workspace/collaboration/interface-design.md)。用代表内容与统一视觉方向比较必要的结构取舍，再接回真实状态和权限；已确定方案或小修直接执行。`frontend-design`、`prototype` 与交互方法只按实际缺口选择，不隐式安装、另加审批或要求加载整套网页工作流。
