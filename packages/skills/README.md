@@ -41,3 +41,5 @@ python scripts/skills.py rollback --target <workspace> --transaction <transactio
 `workflow-redesign`补充产品复用的保留/改造/新增范围及多阶段材料状态，`reference-deconstruction`把案例事实、候选方法与未来任务入口连接起来。GamePresentation 可按 UI 缺口引用同一方法。工程可达与升级验证不等于长期效果已测得。
 
 `design-critique`在有稿待评审时使用，`design-handoff`在设计准备进入实现且规格仍有缺口时使用；小修不必额外生成整套文档。两项均保留固定上游原件、Apache-2.0许可、完整连接器参考和薄适配，可脱离meta、Tools和其他Skill使用。截图无法证明隐藏状态或精确尺寸；连接器与外发权限按宿主决定，安装不会连接服务或自动修改设计。私人试验、预览和运行收据不随库分发，当前材料不证明跨项目质量或长期省工。
+
+`interaction-design`增加按任务选择的八类交互配方，以及实际校验、焦点返回、错误字段定位和取消恢复的检查。按当前问题只读命中主题，不强制整套流程；不依赖作者的私人专项参考或额外工具。

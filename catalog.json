@@ -413,7 +413,7 @@
       ],
       "source": "packages/brainstorm",
       "source_revision": "e4d7f2322f32412a9538ddf8dc6fca994ca9e5ca",
-      "version": "1.24.0"
+      "version": "1.25.0"
     },
     "fromdemotospec": {
       "destination": "modules/fromdemotospec",
@@ -489,7 +489,7 @@
       ],
       "source": "packages/fromdemotospec",
       "source_revision": "e4f70edf169526f4d57725c692fc42d300003ab9",
-      "version": "1.24.0"
+      "version": "1.25.0"
     },
     "game-analysis-decision": {
       "destination": "modules/game-analysis-decision",
@@ -576,7 +576,7 @@
       "required": [],
       "source": "packages/game-analysis-decision",
       "source_revision": "0693c5030d33fd2e22ed66295e5e05d5be23c534",
-      "version": "1.24.0"
+      "version": "1.25.0"
     },
     "game-presentation": {
       "destination": "modules/game-presentation",
@@ -620,7 +620,7 @@
       "required": [],
       "source": "packages/game-presentation",
       "source_revision": "9233c69ae3e441afd954b2c12b4256bbbbe83502",
-      "version": "1.24.0"
+      "version": "1.25.0"
     },
     "game-project": {
       "destination": "modules/game-project",
@@ -717,7 +717,7 @@
       "required": [],
       "source": "packages/game-project",
       "source_revision": "60b77e08f0f60f03a84ee8423f8904ae72822c4f",
-      "version": "1.24.0"
+      "version": "1.25.0"
     },
     "knowledge": {
       "destination": "modules/knowledge",
@@ -856,7 +856,7 @@
       ],
       "source": "packages/knowledge",
       "source_revision": "a92522f8d5123bebf4a47dcfbdba90a720289de0",
-      "version": "1.24.0"
+      "version": "1.25.0"
     },
     "meta": {
       "destination": "",
@@ -901,7 +901,7 @@
       "required": [],
       "source": "meta/workspace",
       "source_revision": "0e8469a680f44ec025274cbe763be2f7c801e240",
-      "version": "1.24.0"
+      "version": "1.25.0"
     },
     "prototype-assets": {
       "destination": "modules/prototype-assets",
@@ -1195,18 +1195,18 @@
       "required": [],
       "source": "packages/prototype-assets",
       "source_revision": "5abe108be291076b4e44717d17c740fca230c8e7",
-      "version": "1.24.0"
+      "version": "1.25.0"
     },
     "research": {
       "destination": "modules/research",
       "files": {
-        ".agents/skills/research-study/SKILL.md": "7c210293ecaea1fc8d28ca106f149df58a072fa34903c1791fd61550a8e6830b",
+        ".agents/skills/research-study/SKILL.md": "2bd9655bf6b1103119054d8750f9824159ef634b8312d3698b9b6c6c4a37b545",
         "AGENTS.md": "d95ee9f26a93102cb32d3b3f3d74681fa368286c139e1d62ff4be8651aa6236b",
         "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
         "LICENSE-NOTICE.md": "15cd4ccbc67b328e368766cbbd8a3f69fc490406cfa8df16535f21825add0db8",
         "README.md": "29850cf3502e7dc93e52bf8f9988fb0ab1a15e00822d2d072f7ff5959d2a5f0e",
-        "RESEARCH_PROTOCOL.md": "61c1cd61616c3f79fb1c43117ce53b002fc32c753f19d07a94d664b0d8730535",
-        "_release.json": "b436702f353dcc68b5747e4f7cb34114926f76fce14a0548313e255e8427188a",
+        "RESEARCH_PROTOCOL.md": "da49b18ddd584539f6cb2e42e286ec7151a0cfd0d76bd701d749378dbd69baf8",
+        "_release.json": "4f2f89386358d75f24f1945898554d3915292180b00702c4b1356c2e9d95ed34",
         "game-research/README.md": "350021842fd9918c300dcfc9e8a1373d7ddf68f4e65b669d2d7e5ac64e354ffd",
         "game-research/development-support.md": "c58fbee65927a2365b5e99a5fec67a5d4e5b6dd2e8a98e30f65660f187127a21",
         "game-research/media-capture.md": "3b545556365e6a92c50623ecd59037fe172083e33627a1e9a6aab973b3e07aa6",
@@ -1311,7 +1311,7 @@
         "reference-library/prepare_home.py": "6adc6ac910d58194b5bdc1e34ad61ea75eedf1cb4d4f469b6cc26fdf90e0e93e",
         "sources.json": "7ac6c2a5154590d81aa1d76122540b754032dae0a8ad31c31272449082d8c39f",
         "templates/decision-model-policy.md": "ebee1f65e4db11fc44946ec6ecdb1a5844922a5b5d1ed9bedf036e7a891829a8",
-        "templates/research-note.md": "51510ab0fd89285c82d5bb82069849afa12213c66ead471ffba02f4a693c6306",
+        "templates/research-note.md": "839bb04e69ec6192a151d836d6481f0d9aeffc2ced815cc8d0d2e87f2a5524ff",
         "templates/tool-storage.md": "fe540623a5ef4f323b0968983d509191e07f460f3f95ce71ac4b82b2bcfc580a",
         "templates/validation-candidate.md": "4103ba17a92b6a2b437346f521168cf4f62b58cc66522238f4b1c4e0812dbe54",
         "validation/README.md": "9e5c1d5be06fb4bdea6e14461586efcd8aa40aee56aba2a781c74dc9063263a3"
@@ -1327,17 +1327,17 @@
       ],
       "required": [],
       "source": "packages/research",
-      "source_revision": "1e2321dfe9ae00e53a79cbdbc41b9930cd6f6415",
-      "version": "1.24.0"
+      "source_revision": "9017aa70a332d9cc2b8fa112df41722aef45e305",
+      "version": "1.25.0"
     },
     "skills": {
       "destination": "modules/skills",
       "files": {
         ".gitattributes": "8b7d05e308c8b3f2674f6f7311520f9b2421bccbec7d6abdcd79192d8fd99535",
         "AGENTS.md": "c4d351aac39a83e5b0595a1f51f2316b8a581ae6abb70ba7f875c6e7e32db1d1",
-        "README.md": "7c243ed190efd40ff01d52049715724eae86cc78f61af2bb1dc589eccf6d9c72",
-        "_release.json": "7c379ff9c328d63b27dbeee8fef4fbf729c4fd5eaaaa77156719aa3dc906def1",
-        "catalog.json": "d7e06c4e4df5f34b6fca49a7d1815eb8e3ff7a9b47f993342d335ef71cfa4351",
+        "README.md": "f710e94d4ef40348fea168e08d0c04c643e57d217199ce0b8943886d6e2e03d1",
+        "_release.json": "4a4ed1191b26379f2d5420029d146dc466780e1227d087ab5c68997d15052d60",
+        "catalog.json": "433d2af2b72a4fec7368193a004e67e686817bf8596b14f93e9d11a6dec96b36",
         "integrations/frontend-design.md": "2d38446f0e8934c15162e0390997454a375052778d9be884ff624c8b3fecb11e",
         "integrations/prototype.md": "01d28a79b24ad055774913659960377c9f3986e59cf4248aaf1cda15e1cef90e",
         "library/agent-blind-eval/SKILL.md": "10d8580707534354eb22f6c1a9ccb86be19fa7587ecdeed6efd43abe81f8d3fe",
@@ -1395,8 +1395,9 @@
         "library/humanizer-zh/SKILL.md": "9b07aa76be9885405f78749bf5d808292f43c283dd43644b2cbc17b8e71f00ac",
         "library/humanizer-zh/references/LICENSE": "aa00e74769e1b9d8e7fa7094dbfcca9b129a0ded6dce1cf4da050b99146d2fa7",
         "library/humanizer-zh/references/UPSTREAM.md": "100ceb8c078468179585e4a085c0bd8edd8b2e1f43814b9c73ac5917039bd8e8",
-        "library/interaction-design/SKILL.md": "968e2a5f7f24ce242fa549537c40e6cfbc2d52c174b87bf6b1c916cdedd64fda",
-        "library/interaction-design/references/interaction-method.md": "659498c4bf76ccf4494cb821d47f9b9304fa166fd7a17dedea3f43c5ff295ff6",
+        "library/interaction-design/SKILL.md": "3c340c99624633323e9b58ddbb4ad5ee99ab0c0881601ac91beb978438f80c6c",
+        "library/interaction-design/references/interaction-method.md": "7c46bd8fad41d6d7a244c370ab160ef1652eb561ebedb75228a6a66e31911dac",
+        "library/interaction-design/references/interaction-patterns.md": "928331a9d3b0a5dfd714c0bf2a246643bc8fd88a1a62034eaf88e8b9ec696706",
         "library/problem-clarifier/SKILL.md": "946cb75bfc29032e73f0a2ff517b14e149dad0c141f5837795408d55a0275062",
         "library/property-based-testing/SKILL.md": "5bfa9a87dbefc85f5c2a3666da2932ef6ae38c1b4b1bffd8a08e43d1259542dc",
         "library/property-based-testing/references/LICENSE": "7abe19ec9bb73b36141b999b861d24ad855e808bafe0f81e84cce28556f6c297",
@@ -1419,7 +1420,7 @@
         "library/workflow-redesign/references/delivery-and-validation.md": "3c59aa20d75780e4a755f3d65c9c563e64ebe7793d3a4ff3a869e5d7329ab134",
         "scripts/_runtime.py": "227ee4d4b9a1f782acf5a6f184fa53516665b193036b90ee04db59376ce87098",
         "scripts/skills.py": "6a5580c901a39762d2406ea8294c48f6b88e967ae89f4eba9671fb06853a42c9",
-        "skills.json": "39a3a86052d3ef83085fce86fd50aa230a66a91d7e67200460679d07b0727aa0",
+        "skills.json": "1461616fdb38e79da5de6d9edf4c0dafe76e4a8ceebcadc562b69a1b9ae2ba5f",
         "upgrades/1.12.0.md": "8aa10c1accdacf5831d0039023352f089ff20ef96ea4afddcb8c7b661408f087",
         "upgrades/1.14.0.md": "a031d0b5ee02a57f28e0e23c648c86a537fff72af1065858e496fde4bd88a0d6",
         "upgrades/1.14.1.md": "f654279a97a3e38b1da6b5e950e63ea232d78e89acf7ecce8cda177d4d32a18c",
@@ -1432,6 +1433,7 @@
         "upgrades/1.22.0.md": "527c578601fda5c2aeeb4624a397565b307dafceaedac805ffc6049f6344095e",
         "upgrades/1.23.0.md": "8990ac27ff1348066dca6ae72c19accdd137f132105a40e4c66715a18146812b",
         "upgrades/1.24.0.md": "acdb7477c6152c61a57b74bd002cf4f946a96e066250bb65bc3647379f976671",
+        "upgrades/1.25.0.md": "bb04c3d5568911d59b5be4057dae932f65608eba8f50d2bbf90ff2361b858581",
         "upgrades/1.3.0.md": "927cf0f66766df0d59fd6a34ba2dc3e1b5077e86d9ce9f501e38ba6a3198eab1",
         "upgrades/1.3.1.md": "f1a732b8b2f81b82124cc9bbb03a930e7b16ae24f67758a5acb9ccc798743216",
         "upgrades/1.8.0.md": "2d31b383f84b1871f539c82c142a0e9370d184251509c57d7519a959a42a8894"
@@ -1447,8 +1449,8 @@
       ],
       "required": [],
       "source": "packages/skills",
-      "source_revision": "9233c69ae3e441afd954b2c12b4256bbbbe83502",
-      "version": "1.24.0"
+      "source_revision": "9ee9e0e25009cf587a74cbf76879571d931621ed",
+      "version": "1.25.0"
     },
     "tools": {
       "destination": "modules/tools",
@@ -1633,7 +1635,7 @@
       "required": [],
       "source": "packages/tools",
       "source_revision": "2f034efe1d3434dd84e4d2f8547cfb4555449d0c",
-      "version": "1.24.0"
+      "version": "1.25.0"
     },
     "travel": {
       "destination": "modules/travel",
@@ -1778,10 +1780,10 @@
       "required": [],
       "source": "packages/travel",
       "source_revision": "e4b445be6a072af7bb99af8ae6d562b57a5a085f",
-      "version": "1.24.0"
+      "version": "1.25.0"
     }
   },
-  "previous_version": "1.23.0",
+  "previous_version": "1.24.0",
   "schema_version": 1,
-  "version": "1.24.0"
+  "version": "1.25.0"
 }

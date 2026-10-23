@@ -59,6 +59,8 @@ class DesignTravelRelease(unittest.TestCase):
     def test_real_predecessor_upgrade_and_reverse_preserve_trip_and_host(self):
         with tempfile.TemporaryDirectory(prefix='design-travel-upgrade-') as temp:
             base = Path(temp); old = published_bundle(ROOT, '1.23.0', base / 'old')
+            # This historical delta stays bound to its immutable release.
+            release = published_bundle(ROOT, '1.24.0', base / 'release')
             for mode in ['full', 'compatible']:
                 with self.subTest(mode=mode):
                     host = base / mode; host.mkdir()
@@ -70,7 +72,7 @@ class DesignTravelRelease(unittest.TestCase):
                     retained = {p: p.read_bytes() for p in [private, external, host / 'AGENTS.md']}
                     self.pick(host / 'modules/skills', host, 'codex', 'install', '--names', 'game-presentation', '--apply')
                     old_skill = (host / '.agents/skills/game-presentation/SKILL.md').read_bytes()
-                    update = w.install(ROOT, host, 'upgrade', [], True); self.assertTrue(update['applied'])
+                    update = w.install(release, host, 'upgrade', [], True); self.assertTrue(update['applied'])
                     self.assertEqual('0.5.0', json.loads((host / 'modules/travel/package.json').read_text())['version'])
                     self.assertEqual(old_skill, (host / '.agents/skills/game-presentation/SKILL.md').read_bytes())
                     self.assertFalse((host / '.agents/skills/design-handoff').exists())

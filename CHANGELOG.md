@@ -1,5 +1,11 @@
 # Releases
 
+## 1.25.0 — 2026-10-23
+
+- Extend interaction-design with eight task-selected recipe groups, actual validation states, field recovery and focus restoration. Keep21 selectable Skills and existing optional dependencies.
+- Update Research to protocol0.11: preserve both knowledge and tool harvests, traceable destinations and paused-ingestion boundaries. Exclude maintainer-only intake and source-management routing.
+- Keep package and selected-client upgrades separate, with local-edit conflict checks and reverse recovery from1.24.0. No automatic runtime, service, ingestion or scheduling.
+
 ## 1.24.0 — 2026-10-20
 
 - Add independent design-critique and design-handoff selections with pinned originals, Apache-2.0 notices and portable host adapters; Skills now offers 21 methods.

@@ -2,6 +2,8 @@
 
 [简体中文](README.md) | **English**
 
+This release adds task-selected interaction recipes and separate knowledge/tool research harvests. See [1.25.0 changes and recovery](upgrades/1.25.0.md); no tool or ingestion is enabled automatically.
+
 **Set up a lasting workspace for AI agents, or extend an existing project: keep your rules and add the collaboration methods, skills and modules you need.**
 
 An ongoing project often means repeating rules, organizing context, choosing methods and leaving useful outputs for the next task. AgentWorkSpace packages these practices as installable, upgradable files and tools that an agent reads and uses when the task calls for them.
