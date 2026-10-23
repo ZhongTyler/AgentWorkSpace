@@ -10,6 +10,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $Utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+. (Join-Path $PSScriptRoot 'presentation-inline-integrity.ps1')
 
 function Get-FullPath {
     param([Parameter(Mandatory = $true)][string]$Path)
@@ -159,7 +160,16 @@ try {
                 if (-not (Test-Path -LiteralPath $proofPath -PathType Leaf) -or (Get-Sha256 $proofPath) -ne [string]$proof.sha256) { throw 'Offline provenance missing or changed' }
             }
         }
-        Write-Output (@{ schema_version = 1; mode = 'offline-verify'; verified_assets = @($manifest.assets).Count; provenance_verified_assets = $provenanceVerified; network_accessed = $false } | ConvertTo-Json)
+        $inlineVerified = $false
+        $inlineCount = 0
+        if ([string]$manifest.lifecycle -eq 'single-file') {
+            $inlinePath = Join-Path $ProjectPath 'presentation\inline-assets.json'
+            Assert-ChildPath -Parent $ProjectPath -Child $inlinePath -Label 'inline index'
+            $inlineIndex = Get-PresentationInlineIndex -InlineAssetsPath $inlinePath -AssetManifestPath $manifestPath
+            $inlineVerified = $true
+            $inlineCount = $inlineIndex.Count
+        }
+        Write-Output (@{ schema_version = 1; mode = 'offline-verify'; verified_assets = @($manifest.assets).Count; provenance_verified_assets = $provenanceVerified; inline_index_verified = $inlineVerified; inline_assets_verified = $inlineCount; final_html_verified = $false; network_accessed = $false } | ConvertTo-Json)
         exit 0
     }
 

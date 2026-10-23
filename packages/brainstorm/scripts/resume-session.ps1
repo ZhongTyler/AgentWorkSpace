@@ -7,8 +7,11 @@ $ErrorActionPreference = 'Stop'
 . (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) 'session-common.ps1')
 $statePath = Resolve-SessionStatePath -SessionPath $SessionPath
 $directory = Split-Path -Parent $statePath
-$validation = Get-SessionValidation -SessionPath $directory -SessionRoot $SessionRoot
+$validation = Get-SessionValidation -SessionPath $directory -SessionRoot $SessionRoot -LocalOnly
 $state = Read-Utf8Json -Path $statePath
+if ([string]::IsNullOrWhiteSpace($SessionRoot)) { $SessionRoot = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $directory)) }
+$rootDiagnostics = Get-SessionRootDiagnostics -SessionRoot $SessionRoot
+Assert-SessionContract (@($rootDiagnostics.identities | Where-Object { $_.session_id -ceq [string]$state.session_id }).Count -eq 1) 'Ambiguous session identity; repair duplicate identities before resuming.'
 Assert-SessionContract -Condition ([string]$state.status -cne 'closed') -Message 'Closed sessions are archives and cannot resume.'
 $recordPath = Resolve-SafeRelativePath -BasePath $directory -RelativePath ([string]$state.record_path)
 $record = [IO.File]::ReadAllText($recordPath, $script:BrainstormUtf8NoBom)
@@ -26,6 +29,9 @@ $history = @($decisions | ForEach-Object {
 })
 [pscustomobject][ordered]@{
     resumed_context = $true
+    root_health = if ($rootDiagnostics.problems.Count -eq 0) { 'healthy' } else { 'degraded' }
+    root_problems = @($rootDiagnostics.problems)
+    root_health_scope = 'identity scan only; sibling content not validated'
     changed = $false
     execution_started = $false
     session_id = [string]$state.session_id

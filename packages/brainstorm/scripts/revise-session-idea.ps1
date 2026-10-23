@@ -22,6 +22,7 @@ Assert-SessionContract -Condition ($PriorIdeaId -cne $NewIdeaId) -Message 'A rev
 Assert-SessionContract -Condition (-not [string]::IsNullOrWhiteSpace($NewIdea)) -Message 'NewIdea is required.'
 Assert-SessionContract -Condition (-not [string]::IsNullOrWhiteSpace($RevisionReason) -and $RevisionReason -cne '-') -Message 'RevisionReason is required.'
 
+Assert-SessionWritable -SessionPath $SessionPath
 $statePath = Resolve-SessionStatePath -SessionPath $SessionPath
 $sessionDirectory = Split-Path -Parent $statePath
 $state = Read-Utf8Json -Path $statePath
@@ -62,15 +63,10 @@ $updated = Add-MarkdownTableRow -Content $updated -Heading 'Idea Ledger' -Cells 
     $PriorIdeaId,
     '-'
 )
-Write-Utf8TextAtomic -Path $recordPath -Value $updated
-
 $state.updated_at = (Get-Date).ToUniversalTime().ToString('o')
-Write-Utf8JsonAtomic -Path $statePath -Value $state
-$validation = Get-SessionValidation -SessionPath $sessionDirectory -SessionRoot $SessionRoot
-if ([string]::IsNullOrWhiteSpace($SessionRoot)) {
-    $SessionRoot = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $sessionDirectory))
-}
-$index = Write-SessionIndex -SessionRoot ([IO.Path]::GetFullPath($SessionRoot))
+$commit = Complete-SessionUpdate -SessionPath $sessionDirectory -State $state -Record $updated -SessionRoot $SessionRoot
+$validation = $commit.validation
+$index = $commit.index
 
 [pscustomobject][ordered]@{
     changed = $true

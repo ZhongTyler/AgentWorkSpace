@@ -1,3 +1,4 @@
+. (Join-Path $PSScriptRoot 'session-common.ps1')
 $script:MethodUtf8NoBom = New-Object Text.UTF8Encoding($false)
 $script:MethodCategories = @('capture', 'framing', 'divergence', 'synthesis', 'convergence')
 $script:MethodStatuses = @('ready', 'placeholder', 'rejected')
@@ -48,6 +49,7 @@ function Read-MethodJson {
 
 function Write-MethodTextAtomic {
     param([string]$Path, [string]$Content)
+    Assert-SafePhysicalPath -Path $Path
     $directory = Split-Path -Parent $Path
     if (-not (Test-Path -LiteralPath $directory -PathType Container)) {
         [void](New-Item -ItemType Directory -Path $directory -Force)
@@ -69,6 +71,7 @@ function Resolve-MethodRelativePath {
     $resolved = [IO.Path]::GetFullPath((Join-Path $ProjectRoot $RelativePath))
     $prefix = $ProjectRoot.TrimEnd([IO.Path]::DirectorySeparatorChar, [IO.Path]::AltDirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
     Assert-MethodContract -Condition ($resolved.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)) -Message "Method path escapes project root: $RelativePath"
+    Assert-SafePhysicalPath -Path $resolved
     return $resolved
 }
 

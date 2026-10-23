@@ -11,6 +11,7 @@ $scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 . (Join-Path $scriptRoot 'playbook-common.ps1')
 . (Join-Path $scriptRoot 'game-concept-common.ps1')
 
+Assert-SessionWritable -SessionPath $SessionPath
 $statePath = Resolve-SessionStatePath -SessionPath $SessionPath
 $sessionDirectory = Split-Path -Parent $statePath
 $validation = Get-SessionValidation -SessionPath $sessionDirectory -SessionRoot $SessionRoot

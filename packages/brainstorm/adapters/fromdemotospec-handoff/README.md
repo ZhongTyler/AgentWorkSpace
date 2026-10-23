@@ -21,3 +21,9 @@ ready 要求：accepted 概念、requested 意图；既有 user/joint 产品决�
 接收方实际读取 FromDemoToSpec 当前制作协议和贯通设计底稿，将交接内容接入当前制作定义，列出仍需确认的生命周期、环境、预算与场景。FromDemoToSpec 没有专用 handoff 导入 API；不能把本仓字段导出或 prototype-project 状态校验说成完成接收。接收演练用合成临时材料并记录 Agent 对目标模板的实际映射，不能启动真实项目。
 
 ready 不表示原型已启动、V1达标、用户认可玩法或交付完成。概念采用、映射审核、正式玩法认可分别保留权威来源。
+
+## 来源变化与重审
+
+活跃 Gap 绑定 Brief、组合文件与完整决定表的 SHA-256；新 Handoff 同时携带来源摘要和完整决定接收清单。来源变化即需复核，不能继续以旧 ready 交接；关闭历史按原版本只读解释。
+
+使用 `reset-fromdemotospec-handoff.ps1 -SessionPath <session> -Reason <变化原因>` 保留旧 Gap／Handoff 字节到本会话 handoff-history，再从当前来源重建 gap-review。Agent 重新核对内容、来源和未决项后才能提升 semantic_review 与 ready；重建或重算哈希不等于语义审核，不改变原 DEC 或自动启动下游。

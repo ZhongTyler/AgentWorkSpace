@@ -11,6 +11,7 @@ $ErrorActionPreference = 'Stop'
 . (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) 'adapter-common.ps1')
 
 $context = Get-SessionAdapterContext -SessionPath $SessionPath -SessionRoot $SessionRoot
+Assert-SessionWritable -SessionPath $SessionPath
 Assert-AdapterContract -Condition ([string]$context.state.status -cne 'closed') -Message 'A closed session cannot receive a ContextBrief.'
 if ([string]::IsNullOrWhiteSpace($OutputPath)) { $OutputPath = Join-Path $context.session_directory 'knowledge-context-brief.md' }
 $OutputPath = Resolve-AdapterSessionPath -SessionDirectory $context.session_directory -ArtifactPath $OutputPath

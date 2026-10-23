@@ -1,4 +1,4 @@
-"""Current predecessor/client conflict and recovery for the new recipe resource."""
+"""Frozen 1.25.0 recipe/client conflict and recovery from its real predecessor."""
 import json,subprocess,sys,tempfile,unittest
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
@@ -7,6 +7,12 @@ import workspace as w
 from release_history import published_bundle
 
 class RecipeHarvestRelease(unittest.TestCase):
+ @classmethod
+ def setUpClass(cls):
+  cls.cache=tempfile.TemporaryDirectory(prefix='recipe-harvest-frozen-')
+  cls.bundle=ROOT if w.catalog(ROOT)['version']=='1.25.0' else published_bundle(ROOT,'1.25.0',Path(cls.cache.name)/'bundle')
+ @classmethod
+ def tearDownClass(cls):cls.cache.cleanup()
  def skill(self,host,*args,ok=True):
   p=subprocess.run([sys.executable,'-X','utf8','-B',host/'modules/skills/scripts/skills.py',*args,'--target',host],capture_output=True)
   self.assertEqual(p.returncode==0,ok,(p.stdout+p.stderr).decode('utf-8','replace'));return json.loads(p.stdout)
@@ -20,8 +26,8 @@ class RecipeHarvestRelease(unittest.TestCase):
     authority=(h/'AGENTS.md').read_bytes() if mode=='full' else b'EXISTING HOST AUTHORITY'
     for platform in ['codex','codebuddy']:self.skill(h,'install','--names','interaction-design','--platform',platform,'--apply')
     protocol=h/'modules/research/RESEARCH_PROTOCOL.md';original=protocol.read_bytes();protocol.write_bytes(original+b'\nUSER EDIT')
-    self.assertTrue(w.install(ROOT,h,'upgrade',[],True)['conflicts']);self.assertEqual(original+b'\nUSER EDIT',protocol.read_bytes());protocol.write_bytes(original)
-    upgrade=w.install(ROOT,h,'upgrade',[],True);self.assertTrue(upgrade['applied'])
+    self.assertTrue(w.install(self.bundle,h,'upgrade',[],True)['conflicts']);self.assertEqual(original+b'\nUSER EDIT',protocol.read_bytes());protocol.write_bytes(original)
+    upgrade=w.install(self.bundle,h,'upgrade',[],True);self.assertTrue(upgrade['applied'])
     for platform,folder in [('codex','.agents'),('codebuddy','.codebuddy')]:
      recipe=h/folder/'skills/interaction-design/references/interaction-patterns.md';self.assertFalse(recipe.exists())
      selected=self.skill(h,'upgrade','--platform',platform,'--apply');self.assertTrue(selected['applied']);self.assertTrue(recipe.is_file())

@@ -94,23 +94,15 @@ if ([string]$state.status -ceq 'closed') {
     Set-PruningAuthority -Authority 'confirm' -Event 'session-closed'
 }
 
-if ($changed) {
-    $state.updated_at = $now
-    if ($recordUpdatePending) { Write-Utf8TextAtomic -Path $recordPath -Value $record }
-    Write-Utf8JsonAtomic -Path $statePath -Value $state
-}
-
-$validation = Get-SessionValidation -SessionPath $statePath
+$validation = $initialValidation
 $indexSummary = $null
 if ($changed) {
-    $sessionDirectory = Split-Path -Parent $statePath
-    $sessionRoot = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $sessionDirectory))
-    $index = Write-SessionIndex -SessionRoot $sessionRoot
-    $indexSummary = [pscustomobject][ordered]@{
-        session_count = [int]$index.session_count
-        total_bytes = [long]$index.total_bytes
-        warnings = @($index.warnings)
-    }
+    $state.updated_at = $now
+    $commitArgs = @{ SessionPath = $statePath; State = $state }
+    if ($recordUpdatePending) { $commitArgs.Record = $record }
+    $commit = Complete-SessionUpdate @commitArgs
+    $validation = $commit.validation
+    $indexSummary = [pscustomobject]@{ session_count = $commit.index.session_count; total_bytes = $commit.index.total_bytes; warnings = @($commit.index.warnings) }
 }
 [pscustomobject][ordered]@{
     changed = $changed

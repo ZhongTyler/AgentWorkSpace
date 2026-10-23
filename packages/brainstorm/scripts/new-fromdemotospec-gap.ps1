@@ -39,6 +39,7 @@ function New-GapField {
 }
 
 $context = Get-SessionAdapterContext -SessionPath $SessionPath -SessionRoot $SessionRoot
+Assert-SessionWritable -SessionPath $SessionPath
 Assert-AdapterContract -Condition ([string]$context.state.status -cne 'closed') -Message 'A closed session cannot receive an FromDemoToSpec gap review.'
 if ([string]::IsNullOrWhiteSpace($BriefPath)) { $BriefPath = Join-Path $context.session_directory 'game-concept-brief.md' }
 if ([string]::IsNullOrWhiteSpace($OutputPath)) { $OutputPath = Join-Path $context.session_directory 'fromdemotospec-gap.json' }
@@ -111,6 +112,7 @@ $gap = [pscustomobject][ordered]@{
     adapter_id = 'fromdemotospec-handoff'
     session_id = [string]$context.state.session_id
     source_brief = 'game-concept-brief.md'
+    source_snapshot = Get-HandoffSourceSnapshot -SessionDirectory $context.session_directory
     external_contract = [pscustomobject][ordered]@{
         path = [string]$fromdemotospec.external_contract.path
         version = [string]$fromdemotospec.external_contract.version

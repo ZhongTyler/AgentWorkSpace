@@ -17,7 +17,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/resume-session.ps1 -
 |---|---|
 | 校验当前会话 | validate-session.ps1 -SessionPath |
 | 暂停、恢复或关闭 | set-session-state.ps1 -SessionPath -ToState paused/open/closed |
-| 更新焦点和下一动作 | set-session-phase.ps1 -SessionPath -Phase -AiResponsibility -UserAction -NextStep；MethodId 可选；可选 CurrentFocus / PauseBoundary / DecisionRefs |
+| 更新继续位置 | set-session-continuation.ps1 -SessionPath；按需填写 CurrentFocus / NextAction / PauseBoundary / DecisionRefs；不追加 NAV |
+| 记录实际阶段变化 | set-session-phase.ps1 -SessionPath -Phase -AiResponsibility -UserAction -NextStep；MethodId 可选；追加 NAV |
 | 修改想法 | revise-session-idea.ps1；创建新 ID 并回链原想法，不覆盖历史正文 |
 | 创建扩展工件 | new-session-artifact.ps1；随后填写正文并维护来源 |
 | 重建索引 | build-session-index.ps1 -SessionRoot |
@@ -36,7 +37,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/resume-session.ps1 -
 | 非游戏机会 | [Opportunity Thesis](../playbooks/opportunity-thesis/README.md)、validate-playbook.ps1 |
 | Knowledge | new/validate-knowledge-context-brief.ps1；准备材料与实际 Query 证据分开 |
 | GameAnalysisDecision | brainstorm-analysis-adapter.mjs prepare-request / consume-delivery / prepare-host-decision；请求与消费统一 v2 |
-| FromDemoToSpec | new/validate-fromdemotospec-gap.ps1、render/validate-fromdemotospec-handoff.ps1；交接准备不代表启动 |
+| FromDemoToSpec | new/validate-fromdemotospec-gap.ps1、render/validate-fromdemotospec-handoff.ps1；来源改变后用 reset-fromdemotospec-handoff.ps1 -Reason 保存旧版并重建 gap-review，再逐项语义复核；不启动下游 |
 | 项目学习反馈 | new/validate-learning-feedback-candidate.ps1、import-fromdemotospec-learning-feedback.ps1；状态采用遵守原人工门 |
 | 有界方法学习 | [method-learning](../docs/method-learning.md)、method-learning.mjs validate / record --input；不改全局偏好 |
 

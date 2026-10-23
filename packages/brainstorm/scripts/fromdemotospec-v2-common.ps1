@@ -18,6 +18,13 @@ function Get-FromDemoToSpecGapV2Validation {
     Assert-AdapterContract ([string]$Gap.structural_review -ceq 'passed') 'V2 structural review required'
     Assert-AdapterContract (@('required','passed','failed') -ccontains [string]$Gap.semantic_review) 'Invalid v2 semantic review'
     Assert-AdapterContract ($Gap.external_flow_started -is [bool] -and $Gap.external_flow_started -eq $false) 'V2 must not launch FromDemoToSpec'
+    if ([string]$Context.state.status -cne 'closed') {
+        Assert-AdapterContract ($null -ne $Gap.source_snapshot) 'Active gap requires a source snapshot; rebuild the mapping for current sources.'
+        $currentSnapshot = Get-HandoffSourceSnapshot -SessionDirectory $Context.session_directory
+        foreach ($key in @('brief_sha256','combinations_sha256','decision_ledger_sha256')) {
+            Assert-AdapterContract ([string]$Gap.source_snapshot.$key -ceq [string]$currentSnapshot.$key) "Handoff source changed; re-review the mapping before ready: $key"
+        }
+    }
     $definitions = Get-FromDemoToSpecV2Fields
     Assert-AdapterContract (@($Gap.fields).Count -eq $definitions.Count) 'V2 field count mismatch'
     $seen = @{}

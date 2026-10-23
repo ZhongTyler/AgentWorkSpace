@@ -37,14 +37,15 @@ function Read-Utf8Json {
 }
 
 function Write-Utf8JsonAtomic {
-    param([string]$Path, [object]$Value)
+    param([string]$Path, [object]$Value, [switch]$NoClobber)
+    Assert-SafePhysicalPath -Path $Path
     $parent = Split-Path -Parent $Path
     Assert-SessionContract -Condition (Test-Path -LiteralPath $parent -PathType Container) -Message "Missing JSON parent directory: $parent"
     $temporaryPath = Join-Path $parent ('.' + [IO.Path]::GetFileName($Path) + '.' + [guid]::NewGuid().ToString('N') + '.tmp')
     try {
         $json = ($Value | ConvertTo-Json -Depth 32).Replace("`r`n", "`n").Replace("`r", "`n")
         [IO.File]::WriteAllText($temporaryPath, ($json + "`n"), $script:BrainstormUtf8NoBom)
-        Move-Item -LiteralPath $temporaryPath -Destination $Path -Force
+        Move-Item -LiteralPath $temporaryPath -Destination $Path -Force:(-not $NoClobber)
     } finally {
         if (Test-Path -LiteralPath $temporaryPath -PathType Leaf) {
             Remove-Item -LiteralPath $temporaryPath -Force
@@ -54,6 +55,7 @@ function Write-Utf8JsonAtomic {
 
 function Write-Utf8TextAtomic {
     param([string]$Path, [string]$Value)
+    Assert-SafePhysicalPath -Path $Path
     $parent = Split-Path -Parent $Path
     Assert-SessionContract -Condition (Test-Path -LiteralPath $parent -PathType Container) -Message "Missing text parent directory: $parent"
     $temporaryPath = Join-Path $parent ('.' + [IO.Path]::GetFileName($Path) + '.' + [guid]::NewGuid().ToString('N') + '.tmp')
@@ -72,6 +74,7 @@ function Resolve-SessionStatePath {
     param([string]$SessionPath)
     Assert-SessionContract -Condition (-not [string]::IsNullOrWhiteSpace($SessionPath)) -Message 'SessionPath is required.'
     $resolved = [IO.Path]::GetFullPath($SessionPath)
+    Assert-SafePhysicalPath -Path $resolved
     if (Test-Path -LiteralPath $resolved -PathType Container) {
         $resolved = Join-Path $resolved 'session-state.json'
     }
@@ -88,6 +91,7 @@ function Resolve-SafeRelativePath {
     $resolved = [IO.Path]::GetFullPath((Join-Path $baseFull $RelativePath))
     $prefix = $baseFull.TrimEnd([char]92, [char]47) + [IO.Path]::DirectorySeparatorChar
     Assert-SessionContract -Condition ($resolved.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)) -Message "Path escaped the session directory: $RelativePath"
+    Assert-SafePhysicalPath -Path $resolved
     return $resolved
 }
 
@@ -342,13 +346,16 @@ function Get-SessionValidation {
     param(
         [string]$SessionPath,
         [string]$SessionRoot = '',
-        [string]$BudgetConfigPath = ''
+        [string]$BudgetConfigPath = '',
+        [switch]$LocalOnly,
+        [object]$StateOverride = $null,
+        [string]$RecordOverride = $null
     )
 
     $statePath = Resolve-SessionStatePath -SessionPath $SessionPath
     Assert-SessionContract -Condition (Test-Path -LiteralPath $statePath -PathType Leaf) -Message "Missing session-state.json: $statePath"
     $sessionDirectory = Split-Path -Parent $statePath
-    $state = Read-Utf8Json -Path $statePath
+    $state = if ($null -ne $StateOverride) { $StateOverride } else { Read-Utf8Json -Path $statePath }
     $required = @(
         'schema_version', 'session_id', 'title', 'mode', 'run_mode', 'status', 'visibility', 'storage_kind',
         'host_project', 'record_path', 'pruning_authority', 'delegated_scope', 'goal_revision',
@@ -440,7 +447,7 @@ function Get-SessionValidation {
 
     $recordPath = Resolve-SafeRelativePath -BasePath $sessionDirectory -RelativePath ([string]$state.record_path)
     Assert-SessionContract -Condition (Test-Path -LiteralPath $recordPath -PathType Leaf) -Message "Missing session record: $recordPath"
-    $record = [IO.File]::ReadAllText($recordPath, $script:BrainstormUtf8NoBom)
+    $record = if ($PSBoundParameters.ContainsKey('RecordOverride')) { $RecordOverride } else { [IO.File]::ReadAllText($recordPath, $script:BrainstormUtf8NoBom) }
     $runModeHeader = [regex]::Matches($record, '(?m)^> Run mode:[ \t]*([^\r\n]+)')
     Assert-SessionContract -Condition ($runModeHeader.Count -eq 1 -and $runModeHeader[0].Groups[1].Value.Trim() -ceq [string]$state.run_mode) -Message 'Record Run mode must match the state run_mode.'
     $recordSchemaVersion = Get-SessionRecordSchemaVersion -Content $record
@@ -656,20 +663,15 @@ function Get-SessionValidation {
         $SessionRoot = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $sessionDirectory))
     }
     $SessionRoot = [IO.Path]::GetFullPath($SessionRoot)
-    $duplicates = 0
-    foreach ($candidatePath in @(Get-ChildItem -LiteralPath $SessionRoot -Recurse -File -Filter 'session-state.json' -ErrorAction SilentlyContinue)) {
-        try {
-            $candidate = [IO.File]::ReadAllText($candidatePath.FullName, $script:BrainstormUtf8NoBom) | ConvertFrom-Json
-            if ([string]$candidate.session_id -ceq [string]$state.session_id) { $duplicates++ }
-        } catch {
-            Stop-SessionContract -Message "Invalid sibling session state: $($candidatePath.FullName)"
-        }
+    if (-not $LocalOnly) {
+        $rootCheck = Get-SessionRootDiagnostics -SessionRoot $SessionRoot
+        Assert-SessionContract ($rootCheck.problems.Count -eq 0) ('Invalid sibling session state: ' + ($rootCheck.problems -join '; '))
+        $duplicates = @($rootCheck.identities | Where-Object { $_.session_id -ceq [string]$state.session_id }).Count
+        Assert-SessionContract ($duplicates -eq 1) "session_id must be unique within SessionRoot: $($state.session_id)"
     }
-    Assert-SessionContract -Condition ($duplicates -eq 1) -Message "session_id must be unique within SessionRoot: $($state.session_id)"
-
     $sessionBytes = Get-DirectoryBytes -Path $sessionDirectory
-    $recordBytes = (Get-Item -LiteralPath $recordPath).Length
-    $totalBytes = Get-TotalSessionBytes -SessionRoot $SessionRoot
+    $recordBytes = if ($PSBoundParameters.ContainsKey('RecordOverride')) { $script:BrainstormUtf8NoBom.GetByteCount($record) } else { (Get-Item -LiteralPath $recordPath).Length }
+    $totalBytes = if ($LocalOnly) { $null } else { Get-TotalSessionBytes -SessionRoot $SessionRoot }
     $warnings = @()
     if ($recordBytes -gt [long]$config.canonical_record_warning_bytes) {
         $warnings += "canonical_record_budget_exceeded:$recordBytes>$($config.canonical_record_warning_bytes)"
@@ -696,6 +698,7 @@ function Get-SessionValidation {
         record_bytes = $recordBytes
         session_bytes = $sessionBytes
         total_session_bytes = $totalBytes
+        root_scope_checked = -not [bool]$LocalOnly
         warnings = @($warnings)
         semantic_review = 'required'
     }
@@ -715,10 +718,14 @@ function Write-SessionIndex {
     $rootPrefix = $SessionRoot.TrimEnd([char]92, [char]47) + [IO.Path]::DirectorySeparatorChar
     Assert-SessionContract -Condition ($OutputPath.StartsWith($rootPrefix, [StringComparison]::OrdinalIgnoreCase)) -Message 'OutputPath must stay inside SessionRoot.'
 
+    Assert-SafePhysicalPath -Path $OutputPath
     $config = Get-SessionBudgetConfig -ConfigPath $BudgetConfigPath
+    $problems = @()
     $sessions = @()
     $warnings = @()
-    foreach ($directory in @(Get-SessionDirectories -SessionRoot $SessionRoot)) {
+    $directories = @(Get-SessionDirectories -SessionRoot $SessionRoot)
+    foreach ($directory in $directories) {
+        try {
         $state = Read-Utf8Json -Path (Join-Path $directory 'session-state.json')
         $archiveOnly = [int]$state.schema_version -eq 1 -and [string]$state.status -ceq 'closed'
         if ($archiveOnly) {
@@ -731,7 +738,7 @@ function Write-SessionIndex {
             Assert-SessionContract -Condition (Test-Path -LiteralPath $archiveRecord -PathType Leaf) -Message 'Missing archive record.'
             $validation = [pscustomobject]@{ session_bytes = (Get-DirectoryBytes -Path $directory); warnings = @() }
         } else {
-            $validation = Get-SessionValidation -SessionPath $directory -SessionRoot $SessionRoot -BudgetConfigPath $BudgetConfigPath
+            $validation = Get-SessionValidation -SessionPath $directory -SessionRoot $SessionRoot -BudgetConfigPath $BudgetConfigPath -LocalOnly
         }
         $relativePath = $directory.Substring($rootPrefix.Length).Replace([char]92, [char]47)
         $sessions += [pscustomobject][ordered]@{
@@ -751,10 +758,11 @@ function Write-SessionIndex {
         foreach ($warning in @($validation.warnings)) {
             if (-not ($warnings -ccontains [string]$warning)) { $warnings += [string]$warning }
         }
+        } catch { $problems += [pscustomobject]@{ path = $directory; error = $_.Exception.Message } }
     }
 
     $duplicateIds = @($sessions | Group-Object session_id | Where-Object { $_.Count -gt 1 })
-    Assert-SessionContract -Condition ($duplicateIds.Count -eq 0) -Message 'Session index contains duplicate identities.'
+    foreach ($duplicate in $duplicateIds) { $problems += [pscustomobject]@{ path = $SessionRoot; error = ('Duplicate session identity: ' + $duplicate.Name) } }
     $totalBytes = Get-TotalSessionBytes -SessionRoot $SessionRoot
     if ($totalBytes -gt [long]$config.total_sessions_warning_bytes) {
         $warning = "total_sessions_budget_exceeded:$totalBytes>$($config.total_sessions_warning_bytes)"
@@ -764,12 +772,17 @@ function Write-SessionIndex {
     $index = [pscustomobject][ordered]@{
         schema_version = 1
         generated_at = (Get-Date).ToUniversalTime().ToString('o')
-        session_count = $sessions.Count
+        session_count = $directories.Count
+        valid_session_count = $sessions.Count
+        invalid_session_count = $problems.Count
+        health_status = if ($problems.Count -eq 0) { 'healthy' } else { 'degraded' }
+        problems = @($problems)
         total_bytes = $totalBytes
         warnings = @($warnings | Sort-Object -Unique)
         sessions = @($sessions | Sort-Object session_id)
     }
     Write-Utf8JsonAtomic -Path $OutputPath -Value $index
+    Assert-SessionContract ($problems.Count -eq 0) "Session index is degraded; per-object problems preserved at $OutputPath. Repair those objects and rerun build-session-index."
     return $index
 }
 
@@ -812,4 +825,101 @@ function Set-SessionContinuationField {
     Assert-SessionContract -Condition ($matches.Count -eq 1) -Message "Missing or duplicate continuation field: $Field"
     $updated = [regex]::Replace($section, $pattern, [Text.RegularExpressions.MatchEvaluator]{ param($m) return ('- ' + $Field + ': ' + $escapedValue) })
     return $Content.Replace($section, $updated)
+}
+
+
+# Shared boundaries for every session writer. Reject reparse ancestry before mkdir/write.
+function Assert-SafePhysicalPath {
+    param([string]$Path)
+    $cursor = [IO.Path]::GetFullPath($Path)
+    while (-not [string]::IsNullOrWhiteSpace($cursor)) {
+        $attributes = $null
+        try { $attributes = [IO.File]::GetAttributes($cursor) }
+        catch [IO.FileNotFoundException] { }
+        catch [IO.DirectoryNotFoundException] { }
+        if ($null -ne $attributes) {
+            Assert-SessionContract (($attributes -band [IO.FileAttributes]::ReparsePoint) -eq 0) "Reparse point is not allowed in a protected path: $cursor"
+        }
+        $parent = Split-Path -Parent $cursor
+        if ($parent -ceq $cursor) { break }
+        $cursor = $parent
+    }
+}
+
+function Assert-SessionWritable {
+    param([string]$SessionPath)
+    $statePath = Resolve-SessionStatePath -SessionPath $SessionPath
+    $currentState = Read-Utf8Json -Path $statePath
+    Assert-SessionContract ([string]$currentState.status -cne 'closed') 'Closed sessions are immutable.'
+}
+
+function Get-SessionFileSha256 {
+    param([string]$Path)
+    Assert-SafePhysicalPath -Path $Path
+    $stream = [IO.File]::OpenRead($Path)
+    $sha = [Security.Cryptography.SHA256]::Create()
+    try { return ([BitConverter]::ToString($sha.ComputeHash($stream))).Replace('-', '').ToLowerInvariant() }
+    finally { $sha.Dispose(); $stream.Dispose() }
+}
+
+function Get-SessionRootDiagnostics {
+    param([string]$SessionRoot)
+    $identities = @(); $problems = @()
+    foreach ($directory in @(Get-SessionDirectories -SessionRoot $SessionRoot)) {
+        try {
+            $path = Join-Path $directory 'session-state.json'
+            Assert-SafePhysicalPath -Path $path
+            $s = Read-Utf8Json -Path $path
+            Assert-SessionContract (Test-SessionId -SessionId ([string]$s.session_id)) "Invalid sibling identity: $path"
+            $identities += [pscustomobject]@{ session_id = [string]$s.session_id; path = $path }
+        } catch { $problems += $_.Exception.Message }
+    }
+    return [pscustomobject]@{ identities = @($identities); problems = @($problems) }
+}
+
+function Complete-SessionUpdate {
+    param([string]$SessionPath, [object]$State, [string]$Record, [string]$SessionRoot = '')
+    Assert-SessionWritable -SessionPath $SessionPath
+    $statePath = Resolve-SessionStatePath -SessionPath $SessionPath
+    $directory = Split-Path -Parent $statePath
+    $recordPath = Resolve-SafeRelativePath -BasePath $directory -RelativePath ([string]$State.record_path)
+    $arguments = @{ SessionPath = $directory; SessionRoot = $SessionRoot; StateOverride = $State }
+    if ($PSBoundParameters.ContainsKey('Record')) { $arguments.RecordOverride = $Record }
+    [void](Get-SessionValidation @arguments)
+    $oldState = [IO.File]::ReadAllBytes($statePath)
+    $oldRecord = [IO.File]::ReadAllBytes($recordPath)
+    try {
+        if ($PSBoundParameters.ContainsKey('Record')) { Write-Utf8TextAtomic -Path $recordPath -Value $Record }
+        Write-Utf8JsonAtomic -Path $statePath -Value $State
+    } catch {
+        $cause = $_.Exception.Message
+        try {
+            if ([Convert]::ToBase64String([IO.File]::ReadAllBytes($recordPath)) -cne [Convert]::ToBase64String($oldRecord)) { [IO.File]::WriteAllBytes($recordPath, $oldRecord) }
+            if ([Convert]::ToBase64String([IO.File]::ReadAllBytes($statePath)) -cne [Convert]::ToBase64String($oldState)) { [IO.File]::WriteAllBytes($statePath, $oldState) }
+        }
+        catch { throw "Session write failed and rollback needs repair at $directory. Original: $cause; recovery: $($_.Exception.Message)" }
+        throw "Session write failed; original record and state restored. Cause: $cause"
+    }
+    $validation = Get-SessionValidation -SessionPath $directory -SessionRoot $SessionRoot
+    if ([string]::IsNullOrWhiteSpace($SessionRoot)) { $SessionRoot = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $directory)) }
+    try { $index = Write-SessionIndex -SessionRoot $SessionRoot }
+    catch { throw "Session update committed at $directory; index rebuild failed. Keep this session and rerun build-session-index; do not repeat the mutation. $($_.Exception.Message)" }
+    return [pscustomobject]@{ validation = $validation; index = $index }
+}
+
+function Get-HandoffSourceSnapshot {
+    param([string]$SessionDirectory)
+    $s = Read-Utf8Json -Path (Join-Path $SessionDirectory 'session-state.json')
+    $recordPath = Resolve-SafeRelativePath -BasePath $SessionDirectory -RelativePath ([string]$s.record_path)
+    $record = [IO.File]::ReadAllText($recordPath, $script:BrainstormUtf8NoBom)
+    $decisions = @(Get-MarkdownTableRows -Content $record -Heading 'Decision Record' -ExpectedHeaders @('Decision ID','Candidate IDs','Decision','Criteria','Evidence IDs','Decider'))
+    $ledger = (@($decisions | ForEach-Object { $_.cells -join '|' }) -join "`n")
+    $sha = [Security.Cryptography.SHA256]::Create()
+    try { $ledgerHash = ([BitConverter]::ToString($sha.ComputeHash($script:BrainstormUtf8NoBom.GetBytes($ledger)))).Replace('-', '').ToLowerInvariant() }
+    finally { $sha.Dispose() }
+    return [pscustomobject][ordered]@{
+        brief_sha256 = Get-SessionFileSha256 -Path (Join-Path $SessionDirectory 'game-concept-brief.md')
+        combinations_sha256 = Get-SessionFileSha256 -Path (Join-Path $SessionDirectory 'game-concept-combinations.md')
+        decision_ledger_sha256 = $ledgerHash
+    }
 }

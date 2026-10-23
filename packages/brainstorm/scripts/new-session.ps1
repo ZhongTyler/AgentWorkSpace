@@ -95,6 +95,7 @@ $record = $record.Replace('{{CREATED_AT}}', $createdAt)
 $record = $record.Replace('{{VISIBILITY}}', $Visibility)
 $record = $record.Replace('{{HOST_PROJECT}}', $(if ($null -eq $hostValue) { 'none' } else { [string]$hostValue }))
 
+Assert-SafePhysicalPath -Path $sessionDirectory
 $sessionCommitted = $false
 try {
     [void](New-Item -ItemType Directory -Path $sessionDirectory -Force)

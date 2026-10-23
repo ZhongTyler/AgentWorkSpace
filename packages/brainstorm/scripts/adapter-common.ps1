@@ -21,11 +21,13 @@ function Resolve-AdapterSessionPath {
     $artifactFull = [IO.Path]::GetFullPath($ArtifactPath)
     $prefix = $sessionFull.TrimEnd([char]92, [char]47) + [IO.Path]::DirectorySeparatorChar
     Assert-AdapterContract -Condition ($artifactFull.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)) -Message "Adapter artifact must stay inside the session: $artifactFull"
+    Assert-SafePhysicalPath -Path $artifactFull
     return $artifactFull
 }
 
 function Write-AdapterUtf8TextAtomic {
     param([string]$Path, [string]$Value)
+    Assert-SafePhysicalPath -Path $Path
     $parent = Split-Path -Parent $Path
     Assert-AdapterContract -Condition (Test-Path -LiteralPath $parent -PathType Container) -Message "Missing artifact directory: $parent"
     $temporaryPath = Join-Path $parent ('.' + [IO.Path]::GetFileName($Path) + '.' + [guid]::NewGuid().ToString('N') + '.tmp')

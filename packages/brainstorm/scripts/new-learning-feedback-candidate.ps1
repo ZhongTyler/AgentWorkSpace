@@ -12,6 +12,7 @@ $scriptDirectory = Split-Path -Parent $MyInvocation.MyCommand.Path
 . (Join-Path $scriptDirectory 'session-common.ps1')
 
 Assert-SessionContract -Condition ($DecisionId -cmatch '^DEC-[0-9]{3,}$') -Message "Invalid DecisionId: $DecisionId"
+Assert-SessionWritable -SessionPath $SessionPath
 $statePath = Resolve-SessionStatePath -SessionPath $SessionPath
 $sessionDirectory = Split-Path -Parent $statePath
 $state = Read-Utf8Json -Path $statePath
@@ -41,6 +42,8 @@ $templatePath = Join-Path (Get-BrainstormProjectRoot) 'templates\learning-feedba
 $content = [IO.File]::ReadAllText($templatePath, $script:BrainstormUtf8NoBom)
 $content = $content.Replace('{{ARTIFACT_ID}}', $ArtifactId).Replace('{{SESSION_ID}}', [string]$state.session_id).Replace('{{DECISION_ID}}', $DecisionId).Replace('{{SOURCE_IDS}}', $SourceIds).Replace('{{CREATED_AT}}', (Get-Date).ToUniversalTime().ToString('o'))
 Write-Utf8TextAtomic -Path ([string]$result.artifact_path) -Value $content
+$state.updated_at = (Get-Date).ToUniversalTime().ToString('o')
+$commit = Complete-SessionUpdate -SessionPath $sessionDirectory -State $state -SessionRoot $SessionRoot
 
 [pscustomobject][ordered]@{
     created = $true

@@ -9,8 +9,13 @@ function Invoke-Json { param([string]$Name,[string[]]$Arguments)
  Assert-Package ($LASTEXITCODE -eq 0) "Runtime command failed: $Name"
  return (($out -join [Environment]::NewLine) | ConvertFrom-Json)
 }
+function Hash-File {
+ param([string]$Path)
+ $s=[IO.File]::OpenRead($Path);$h=[Security.Cryptography.SHA256]::Create()
+ try{return ([BitConverter]::ToString($h.ComputeHash($s))).Replace('-','')}finally{$h.Dispose();$s.Dispose()}
+}
 function Snapshot { param([string]$Path)
- return @((Get-ChildItem -LiteralPath $Path -Recurse -File -Force) | ForEach-Object { $_.FullName+'='+ (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash } | Sort-Object)
+ return @((Get-ChildItem -LiteralPath $Path -Recurse -File -Force) | ForEach-Object { $_.FullName+'='+ (Hash-File $_.FullName) } | Sort-Object)
 }
 $before = Snapshot $root
 Assert-Package (Test-Path -LiteralPath (Join-Path $root '_release.json')) 'Build marker missing.'

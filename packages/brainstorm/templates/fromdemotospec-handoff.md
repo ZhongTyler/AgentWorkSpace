@@ -22,6 +22,9 @@
 
 ## Decision reception
 
+> Source brief SHA256: `{{BRIEF_SHA256}}`
+> Source combinations SHA256: `{{COMBINATIONS_SHA256}}`
+> Source decisions SHA256: `{{DECISIONS_SHA256}}`
 > Reception inventory: `1`
 > Decision ledger: `{{DECISION_LEDGER}}`
 > Ledger decision IDs: `{{LEDGER_DECISION_IDS}}`

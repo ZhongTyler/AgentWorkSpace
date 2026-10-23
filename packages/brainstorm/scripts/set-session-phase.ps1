@@ -21,6 +21,7 @@ foreach ($value in @($AiResponsibility, $UserAction, $NextStep)) {
     Assert-SessionContract -Condition (-not [string]::IsNullOrWhiteSpace($value) -and $value -cne '-') -Message 'Navigator guidance fields must be non-empty.'
 }
 
+Assert-SessionWritable -SessionPath $SessionPath
 $statePath = Resolve-SessionStatePath -SessionPath $SessionPath
 $sessionDirectory = Split-Path -Parent $statePath
 $state = Read-Utf8Json -Path $statePath
@@ -66,15 +67,10 @@ if (-not [string]::IsNullOrWhiteSpace($DecisionRefs)) {
     }
     $updatedRecord = Set-SessionContinuationField -Content $updatedRecord -Field 'Decision refs' -Value $DecisionRefs
 }
-Write-Utf8TextAtomic -Path $recordPath -Value $updatedRecord
-
 $state.updated_at = (Get-Date).ToUniversalTime().ToString('o')
-Write-Utf8JsonAtomic -Path $statePath -Value $state
-$validation = Get-SessionValidation -SessionPath $sessionDirectory -SessionRoot $SessionRoot
-if ([string]::IsNullOrWhiteSpace($SessionRoot)) {
-    $SessionRoot = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $sessionDirectory))
-}
-$index = Write-SessionIndex -SessionRoot ([IO.Path]::GetFullPath($SessionRoot))
+$commit = Complete-SessionUpdate -SessionPath $sessionDirectory -State $state -Record $updatedRecord -SessionRoot $SessionRoot
+$validation = $commit.validation
+$index = $commit.index
 
 [pscustomobject][ordered]@{
     changed = $true

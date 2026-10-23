@@ -38,6 +38,13 @@ if ($gapPresent) {
     $gapStatus = [string]$gap.status
     $externalFlowStarted = [bool]$gap.external_flow_started
 }
+$gapValidationError = $null
+if ($gapPresent -and [string]$state.status -cne 'closed') {
+    try {
+        . (Join-Path $PSScriptRoot 'adapter-common.ps1')
+        [void](Get-FromDemoToSpecGapValidation -SessionPath $sessionDirectory -SessionRoot $SessionRoot)
+    } catch { $gapStatus = 'review-required'; $gapValidationError = $_.Exception.Message }
+}
 $handoffPresent = Test-Path -LiteralPath (Join-Path $sessionDirectory 'fromdemotospec-handoff.md') -PathType Leaf
 
 $managedLifecycle = 'not-provided'
@@ -89,6 +96,7 @@ if (-not [string]::IsNullOrWhiteSpace($TaskStatusPath)) {
     fromdemotospec = [pscustomobject][ordered]@{
         intent = $fromdemotospecIntent
         gap_status = $gapStatus
+        validation_error = $gapValidationError
         handoff_present = $handoffPresent
         external_flow_started = $externalFlowStarted
     }

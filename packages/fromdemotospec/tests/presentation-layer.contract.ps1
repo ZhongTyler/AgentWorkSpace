@@ -134,6 +134,22 @@ try {
     Write-Utf8Json -Path $selectionPath -Value $v2
     $singleResult = Invoke-Importer -Parameters @{ SelectionPath = $selectionPath; AssetRepositoryPath = $assetRoot; ProjectPath = $single; Apply = $true }
     if ($singleResult.Code -ne 0 -or -not (Test-Path -LiteralPath (Join-Path $single 'presentation\inline-assets.json'))) { throw 'Single-file v2 inline output failed' }
+    $inlinePath = Join-Path $single 'presentation\inline-assets.json'
+    $inlineBytes = [IO.File]::ReadAllBytes($inlinePath)
+    $htmlPath = Join-Path $single 'game.html'
+    [IO.File]::WriteAllText($htmlPath, '<img src="__ASSET_fixture:ui:button__">', $Utf8NoBom)
+    & powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $ProjectRoot 'scripts\inline-presentation-assets.ps1') -HtmlPath $htmlPath -InlineAssetsPath $inlinePath
+    if ($LASTEXITCODE -ne 0) { throw 'Imported inline bytes did not package successfully' }
+    $singleVerified = Invoke-Importer -Parameters @{ SelectionPath = $selectionPath; ProjectPath = $single; VerifyOffline = $true }
+    if ($singleVerified.Code -ne 0) { throw 'Single-file offline verification failed' }
+    $coverage = $singleVerified.Output | ConvertFrom-Json
+    if (-not $coverage.inline_index_verified -or $coverage.inline_assets_verified -ne 1 -or $coverage.final_html_verified) { throw 'Offline verification scope is inaccurate' }
+    $changedInline = [IO.File]::ReadAllText($inlinePath) | ConvertFrom-Json
+    $changedInline.assets[0].data_uri = 'data:image/png;base64,Yg=='
+    Write-Utf8Json -Path $inlinePath -Value $changedInline
+    $inlineTamper = Invoke-Importer -Parameters @{ SelectionPath = $selectionPath; ProjectPath = $single; VerifyOffline = $true }
+    if ($inlineTamper.Code -ne 3) { throw 'Modified inline bytes passed offline verification' }
+    [IO.File]::WriteAllBytes($inlinePath, $inlineBytes)
     $v2.choice.mode = 'user-constraint'
     Write-Utf8Json -Path $selectionPath -Value $v2
     $falseUser = Invoke-Importer -Parameters @{ SelectionPath = $selectionPath; AssetRepositoryPath = $assetRoot; ProjectPath = $single }

@@ -268,11 +268,11 @@
         "NOW.md": "05bdc8b6faee09b8f13c9cb1f97388d3e061bd47b330651934a09ffcee367184",
         "README.md": "c47fc6552e983b4c17e5359c46e1f70535cf4ff4caa1e92f6e65129f1eb1fd2f",
         "VALIDATION.md": "3011ea5dbe815d2f7dc3d3d0c17025c0381ca3071f683d045635438c0a02e199",
-        "_release.json": "e9031c0aaa4af07f36443d020211ef7aaed8b81be06f45e2495f913f5aa2f76e",
+        "_release.json": "d2f80683b3691a1df4c76a7ec9a4a11fe95b9ff32ac6ff708a7b7b92f831a8c8",
         "adapters/README.md": "f33bcddc4895703beed263f894f595982e07d4f8dcbe61743320415bca8ca06b",
         "adapters/catalog.json": "8d47f7a7959e2f203e85ea46a6801d66357d3e9b865e07063ff4c428dd79e6dc",
         "adapters/fromdemotospec-handoff/COMPATIBILITY.md": "46c84a726932f3e1e6c4d7a3816a3651311d9542e66f0bc2b301791087a82906",
-        "adapters/fromdemotospec-handoff/README.md": "f8f9d53f85cf773644109b5e91bfbd1e98e2b4a77b57b55c836362191985bf99",
+        "adapters/fromdemotospec-handoff/README.md": "c259fa893fdc8f917880c58491d3190cfc4ec0b17d3cfc4d9c3c8831c19bcae6",
         "adapters/fromdemotospec-handoff/fields-v2.json": "fa1c16af75111a9256b2f6090899fe7e57f3b836f8b5fe7a52db4ec57c29df36",
         "adapters/game-analysis-decision/README.md": "c7b61a3537b2d6526705b3c7bd5cbf7dc4a3680eca1e32b06b2e2955556ec961",
         "adapters/game-analysis-decision/brainstorm-analysis-request.schema.json": "c967e8cf37ec7b58cabbc73c33383c0cab314a6b19c0b82528b96b35bbb27030",
@@ -282,7 +282,7 @@
         "docs/architecture.md": "8d5f99efc0f199fffe1616dad3ac179d79ace672e2a8fae00612ac0e9e746a67",
         "docs/contracts/decision-record-contract.md": "51757499f3f293a0f7b9b8f79e924467b99cc8b2b07d2803eb69e1ae45e298de",
         "docs/contracts/idea-ledger-contract.md": "5c5e66b1c32c2d3473b84eb7b74e592ce8269dbc12173d86d3d87bc714c2d566",
-        "docs/contracts/session-contract.md": "0c6fd5b2424f8717bc63c96b05fef8f1e3f7bed726fe0bfff7cee80f2597727f",
+        "docs/contracts/session-contract.md": "ddf0ce40e1fb21dac6bcddcd1797c7a543d6ba6d83346ae9904b1211910565ab",
         "docs/maintenance/README.md": "48ce2c8881ee010f8ec8037bb32569839351753ad1ba1f5d79a89fab8bf06328",
         "docs/method-learning.md": "3e6cded22975872a7279cf2a15f9249d841e59c96fe0920665726ae02c0e0cc0",
         "docs/research/public-sources.json": "3caa093cf81677f788c15ecfa8dbcbcd3a0754a7b4f7ad3bc9615aa45603d5e8",
@@ -345,41 +345,43 @@
         "playbooks/opportunity-thesis/OUTPUT_SCHEMA.md": "6361fd9239a9f6932d852cfc60cf0011d88ae9ad66c8c0256ffb7f74f27d3ffb",
         "playbooks/opportunity-thesis/README.md": "287dea6d8517cc0bb4679a1fcf5309c99b4c504740e98defb7cedaf197cb752c",
         "schemas/adapter-catalog.schema.json": "9104546d965e57e2a94ffea8c468eee0694e1a94127a7ebf650e0cb25d4131b7",
-        "schemas/fromdemotospec-gap.schema.json": "5f891dbcfc778fbf79767a5632edbdacaa167fb0617d1818476c238c553befa9",
+        "schemas/fromdemotospec-gap.schema.json": "80b5155da7a0f122190e42945a0478fb1e5523b7d8232676025f317f6fd1aa2e",
         "schemas/method-catalog.schema.json": "285a678e10240255e7159027e4559bcad5da390b4570a05f539f231d40c3d477",
         "schemas/playbook-catalog.schema.json": "ad8421ad7fc5a8ed2201d15ee820d246820e27dea67f6cbd0e959a1e316ff477",
         "schemas/public-sources.schema.json": "b994e8527612b3654ece5398ee4bebec06cc8d084b26aabc1964dbab9759f476",
         "schemas/session-state.schema.json": "6900866946c4400f5a6f3758e5194a8fdd8648a23950efa4488cf49e9759a5e4",
-        "scripts/README.md": "5c5357c50e69e46d105c160270c5a655fa29f0f81ded0e7184bcb75ec5ba84aa",
-        "scripts/adapter-common.ps1": "c5b7a4165cd74156c188f2e2e609395a85227961f438baf280889c617190971b",
+        "scripts/README.md": "5ba16004c7a042c402e9b464ca814361635617d3d096a33c11023e9df12cf06b",
+        "scripts/adapter-common.ps1": "ec122127f3f1c648c169fb8c0e860e3cf212ba826198922f18cbebb9664ec6b9",
         "scripts/brainstorm-analysis-adapter.mjs": "e7ddb5b6cb8577a6ee1399098458c0d693c03b3158fe906b7d0b3fcf483da317",
         "scripts/build-session-index.ps1": "78df297b737bf4078f7cbdbf3624f7db9a0d993c9d5c0a043ab7333dbbf552a9",
-        "scripts/fromdemotospec-v2-common.ps1": "f2bc080f73d98b2e61fe2893b5c4db273392fb56faa79689483420dda7ff9596",
+        "scripts/fromdemotospec-v2-common.ps1": "73f0a6111053dd80f956b96ca3bbb8e8db1108902caae8b2e34e796a367869b1",
         "scripts/game-analysis-decision-v2-binding.mjs": "53dd15d66446450ecca443a9bd66a3a3d03d2ec58da7b5fae673ddc8f52beb91",
         "scripts/game-concept-common.ps1": "caadb3a92dbfd34a03aafd4cfa7894722ef8a6157ddf4e72ff39e2aa8cc4cf0f",
-        "scripts/get-close-summary.ps1": "24dee3af95191f292887856d30ab25b1a975d9c78bc9f3cabb862b033b2cfcc3",
-        "scripts/import-fromdemotospec-learning-feedback.ps1": "098650ec4ea5b0c5761ee5ed5cd6c3d9e4039e041eaebb45780680b06ad010ca",
+        "scripts/get-close-summary.ps1": "dbe99d322ab49e6304bdbc78cd6d240c9b4b1aed47d3e89284812e956d2c1e83",
+        "scripts/import-fromdemotospec-learning-feedback.ps1": "f14175f2d9c56380153df4841d77e9e938303a1a4a73fe72105f1e2b6766d39e",
         "scripts/list-methods.ps1": "9582ff6c60cc50500885d2bbf6887916c57815822241c5f76a13b3878ad526ae",
-        "scripts/method-common.ps1": "2de017f652a5ab84cb03cb9595934148509ad7761c6e4b0ece39b2398e0d5a8c",
+        "scripts/method-common.ps1": "f39dd2e2e1d1da3ebd4c3f5046dbabe1996bf067c3f00f694fa549694db773f8",
         "scripts/method-learning.mjs": "d77cc9349d42a35fb76e593e69cf36cab7369e3f068f13b4968d81555974329a",
-        "scripts/new-fromdemotospec-gap.ps1": "432d5731de60a27bb1d5f760d60f13a4bb0c8ca708034bd514f4a9980209da0f",
-        "scripts/new-game-concept-brief.ps1": "72031861f5c398b35b180eb647271bf01d4a0bc192599e70c96b6bc902b43bb5",
-        "scripts/new-game-concept-combinations.ps1": "66cf985daaf2fe8a4ad7d459698f3a56fb47641b24d10cc0ecbc1df6c20c9133",
-        "scripts/new-knowledge-context-brief.ps1": "87ca666537fc676587bc2c8d9ef85380fc9fe05bcf3337a12b2d4cced786dba9",
-        "scripts/new-learning-feedback-candidate.ps1": "b49a6e903520f8c1e9c37450c9f1ce1e903c27014880af8b9b607cae844a91a7",
+        "scripts/new-fromdemotospec-gap.ps1": "23eb75f7fd2833698b598d572a7e1937a9404b90f6bf3c2d0ca1bef1caa0acf5",
+        "scripts/new-game-concept-brief.ps1": "5b7183c8faed2649096f2005d3a25b711e9ac007f69d9ecfb38549cf30691cb5",
+        "scripts/new-game-concept-combinations.ps1": "ffd50530980c43d7fa1fdd6af03874b34d05f31d7785eed0b622ee1241036ab5",
+        "scripts/new-knowledge-context-brief.ps1": "8068229be84c626910d40de2a3306a0854dbb08ec8e266cbceeb0577b7a159d2",
+        "scripts/new-learning-feedback-candidate.ps1": "cbad8abb7ae2bc62da50ae2d835cb0efd97b34556a1e81d3d1a4b1fb3857b8b8",
         "scripts/new-method.ps1": "e2cea755b40a3a47fad2ccb76603411e899c8e6e6c09704f823ff7786f9e6487",
-        "scripts/new-session-artifact.ps1": "637f6950f3e046657a5d24a63a42bdd2025a731f5506cfc91d5f7a2f239def05",
-        "scripts/new-session.ps1": "a87d2790d653a4ba29f355a698e3af7e79edf4465d85b9a94bb5e77f2544fe5e",
-        "scripts/playbook-common.ps1": "b24f9bb1085c54dddf815940aa6caa30d237103bec33deaf676a553a90c88ca1",
-        "scripts/render-fromdemotospec-handoff.ps1": "6f3af4bd54340c58a8f94eeae66e6856745aed8dee918832e46c1ed657b91dbf",
-        "scripts/resume-session.ps1": "a2fc1c7099ce82103c3c02af55cc43727ff4b1277bbcd56ced6741dc909ce5c1",
-        "scripts/revise-session-idea.ps1": "9bacdb5250f375a7c2640acbf61cee28edb2dffe3fa0c5327b4dd54200225698",
-        "scripts/session-common.ps1": "083cf2bf5feb96fb6d4bd9cbb5370c708de140215a29488f6671587b7d034eee",
-        "scripts/set-session-phase.ps1": "7ad7a5a1c94bcfae9bd7027354f708695c7c5536435180c67c2513c21b0cc082",
-        "scripts/set-session-state.ps1": "35417e5e97502fd46fbe9e16a80aa75b1e9c2711fff65a1ae9023dd4acf6b216",
+        "scripts/new-session-artifact.ps1": "b721de022f87f210d2c3be2c85c3cb1ee2b3b06d443332db6d65e367b9f5829f",
+        "scripts/new-session.ps1": "3a054bfadcf7df8dd70c17abcaf28106dec0605e3e8ae83e8811b98147a46f76",
+        "scripts/playbook-common.ps1": "ca2ee2dbbd64aa045b16588b730cf5a51aa70569af749e039d79781676af4173",
+        "scripts/render-fromdemotospec-handoff.ps1": "d63977e355fe50dd6500d1a56722914d693aad43bc05da6db1a64de30037cf9f",
+        "scripts/reset-fromdemotospec-handoff.ps1": "b516a45fe1b972ba237a66aa2cf121b3f80f5250d024be241f56732c2c0e7e21",
+        "scripts/resume-session.ps1": "e7c0354257b0079d28af47f968c8367e197226c6e1b48d109ffba618869864c0",
+        "scripts/revise-session-idea.ps1": "9b454d9f129c79fb5c69402ec27ee2f24698eaf982c44c462c83173b67d4d0d4",
+        "scripts/session-common.ps1": "8325f71882cefdae4d16296efa0ea4d64319b775ad4ae7065dbe013d417eb540",
+        "scripts/set-session-continuation.ps1": "12ae7b7e8f7cd4523bef621dae3a3e8543efc2399e8ebcca4159e38dd883f5c8",
+        "scripts/set-session-phase.ps1": "562500a5801e57ca5826f75db2f6c4543969fb0ef8f899220054a0cf4196c13a",
+        "scripts/set-session-state.ps1": "fb39420dc99511d645e27cc301c3d6a20b728f057eadafd0a86579b951eab1f6",
         "scripts/validate-adapters.ps1": "eebb8bd62f9a28df41019ace5c46c1d08efa44be9bac5bc57bb72ca0f055f698",
         "scripts/validate-fromdemotospec-gap.ps1": "fd22fd6c312c9450a5cf2cc717c28fd3de3e1fbae8e3d9b05b2c08ecb70779c8",
-        "scripts/validate-fromdemotospec-handoff.ps1": "5f9611d8524fc5bb711f120fcba57330acc92431376787a36d99db7e07517ab7",
+        "scripts/validate-fromdemotospec-handoff.ps1": "ad34beebac71ccd3acd69bc9b56f8c881c4ecb05b30e7ec20e66ac68302b7eb2",
         "scripts/validate-game-concept-brief.ps1": "760ae55ffa7631dede0a3187213e0ff29a60f378de7139c24c3278d2748d2e57",
         "scripts/validate-game-concept-combinations.ps1": "e53746542a5bff72e1d748cc630362eac9a57c728a95a04bc4db3ccacd677fb7",
         "scripts/validate-knowledge-context-brief.ps1": "3d5433b2349fd903f27bd02a7ade0a261ba81578a945546d9665c5fefd495885",
@@ -388,7 +390,7 @@
         "scripts/validate-playbook.ps1": "6558b08c01d1536a37b6d3eddeff28460acaf89c3c16f791fe4f49cab33df2f3",
         "scripts/validate-session.ps1": "ab4cb785bbba1ca3431e5d773c6370c36492ea9733bd92c91d5c510efa04bcae",
         "templates/decision-record.md": "b1c5f47bdfb0a5b3e0acd8043ee1c239d11d8a6404d6f8b1d2b820ce90090c82",
-        "templates/fromdemotospec-handoff.md": "0dd9f0ec5523c27459cd9938a586e22712ff3479e083e074f937c7abaae727af",
+        "templates/fromdemotospec-handoff.md": "6ac35b68f8c7097dfc2df91e8c287a71f89c070b51ed55d9c24a1e35fc033f56",
         "templates/game-concept-brief.md": "08cece33a016115b421aa131b45e358937fa841bc2d2ddb89dda3774a3dd353d",
         "templates/game-concept-combinations.md": "05e3019b7b8bcacbd218706d288f960ba030a5a8d013666b49fab6c3f0d96acb",
         "templates/knowledge-context-brief.md": "4c4fa867109cbcd1f9f70db226a753f11f4d07a2c0234aa603fc9a640410ec56",
@@ -397,8 +399,10 @@
         "templates/perspective-review.md": "6a505c6dcdbae8313ffe3f253c9333520a0d66e83a84631020f9cb2590ca2a8f",
         "templates/session-artifact.md": "ca4c61d44edbe0a2c2f850fa3f410aacc291d5778726dc7ece5d7b4495615a30",
         "templates/session-record.md": "c472777b66c76996ed576a2fa7cd3ef56ce956b670ad73a0881391c102ea104c",
-        "tests/README.md": "defdd62eb536c9332a2f399210f3a254a6fb500e658d5262550c0b1ee6508387",
-        "tests/run-release-contract.ps1": "246122ef0a690a1b4bb1c73c52c1db87fea1a2a7e778f02bf5617f92b76abd02"
+        "tests/README.md": "1d15337339b81f4f16ffdae86850aadc658e5472c7efd5ccbf61edc4892d7754",
+        "tests/adapter-system.contract.ps1": "4ec84da598f2eae5439730a1cf8ad94ee2b3c66af97aaf8d39068c23dbd7e09d",
+        "tests/run-release-contract.ps1": "2ae513532cd8cb66361812218ed999c73180fb23d2b3507b60bd091d15a87bd5",
+        "tests/workflow-health.contract.ps1": "eb32057c9efc9e3c7b811484110c58d8a454438b96e4699d1e1585c5ecc65a28"
       },
       "optional": [
         "knowledge",
@@ -412,8 +416,8 @@
         "host-governance"
       ],
       "source": "packages/brainstorm",
-      "source_revision": "e4d7f2322f32412a9538ddf8dc6fca994ca9e5ca",
-      "version": "1.25.0"
+      "source_revision": "f9459dea4df406a3dab551a01513906175dcbca8",
+      "version": "1.25.1"
     },
     "fromdemotospec": {
       "destination": "modules/fromdemotospec",
@@ -422,7 +426,7 @@
         "04-agent-learning-feedback.md": "74673a31913bd688b1b8b954c8f314cc1cdb15e073c9c814f85e19bb5356d884",
         "AGENTS.md": "935db929e8275efcf849711dc02656aaa5e732f33729de9ead5f78c2d0f4ee8d",
         "README.md": "dc925971784952898fef680a938644502e314bb8da033ab028bbe8b9edff871b",
-        "_release.json": "dc03732e0ce0d63dcc32053518332fc74f8371422a94dc801e1a6c0d2c89687c",
+        "_release.json": "f29b5a118c64cc3335567f07fb5d49d974c55b47dba7ca485b54c72894a66b86",
         "adapters/game-analysis-decision/README.md": "aa9de02acba7c811f1bf3c0b87a3001a77b0c269c2209fd93b56a0ce28d5c9a0",
         "adapters/game-analysis-decision/contract.json": "d637d3460412ea17cfc77c76b132e93880fe906dacca52fc8b7996e311607397",
         "adapters/game-analysis-decision/fromdemotospec-analysis-request.schema.json": "a6172b110073acfb8b5f5050c23580f6e457b18c627b69f203a6627a91cb3846",
@@ -445,18 +449,19 @@
         "experience-kits/schemas/asset-manifest.schema.json": "72751505640b328e5035f3b5414b3e33b578b9b3d8f612f706fb072ef3ff48a4",
         "experience-kits/schemas/presentation-selection.schema.json": "28c30d608934867e7e85a79057a8dd34a4c83b0b2c078d7ea7abd93463dafc84",
         "paths/maintained-project.md": "df2fdaecfd99150d5f7cd8a1d7d8efc08a8aedf5efe9608ddc464a17e4b673d8",
-        "paths/single-file.md": "85603c191558aa8bb4118730420e609b81c015bb74c2d1647f1a3112c854dbf8",
+        "paths/single-file.md": "dc53ff4fa7d8eee05d35f2a0a15e8c3ff0f2af07ceac9edcaa5b485a99bcb28b",
         "protocols/handoff-and-production.md": "4f9b9d136fd0f21381833edcbd3d68bc9ce84ffa8909141358e514a213fca692",
         "protocols/presentation.md": "7abd3de23ca3eb5b69b70fd80a89012dc65c63cb6aae71533dfff47ccbca987f",
         "protocols/prototype-workflow.md": "14cc692f5f32b320e53698f26f429326970c43a2ac8e4d31bc395a5051005614",
         "protocols/quality-and-evidence.md": "505f08650e2add94fbeb53194e409ca0b2999e245c3abedc30ce4e7a5893e200",
-        "scripts/README.md": "89107a076d4bfa751cc90270ba060edd43cdf0dc5c3ef5719b1916afe54ac43d",
+        "scripts/README.md": "ac3058cdba7d24e9dfa481edcbcdc9b7f5be6bd2fb75ed2314bca0a60ecc14d3",
         "scripts/fromdemotospec-analysis-adapter.mjs": "b580b9bab6e325da527df8dd08e41974d283f478b04eb9fc06b4142203d143fe",
         "scripts/game-analysis-decision-v2-binding.mjs": "c12eb90743d763d31b61ac1fb73eaf4c8b79ba679342702cebbbe6f1500b5703",
-        "scripts/import-presentation-assets.ps1": "9fb06155d20f41e4a774f4d60bee5a2b3befd4c4019ff221d17a973cf3e34c23",
-        "scripts/inline-presentation-assets.ps1": "e636e346cbe94a946ba4d147226a512faea5d70b03eb0e4f52b379ce9a395d90",
+        "scripts/import-presentation-assets.ps1": "b487b5e34556068920812f31cd1d2398f7f33ea576175e49d991522d17c02cfa",
+        "scripts/inline-presentation-assets.ps1": "fcc09a756f7159e54a7df8527e8e77151b3f18145692c5ea99d7a03a0eaadba8",
         "scripts/new-learning-feedback-candidate.ps1": "47a2c7a98815acde7b92b47c4092217a7e695c77008d09fbc9e58ad5917fcc98",
         "scripts/new-presentation-calibration.ps1": "391fc8ad0be3ef6e8720118e79b5dcd733b57cbdb4c8c0ef9f0381bcc17d627f",
+        "scripts/presentation-inline-integrity.ps1": "7b6670c8cb1e3ae6c2420295f7177f4436299c3090ac2ac794ac153ff36bfe54",
         "scripts/prototype-project.mjs": "df0d1f1c19c61ea807428087416d806c88d4b3da6e850dfc7fcdd8900198e5ac",
         "scripts/validate-learning-feedback-candidate.ps1": "68c9fe1348b870dad44c597b475b635da335ccc5e0e9972aeb1ce862d0bcb61a",
         "templates/acceptance-evidence-requirements.experimental.md": "c7824065b0027cbaff14036f93406ebc636a13d9bd9165424e26dbebc6e97d9d",
@@ -469,10 +474,10 @@
         "templates/verification-and-delivery.md": "2ee2f18ccabc0fc28aac480c18c58c1069b8e4c36ad819718c30e3cf822e7b3e",
         "tests/game-analysis-adapter.contract.mjs": "becf6abbc13b55f102a18a6791f79c98108c1f3740354723adc4f838ae72d90e",
         "tests/game-analysis-adapter.contract.ps1": "8d7a39a58d3afc2d15aa526c430f272e4f5a5d3af2a3600aab1e03901998085b",
-        "tests/inline-presentation-assets.contract.ps1": "a9638011d281772a340e51316e573aa94b11b4a9cfbc706e2eba67f7ef263550",
+        "tests/inline-presentation-assets.contract.ps1": "ffcdaf41807859eda2cc0d0076fb9cb73eca30c02947561f2762e1a69ef03877",
         "tests/learning-feedback.contract.ps1": "5b4d299532591db9a99c4ec4bdcb65b4a86d9d2f308cbbb3c29fbd75e85dae11",
         "tests/presentation-calibration.contract.ps1": "b6b4656d288038a7b4ef809cc49d10b8106bd63419eb325fc4d72a48f892b7c9",
-        "tests/presentation-layer.contract.ps1": "021cefd8a1388cbdc0ca2a7c1eb62bc891ea19cbefc4b7d44e3c207f24162e08",
+        "tests/presentation-layer.contract.ps1": "5167d989a114093c1006ce9234c065c1e07d6e5a1babc39c542a0c4b882249e9",
         "tests/prototype-project.contract.mjs": "176e82d2df2593515848a9ec565b0d83e38fb1b48fba2c2716bc7a59d4853fb4"
       },
       "optional": [
@@ -488,8 +493,8 @@
         "host-governance"
       ],
       "source": "packages/fromdemotospec",
-      "source_revision": "e4f70edf169526f4d57725c692fc42d300003ab9",
-      "version": "1.25.0"
+      "source_revision": "f425395f65077158cc5f2166c768815c9e33103f",
+      "version": "1.25.1"
     },
     "game-analysis-decision": {
       "destination": "modules/game-analysis-decision",
@@ -576,7 +581,7 @@
       "required": [],
       "source": "packages/game-analysis-decision",
       "source_revision": "0693c5030d33fd2e22ed66295e5e05d5be23c534",
-      "version": "1.25.0"
+      "version": "1.25.1"
     },
     "game-presentation": {
       "destination": "modules/game-presentation",
@@ -620,7 +625,7 @@
       "required": [],
       "source": "packages/game-presentation",
       "source_revision": "9233c69ae3e441afd954b2c12b4256bbbbe83502",
-      "version": "1.25.0"
+      "version": "1.25.1"
     },
     "game-project": {
       "destination": "modules/game-project",
@@ -717,7 +722,7 @@
       "required": [],
       "source": "packages/game-project",
       "source_revision": "60b77e08f0f60f03a84ee8423f8904ae72822c4f",
-      "version": "1.25.0"
+      "version": "1.25.1"
     },
     "knowledge": {
       "destination": "modules/knowledge",
@@ -856,7 +861,7 @@
       ],
       "source": "packages/knowledge",
       "source_revision": "a92522f8d5123bebf4a47dcfbdba90a720289de0",
-      "version": "1.25.0"
+      "version": "1.25.1"
     },
     "meta": {
       "destination": "",
@@ -901,7 +906,7 @@
       "required": [],
       "source": "meta/workspace",
       "source_revision": "0e8469a680f44ec025274cbe763be2f7c801e240",
-      "version": "1.25.0"
+      "version": "1.25.1"
     },
     "prototype-assets": {
       "destination": "modules/prototype-assets",
@@ -1195,7 +1200,7 @@
       "required": [],
       "source": "packages/prototype-assets",
       "source_revision": "5abe108be291076b4e44717d17c740fca230c8e7",
-      "version": "1.25.0"
+      "version": "1.25.1"
     },
     "research": {
       "destination": "modules/research",
@@ -1328,7 +1333,7 @@
       "required": [],
       "source": "packages/research",
       "source_revision": "9017aa70a332d9cc2b8fa112df41722aef45e305",
-      "version": "1.25.0"
+      "version": "1.25.1"
     },
     "skills": {
       "destination": "modules/skills",
@@ -1450,7 +1455,7 @@
       "required": [],
       "source": "packages/skills",
       "source_revision": "9ee9e0e25009cf587a74cbf76879571d931621ed",
-      "version": "1.25.0"
+      "version": "1.25.1"
     },
     "tools": {
       "destination": "modules/tools",
@@ -1635,7 +1640,7 @@
       "required": [],
       "source": "packages/tools",
       "source_revision": "2f034efe1d3434dd84e4d2f8547cfb4555449d0c",
-      "version": "1.25.0"
+      "version": "1.25.1"
     },
     "travel": {
       "destination": "modules/travel",
@@ -1780,10 +1785,10 @@
       "required": [],
       "source": "packages/travel",
       "source_revision": "e4b445be6a072af7bb99af8ae6d562b57a5a085f",
-      "version": "1.25.0"
+      "version": "1.25.1"
     }
   },
-  "previous_version": "1.24.0",
+  "previous_version": "1.25.0",
   "schema_version": 1,
-  "version": "1.25.0"
+  "version": "1.25.1"
 }

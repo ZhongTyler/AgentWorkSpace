@@ -34,7 +34,13 @@ foreach ($heading in $requiredHeadings) {
     Assert-AdapterContract -Condition ($content.Contains($heading)) -Message "FromDemoToSpec handoff is missing heading: $heading"
 }
 $parameterHeading = 'Optional parameters'
-# Older closed handoffs remain historical evidence; validate the inventory when present.
+if ([string]$context.state.status -cne 'closed' -or $content.Contains('> Source brief SHA256:')) {
+    foreach ($pair in @(@('Source brief SHA256','brief_sha256'), @('Source combinations SHA256','combinations_sha256'), @('Source decisions SHA256','decision_ledger_sha256'))) {
+        Assert-AdapterContract ((Get-MarkdownMetadata -Content $content -Label $pair[0]) -ceq [string]$gapResult.gap.source_snapshot.($pair[1])) 'Handoff source snapshot differs from reviewed mapping.'
+    }
+}
+# Only closed historical artifacts may omit the later reception inventory.
+Assert-AdapterContract ([string]$context.state.status -ceq 'closed' -or $content.Contains('> Reception inventory:')) 'Active handoffs require a complete reception inventory.'
 if ($content.Contains('> Reception inventory:')) {
     Assert-AdapterContract ((Get-MarkdownMetadata -Content $content -Label 'Reception inventory') -ceq '1') 'Unsupported reception inventory.'
     Assert-AdapterContract ((Get-MarkdownMetadata -Content $content -Label 'Decision ledger') -ceq [string]$context.state.record_path) 'Decision ledger path differs from source.'

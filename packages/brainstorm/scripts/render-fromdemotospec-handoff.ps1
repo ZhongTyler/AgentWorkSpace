@@ -35,6 +35,7 @@ $result = Get-FromDemoToSpecGapValidation -SessionPath $SessionPath -SessionRoot
 Assert-AdapterContract -Condition ([string]$result.gap_status -ceq 'ready') -Message 'FromDemoToSpec handoff rendering requires gap status ready.'
 $gap = $result.gap
 $context = $result.context
+Assert-SessionWritable -SessionPath $SessionPath
 if ([string]::IsNullOrWhiteSpace($OutputPath)) { $OutputPath = Join-Path $context.session_directory 'fromdemotospec-handoff.md' }
 $OutputPath = Resolve-AdapterSessionPath -SessionDirectory $context.session_directory -ArtifactPath $OutputPath
 Assert-AdapterContract -Condition (-not (Test-Path -LiteralPath $OutputPath)) -Message "FromDemoToSpec handoff already exists: $OutputPath"
@@ -66,6 +67,9 @@ $content = $content.
     Replace('{{CONTRACT_PATH}}', [string]$gap.external_contract.path).
     Replace('{{CONTRACT_VERSION}}', [string]$gap.external_contract.version).
     Replace('{{CONTRACT_REVISION}}', [string]$gap.external_contract.last_verified_against).
+    Replace('{{BRIEF_SHA256}}', [string]$gap.source_snapshot.brief_sha256).
+    Replace('{{COMBINATIONS_SHA256}}', [string]$gap.source_snapshot.combinations_sha256).
+    Replace('{{DECISIONS_SHA256}}', [string]$gap.source_snapshot.decision_ledger_sha256).
     Replace('{{FIELDS}}', $sectionV2).
     Replace('{{PARAMETERS}}', ($parameterLines -join "`n")).
     Replace('{{REVIEWER}}', [string]$gap.reviewer).

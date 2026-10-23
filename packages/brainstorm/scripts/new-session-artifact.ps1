@@ -18,6 +18,7 @@ Assert-SessionContract -Condition ($ArtifactId -cmatch '^ART-[0-9]{3,}$') -Messa
 Assert-SessionContract -Condition (-not [string]::IsNullOrWhiteSpace($Title)) -Message 'Title is required.'
 Assert-SessionContract -Condition (-not [string]::IsNullOrWhiteSpace($Purpose) -and $Purpose -cne '-') -Message 'Purpose is required.'
 
+Assert-SessionWritable -SessionPath $SessionPath
 $statePath = Resolve-SessionStatePath -SessionPath $SessionPath
 $sessionDirectory = Split-Path -Parent $statePath
 $state = Read-Utf8Json -Path $statePath
@@ -74,22 +75,19 @@ try {
         'active',
         $Purpose
     )
-    Write-Utf8TextAtomic -Path $recordPath -Value $updatedRecord
-    $recordUpdated = $true
     $state.updated_at = (Get-Date).ToUniversalTime().ToString('o')
-    Write-Utf8JsonAtomic -Path $statePath -Value $state
-    $validation = Get-SessionValidation -SessionPath $sessionDirectory -SessionRoot $SessionRoot
+    $commit = Complete-SessionUpdate -SessionPath $sessionDirectory -State $state -Record $updatedRecord -SessionRoot $SessionRoot
+    $recordUpdated = $true
+    $validation = $commit.validation
+    $index = $commit.index
 } catch {
+    $recordUpdated = [IO.File]::ReadAllText($recordPath, $script:BrainstormUtf8NoBom).Contains('| ' + $ArtifactId + ' |')
     if ($artifactCreated -and -not $recordUpdated -and (Test-Path -LiteralPath $artifactPath -PathType Leaf)) {
         Remove-Item -LiteralPath $artifactPath -Force
     }
     throw
 }
 
-if ([string]::IsNullOrWhiteSpace($SessionRoot)) {
-    $SessionRoot = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $sessionDirectory))
-}
-$index = Write-SessionIndex -SessionRoot ([IO.Path]::GetFullPath($SessionRoot))
 [pscustomobject][ordered]@{
     created = $true
     artifact_id = $ArtifactId

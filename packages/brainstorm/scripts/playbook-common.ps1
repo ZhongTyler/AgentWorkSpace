@@ -1,3 +1,4 @@
+. (Join-Path $PSScriptRoot 'session-common.ps1')
 $script:BrainstormPlaybookScriptsRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $script:BrainstormPlaybookProjectRoot = [IO.Path]::GetFullPath((Join-Path $script:BrainstormPlaybookScriptsRoot '..'))
 $script:BrainstormPlaybookUtf8NoBom = New-Object Text.UTF8Encoding($false)
@@ -31,11 +32,13 @@ function Resolve-PlaybookProjectPath {
     $resolved = [IO.Path]::GetFullPath((Join-Path $root $RelativePath))
     $prefix = $root.TrimEnd([char]92, [char]47) + [IO.Path]::DirectorySeparatorChar
     Assert-PlaybookContract -Condition ($resolved.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)) -Message "Project path escaped the root: $RelativePath"
+    Assert-SafePhysicalPath -Path $resolved
     return $resolved
 }
 
 function Write-PlaybookUtf8TextAtomic {
     param([string]$Path, [string]$Value)
+    Assert-SafePhysicalPath -Path $Path
     $parent = Split-Path -Parent $Path
     Assert-PlaybookContract -Condition (Test-Path -LiteralPath $parent -PathType Container) -Message "Missing output directory: $parent"
     $temporaryPath = Join-Path $parent ('.' + [IO.Path]::GetFileName($Path) + '.' + [guid]::NewGuid().ToString('N') + '.tmp')
