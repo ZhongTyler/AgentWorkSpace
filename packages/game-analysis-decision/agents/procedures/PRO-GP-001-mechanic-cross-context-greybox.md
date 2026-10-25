@@ -8,7 +8,7 @@
 
 ## 适用与输入
 
-用于新机制的有效选择与跨情境验证相关的重复分析任务。从用户消息及宿主材料取得当前目标、相关规则／状态／证据和已定约束，不要求预填字段。具体信息不足仅阻断依赖判断，已有授权内继续取证与验算；没有本类问题可直接跳过。
+用于新机制的有效选择与跨情境验证相关的重复分析任务。从宿主当前目标、规则、状态和已有决定开始；缺输入时按[分析协议](../../protocols/analysis.md)继续可做部分。
 
 ## 可回跳的处理路径
 
@@ -18,7 +18,9 @@
 4. 选择能区分主要解释的灰盒变化、退出／恢复和边界例，不强制给每个机制另做完整游戏。
 5. 对可核实规则先计算或运行；局部成立只支持局部结论。需要重要玩法取舍时向用户给推荐和代价，真实认可由宿主记载。
 
-可选操作方法：[experience-hypothesis-chain](../methods/experience-hypothesis-chain.method.md)、[causal-system-map](../methods/causal-system-map.method.md)。方法按实际缺口加载，不复述整张卡；无需因专业边界改派另一个Agent才能完成计算。
+机制已存在却少有价值时，第2～4步可调用[同盘价值与机会成本比较](../methods/paired-state-value-comparison.method.md)：保留合法直接解／不行动、个人资源及换阵成本，比较到会影响判断的阶段后状态；再检查普通供给是否给过取得、装配和再次尝试的机会。局部特制题成立但普通路径没有机会时，先检查内容／供给；收益存在但玩家不可读时，检查反馈；仅在这些解释不足时再提出费用／范围修订。不把使用次数或可操作当有效选择，不另建一条同义Procedure。
+
+可选操作方法：[experience-hypothesis-chain](../methods/experience-hypothesis-chain.method.md)、[causal-system-map](../methods/causal-system-map.method.md)。
 
 ## 展开例与反例
 
@@ -26,8 +28,6 @@
 
 ## 输出、停止与学习
 
-只给对本轮有用的结果、依据、条件、下一动作和重要取舍，不固定输出七项或补not_applicable。已足以支持范围内行动、进一步证据无价值或达到预算时停止扩查，缺证据如实说明。真实Play和正式接受归宿主／用户。
+本例为合成说明。选用、输出和停止条件按[选用](../../protocols/selection.md)及[交付](../../protocols/delivery.md)协议；实际反例走[学习](../../protocols/learning.md)，保留原失败与版本。
 
-本版为候选组合路径，教学例不是实测；有实质改动按[增量学习](../../protocols/learning.md)检验并限定采用。新失败更新对应步骤／方法或收窄范围；不改历史记录来保持通过。Knowledge来源按[只读边界](../../protocols/knowledge-boundary.md)消费。
-
-按需复核的共享原则：`knowledge:principle:DPR-GP-002`、`knowledge:principle:DPR-GP-004`、`knowledge:principle:DPR-GP-005`。这些是本方法适用性与反例的候选来源，实际读取后再决定是否采用；变更仅触发相关能力复核，不自动覆盖专业内容。
+按需复核的共享原则：`knowledge:principle:DPR-GP-002`、`knowledge:principle:DPR-GP-004`、`knowledge:principle:DPR-GP-005`。引用只提供线索，按[来源边界](../../protocols/knowledge-boundary.md)实际核查。

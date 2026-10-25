@@ -279,7 +279,8 @@
         "knowledge:principle:DPR-SYS-001",
         "knowledge:principle:DPR-SYS-003",
         "knowledge:principle:DPR-GP-004"
-      ]
+      ],
+      "default_use": true
     },
     {
       "id": "balance-matrix-review",
@@ -342,6 +343,25 @@
         "knowledge:principle:DPR-PM-002",
         "knowledge:principle:DPR-PM-003"
       ]
+    },
+    {
+      "id": "paired-state-value-comparison",
+      "kind": "method",
+      "path": "agents/methods/paired-state-value-comparison.method.md",
+      "version": 2,
+      "roles": [
+        "GP",
+        "COM",
+        "NUM",
+        "SYS",
+        "LVL"
+      ],
+      "topics": [
+        "同盘价值与机会成本比较",
+        "机制存在却缺少使用价值、合法替代、个人资源、换阵成本与阶段后果"
+      ],
+      "eligibility": "candidate",
+      "source_refs": []
     },
     {
       "id": "PRO-LD-001-experience-mvp-tradeoff-review",
@@ -472,7 +492,8 @@
         "knowledge:principle:DPR-UX-003",
         "knowledge:principle:DPR-UX-005"
       ],
-      "legacy_path": "agents/memory/assets/UX/PRO-UX-001-state-input-feedback-recovery-audit.md"
+      "legacy_path": "agents/memory/assets/UX/PRO-UX-001-state-input-feedback-recovery-audit.md",
+      "default_use": true
     },
     {
       "id": "PRO-UX-002-learning-evidence-guidance-fadeout",

@@ -1,0 +1,132 @@
+{
+  "schema_version": 2,
+  "routes": [
+    {
+      "id": "mechanic-value",
+      "title": "机制缺少使用价值",
+      "aliases": [
+        "机制没价值",
+        "机制没有价值",
+        "置换收益"
+      ],
+      "ids": [
+        "paired-state-value-comparison",
+        "PRO-GP-001-mechanic-cross-context-greybox",
+        "expert-GP",
+        "causal-system-map"
+      ],
+      "operation": "冻结共同状态，比较合法替代、个人资源、阶段后果与机会成本。"
+    },
+    {
+      "id": "growth-pacing",
+      "title": "成长与兑现节奏",
+      "aliases": [
+        "成长慢",
+        "成长节奏",
+        "成长兑现"
+      ],
+      "ids": [
+        "challenge-rhythm-theme-plan",
+        "PRO-NUM-001-anchor-distribution-calibration",
+        "causal-system-map",
+        "PRO-LVL-001-challenge-route-whitebox-review",
+        "expert-NUM"
+      ],
+      "operation": "追踪取得、装配、首次有用和再次尝试窗口，核验个人资源阈值与正常供给。"
+    },
+    {
+      "id": "combat-readability",
+      "title": "战斗判断窗口",
+      "aliases": [
+        "看不懂战斗",
+        "反应窗口",
+        "战斗可读性"
+      ],
+      "ids": [
+        "PRO-COM-001-combat-readability-window-audit",
+        "expert-COM",
+        "CTX-AUDIO"
+      ],
+      "operation": "核对实际可见信息、输入与动作时间、并发威胁及可行动窗口。"
+    },
+    {
+      "id": "interaction-recovery",
+      "title": "交互理解与恢复",
+      "aliases": [
+        "交互易误解",
+        "取消恢复",
+        "操作反馈不清"
+      ],
+      "ids": [
+        "PRO-UX-001-state-input-feedback-recovery-audit",
+        "PRO-UX-002-learning-evidence-guidance-fadeout",
+        "expert-UX"
+      ],
+      "operation": "从真实玩家任务检查状态、输入、反馈、取消恢复与独立学习。"
+    },
+    {
+      "id": "system-coupling",
+      "title": "系统牵连与资源冲突",
+      "aliases": [
+        "系统牵连",
+        "资源冲突",
+        "局部增强整体变差"
+      ],
+      "ids": [
+        "causal-system-map",
+        "PRO-SYS-001-state-resource-lifecycle-contract",
+        "CTX-TECH",
+        "expert-SYS"
+      ],
+      "operation": "建立带单位和时序的资源约束及状态关系，检查生命周期、中断与替代解释。"
+    },
+    {
+      "id": "balance-disparity",
+      "title": "局部失衡与优势解",
+      "aliases": [
+        "平衡异常",
+        "优势解",
+        "总体胜率掩盖"
+      ],
+      "ids": [
+        "balance-matrix-review",
+        "expert-NUM",
+        "PRO-OPS-001-segment-cadence-causal-review",
+        "expert-OPS"
+      ],
+      "operation": "按对局、构筑、阶段和样本口径比较，检查总体均值掩盖与选择偏差。"
+    },
+    {
+      "id": "delivery-risk",
+      "title": "范围与交付风险",
+      "aliases": [
+        "交付风险",
+        "依赖排期",
+        "范围无法完成"
+      ],
+      "ids": [
+        "reverse-milestone-plan",
+        "PRO-PM-001-exit-dependency-risk-plan",
+        "expert-LD",
+        "PRO-LD-001-experience-mvp-tradeoff-review",
+        "expert-PM"
+      ],
+      "operation": "从可验收结果反推关键依赖、资源、范围、恢复与停止条件。"
+    },
+    {
+      "id": "narrative-choice",
+      "title": "叙事选择与角色动机",
+      "aliases": [
+        "叙事选择",
+        "角色动机",
+        "世界冲突"
+      ],
+      "ids": [
+        "PRO-NAR-001-state-choice-content-interface-review",
+        "PRO-NAR-002-world-conflict-character-motivation-review",
+        "expert-NAR"
+      ],
+      "operation": "追踪世界规则、信息到达、玩家选择与状态后果，检查角色行动动机。"
+    }
+  ]
+}

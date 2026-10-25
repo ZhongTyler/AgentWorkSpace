@@ -4,7 +4,7 @@ import path from 'node:path';
 import os from 'node:os';
 import crypto from 'node:crypto';
 import {execFileSync} from 'node:child_process';
-import {loadCatalogue,lookup,validateChange,saveChange,retract,resolveKnowledge,assertKnowledgeWrite,containedPath,dueReviews} from '../scripts/learning-cli.mjs';
+import {loadCatalogue,lookup,resolveSelection,validateChange,saveChange,retract,resolveKnowledge,assertKnowledgeWrite,containedPath,dueReviews} from '../scripts/learning-cli.mjs';
 
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
 const fixture=fs.mkdtempSync(path.join(os.tmpdir(),'game-analysis-decision-learning-v2-'));
@@ -32,6 +32,17 @@ try{
  assert.equal(lookup({query:'capacity'},root).length,0,'Matching a topic does not opt into unproven candidates');
  assert.equal(lookup({query:'capacity',includeCandidates:true},root)[0].eligibility,'candidate');
  assert.throws(()=>lookup({ids:['retired-method']},root),/retired/);
+ const routesPath=path.join(root,'agents/problem-routes.json');
+ const route={id:'fixture-problem',title:'Fixture problem',aliases:['fixture alias'],ids:['sample'],operation:'Inspect the actual constraint'};
+ json(routesPath,{schema_version:2,routes:[route]});
+ assert.equal(resolveSelection({problem:route.id,includeCandidates:true},root).items[0].id,'sample');
+ json(routesPath,{schema_version:2,routes:[route,{...route,id:'other'}]});
+ assert.throws(()=>resolveSelection({problem:route.id},root),/Ambiguous/,'Duplicate aliases cannot silently choose one route');
+ json(routesPath,{schema_version:2,routes:[{...route,ids:['retired-method']}]});
+ assert.throws(()=>resolveSelection({problem:route.id},root),/retired/,'Routes cannot revive retired assets');
+ json(routesPath,{schema_version:2,routes:[{...route,unexpected:true}]});
+ assert.throws(()=>resolveSelection({problem:route.id},root),/unknown/);
+ fs.unlinkSync(routesPath);
  validateChange(change,root,{forAdoption:true});
  const dry=saveChange(change,root);
  assert.equal(dry.applied,false);assert(!fs.existsSync(path.join(root,'learning/state.json')));
@@ -89,6 +100,19 @@ try{
  assert.equal(dueReviews(new Date('2026-03-01T02:00:00Z'),{reviews:[{kind:'monthly',completed_at:'2026-02-02T02:00:00Z'}]}).monthly,true,'Calendar month does not require thirty elapsed days');
  assert.equal(dueReviews(new Date('2026-09-13T16:00:00Z'),{reviews:[{kind:'weekly',completed_at:'2026-09-07T02:00:00Z'}]}).weekly,true,'Shanghai local Monday begins before UTC Monday');
  assert.equal(due.weekly,false);assert.equal(due.monthly,false);
+ const enabledCatalogue={schema_version:2,policy:'protocols/learning.md',assets:[{...asset,default_use:true}],retired_ids:['retired-method']};
+ json(path.join(root,'agents/catalogue.json'),enabledCatalogue);
+ const enabledItem=lookup({ids:['sample']},root)[0];
+ assert.equal(enabledItem.use_status,'normal');assert.equal(enabledItem.available,true);
+ assert.equal(enabledItem.default_use,true);assert.equal(enabledItem.eligibility,'candidate','Use authorization must not manufacture evidence maturity');
+ assert.equal(enabledItem.reason,'learning_evidence_changed_recheck_required');
+ assert.equal(lookup({},root).length,0,'Enabled items still require a task match');
+ retract({target_id:'sample',reason:'Counterexample stops normal use too',evidence_path:'evidence/check.json',evidence_sha256:sha(fs.readFileSync(path.join(root,'evidence/check.json')))},root,{apply:true});
+ assert.equal(lookup({ids:['sample'],includeCandidates:true},root).length,0,'Normal use must not revive disabled content');
+ const stopped=resolveSelection({ids:['sample'],includeCandidates:true},root).items[0];
+ assert.equal(stopped.use_status,'disabled');assert.equal(stopped.available,false);assert.equal(stopped.sha256,null,'Disabled selection must not read the stopped body');
+ json(path.join(root,'agents/catalogue.json'),{...enabledCatalogue,assets:[{...asset,default_use:'true'}]});
+ assert.throws(()=>loadCatalogue(root),/boolean/);
  console.log('PASS: learning v2 lifecycle, hash drift, scope matching, independent context checks, retraction, no-write default, source resolution and protected path/junction rejection. Fixture success is not method efficacy.');
 } finally {
  // The directory is created above under the OS temporary root; unlink junctions first.

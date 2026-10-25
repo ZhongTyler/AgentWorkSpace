@@ -1,27 +1,25 @@
 # 主策划 · 专业配置
 
-版本：2 · 2026-09-08 · role：LD
+版本：2 · 2026-10-23 · role：LD
 
 ## 何时使用
 
-体验目标、跨领域取舍和最小完整验证范围。当前Agent按问题加载，不要求先扮演角色或启动独立Agent。没有此类缺口就跳过；既有事实足够时不强制查Knowledge。
+体验目标、跨领域取舍和最小完整验证范围。
 
 ## 判断与选法
 
 先固定用户认可的目标及不能牺牲的条件；把候选方案分别映射到玩家行动、信息／反馈、内容与生产依赖。检查局部指标改善是否伤害真正目标。用体验命题链定位不能省略的行为，再用依赖计划估算可交付范围。
 
-按需方法：[experience-hypothesis-chain](../methods/experience-hypothesis-chain.method.md)、[reverse-milestone-plan](../methods/reverse-milestone-plan.method.md)。重复问题的组合路径为 `PRO-LD-001-experience-mvp-tradeoff-review`，由当前能力目录解析新版内容与使用资格，不因旧validating／ready继承质量。
+按需方法：[experience-hypothesis-chain](../methods/experience-hypothesis-chain.method.md)、[reverse-milestone-plan](../methods/reverse-milestone-plan.method.md)。重复问题的组合路径为 `PRO-LD-001-experience-mvp-tradeoff-review`。
 
-## 展开使用与误用
+## 合成例与误用
 
-合成例：战斗规则已可运行，但受击无反馈，玩家无法区分无敌帧、判定失败和没打中。删掉反馈能缩短开发，却使规则验证难以解释；优先补能归因的最小反馈，减少关卡数量。若用户要的是服务器吞吐测试，则画面不属于该项完成条件。
+见[体验承诺与可验证范围取舍](../procedures/PRO-LD-001-experience-mvp-tradeoff-review.md#展开例与反例)；本卡保留观察和选法，组合步骤及共享案例由该Procedure拥有。
 
 ## 输出与边界
 
-用户目标冲突、真实体验认可和重要资源投入交用户；具体模板、目录和常规实现不转嫁。主策划整合不等于替数值或玩家提供事实。 只交付影响本轮判断的结论、依据、未知和下一动作，不强制角色报告或装配收据。正式决定由宿主记录，专业意见不拥有human gate。
+用户目标冲突、真实体验认可和重要资源投入交用户；具体模板、目录和常规实现不转嫁。主策划整合不等于替数值或玩家提供事实。
 
-## 来源与自我校正
+## 来源与校正
 
-知识线索：`knowledge:domain:主策划`，通过Provider读取并核对条件。来源可以来自项目、Knowledge、外部原始材料或可复现计算；专家自身可能错误，重要结论检查相反解释。相同模型换角色得到共识不是独立证据。
-
-本例为合成教学说明，不是实际效果。若真实事实反驳观察或选法，按[学习协议](../../protocols/learning.md)修订正确层级并收窄／撤回；不以“更严格遵守专家提示”代替查错。[材料边界](../../protocols/knowledge-boundary.md)禁止反向改写只读Knowledge材料。
+来源线索：`knowledge:domain:主策划`，需要时实际读取并核对；本卡与所链案例不证明真实效果。选用、输出及新反例按[选用](../../protocols/selection.md)、[交付](../../protocols/delivery.md)与[学习](../../protocols/learning.md)协议；[Knowledge材料](../../protocols/knowledge-boundary.md)保持只读。

@@ -43,9 +43,10 @@ export function loadCatalogue(root=repositoryRoot){
  if(cat.schema_version!==2||!Array.isArray(cat.assets)||!Array.isArray(cat.retired_ids))throw new Error('Unsupported catalogue');
  const ids=new Set();
  for(const a of cat.assets){
-  object(a,['id','kind','path','version','roles','topics','eligibility','source_refs','legacy_path'],'asset',['id','kind','path','version','roles','topics','eligibility','source_refs']);
+  object(a,['id','kind','path','version','roles','topics','eligibility','source_refs','legacy_path','default_use'],'asset',['id','kind','path','version','roles','topics','eligibility','source_refs']);
   text(a.id,'asset id');if(ids.has(a.id)||cat.retired_ids.includes(a.id))throw new Error('Duplicate or retired active id');ids.add(a.id);
   if(!['expert','context','method','procedure'].includes(a.kind)||a.version!==2||!['candidate','scoped','disabled'].includes(a.eligibility))throw new Error('Invalid asset kind/version/eligibility');
+  if('default_use' in a&&typeof a.default_use!=='boolean')throw new Error('default_use must be boolean');
   if(!Array.isArray(a.roles)||!Array.isArray(a.source_refs))throw new Error('Asset lists required');
   list(a.topics,'asset topics');if(!fs.statSync(containedPath(root,a.path)).isFile())throw new Error('Asset file missing');
  }
@@ -70,27 +71,58 @@ function qualificationHealth(entry,asset,root){
   return null;
  }catch{return 'learning_evidence_missing_recheck_required';}
 }
-export function lookup({query='',ids=[],roles=[],includeCandidates=false,contextTags=[]}={},root=repositoryRoot){
+function loadProblemRoutes(root,cat){
+ const file=containedPath(root,'agents/problem-routes.json');
+ if(!fs.existsSync(file))return [];
+ const data=read(file);object(data,['schema_version','routes'],'problem routes');
+ if(data.schema_version!==2||!Array.isArray(data.routes))throw new Error('Invalid problem routes');
+ const seen=new Set(),aliases=new Set();
+ for(const route of data.routes){
+  object(route,['id','title','aliases','ids','operation'],'problem route');
+  text(route.id,'problem id');text(route.title,'problem title');text(route.operation,'problem operation');list(route.aliases,'problem aliases');list(route.ids,'problem assets');
+  if(seen.has(route.id)||new Set(route.ids).size!==route.ids.length)throw new Error('Duplicate problem route or asset');seen.add(route.id);
+  for(const alias of route.aliases){if(aliases.has(alias))throw new Error('Ambiguous problem alias');aliases.add(alias);}
+  if(route.ids.some(id=>!cat.assets.some(a=>a.id===id)))throw new Error('Unknown or retired problem asset');
+ }
+ return data.routes;
+}
+export function resolveSelection(request={},root=repositoryRoot){
+ if(!request||typeof request!=='object'||Array.isArray(request)||Object.keys(request).some(k=>!['query','ids','roles','includeCandidates','contextTags','problem'].includes(k)))throw new Error('Unknown professional selection field');
+ const {query='',ids=[],roles=[],includeCandidates=false,contextTags=[],problem=''}=request;
  const cat=loadCatalogue(root),state=loadState(root);
- if(typeof query!=='string'||typeof includeCandidates!=='boolean'||![ids,roles,contextTags].every(a=>Array.isArray(a)&&a.every(x=>typeof x==='string')))throw new Error('Invalid lookup values');
+ if(typeof problem!=='string'||typeof query!=='string'||typeof includeCandidates!=='boolean'||![ids,roles,contextTags].every(a=>Array.isArray(a)&&a.every(x=>typeof x==='string')))throw new Error('Invalid lookup values');
  const missing=ids.filter(id=>!cat.assets.some(a=>a.id===id));
  if(missing.length)throw new Error('Unknown or retired requested asset: '+missing.join(','));
+ const routes=loadProblemRoutes(root,cat),route=problem?routes.find(r=>r.id===problem):routes.find(r=>r.aliases.some(alias=>query.includes(alias)));
+ if(problem&&!route)throw new Error('Unknown or unavailable problem route: '+problem);
  const tokens=query.toLowerCase().split(/[\s,，、]+/u).filter(Boolean);
- return cat.assets.filter(a=>{
-  if(ids.length)return ids.includes(a.id);
+ const matchesQuery=a=>tokens.some(t=>[a.id,...a.topics].join(' ').toLowerCase().includes(t));
+ let matches=ids.length?[...new Set(ids)].map(id=>cat.assets.find(a=>a.id===id)):cat.assets.filter(a=>{
   if(!tokens.length&&!roles.length)return false;
-  return a.roles.some(r=>roles.includes(r))||tokens.some(t=>[a.id,...a.topics].join(' ').toLowerCase().includes(t));
- }).map(a=>{
-  const sha256=hash(fs.readFileSync(containedPath(root,a.path))),s=state.assets[a.id];
+  return a.roles.some(r=>roles.includes(r))||matchesQuery(a);
+ });
+ // Explicit order is intentional; a role fallback must not crowd out the named topic.
+ if(!ids.length&&tokens.length)matches=[...matches.filter(matchesQuery),...matches.filter(a=>!matchesQuery(a))];
+ if(!ids.length&&route){const routed=route.ids.map(id=>cat.assets.find(a=>a.id===id));matches=[...routed,...matches.filter(a=>!route.ids.includes(a.id))];}
+ const items=matches.map(a=>{
+  const s=state.assets[a.id],withdrawn=a.eligibility==='disabled'||s?.eligibility==='disabled';
+  const sha256=withdrawn?null:hash(fs.readFileSync(containedPath(root,a.path)));
   let eligibility=a.eligibility,scope=null,reason='catalogue_default';
-  if(s){
-   if(s.eligibility==='disabled'){eligibility='disabled';reason='withdrawn';}
-   else if(s.content_sha256!==sha256){eligibility='candidate';reason='content_changed_recheck_required';}
+  if(withdrawn){eligibility='disabled';reason='withdrawn';}
+  else if(s){
+   if(s.content_sha256!==sha256){eligibility='candidate';reason='content_changed_recheck_required';}
    else {const health=qualificationHealth(s,a,root);eligibility=health?'candidate':s.eligibility;scope=s.scope;reason=health??'learning_record';}
   }
-  if(scope&&(scope.exclude.some(x=>contextTags.includes(x))||!scope.include.some(x=>contextTags.includes(x)))){eligibility='candidate';reason='outside_supported_scope';}
-  return {...a,eligibility,scope,sha256,reason,sole_basis_for_important_decision:false};
- }).filter(a=>a.eligibility!=='disabled'&&(includeCandidates||a.eligibility==='scoped'));
+  if(scope&&(scope.exclude.some(x=>contextTags.includes(x))||!scope.include.some(x=>contextTags.includes(x)))){eligibility='candidate';if(reason==='learning_record')reason='outside_supported_scope';}
+  const use_status=eligibility==='disabled'?'disabled':a.default_use===true||eligibility==='scoped'?'normal':'trial';
+  const available=use_status==='normal'||use_status==='trial'&&includeCandidates;
+  const selection_reason=use_status==='disabled'?'withdrawn':use_status==='normal'?(a.default_use===true?'owner_enabled':'supported_scope'):includeCandidates?'explicit_trial':'trial_requires_opt_in';
+  return {...a,eligibility,scope,sha256,reason,use_status,available,selection_reason,sole_basis_for_important_decision:false};
+ });
+ return {schema_version:2,problem:route?.id??null,operation:route?.operation??null,items};
+}
+export function lookup(request={},root=repositoryRoot){
+ return resolveSelection(request,root).items.filter(a=>a.available);
 }
 export function validateChange(change,root=repositoryRoot,{forAdoption=false}={}){
  object(change,[...['schema_version','id','target_id','author_context','claim','validation_class','base','candidate_sha256','scope','sources','checks','decision','reason'],'reentry'],'change',['schema_version','id','target_id','author_context','claim','validation_class','base','candidate_sha256','scope','sources','checks','decision','reason']);
@@ -221,12 +253,13 @@ export function dueReviews(now=new Date(),state=loadState(),{timeZone='Asia/Shan
 }
 function main(){
  const [action,...args]=process.argv.slice(2);const apply=args.includes('--apply');const params=args.filter(a=>a!=='--apply');
+ if(action==='resolve'){console.log(JSON.stringify(resolveSelection(params[0]?read(params[0]):{}),null,2));return;}
  if(action==='lookup'){console.log(JSON.stringify(lookup(params[0]?read(params[0]):{}),null,2));return;}
  if(action==='validate'||action==='record'){if(!params[0])throw new Error('Change JSON required');const c=read(params[0]);console.log(JSON.stringify(action==='validate'?validateChange(c,repositoryRoot,{forAdoption:c.decision==='scoped'}):saveChange(c,repositoryRoot,{apply}),null,2));return;}
  if(action==='retract'){console.log(JSON.stringify(retract(read(params[0]),repositoryRoot,{apply}),null,2));return;}
  if(action==='source'){if(params.length!==2)throw new Error('source <ref> <Knowledge-root>');console.log(JSON.stringify(resolveKnowledge(params[0],params[1]),null,2));return;}
  if(action==='due'){console.log(JSON.stringify(dueReviews(),null,2));return;}
  if(action==='audit'){const cat=loadCatalogue();console.log(JSON.stringify({version:2,assets:cat.assets.length,retired:cat.retired_ids,claim:'catalogue integrity only'}));return;}
- throw new Error('Usage: learning-cli.mjs lookup [query.json] | validate <change.json> | record <change.json> [--apply] | retract <request.json> [--apply] | source <ref> <Knowledge-root> | due | audit');
+ throw new Error('Usage: learning-cli.mjs resolve [query.json] | lookup [query.json] | validate <change.json> | record <change.json> [--apply] | retract <request.json> [--apply] | source <ref> <Knowledge-root> | due | audit');
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){try{main();}catch(e){console.error(e.message);process.exitCode=2;}}

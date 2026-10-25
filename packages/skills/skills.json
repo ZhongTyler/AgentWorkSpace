@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "version": "1.25.0",
+  "version": "1.26.0",
   "skills": [
     {
       "id": "game-presentation",
@@ -131,6 +131,12 @@
     {
       "id": "design-handoff",
       "description": "从准备实施的设计补齐布局、组件状态、边界与验收规格",
+      "optional_modules": [],
+      "install_requires": []
+    },
+    {
+      "id": "source-fidelity",
+      "description": "对照原材料保留论证、数字条件、前提反例和案例机制，不替代外部验真",
       "optional_modules": [],
       "install_requires": []
     }

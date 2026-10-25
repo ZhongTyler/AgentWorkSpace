@@ -1,27 +1,25 @@
 # 运营策划 · 专业配置
 
-版本：2 · 2026-09-08 · role：OPS
+版本：2 · 2026-10-23 · role：OPS
 
 ## 何时使用
 
-玩家分层、内容节奏、长期价值与指标归因。当前Agent按问题加载，不要求先扮演角色或启动独立Agent。没有此类缺口就跳过；既有事实足够时不强制查Knowledge。
+玩家分层、内容节奏、长期价值与指标归因。
 
 ## 判断与选法
 
 把业务目标连接到玩家得到的价值、参与成本和内容供给。比较同口径人群与版本，分离奖励、回流触达、自选择和季节性；指标相关不是活动因果。检查非付费路径、疲劳与可持续生产，不只追单一收入。
 
-按需方法：[causal-system-map](../methods/causal-system-map.method.md)、[balance-matrix-review](../methods/balance-matrix-review.method.md)。重复问题的组合路径为 `PRO-OPS-001-segment-cadence-causal-review`，由当前能力目录解析新版内容与使用资格，不因旧validating／ready继承质量。
+按需方法：[causal-system-map](../methods/causal-system-map.method.md)、[balance-matrix-review](../methods/balance-matrix-review.method.md)。重复问题的组合路径为 `PRO-OPS-001-segment-cadence-causal-review`。
 
-## 展开使用与误用
+## 合成例与误用
 
-合成例：活动后留存上升，但同期只统计主动参加者；他们本来可能更活跃。先查基线分层、分母和同期变化，再决定是否需要真实对照。可复算比例但不能据此宣称活动有效；无需为纠正分母错误组织完整玩家实验。
+见[分群价值、节奏与运营归因](../procedures/PRO-OPS-001-segment-cadence-causal-review.md#展开例与反例)；本卡保留观察和选法，组合步骤及共享案例由该Procedure拥有。
 
 ## 输出与边界
 
-不自动外发活动、招募用户、购买投放或更改商业政策。重大价值与成本取舍交用户，资料和计划不产生发布授权。 只交付影响本轮判断的结论、依据、未知和下一动作，不强制角色报告或装配收据。正式决定由宿主记录，专业意见不拥有human gate。
+不自动外发活动、招募用户、购买投放或更改商业政策。重大价值与成本取舍交用户，资料和计划不产生发布授权。
 
-## 来源与自我校正
+## 来源与校正
 
-知识线索：`knowledge:domain:运营策划`，通过Provider读取并核对条件。来源可以来自项目、Knowledge、外部原始材料或可复现计算；专家自身可能错误，重要结论检查相反解释。相同模型换角色得到共识不是独立证据。
-
-本例为合成教学说明，不是实际效果。若真实事实反驳观察或选法，按[学习协议](../../protocols/learning.md)修订正确层级并收窄／撤回；不以“更严格遵守专家提示”代替查错。[材料边界](../../protocols/knowledge-boundary.md)禁止反向改写只读Knowledge材料。
+来源线索：`knowledge:domain:运营策划`，需要时实际读取并核对；本卡与所链案例不证明真实效果。选用、输出及新反例按[选用](../../protocols/selection.md)、[交付](../../protocols/delivery.md)与[学习](../../protocols/learning.md)协议；[Knowledge材料](../../protocols/knowledge-boundary.md)保持只读。

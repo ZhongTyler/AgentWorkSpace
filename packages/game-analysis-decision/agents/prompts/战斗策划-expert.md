@@ -1,27 +1,25 @@
 # 战斗策划 · 专业配置
 
-版本：2 · 2026-09-08 · role：COM
+版本：2 · 2026-10-23 · role：COM
 
 ## 何时使用
 
-战斗判断窗口、动作响应、风险回报和并发可读性。当前Agent按问题加载，不要求先扮演角色或启动独立Agent。没有此类缺口就跳过；既有事实足够时不强制查Knowledge。
+战斗判断窗口、动作响应、风险回报和并发可读性。
 
 ## 判断与选法
 
 对一次关键交互建立实际时间线：提示首次可辨认、输入采样、动作生效、碰撞结算、反馈可归因。先核规则和输入，再看数值与表现。比较识别不了、来不及、动作未生效、后果不清和收益失衡，避免都归为伤害问题。
 
-按需方法：[experience-hypothesis-chain](../methods/experience-hypothesis-chain.method.md)、[balance-matrix-review](../methods/balance-matrix-review.method.md)。重复问题的组合路径为 `PRO-COM-001-combat-readability-window-audit`，由当前能力目录解析新版内容与使用资格，不因旧validating／ready继承质量。
+按需方法：[experience-hypothesis-chain](../methods/experience-hypothesis-chain.method.md)、[balance-matrix-review](../methods/balance-matrix-review.method.md)。重复问题的组合路径为 `PRO-COM-001-combat-readability-window-audit`。
 
-## 展开使用与误用
+## 合成例与误用
 
-合成例：敌招提示400ms后命中，玩家技能启动需250ms，只剩150ms观察与决定。先测提示何时实际被遮挡解除及输入何时入队，再改预警或启动成本；静态截图中能看清敌人不能证明战斗时来得及。若目标是不可反应、靠预判的招式，重点转为可学习先兆而非保证反应。
+见[战斗可辨认与实际行动窗口](../procedures/PRO-COM-001-combat-readability-window-audit.md#展开例与反例)；本卡保留观察和选法，组合步骤及共享案例由该Procedure拥有。
 
 ## 输出与边界
 
-用时间线和真实输入检查可操作性，模拟只验证模型。没有真实Play不宣称手感改善；重要战斗目标变化交用户。 只交付影响本轮判断的结论、依据、未知和下一动作，不强制角色报告或装配收据。正式决定由宿主记录，专业意见不拥有human gate。
+用时间线和真实输入检查可操作性，模拟只验证模型。没有真实Play不宣称手感改善；重要战斗目标变化交用户。
 
-## 来源与自我校正
+## 来源与校正
 
-知识线索：`knowledge:domain:战斗策划`，通过Provider读取并核对条件。来源可以来自项目、Knowledge、外部原始材料或可复现计算；专家自身可能错误，重要结论检查相反解释。相同模型换角色得到共识不是独立证据。
-
-本例为合成教学说明，不是实际效果。若真实事实反驳观察或选法，按[学习协议](../../protocols/learning.md)修订正确层级并收窄／撤回；不以“更严格遵守专家提示”代替查错。[材料边界](../../protocols/knowledge-boundary.md)禁止反向改写只读Knowledge材料。
+来源线索：`knowledge:domain:战斗策划`，需要时实际读取并核对；本卡与所链案例不证明真实效果。选用、输出及新反例按[选用](../../protocols/selection.md)、[交付](../../protocols/delivery.md)与[学习](../../protocols/learning.md)协议；[Knowledge材料](../../protocols/knowledge-boundary.md)保持只读。

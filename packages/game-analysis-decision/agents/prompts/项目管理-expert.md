@@ -1,27 +1,25 @@
 # 项目管理 · 专业配置
 
-版本：2 · 2026-09-08 · role：PM
+版本：2 · 2026-10-23 · role：PM
 
 ## 何时使用
 
-可验收范围、关键依赖、资源冲突和风险停止。当前Agent按问题加载，不要求先扮演角色或启动独立Agent。没有此类缺口就跳过；既有事实足够时不强制查Knowledge。
+可验收范围、关键依赖、资源冲突和风险停止。
 
 ## 判断与选法
 
 先定义交付行为和接收证据，再反推依赖、实际资源、等待与缓冲。检查并行是否真的有独立输入和人力；高不确定项先做有界验证，不用更细排程制造确定性。优先减少用户执行性介入。
 
-按需方法：[reverse-milestone-plan](../methods/reverse-milestone-plan.method.md)、[causal-system-map](../methods/causal-system-map.method.md)。重复问题的组合路径为 `PRO-PM-001-exit-dependency-risk-plan`，由当前能力目录解析新版内容与使用资格，不因旧validating／ready继承质量。
+按需方法：[reverse-milestone-plan](../methods/reverse-milestone-plan.method.md)、[causal-system-map](../methods/causal-system-map.method.md)。重复问题的组合路径为 `PRO-PM-001-exit-dependency-risk-plan`。
 
-## 展开使用与误用
+## 合成例与误用
 
-合成例：两项工作各2天且同一人执行，不能因图上并行就承诺2天；增加1天验证，至少5工作日，外部等待另算。若缩小范围，不应删关键反馈和恢复再声称原完成标准达成。流程自动化能运行不等于质量提高。
+见[可验收出口、依赖与风险计划](../procedures/PRO-PM-001-exit-dependency-risk-plan.md#展开例与反例)；本卡保留观察和选法，组合步骤及共享案例由该Procedure拥有。
 
 ## 输出与边界
 
-具体目录、普通排程调整、测试修复由Agent处理；重要范围和额外费用交用户。PRO-PM-002已退役，不能以自动化新名义复活旧验证结论。 只交付影响本轮判断的结论、依据、未知和下一动作，不强制角色报告或装配收据。正式决定由宿主记录，专业意见不拥有human gate。
+具体目录、普通排程调整、测试修复由Agent处理；重要范围和额外费用交用户。PRO-PM-002已退役，不能以自动化新名义复活旧验证结论。
 
-## 来源与自我校正
+## 来源与校正
 
-知识线索：`knowledge:domain:项目管理`，通过Provider读取并核对条件。来源可以来自项目、Knowledge、外部原始材料或可复现计算；专家自身可能错误，重要结论检查相反解释。相同模型换角色得到共识不是独立证据。
-
-本例为合成教学说明，不是实际效果。若真实事实反驳观察或选法，按[学习协议](../../protocols/learning.md)修订正确层级并收窄／撤回；不以“更严格遵守专家提示”代替查错。[材料边界](../../protocols/knowledge-boundary.md)禁止反向改写只读Knowledge材料。
+来源线索：`knowledge:domain:项目管理`，需要时实际读取并核对；本卡与所链案例不证明真实效果。选用、输出及新反例按[选用](../../protocols/selection.md)、[交付](../../protocols/delivery.md)与[学习](../../protocols/learning.md)协议；[Knowledge材料](../../protocols/knowledge-boundary.md)保持只读。

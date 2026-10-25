@@ -8,7 +8,7 @@
 
 ## 适用与输入
 
-用于体验承诺与可验证范围取舍相关的重复分析任务。从用户消息及宿主材料取得当前目标、相关规则／状态／证据和已定约束，不要求预填字段。具体信息不足仅阻断依赖判断，已有授权内继续取证与验算；没有本类问题可直接跳过。
+用于体验承诺与可验证范围取舍相关的重复分析任务。从宿主当前目标、规则、状态和已有决定开始；缺输入时按[分析协议](../../protocols/analysis.md)继续可做部分。
 
 ## 可回跳的处理路径
 
@@ -18,7 +18,7 @@
 4. 比较减少内容广度、降低资源规格和改变核心目标三类不同裁剪；前两者可在既有授权内推进，后者形成具体用户选择。
 5. 准备可运行验证、失败与恢复路径及必要体验观察；依证据决定保留、缩小或待定，不把MVP文件完整称为体验通过。
 
-可选操作方法：[experience-hypothesis-chain](../methods/experience-hypothesis-chain.method.md)、[reverse-milestone-plan](../methods/reverse-milestone-plan.method.md)。方法按实际缺口加载，不复述整张卡；无需因专业边界改派另一个Agent才能完成计算。
+可选操作方法：[experience-hypothesis-chain](../methods/experience-hypothesis-chain.method.md)、[reverse-milestone-plan](../methods/reverse-milestone-plan.method.md)。
 
 ## 展开例与反例
 
@@ -26,8 +26,6 @@
 
 ## 输出、停止与学习
 
-只给对本轮有用的结果、依据、条件、下一动作和重要取舍，不固定输出七项或补not_applicable。已足以支持范围内行动、进一步证据无价值或达到预算时停止扩查，缺证据如实说明。真实Play和正式接受归宿主／用户。
+本例为合成说明。选用、输出和停止条件按[选用](../../protocols/selection.md)及[交付](../../protocols/delivery.md)协议；实际反例走[学习](../../protocols/learning.md)，保留原失败与版本。
 
-本版为候选组合路径，教学例不是实测；有实质改动按[增量学习](../../protocols/learning.md)检验并限定采用。新失败更新对应步骤／方法或收窄范围；不改历史记录来保持通过。Knowledge来源按[只读边界](../../protocols/knowledge-boundary.md)消费。
-
-按需复核的共享原则：`knowledge:principle:DPR-LD-001`、`knowledge:principle:DPR-LD-002`、`knowledge:principle:DPR-LD-005`。这些是本方法适用性与反例的候选来源，实际读取后再决定是否采用；变更仅触发相关能力复核，不自动覆盖专业内容。
+按需复核的共享原则：`knowledge:principle:DPR-LD-001`、`knowledge:principle:DPR-LD-002`、`knowledge:principle:DPR-LD-005`。引用只提供线索，按[来源边界](../../protocols/knowledge-boundary.md)实际核查。

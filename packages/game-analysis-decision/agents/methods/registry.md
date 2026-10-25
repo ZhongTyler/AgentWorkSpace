@@ -9,5 +9,6 @@
 | `challenge-rhythm-theme-plan` | `candidate` | 挑战、时序、路线与迁移 | 内容v2；来源与证据见正文和学习记录 |
 | `balance-matrix-review` | `candidate` | 分层样本、局部异常与因果限制 | 内容v2；来源与证据见正文和学习记录 |
 | `reverse-milestone-plan` | `candidate` | 验收、依赖、资源和风险 | 内容v2；来源与证据见正文和学习记录 |
+| `paired-state-value-comparison` | `candidate` | 同盘机制价值、合法替代与机会成本 | 内容v2；回顾提取仅支持候选，未证明新增方法收益 |
 
 旧ready或旧评测只按对应版本解释，不据新版重写改变历史。新增／退役同步真实消费者，retired不得装配。Method和Procedure是职责关系，不是成熟度阶梯。

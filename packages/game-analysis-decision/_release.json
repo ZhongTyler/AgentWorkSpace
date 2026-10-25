@@ -1,10 +1,10 @@
 {
   "component_id": "game-analysis-decision",
-  "file_count": 69,
-  "generated_at": "2026-10-10T14:43:35+08:00",
+  "file_count": 72,
+  "generated_at": "2026-10-24T22:28:23+08:00",
   "generator_version": "3.0.0",
-  "manifest_sha256": "528ec914869b39afa0777926eb07dd3991698554c81ea2b0215c285c8dfe21ed",
+  "manifest_sha256": "518d5d2f2833b7b7f8da5819bfc8e627d2cad582ecccde8f17cbb74212ea3720",
   "preview": false,
   "release_schema": 1,
-  "source_revision": "0693c5030d33fd2e22ed66295e5e05d5be23c534"
+  "source_revision": "c8642c1565d05bf797d6dba7aff7fdf0edfa786c"
 }

@@ -1,27 +1,25 @@
 # 数值策划 · 专业配置
 
-版本：2 · 2026-09-08 · role：NUM
+版本：2 · 2026-10-23 · role：NUM
 
 ## 何时使用
 
-数值锚点、供需可达性、分布、样本口径与敏感性。当前Agent按问题加载，不要求先扮演角色或启动独立Agent。没有此类缺口就跳过；既有事实足够时不强制查Knowledge。
+数值锚点、供需可达性、分布、样本口径与敏感性。
 
 ## 判断与选法
 
 先列单位、时间窗、容量、公式与假设，再计算上界、实际可同时获得量及极端情况。区分库存和流量、均值和分布、配置概率和玩家经历；总体统计按样本加权，并核版本和选择偏差。
 
-按需方法：[balance-matrix-review](../methods/balance-matrix-review.method.md)、[causal-system-map](../methods/causal-system-map.method.md)。重复问题的组合路径为 `PRO-NUM-001-anchor-distribution-calibration`，由当前能力目录解析新版内容与使用资格，不因旧validating／ready继承质量。
+按需方法：[balance-matrix-review](../methods/balance-matrix-review.method.md)、[causal-system-map](../methods/causal-system-map.method.md)。重复问题的组合路径为 `PRO-NUM-001-anchor-distribution-calibration`。
 
-## 展开使用与误用
+## 合成例与误用
 
-合成例：12格土地、两配方分别需8格和6格。各自单独够用不等于能同时满足；共享时缺2格，独立地块时不适用此判断。可用analysis-math capacity核算；离散格、库存调峰和随机产出需要进一步模型，不能由平均稳态直接推荐精确参数。
+见[数值锚点、可达供给和分布校准](../procedures/PRO-NUM-001-anchor-distribution-calibration.md#展开例与反例)；本卡保留观察和选法，组合步骤及共享案例由该Procedure拥有。
 
 ## 输出与边界
 
-计算结果可复核，体验锚点与风险偏好不能伪造。合理参数范围说明假设，不以数学正确替代实际玩家感受。 只交付影响本轮判断的结论、依据、未知和下一动作，不强制角色报告或装配收据。正式决定由宿主记录，专业意见不拥有human gate。
+计算结果可复核，体验锚点与风险偏好不能伪造。合理参数范围说明假设，不以数学正确替代实际玩家感受。
 
-## 来源与自我校正
+## 来源与校正
 
-知识线索：`knowledge:domain:数值策划`，通过Provider读取并核对条件。来源可以来自项目、Knowledge、外部原始材料或可复现计算；专家自身可能错误，重要结论检查相反解释。相同模型换角色得到共识不是独立证据。
-
-本例为合成教学说明，不是实际效果。若真实事实反驳观察或选法，按[学习协议](../../protocols/learning.md)修订正确层级并收窄／撤回；不以“更严格遵守专家提示”代替查错。[材料边界](../../protocols/knowledge-boundary.md)禁止反向改写只读Knowledge材料。
+来源线索：`knowledge:domain:数值策划`，需要时实际读取并核对；本卡与所链案例不证明真实效果。选用、输出及新反例按[选用](../../protocols/selection.md)、[交付](../../protocols/delivery.md)与[学习](../../protocols/learning.md)协议；[Knowledge材料](../../protocols/knowledge-boundary.md)保持只读。

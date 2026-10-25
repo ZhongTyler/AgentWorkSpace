@@ -2,7 +2,7 @@
 
 [简体中文](README.md) | **English**
 
-This release adds task-selected interaction recipes and separate knowledge/tool research harvests. See [1.25.0 changes and recovery](upgrades/1.25.0.md); no tool or ingestion is enabled automatically.
+This release adds source-fidelity, evidence-based single-game analysis and problem-based game analysis routes. See [1.26.0 changes and recovery](upgrades/1.26.0.md); installation starts no evaluation, schedule or ingestion.
 
 **Set up a lasting workspace for AI agents, or extend an existing project: keep your rules and add the collaboration methods, skills and modules you need.**
 
@@ -139,7 +139,7 @@ The distribution contains **one meta foundation and eleven peer packages**. Meta
 | [Brainstorm](packages/brainstorm/README.md) | “Help me explore this problem…”; create sessions as needed | `modules/brainstorm` | No other business package required; Knowledge and GameAnalysisDecision are optional |
 | [FromDemoToSpec](packages/fromdemotospec/README.md) | “Build a playable prototype…”; develop in a separate project directory | `modules/fromdemotospec` | No other business package required; add knowledge, analysis, presentation and assets as needed |
 | [Knowledge](packages/knowledge/README.md) | “Query the knowledge base” or “Ingest these sources”; an empty library can be queried | `modules/knowledge` | No other business package required; configure its scope and local Git before the first Ingest |
-| [Skills](packages/skills/README.md) | 21 development, research, writing, interaction and workflow methods; install chosen names | `modules/skills` | No other module required; adding the library does not activate every skill |
+| [Skills](packages/skills/README.md) | 22 development, research, writing, interaction and workflow methods; install chosen names | `modules/skills` | No other module required; adding the library does not activate every skill |
 | [GameAnalysisDecision](packages/game-analysis-decision/README.md) | Evidence-based game analysis, conditional recommendations and method correction | `modules/game-analysis-decision` | Works alone; Knowledge and other host packages are optional |
 | [GameProject](packages/game-project/README.md) | Create or selectively adapt a Godot project workspace: maintenance, decisions, assets and build scaffolding | `modules/game-project` | Works alone; create an external copy or review an existing project, without a game or engine preinstalled |
 | [GamePresentation](packages/game-presentation/README.md) | Presentation specifications, resource preparation and Godot delivery/recovery | `modules/game-presentation` | Manual/generated sources work; PrototypeAssets is optional |

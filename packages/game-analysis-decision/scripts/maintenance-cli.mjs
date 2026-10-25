@@ -9,7 +9,7 @@ function closed(v,fields,label,optional=[]){if(!v||typeof v!=='object'||Array.is
 function nonempty(v){return typeof v==='string'&&!!v.trim();}
 export async function planMaintenance({knowledgeRoot=null,now=new Date().toISOString(),leads=[]}={},root=repositoryRoot){
  const state=loadState(root),clock=new Date(now),due=dueReviews(clock,state),cat=loadCatalogue(root);
- if(!Array.isArray(leads)||leads.some(l=>!nonempty(l.id)||!nonempty(l.reason)||!Array.isArray(l.source_refs)))throw new Error('Invalid proposed leads');
+ if(!Array.isArray(leads)||leads.some(l=>!l||!nonempty(l.id)||!nonempty(l.reason)||!Array.isArray(l.source_refs)||l.source_refs.some(r=>!nonempty(r))||l.kind!==undefined&&!['lead','outcome','counterexample','source_change'].includes(l.kind)||['outcome','counterexample'].includes(l.kind)&&l.source_refs.length===0||l.asset_ids!==undefined&&(!Array.isArray(l.asset_ids)||l.asset_ids.some(id=>!cat.assets.some(a=>a.id===id)))))throw new Error('Invalid proposed leads');
  let domains=[],knowledgeStatus='unavailable';
  if(knowledgeRoot && fs.existsSync(knowledgeRoot)){
   const provider=containedPath(knowledgeRoot,'system/integrations/query-principles.mjs');
@@ -24,8 +24,11 @@ export async function planMaintenance({knowledgeRoot=null,now=new Date().toISOSt
   }
  }
  const sourceLeads=domains.filter(d=>d.changed_since_review).map(d=>({id:d.ref,reason:d.last_reviewed?'Domain bytes changed: inspect actual principle/source meaning before revising':'No semantic review recorded; inspect, do not assume defect',source_refs:[d.ref],dependents:d.dependents}));
- const proposed=[...leads,...sourceLeads].filter((l,i,a)=>a.findIndex(x=>x.id===l.id)===i);
- return {schema_version:2,at:clock.toISOString(),due,knowledge_status:knowledgeStatus,weekly_leads:due.weekly?proposed.slice(0,5):[],monthly_domains:due.monthly?domains.slice(0,2):[],uncovered_domains:domains.slice(due.monthly?2:0).map(d=>d.ref),budget:{wall_minutes:45,model_calls:12,tool_calls:40,weekly_deep_changes:1,monthly_domains:2},writes:false,claim:'A bounded reading plan, not completed semantic review. Missing Knowledge is not permission to synthesize its principles.'};
+ const ordered=[...leads.filter(l=>l.kind==='counterexample'),...leads.filter(l=>l.kind==='outcome'),...leads.filter(l=>!['counterexample','outcome'].includes(l.kind)),...sourceLeads];
+ const proposed=ordered.filter((l,i,a)=>a.findIndex(x=>x.id===l.id)===i);
+ const eligible=due.weekly?proposed:proposed.filter(l=>l.kind==='counterexample');
+ const selected=eligible.slice(0,5),urgent=selected.some(l=>l.kind==='counterexample');
+ return {schema_version:2,at:clock.toISOString(),due,trigger:urgent?'counterexample':due.weekly||due.monthly?'scheduled':'none',knowledge_status:knowledgeStatus,weekly_leads:selected,deferred_leads:proposed.filter(l=>!selected.includes(l)).map(l=>l.id),requires_source_reading:true,monthly_domains:due.monthly?domains.slice(0,2):[],uncovered_domains:domains.slice(due.monthly?2:0).map(d=>d.ref),budget:{wall_minutes:45,model_calls:12,tool_calls:40,weekly_deep_changes:1,monthly_domains:2},writes:false,claim:'A bounded reading plan, not completed semantic review. Missing Knowledge is not permission to synthesize its principles.'};
 }
 function reviewSource(ref,knowledgeRoot,root,evidencePath){
  if(ref.startsWith('knowledge:'))return resolveKnowledge(ref,knowledgeRoot,{maxCharacters:100000});

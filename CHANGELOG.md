@@ -1,5 +1,16 @@
 # Releases
 
+## 1.26.0 — 2026-10-25
+
+- Add independent source-fidelity; Skills now offers22 methods. Refresh bounded repeated-trial guidance and workflow-review coverage.
+- Add optional evidence-based single-game deep-analysis method0.1 and templates, without private trials or third-party tooling.
+- Refresh GameAnalysisDecision problem routes, explicit selection priority and separate normal/trial/disabled use from evidence maturity. No new required package or automatic runtime activation.
+- Upgrade from the separately published1.25.1, preserving client/package ownership, local changes, conflict checks and reverse recovery.
+
+## 1.25.1 — 2026-10-25
+
+- Publish the previously prepared Brainstorm feedback identity/closed-session guards and FromDemoToSpec trusted-manifest inline integrity checks. No user project, save or session migration.
+
 ## 1.25.0 — 2026-10-23
 
 - Extend interaction-design with eight task-selected recipe groups, actual validation states, field recovery and focus restoration. Keep21 selectable Skills and existing optional dependencies.

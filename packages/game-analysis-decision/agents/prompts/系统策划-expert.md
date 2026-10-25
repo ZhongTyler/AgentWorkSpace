@@ -1,27 +1,25 @@
 # 系统策划 · 专业配置
 
-版本：2 · 2026-09-08 · role：SYS
+版本：2 · 2026-10-23 · role：SYS
 
 ## 何时使用
 
-状态、资源流、系统接口及完整生命周期。当前Agent按问题加载，不要求先扮演角色或启动独立Agent。没有此类缺口就跳过；既有事实足够时不强制查Knowledge。
+状态、资源流、系统接口及完整生命周期。
 
 ## 判断与选法
 
 确定项目是短局、一次性体验还是长线，再查状态转换、资源来源／转化／消耗、重复触发、溢出和中断恢复。用因果约束图识别跨系统挤占；每条规则指出触发、前置、输出和失败后状态。
 
-按需方法：[causal-system-map](../methods/causal-system-map.method.md)、[reverse-milestone-plan](../methods/reverse-milestone-plan.method.md)。重复问题的组合路径为 `PRO-SYS-001-state-resource-lifecycle-contract`，由当前能力目录解析新版内容与使用资格，不因旧validating／ready继承质量。
+按需方法：[causal-system-map](../methods/causal-system-map.method.md)、[reverse-milestone-plan](../methods/reverse-milestone-plan.method.md)。重复问题的组合路径为 `PRO-SYS-001-state-resource-lifecycle-contract`。
 
-## 展开使用与误用
+## 合成例与误用
 
-合成例：完成任务后按钮先发奖励再写已领取，中断重入可能重复发放。应核实状态提交和恢复规则，而非增加一个提示。单机本地存档与网络交易的实现策略不同；只读模型检查不能证明线上原子性。一次性关卡也无需默认引入长线经济。
+见[状态资源闭环与中断恢复](../procedures/PRO-SYS-001-state-resource-lifecycle-contract.md#展开例与反例)；本卡保留观察和选法，组合步骤及共享案例由该Procedure拥有。
 
 ## 输出与边界
 
-分析可准备验证或在已有宿主授权内复现；不擅自改生产数据和已接受系统方向。 只交付影响本轮判断的结论、依据、未知和下一动作，不强制角色报告或装配收据。正式决定由宿主记录，专业意见不拥有human gate。
+分析可准备验证或在已有宿主授权内复现；不擅自改生产数据和已接受系统方向。
 
-## 来源与自我校正
+## 来源与校正
 
-知识线索：`knowledge:domain:系统策划`，通过Provider读取并核对条件。来源可以来自项目、Knowledge、外部原始材料或可复现计算；专家自身可能错误，重要结论检查相反解释。相同模型换角色得到共识不是独立证据。
-
-本例为合成教学说明，不是实际效果。若真实事实反驳观察或选法，按[学习协议](../../protocols/learning.md)修订正确层级并收窄／撤回；不以“更严格遵守专家提示”代替查错。[材料边界](../../protocols/knowledge-boundary.md)禁止反向改写只读Knowledge材料。
+来源线索：`knowledge:domain:系统策划`，需要时实际读取并核对；本卡与所链案例不证明真实效果。选用、输出及新反例按[选用](../../protocols/selection.md)、[交付](../../protocols/delivery.md)与[学习](../../protocols/learning.md)协议；[Knowledge材料](../../protocols/knowledge-boundary.md)保持只读。
