@@ -1,5 +1,12 @@
 # Releases
 
+## 1.27.0 — 2026-10-28
+
+- Add research-expression and pinned MIT Anti-Defensive Writing; Skills now offers24 methods. Update research audit, bounded Agent responsibilities and optional technical editing.
+- Publish the single-game dossier1.3 protocol, portable check/conditional return/export tools, synthetic example and regression. Preserve research depth, source reading and semantic acceptance boundaries.
+- Repair arbitrary explicit report export mappings and offline manifest identity. Research dossiers stay direct references with optional recipient-owned catalog registration.
+- Upgrade from1.26.0 with separate package/client selection, conflicts and reverse recovery. No new required package, model, font, account or automatic service.
+
 ## 1.26.0 — 2026-10-25
 
 - Add independent source-fidelity; Skills now offers22 methods. Refresh bounded repeated-trial guidance and workflow-review coverage.

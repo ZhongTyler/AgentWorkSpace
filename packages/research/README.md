@@ -37,3 +37,6 @@
 ## 可选源码参考
 
 [固定版本游戏源码参考库](reference-library/README.md)提供8项推荐、18组备选、固定提交/哈希/许可与包外恢复入口。日常MD/网址、游戏研究和开发支持按问题选1–2项实际读取；安装不下载源码、启动游戏、启用调度或授权Knowledge消化。
+
+
+单游戏档案按[深度拆解流程](game-research/deep-game-analysis/README.md)执行：全域盘点、条件返回与本批/整作状态分开；研究产物供直接查阅，不参与Ingest或待消化登记。交付前反查原目标、重要遗漏、事实与证据深度；可选evidence-audit、source-fidelity与human-research-expression，缺少时按正文就地检查并说明，不自动安装。工程验证不替代研究充分性或读者理解。

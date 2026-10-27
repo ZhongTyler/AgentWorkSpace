@@ -88,3 +88,6 @@ Research 只保存队列与研究判断，长期原文和 Raw/Wiki 由 Knowledge
 ## 按需调用单游戏深度拆解
 
 当结论依赖实际游戏规则、画面或状态变化时，使用[深度拆解流程](deep-game-analysis/README.md)和[任务与证据模板](deep-game-analysis/templates.md)，返回同一游戏的案例切片。可直接接受用户问题，不依赖GameHOT、Knowledge、额外Skill或服务；已有资料足够则沿原研究路径。复用原案例、owner和证据，保留实际观察、文献、推断和未覆盖范围。方法接线不证明完整游戏研究或跨游戏收益；安装不启动研究、采集、调度或入库。
+
+
+单游戏档案按[深度拆解流程](../game-research/deep-game-analysis/README.md)执行：全域盘点、条件返回与本批/整作状态分开；研究产物供直接查阅，不参与Ingest或待消化登记。交付前反查原目标、重要遗漏、事实与证据深度；可选evidence-audit、source-fidelity与human-research-expression，缺少时按正文就地检查并说明，不自动安装。工程验证不替代研究充分性或读者理解。

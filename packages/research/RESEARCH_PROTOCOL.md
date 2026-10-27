@@ -136,3 +136,6 @@ Knowledge暂停、审查或owner冲突时，在**原研究报告**登记待消�
 沿用轻量定题、底本核查、机制/效果区分、关键反查和停止规则。v0.6 按需补充侧向核查与前后向引文追踪，未做研究准确率或效率前后对照。
 
 方法参考：[SIFT](https://hapgood.us/2019/06/19/sift-the-four-moves/)、[Wohlin 2014](https://www.wohlin.eu/ease14.pdf)、[Hybrid Search](https://arxiv.org/abs/2004.09741)。系统文献研究向社区讨论的迁移是适配建议，不证明通用效果。
+
+
+单游戏档案按[深度拆解流程](game-research/deep-game-analysis/README.md)执行：全域盘点、条件返回与本批/整作状态分开；研究产物供直接查阅，不参与Ingest或待消化登记。交付前反查原目标、重要遗漏、事实与证据深度；可选evidence-audit、source-fidelity与human-research-expression，缺少时按正文就地检查并说明，不自动安装。工程验证不替代研究充分性或读者理解。

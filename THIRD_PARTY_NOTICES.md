@@ -63,3 +63,7 @@ Research's optional REA archive and matching official skill references retain th
 GameProject 的原创模板、创建器和维护检查采用包内 MIT。工程指导仅链接 Godot 官方资料，包内没有 Godot 引擎或第三方游戏源码。用户项目后续素材、插件与引擎保留各自许可；模板许可不覆盖它们。
 
 Anatomy (`wheresryan22/anatomy`, revision `bc943e40c59998be5da61f9d39c6a983b1116099`) is bundled as fixed MIT source only. Its original license is preserved in packages/tools/integrations/anatomy/vendor/LICENSE.txt and the pinned ZIP; additional user assets and services retain their own terms.
+
+## Anti-Defensive Writing
+
+The writing specialist retains MIT from Kiterlin/anti-defensive-writing revision `f516147d017a3fe43ae99192cb89d8261b0c8679`. See the [package notice](packages/skills/THIRD_PARTY_NOTICES.md), [license](packages/skills/library/anti-defensive-writing/LICENSE), original method and `references/UPSTREAM.json` for fixed identity and limited adapter changes. Inclusion grants no upstream endorsement or rights to unrelated material.

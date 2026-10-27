@@ -292,6 +292,21 @@ class ResearchRelease(unittest.TestCase):
                 before = {p: p.read_bytes() for p in (report, local, host / 'AGENTS.md')}
                 intermediates = self.advance_to_previous(host, base/'steps'/mode)
                 upgrade = w.install(ROOT, host, 'upgrade', [], True)
+                resolved_local = bool(upgrade.get('conflicts'))
+                if resolved_local:
+                    # A later source now changes this method. Correct refusal
+                    # replaces the old fixture's assumption of no source change.
+                    self.assertEqual(['modules/skills/library/humanizer-zh/SKILL.md'], upgrade['conflicts'])
+                    self.assertFalse(upgrade['applied'])
+                    self.assertEqual(before[local], local.read_bytes())
+                    self.assertEqual(w.catalog(ROOT)['previous_version'], w.state(host)['version'])
+                    saved = report.parent/'custom-humanizer.before-upgrade.md'
+                    saved.write_bytes(before[local])
+                    prior = base/'steps'/mode/w.catalog(ROOT)['previous_version']/'packages/skills/library/humanizer-zh/SKILL.md'
+                    local.write_bytes(prior.read_bytes())
+                    upgrade = w.install(ROOT, host, 'upgrade', [], True)
+                    self.assertTrue(upgrade['applied'])
+                    self.assertEqual(before[local], saved.read_bytes())
                 self.assertNotIn('research', w.state(host)['components'])
                 addition = w.install(ROOT, host, 'add', ['research'], True)
                 self.assertEqual(w.catalog(ROOT)['version'], w.state(host)['version'])
@@ -299,6 +314,8 @@ class ResearchRelease(unittest.TestCase):
                 self.assertTrue(w.rollback(host, addition['transaction'], True)['applied'])
                 self.assertTrue(w.rollback(host, upgrade['transaction'], True)['applied'])
                 self.assertEqual(w.catalog(ROOT)['previous_version'], w.state(host)['version'])
+                if resolved_local:
+                    local.write_bytes(saved.read_bytes())
                 for transaction in reversed(intermediates):
                     self.assertTrue(w.rollback(host, transaction, True)['applied'])
                 self.assertEqual('1.5.0', w.state(host)['version'])

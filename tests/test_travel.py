@@ -89,6 +89,17 @@ class TravelRelease(unittest.TestCase):
                 local.write_bytes(local.read_bytes() + b'\nLocal user edit.\n')
                 retained = {p: p.read_bytes() for p in [user, local, host / 'AGENTS.md']}
                 upgrade = w.install(ROOT, host, 'upgrade', [], True)
+                resolved_local = bool(upgrade.get('conflicts'))
+                if resolved_local:
+                    self.assertEqual(['modules/skills/library/humanizer-zh/SKILL.md'], upgrade['conflicts'])
+                    self.assertFalse(upgrade['applied'])
+                    self.assertEqual(retained[local], local.read_bytes())
+                    self.assertEqual(w.catalog(ROOT)['previous_version'], w.state(host)['version'])
+                    saved = user.parent/'custom-humanizer.before-upgrade.md'
+                    saved.write_bytes(retained[local])
+                    local.write_bytes((old/'packages/skills/library/humanizer-zh/SKILL.md').read_bytes())
+                    upgrade = w.install(ROOT, host, 'upgrade', [], True)
+                    self.assertEqual(retained[local], saved.read_bytes())
                 self.assertTrue(upgrade['applied'])
                 self.assertEqual(w.catalog(ROOT)['version'], w.state(host)['version'])
                 self.assertNotIn('travel', w.state(host)['components'])
@@ -98,6 +109,8 @@ class TravelRelease(unittest.TestCase):
                 self.assertTrue(w.rollback(host, addition['transaction'], True)['applied'])
                 self.assertTrue(w.rollback(host, upgrade['transaction'], True)['applied'])
                 self.assertEqual(w.catalog(ROOT)['previous_version'], w.state(host)['version'])
+                if resolved_local:
+                    local.write_bytes(saved.read_bytes())
                 for p, original in retained.items():
                     self.assertEqual(original, p.read_bytes())
 

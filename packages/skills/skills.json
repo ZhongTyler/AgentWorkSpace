@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "version": "1.26.0",
+  "version": "1.27.0",
   "skills": [
     {
       "id": "game-presentation",
@@ -137,6 +137,18 @@
     {
       "id": "source-fidelity",
       "description": "对照原材料保留论证、数字条件、前提反例和案例机制，不替代外部验真",
+      "optional_modules": [],
+      "install_requires": []
+    },
+    {
+      "id": "human-research-expression",
+      "description": "把已有研究按读者任务组织为讲解稿、图解或完整报告，区分内容核验与制作验证",
+      "optional_modules": [],
+      "install_requires": []
+    },
+    {
+      "id": "anti-defensive-writing",
+      "description": "修改论文、技术报告、审稿回复及技术SOP的重复免责和薄弱主线，保留必要限定",
       "optional_modules": [],
       "install_requires": []
     }

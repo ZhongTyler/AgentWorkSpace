@@ -417,7 +417,7 @@
       ],
       "source": "packages/brainstorm",
       "source_revision": "f9459dea4df406a3dab551a01513906175dcbca8",
-      "version": "1.26.0"
+      "version": "1.27.0"
     },
     "fromdemotospec": {
       "destination": "modules/fromdemotospec",
@@ -494,7 +494,7 @@
       ],
       "source": "packages/fromdemotospec",
       "source_revision": "f425395f65077158cc5f2166c768815c9e33103f",
-      "version": "1.26.0"
+      "version": "1.27.0"
     },
     "game-analysis-decision": {
       "destination": "modules/game-analysis-decision",
@@ -584,7 +584,7 @@
       "required": [],
       "source": "packages/game-analysis-decision",
       "source_revision": "c8642c1565d05bf797d6dba7aff7fdf0edfa786c",
-      "version": "1.26.0"
+      "version": "1.27.0"
     },
     "game-presentation": {
       "destination": "modules/game-presentation",
@@ -628,7 +628,7 @@
       "required": [],
       "source": "packages/game-presentation",
       "source_revision": "9233c69ae3e441afd954b2c12b4256bbbbe83502",
-      "version": "1.26.0"
+      "version": "1.27.0"
     },
     "game-project": {
       "destination": "modules/game-project",
@@ -725,7 +725,7 @@
       "required": [],
       "source": "packages/game-project",
       "source_revision": "60b77e08f0f60f03a84ee8423f8904ae72822c4f",
-      "version": "1.26.0"
+      "version": "1.27.0"
     },
     "knowledge": {
       "destination": "modules/knowledge",
@@ -864,7 +864,7 @@
       ],
       "source": "packages/knowledge",
       "source_revision": "a92522f8d5123bebf4a47dcfbdba90a720289de0",
-      "version": "1.26.0"
+      "version": "1.27.0"
     },
     "meta": {
       "destination": "",
@@ -909,7 +909,7 @@
       "required": [],
       "source": "meta/workspace",
       "source_revision": "0e8469a680f44ec025274cbe763be2f7c801e240",
-      "version": "1.26.0"
+      "version": "1.27.0"
     },
     "prototype-assets": {
       "destination": "modules/prototype-assets",
@@ -1203,21 +1203,28 @@
       "required": [],
       "source": "packages/prototype-assets",
       "source_revision": "5abe108be291076b4e44717d17c740fca230c8e7",
-      "version": "1.26.0"
+      "version": "1.27.0"
     },
     "research": {
       "destination": "modules/research",
       "files": {
-        ".agents/skills/research-study/SKILL.md": "2bd9655bf6b1103119054d8750f9824159ef634b8312d3698b9b6c6c4a37b545",
+        ".agents/skills/research-study/SKILL.md": "fed515822d1a2cad0c947ec3ed89691edcf3acc23b7b498ebac5a84d2ab67d14",
         "AGENTS.md": "d95ee9f26a93102cb32d3b3f3d74681fa368286c139e1d62ff4be8651aa6236b",
         "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
         "LICENSE-NOTICE.md": "15cd4ccbc67b328e368766cbbd8a3f69fc490406cfa8df16535f21825add0db8",
-        "README.md": "29850cf3502e7dc93e52bf8f9988fb0ab1a15e00822d2d072f7ff5959d2a5f0e",
-        "RESEARCH_PROTOCOL.md": "da49b18ddd584539f6cb2e42e286ec7151a0cfd0d76bd701d749378dbd69baf8",
-        "_release.json": "06bc1ef9edba864f989798e37f66c52961b3cc684b9ca8470239c64ff70139a5",
-        "game-research/README.md": "f7a6f0169adb6d354fc4b7ce24dab689e82ea1f23c99930b3a3019c9c2730b91",
-        "game-research/deep-game-analysis/README.md": "b8e781bdb172b46f85ae4b7d3b9e14d7a6b815aabdc3d9afd4380109383c1dee",
-        "game-research/deep-game-analysis/templates.md": "4c510378972cd7f9e9bcea4dd6ac814d5311ca815e8add53a50d79ea2e5da1ba",
+        "README.md": "af709d9c56f96969d5156b060cc9067e369b6c804d501a8813b6df858b63426f",
+        "RESEARCH_PROTOCOL.md": "8fdf0c5841f736c03188a235582d29aa813fe8b880c1b459913540eca59c3029",
+        "_release.json": "45c1d6c21f14aac6ae5bf0a7c88dc91d004f5b62aec3b2bda0be0ab5c188dfc6",
+        "game-research/README.md": "d9fefb7bdc0e922d321cee2de3a78f38fa24c05019cdcc054f50a34354f5b86b",
+        "game-research/deep-game-analysis/README.md": "4068344be75e055c7e4110caeab7865c5d6f9e230feabd7539faac94c758ae28",
+        "game-research/deep-game-analysis/dossier.py": "a810c76733485ad176631795c149cb38e25d8b20eae8858f0e869609a5a5faa4",
+        "game-research/deep-game-analysis/example_dossier.py": "277f3030a0e9f923438afec08a97b6042bf2f550c38a88275aa3736b2a25f6a0",
+        "game-research/deep-game-analysis/game-dossier-template.md": "26f0ba4ee1f36ec0b673494e8e40b9f18e07827cce5d87eb67bd87a0bb6e2d7b",
+        "game-research/deep-game-analysis/output-contract.md": "a55d4cf707ead4fd94b373681b0a602e6bd91c334dfde48c3dd02c0b0f27647f",
+        "game-research/deep-game-analysis/reuse-evaluation.md": "5b84860ed7caa645f8b09042da055c3c4f4038be79311c7e990be1476dbf72f8",
+        "game-research/deep-game-analysis/templates.md": "0fbac0070dab8920a16557bd5e4910a79a82ca1d7f707adbd23a0ec9be67c1dc",
+        "game-research/deep-game-analysis/test_dossier.py": "0408db5b34b833baa9beed262ad64ca889d42b93caff5ad340af4d358ae3e1ab",
+        "game-research/deep-game-analysis/verification.md": "a8f04b70260eabb9c28ffff1c13e114c12e1cbb2e3bdc7a727cc2f46e4d72edd",
         "game-research/development-support.md": "c58fbee65927a2365b5e99a5fec67a5d4e5b6dd2e8a98e30f65660f187127a21",
         "game-research/media-capture.md": "3b545556365e6a92c50623ecd59037fe172083e33627a1e9a6aab973b3e07aa6",
         "game-research/selection-lenses.json": "902cce1e90533197fe688287877146759c2989e57a0f7748b96eb441ff2f894e",
@@ -1337,22 +1344,29 @@
       ],
       "required": [],
       "source": "packages/research",
-      "source_revision": "e0816d647d8d2cbb9fc242588e5c038f9b6cd46a",
-      "version": "1.26.0"
+      "source_revision": "14846d51f5a9745f9678678d04b25647d8c1d974",
+      "version": "1.27.0"
     },
     "skills": {
       "destination": "modules/skills",
       "files": {
         ".gitattributes": "8b7d05e308c8b3f2674f6f7311520f9b2421bccbec7d6abdcd79192d8fd99535",
         "AGENTS.md": "c4d351aac39a83e5b0595a1f51f2316b8a581ae6abb70ba7f875c6e7e32db1d1",
-        "README.md": "641ff4339d47b2c78b586b6eaa8376e15e39ca4c11c12b5dd6ed5cfd03e7a9ce",
-        "_release.json": "3c5917ba8e0424706fa0e0d791f9464a560f964e55e29776633986ee0bda9779",
-        "catalog.json": "03a533cd35f31fb262e99c491b5349e4b46e94f926ae2e945534afff7cc17e9f",
+        "README.md": "7efeba2f8e293d31ddfbe39d7a8a7884d8da39bf577be3398641d3689b96c148",
+        "THIRD_PARTY_NOTICES.md": "264c59bfd6f8667c98822854cb7c927a6a2df6716ec8df73bc6aa0efcc0e63b4",
+        "_release.json": "742b5cfe651d9856d2788bd4db92fea2338572347b65946758b7afad74d909bc",
+        "catalog.json": "db7b43ead105db83f9388f21fcfdafef8d821390b8580718fe8af5d5f1af14b5",
         "integrations/frontend-design.md": "2d38446f0e8934c15162e0390997454a375052778d9be884ff624c8b3fecb11e",
         "integrations/prototype.md": "01d28a79b24ad055774913659960377c9f3986e59cf4248aaf1cda15e1cef90e",
         "library/agent-blind-eval/SKILL.md": "774af0eeb4c062db47a40382529fb6eee37279c67c3537ff93e0e023c643b586",
         "library/agent-blind-eval/references/evaluation-protocol.md": "66912b8e5ad1fb8a08a1bb221065f1220231cf764f13f2becf7182e6d2993117",
         "library/agent-blind-eval/references/repeated-trials.md": "8074ee7568c1359a1c7dd13f2871d10ef2c8c037a2a42cda521764c1b5c496c5",
+        "library/anti-defensive-writing/HOST-ADAPTER.md": "b73e3f391939d551f88ec1a651675f1a9c0209dd89a2014668afafb14b3131f3",
+        "library/anti-defensive-writing/LICENSE": "cc3d842a912f0ed1fc80ae8d2ca7ab6cff37756422069424bf2edec554219fc9",
+        "library/anti-defensive-writing/SKILL.md": "3a95206bab8264aa13c471d12ddb0f4b25e832a89daa9bb40875ce6cdc361c5a",
+        "library/anti-defensive-writing/agents/openai.yaml": "17d0e0aed0a5bbe2f929c8fb10a3f2d21f209ef9ff2f80778e0f044b0600ca0a",
+        "library/anti-defensive-writing/references/SKILL.original.txt": "287e3d05aeabf6409fa53b74a124ee0d897338009be2c04d3e38c352ca74a3c1",
+        "library/anti-defensive-writing/references/UPSTREAM.json": "075fa7905210f180862b54f2937bd709737e17a34c10ec0568abd7535c1e3540",
         "library/bidirectional-steelman/SKILL.md": "fe063aa466c41f4f4179d246d9aae1a414913a0fc7912356eb05458a50e2423f",
         "library/citation-management/SKILL.md": "2255164df05f564020524f162c1a5c6fc63f130d522e55f581dbc29db3ef7608",
         "library/citation-management/assets/bibtex_template.bib": "bf03cc646e6bc6aaba85d632b8e25b26c2830419892f3c17a7d844805d3a721e",
@@ -1392,7 +1406,8 @@
         "library/design-handoff/references/SKILL.original.txt": "38f1efc807928030654218443ad07f6a37ac82de6b4d627a03113a3568d787b7",
         "library/design-handoff/references/UPSTREAM.json": "59e6145935aa7590933ba59049396664fb438f51c2e9a3de14433668b3da1cb1",
         "library/dual-layer-explainer/SKILL.md": "be408708e2761d381000a5e112ee3da7d4f372c3479853a175a22c8ff9d23d2a",
-        "library/evidence-audit/SKILL.md": "b33a27d488d420f41e964bd0e12999ad161e6d59ecd5a222fb4aad87e80c3d54",
+        "library/evidence-audit/SKILL.md": "a4aab998379ff20c9771327b076039784c2ccbe75228c8be68b4dc05565abf74",
+        "library/evidence-audit/references/research-review.md": "3573b38f070799ff63fc223f1069d070650e0a0fc9ca133c07f156a010e03947",
         "library/feedback-loop/SKILL.md": "ff8412076381671cb20db91df169c1cdccd5d19ea65deaa6a9a997a5beeab49a",
         "library/game-decision-support/SKILL.md": "2e3ce0594d7441354eb1e51e1be50a616106ea00c5863fd7eb3bd0b32447a7ce",
         "library/game-presentation/SKILL.md": "272723ac87a2fc0ba17ae054bd2039ce662f8914655c174c941ad40ade6895f0",
@@ -1403,7 +1418,27 @@
         "library/godot-gdscript-patterns/references/advanced-patterns.md": "659531834c96b493caeeba32303eeacafe0ed482439933beb0a1765af7288bec",
         "library/godot-gdscript-patterns/references/details.md": "e2d0f3115fce45ba1dad5b950e91318e0d9bc509b0fad7119d210b608d3576c2",
         "library/horizontal-vertical-research/SKILL.md": "0fbdadab1c44621447503479ac603bebf7f97941f3804d85f38fbe92733835f4",
-        "library/humanizer-zh/SKILL.md": "9b07aa76be9885405f78749bf5d808292f43c283dd43644b2cbc17b8e71f00ac",
+        "library/human-research-expression/SKILL.md": "bfacc211e2820fe2926f96c9da744b3ce8f4c713abb20b94c7dd8560b52e2eb7",
+        "library/human-research-expression/references/PROVENANCE.json": "c5887a791bd7b2b5c661cadcf6b00b2253f54c3a48f1b03f7bbb7fbd53fdc1c3",
+        "library/human-research-expression/references/argument-quality.md": "5564fc01b201c9e91e65156fdf3145e1fe9097220202236a3ba14f995630e5b5",
+        "library/human-research-expression/references/carriers.md": "e1f74602a4cf3867fd4f7eb60c960ebab66d3a153c1aa670aebddf44e12194b0",
+        "library/human-research-expression/references/full-report.md": "3532156634ed655b6f67a341a6bb628c2a0273b1852017b3b145cc3325abee99",
+        "library/human-research-expression/references/hierarchy.md": "53a9114291bfd29543058d7153727ecb76c0906f221abe9f06f08f36c9d6cce3",
+        "library/human-research-expression/references/interaction.md": "be55dec9203005dd05f4b1d29efc72e4d8c068e8ebc37f2892af3c1af4939859",
+        "library/human-research-expression/references/methods.md": "abf6e60964547140b1b7cc4f7068836cf11ed471c5d521ad9e080431ebe9d74f",
+        "library/human-research-expression/references/rendering.md": "a3d4b2fe0dec18e4f4e9daa2c0e2a6e8c062f0a85a04a450e2dac4a53b6e91e0",
+        "library/human-research-expression/references/reuse-and-cost.md": "8958b1b1257aedec5b827e0be574b6f775bce6b0718439a02b4ed4f3432dc2ae",
+        "library/human-research-expression/references/visual-explanation.md": "407f843610ada51a734ab1fa04d49b20912425b43ca83bdcb5a062e894e9be66",
+        "library/human-research-expression/scripts/assemble_html.py": "2d310ef75653c37eb2bf0e42b60109f5742113c547a5c8649bb957ff49c92352",
+        "library/human-research-expression/scripts/parse_markdown.mjs": "51f31b739454c67e3ad5e5531e9feac8e1ef2df3b4a7447c3583f87d7bb7e348",
+        "library/human-research-expression/scripts/render_book.py": "53087d1b058bb431cd4f8dc3013400d2b819e3d0b20f2e2b57aef3cd8df5b2ba",
+        "library/human-research-expression/scripts/render_report.py": "ca2bcc500c41226cd43f8db049607ca03f8f60ca3479f64960e6fd303412c085",
+        "library/human-research-expression/scripts/render_visual.py": "c232be352703177c74fb377819171d0bd82cefa8bad8b8ed587fa7dc1bc73841",
+        "library/human-research-expression/scripts/render_visual_html.py": "a26aedc28c6ebd4b6df71a61792d449c105a6beea085c8043d36df372587b74e",
+        "library/human-research-expression/scripts/test_diagram_layout.py": "d2e8fe2e37f04b4836ebd6713f53d6e7ded0e46ccc6236bdf446bb231510b0c1",
+        "library/human-research-expression/scripts/test_render_visual_html.py": "42419f97d65a4eb8f4cdbec11f48d116ed8d03f9ff303fabfdaf004e03408fd6",
+        "library/human-research-expression/scripts/verify_git_snapshot.py": "3f1fb154cbf7a630e291614c9c3c0ce9192e1d0d1d58c131d742e1e8d39d19a7",
+        "library/humanizer-zh/SKILL.md": "5e152fcb7d4d5236b9616c51980887b2d3c752eb0ef15343728d88db7d9f44d2",
         "library/humanizer-zh/references/LICENSE": "aa00e74769e1b9d8e7fa7094dbfcca9b129a0ded6dce1cf4da050b99146d2fa7",
         "library/humanizer-zh/references/UPSTREAM.md": "100ceb8c078468179585e4a085c0bd8edd8b2e1f43814b9c73ac5917039bd8e8",
         "library/interaction-design/SKILL.md": "3c340c99624633323e9b58ddbb4ad5ee99ab0c0881601ac91beb978438f80c6c",
@@ -1428,11 +1463,12 @@
         "library/systematic-debugging/references/defense-in-depth.md": "1e175fb86fc357e58c6aebf5441e481e1b7868b4380c0456b63a17eefbd18ba7",
         "library/systematic-debugging/references/root-cause-tracing.md": "6b0622269e098ca1399e123e553fd385f0b6412d88ef0e9c4f5a8ea9cf1cec7b",
         "library/workflow-closure/SKILL.md": "051b00406d94b0709e77f360489348cd93bf5d42d4232fac7352a3748ec93eeb",
-        "library/workflow-redesign/SKILL.md": "07b2dc4a281fe97e3b7a411c9ed13732cc8d1ff92a09c0b130cc57c334297b5d",
+        "library/workflow-redesign/SKILL.md": "f4276aee753dc73edf63084a33847423ce3ebcd651f41c0f9c168ef204e8a9ed",
+        "library/workflow-redesign/references/agent-boundaries.md": "6f75bdafb0aea747767286a262274e08eaf1609a4f00ebeb6fd3d05ea38f30fe",
         "library/workflow-redesign/references/delivery-and-validation.md": "5165d6e7718ece826fa91548b28c27d3cf174d057c5459190615a92edc1248dc",
         "scripts/_runtime.py": "227ee4d4b9a1f782acf5a6f184fa53516665b193036b90ee04db59376ce87098",
         "scripts/skills.py": "6a5580c901a39762d2406ea8294c48f6b88e967ae89f4eba9671fb06853a42c9",
-        "skills.json": "0eb511533a538c76561667dcb60f234661579a26bb45218dd28f4ac68d8d9794",
+        "skills.json": "3d6f68ff2f3286badfd527b4eedcf259a95958bc9c8aa8f50b14531eb9ed41dc",
         "upgrades/1.12.0.md": "8aa10c1accdacf5831d0039023352f089ff20ef96ea4afddcb8c7b661408f087",
         "upgrades/1.14.0.md": "a031d0b5ee02a57f28e0e23c648c86a537fff72af1065858e496fde4bd88a0d6",
         "upgrades/1.14.1.md": "f654279a97a3e38b1da6b5e950e63ea232d78e89acf7ecce8cda177d4d32a18c",
@@ -1447,6 +1483,7 @@
         "upgrades/1.24.0.md": "acdb7477c6152c61a57b74bd002cf4f946a96e066250bb65bc3647379f976671",
         "upgrades/1.25.0.md": "bb04c3d5568911d59b5be4057dae932f65608eba8f50d2bbf90ff2361b858581",
         "upgrades/1.26.0.md": "835650bad9bdfb3cd92f07329431ec5b487b9c93054327c0a9133b1988a16135",
+        "upgrades/1.27.0.md": "58d74b18c65cf23696f1345a29deb2f19c7ad3d9aad5faae7e0de9bf780be21a",
         "upgrades/1.3.0.md": "927cf0f66766df0d59fd6a34ba2dc3e1b5077e86d9ce9f501e38ba6a3198eab1",
         "upgrades/1.3.1.md": "f1a732b8b2f81b82124cc9bbb03a930e7b16ae24f67758a5acb9ccc798743216",
         "upgrades/1.8.0.md": "2d31b383f84b1871f539c82c142a0e9370d184251509c57d7519a959a42a8894"
@@ -1462,8 +1499,8 @@
       ],
       "required": [],
       "source": "packages/skills",
-      "source_revision": "235b950dd6e22f382d12f462ff2f83e2a85dde91",
-      "version": "1.26.0"
+      "source_revision": "1fe8cfbdbc98944da602bac0ba1ea010cee49209",
+      "version": "1.27.0"
     },
     "tools": {
       "destination": "modules/tools",
@@ -1648,7 +1685,7 @@
       "required": [],
       "source": "packages/tools",
       "source_revision": "2f034efe1d3434dd84e4d2f8547cfb4555449d0c",
-      "version": "1.26.0"
+      "version": "1.27.0"
     },
     "travel": {
       "destination": "modules/travel",
@@ -1793,10 +1830,10 @@
       "required": [],
       "source": "packages/travel",
       "source_revision": "e4b445be6a072af7bb99af8ae6d562b57a5a085f",
-      "version": "1.26.0"
+      "version": "1.27.0"
     }
   },
-  "previous_version": "1.25.1",
+  "previous_version": "1.26.0",
   "schema_version": 1,
-  "version": "1.26.0"
+  "version": "1.27.0"
 }
