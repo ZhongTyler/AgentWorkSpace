@@ -16,8 +16,10 @@ Clippings保留原材料身份；raw保留作者完整重要论证；Wiki综合�
 
 本包不含私人知识、历史运行、专家/Team/Procedure运行时或GameAnalysisDecision私有绑定；需要分析与决策时由宿主接入自身工作流。初始化不会创建定时任务。
 
-本包维护独立便携 framework 2.0 业务合同，统一发行版本见发布仓 catalog；它不等同于私有宿主最新 consolidated 控制器。Query、两种 Ingest、v2 内容包、健康维护和精确版本批准均由包内实现承担；涉及私人写作样本和宿主执行装配的更新需先完成公开适配与兼容验证。
+本包维护独立便携 framework 2.1，统一发行版本见发布仓 catalog。本版已适配合并 Ingest 控制器、写作者与主审核者路由、Query 证据接口、精确版本收尾及可选研究/复利接线；不包含作者的 SDK/native 在线查询服务、私人写作样本或本机会话。历史运行保留原合同，新运行先核对其执行 profile。
 
 首次 Ingest 前，Agent 按实际目标配置范围，保持模块目录名不变，并检查本模块具有独立本地 Git 基线；新空库可在模块内初始化并提交框架基线，已有库保留原历史。Ingest 依赖这个恢复点，Query 不依赖 Git；不自动创建远端或推送。详见[初始化边界](system/maintenance/SETUP.md)。
 
 可选[Tools检索后端](system/query/README.md)默认BM25、混合按需、原Query回退；同一只读核心可供本地和网站获准视图消费。BM25需要Python 3.10+，不要求模型/GPU。接收者自行绑定包外运行目录；安装Knowledge本身不建索引、不下载模型、不部署网站，也不授予私人知识公开权限。
+
+本版的合并执行、主审核者、精确版本收尾与可选研究/知识复利接线见 [便携执行说明](system/protocols/PORTABLE_EXECUTION.md)。模型、会话、资料绑定和外部发布均由接收方配置与授权；安装不启动这些行为。

@@ -214,6 +214,64 @@
         "runtime/upstream/examples/dial-indicator/build.mjs"
       ],
       "limits": "Personal understanding; optional SVG/HTML mechanisms; original text/diagram fallback; video/TTS separate and unverified; no global skill, MCP, paid calls or project changes by registration"
+    },
+    {
+      "id": "knowledge-feedback",
+      "root": "integrations/knowledge-feedback",
+      "maintenance": "README.md",
+      "status": "optional_recipient_validation_required",
+      "actions": [
+        "health",
+        "select",
+        "finish"
+      ],
+      "required_sources": [],
+      "required_runtime": [],
+      "limits": "Optional explicit policy and external private store; no automatic persistence"
+    },
+    {
+      "id": "bilibili-capture",
+      "root": "integrations/bilibili-capture",
+      "maintenance": "README.md",
+      "status": "optional_recipient_validation_required",
+      "actions": [
+        "health",
+        "transcript",
+        "frames",
+        "audio"
+      ],
+      "required_sources": [],
+      "required_runtime": [],
+      "limits": "Public anonymous sources; stops on denied access; ASR separately prepared"
+    },
+    {
+      "id": "metaphysics-charting",
+      "root": "integrations/metaphysics-charting",
+      "maintenance": "README.md",
+      "status": "optional_recipient_validation_required",
+      "actions": [
+        "restore",
+        "health",
+        "calculate",
+        "render"
+      ],
+      "required_sources": [],
+      "required_runtime": [],
+      "limits": "Fixed offline calculation; explicit conventions; accuracy not established"
+    },
+    {
+      "id": "collaboration-checks",
+      "root": "integrations/collaboration-checks",
+      "maintenance": "README.md",
+      "status": "optional_recipient_validation_required",
+      "actions": [
+        "message",
+        "closure",
+        "audit"
+      ],
+      "required_sources": [],
+      "required_runtime": [],
+      "limits": "Read-only actual-input checks; no policy or permission authority"
     }
   ]
 }

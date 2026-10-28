@@ -1,3 +1,64 @@
+function Compare-SourceBytes {
+    param(
+        [Parameter(Mandatory = $true)][AllowEmptyCollection()][byte[]]$Bytes,
+        [Parameter(Mandatory = $true)][string]$ExpectedSha256,
+        [switch]$AllowEolReplay
+    )
+    if ($ExpectedSha256 -notmatch '^[0-9a-fA-F]{64}$') { throw 'Invalid expected source SHA-256.' }
+    $expected = $ExpectedSha256.ToLowerInvariant()
+    $hasher = [System.Security.Cryptography.SHA256]::Create()
+    try {
+        $actual = (([BitConverter]::ToString($hasher.ComputeHash($Bytes))) -replace '-', '').ToLowerInvariant()
+        $kind = 'mismatch'
+        $replayed = $null
+        if ($actual -eq $expected) { $kind = 'exact_bytes' }
+        elseif ($AllowEolReplay) {
+            # Decode strictly, retaining BOM. Never trim, normalize Unicode, or discard bytes.
+            $utf8 = New-Object Text.UTF8Encoding($false, $true)
+            $text = $null
+            try { $text = $utf8.GetString($Bytes) } catch [System.Text.DecoderFallbackException] {}
+            if ($null -ne $text -and $text.Contains("`n") -and $text -notmatch '\r(?!\n)') {
+                $candidate = $null
+                if (-not $text.Contains("`r")) {
+                    $candidate = $text.Replace("`n", "`r`n")
+                    $conversion = 'lf_to_crlf'
+                }
+                elseif ($text -notmatch '(?<!\r)\n') {
+                    $candidate = $text.Replace("`r`n", "`n")
+                    $conversion = 'crlf_to_lf'
+                }
+                if ($null -ne $candidate) {
+                    $replayed = (([BitConverter]::ToString($hasher.ComputeHash($utf8.GetBytes($candidate)))) -replace '-', '').ToLowerInvariant()
+                    if ($replayed -eq $expected) { $kind = $conversion }
+                }
+            }
+        }
+        return [pscustomobject][ordered]@{
+            matches = ($kind -ne 'mismatch')
+            kind = $kind
+            expected_sha256 = $expected
+            actual_sha256 = $actual
+            replayed_sha256 = $replayed
+        }
+    }
+    finally { $hasher.Dispose() }
+}
+
+function Get-SourceByteIdentity {
+    param(
+        [Parameter(Mandatory = $true)][string]$ProjectRoot,
+        [Parameter(Mandatory = $true)][string]$Path,
+        [Parameter(Mandatory = $true)][string]$ExpectedSha256
+    )
+    $prefix = [IO.Path]::GetFullPath($ProjectRoot).TrimEnd('\', '/') + [IO.Path]::DirectorySeparatorChar
+    $full = [IO.Path]::GetFullPath($Path)
+    if (-not $full.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)) { throw 'Source is outside Knowledge.' }
+    $relative = $full.Substring($prefix.Length).Replace('\', '/')
+    # EOL replay is a Clipping-source rule, not a global relaxation of artifact hashes.
+    $allow = $relative -cmatch '^Clippings/(?!.*(?:^|/)\.\.?/).+\.md$'
+    return Compare-SourceBytes -Bytes ([IO.File]::ReadAllBytes($full)) -ExpectedSha256 $ExpectedSha256 -AllowEolReplay:$allow
+}
+
 function Test-CanonicalClippingPath {
     param([string]$Path)
     if ([string]::IsNullOrWhiteSpace($Path)) { return $false }
@@ -54,15 +115,8 @@ function Resolve-ClippingPathMigration {
     if (-not (Test-Path -LiteralPath $targetFull -PathType Leaf)) {
         throw "Clipping migration target is missing: $targetRelative"
     }
-    $hasher = [System.Security.Cryptography.SHA256]::Create()
-    try {
-        $bytes = [IO.File]::ReadAllBytes($targetFull)
-        $actualHash = (([BitConverter]::ToString($hasher.ComputeHash($bytes))) -replace '-', '').ToLowerInvariant()
-    }
-    finally {
-        $hasher.Dispose()
-    }
-    if ($actualHash -ne ([string]$entry.sha256).ToLowerInvariant()) {
+    $identity = Get-SourceByteIdentity -ProjectRoot $root -Path $targetFull -ExpectedSha256 ([string]$entry.sha256)
+    if (-not $identity.matches) {
         throw "Clipping migration target hash drifted: $targetRelative"
     }
     return $targetFull

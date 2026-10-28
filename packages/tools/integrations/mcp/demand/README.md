@@ -50,3 +50,7 @@ rollback 只恢复本次拥有的配置段和显式选择的卸载键，保留�
 自带 test_portable.py 和合成 demand_fixture.py，仅在临时目录验证安装、权限保留、冲突拒绝、回退、真实 HTTP 目录发现、首次调用、状态隔离和会话回收；不接触使用者配置或外部业务。可在 Windows 显式运行 python -B test_portable.py。测试临时网关等待 30 秒自然退出，不安装自启。
 
 维护者同机三个临时聊天、相同工具目录的冷态对照，入口及附属进程私有驻留内存约 466→80 MiB，独立核心约 184→154 MiB；固定版本的取消订阅卸载约 120.2 秒，活动回合保持加载。这是版本与工作负载限定的观察，不是本通用安装器在所有服务、插件、机器和繁忙状态下的保证。接收者需独立验证原生初始化副作用、并发、错误/取消、业务状态、宿主退出以及客户端重启持久性；不以内存变化替代业务正确性。
+
+## Explicit transport recovery
+
+`demand_app_native_repair.py` restores the desktop app's own native transport only for a recognized pinned manifest shape; `zhihu_stdio_repair.py` preserves a source's policy while switching a selected entry to stdio. Both require explicit local paths, preserve recovery evidence, check current hashes and fail on unknown schema. They are recovery tools, not automatic repairs or client restarters. Do not run them merely because this package is installed. Existing source selection, authorization and disabled settings remain authoritative. The app-native helper currently recognizes codex-app-tools 0.1.6 only; inspect the installed version before use.

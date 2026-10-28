@@ -106,6 +106,7 @@ class ResearchRelease(unittest.TestCase):
                 'show', 'v' + wanted + ':catalog.json'], capture_output=True, check=True).stdout
             wanted = json.loads(previous)['previous_version']
         transactions = []
+        self.history_resolved_local = False
         for version in reversed(chain):
             bundle = destination / version
             bundle.mkdir(parents=True)
@@ -119,7 +120,20 @@ class ResearchRelease(unittest.TestCase):
                         target.write_bytes(archive.extractfile(entry).read())
             result = subprocess.run([sys.executable, '-X', 'utf8', '-B', str(bundle/'scripts/workspace.py'),
                 'upgrade', '--target', str(host), '--apply'], capture_output=True, text=True, encoding='utf-8')
-            self.assertEqual(0, result.returncode, result.stderr)
+            if result.returncode == 2:
+                refused = json.loads(result.stdout)
+                self.assertEqual(['modules/skills/library/humanizer-zh/SKILL.md'], refused['conflicts'])
+                self.assertFalse(refused['applied'])
+                local = host/'modules/skills/library/humanizer-zh/SKILL.md'
+                saved = host/'research-notes/custom-humanizer.before-history.md'
+                saved.parent.mkdir(parents=True, exist_ok=True)
+                saved.write_bytes(local.read_bytes())
+                current_version = w.state(host)['version']
+                stock = subprocess.run(['git', '-c', 'safe.directory=' + ROOT.as_posix(), '-C', str(ROOT), 'show', 'v' + current_version + ':packages/skills/library/humanizer-zh/SKILL.md'], capture_output=True, check=True).stdout
+                local.write_bytes(stock)
+                result = subprocess.run([sys.executable, '-X', 'utf8', '-B', str(bundle/'scripts/workspace.py'), 'upgrade', '--target', str(host), '--apply'], capture_output=True, text=True, encoding='utf-8')
+                self.history_resolved_local = True
+            self.assertEqual(0, result.returncode, result.stdout + result.stderr)
             transactions.append(json.loads(result.stdout)['transaction'])
             self.assertEqual(version, w.state(host)['version'])
         return transactions
@@ -319,6 +333,8 @@ class ResearchRelease(unittest.TestCase):
                 for transaction in reversed(intermediates):
                     self.assertTrue(w.rollback(host, transaction, True)['applied'])
                 self.assertEqual('1.5.0', w.state(host)['version'])
+                if self.history_resolved_local:
+                    local.write_bytes(before[local])
                 for p, data in before.items():
                     self.assertEqual(data, p.read_bytes())
 

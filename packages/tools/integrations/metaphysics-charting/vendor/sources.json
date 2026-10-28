@@ -1,0 +1,58 @@
+[
+  {
+    "name": "@babel/runtime",
+    "file": "babel-runtime-7.29.10.tgz",
+    "sha256": "178671999a0973c5165e5cec57f49ff4d9dd055523962763a771af6bc7e439b1",
+    "integrity": "sha512-NpugTzbKgGrNe45Ui32cN8vCFFMxVtP/9rtfwv0nP5FRDAjvYBxJcLVpYA9mr1jxP6cnIT7x9LUzuDTbWYYNRA==",
+    "url": "https://registry.npmjs.org/@babel/runtime/-/runtime-7.29.10.tgz",
+    "license": "MIT"
+  },
+  {
+    "name": "dayjs",
+    "file": "dayjs-1.11.23.tgz",
+    "sha256": "7da0ff55ddb6d4050b91ea0a11a8e9d92c048305155039387373f20be080e594",
+    "integrity": "sha512-QDTCU0M0MxR3hQfnlDJfwekQiaanm1ubOD231u73WBckQ/fsamwRLiE2GBz6D3a/xF1NgfiDLJjXBa1hYOYTtQ==",
+    "url": "https://registry.npmjs.org/dayjs/-/dayjs-1.11.23.tgz",
+    "license": "MIT"
+  },
+  {
+    "name": "i18next",
+    "file": "i18next-23.16.8.tgz",
+    "sha256": "283f7f0da577e8ee54eb5fdeb4c97cdaecbb54e28fc85b32e5c908731d131015",
+    "integrity": "sha512-06r/TitrM88Mg5FdUXAKL96dJMzgqLE5dv3ryBAra4KCwD9mJ4ndOTS95ZuymIGoE+2hzfdaMak2X11/es7ZWg==",
+    "url": "https://registry.npmjs.org/i18next/-/i18next-23.16.8.tgz",
+    "license": "MIT"
+  },
+  {
+    "name": "iztro",
+    "file": "iztro-2.6.3.tgz",
+    "sha256": "beb5339c1945e0e7998db6378c319a9f20ed2430d8078dc1766a649fe089abf0",
+    "integrity": "sha512-yFY+ytb1ryOZkL3yx6LKeGQ3ZWo7GOoJIg3lU1yRWxJRKBgVRNNM+Ap1ZfhgWIs3A2WqW7WaSRPjCHi8C60rYg==",
+    "url": "https://registry.npmjs.org/iztro/-/iztro-2.6.3.tgz",
+    "license": "MIT"
+  },
+  {
+    "name": "lunar-javascript",
+    "file": "lunar-javascript-1.7.7.tgz",
+    "sha256": "d1359ab9ca4913d1db3978a42ddfc290eb8ea9de54ce043f5b1f718ff71eea36",
+    "integrity": "sha512-u/KYiwPIBo/0bT+WWfU7qO1d+aqeB90Tuy4ErXenr2Gam0QcWeezUvtiOIyXR7HbVnW2I1DKfU0NBvzMZhbVQw==",
+    "url": "https://registry.npmjs.org/lunar-javascript/-/lunar-javascript-1.7.7.tgz",
+    "license": "MIT"
+  },
+  {
+    "name": "lunar-lite",
+    "file": "lunar-lite-0.2.8.tgz",
+    "sha256": "963f134a8a46b92ec6e243a98be90dc5a33c33637581b151b7c11e5833d0b157",
+    "integrity": "sha512-Y4tba4RaIFI0ikImJhgoEsyqtDE64lJIM3yFwRX01dbmagCDq7rNmpDQFrSFFy4WXeuywdRVFpIBoT1GGCEizw==",
+    "url": "https://registry.npmjs.org/lunar-lite/-/lunar-lite-0.2.8.tgz",
+    "license": "MIT"
+  },
+  {
+    "name": "lunar-typescript",
+    "file": "lunar-typescript-1.8.6.tgz",
+    "sha256": "257163cff2e2bb8359861721e72e5dbed2f583340b1400e459fd27816ac2ac39",
+    "integrity": "sha512-5Eo4T/cnuXfrgO4k5LCpOGHIUOuz5hCF/IfNv0T29WY2shR36Hiz+ecN9WjnUuxUKhql9gbOkPaQoqLFKtPRNA==",
+    "url": "https://registry.npmjs.org/lunar-typescript/-/lunar-typescript-1.8.6.tgz",
+    "license": "MIT"
+  }
+]

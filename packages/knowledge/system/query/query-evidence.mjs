@@ -3,8 +3,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import {pathToFileURL} from 'node:url';
-import {queryPrinciples} from '../integrations/query-principles.mjs';
+import {queryPrinciples,isPrincipleId,principleIdsFromText} from '../integrations/query-principles.mjs';
+export {queryPrinciples,isPrincipleId,principleIdsFromText};
 import {discoverWithRetrieval} from './retrieval-adapter.mjs';
+import {observeLookup} from './lookup-context.mjs';
+import {runCliLookup,renderCliResult} from '../integrations/knowledge-feedback.mjs';
 export const defaultRoot = path.resolve(import.meta.dirname, '../..');
 const hash = value => crypto.createHash('sha256').update(value).digest('hex');
 const slash = value => value.replaceAll('\\', '/');
@@ -21,7 +24,8 @@ function safe(root, relative) {
 }
 function classify(ref) {
   if(typeof ref!=='string') throw new Error('invalid_ref');
-  if(/^knowledge:principle:DPR-[A-Z]+-\d+$/.test(ref)||/^DPR-[A-Z]+-\d+$/.test(ref))return {kind:'principle',ref:ref.replace(/^knowledge:principle:/,''),relative:null};
+  const principleId=ref.replace(/^knowledge:principle:/,'');
+  if(isPrincipleId(principleId))return {kind:'principle',ref:principleId,relative:null};
   let relative=ref;
   const stable=/^knowledge:(wiki|raw|domain|clipping):(.+)$/.exec(ref);
   if(stable)relative=({wiki:'wiki',raw:'raw-sources',domain:'domains',clipping:'Clippings'}[stable[1]])+'/'+stable[2]+(/\.[a-z0-9]+$/i.test(stable[2])?'':'.md');
@@ -62,14 +66,14 @@ function termsFor(req){
  for(const t of [...initial]){const stripped=t.replace(/^(为什么|如何|怎么|什么是|请解释|查找|关于)/,'').replace(/(是什么|的机制|有什么|如何设计|怎么设计)$/,'');if(stripped.length>1)initial.push(stripped);}
  return [...new Set(initial)].slice(0,40);
 }
-function links(text,base){return [...text.matchAll(/\[[^\]]*\]\(<?([^\s)>]+)(?:\s+"[^"]*")?>?\)/g)].map(m=>m[1]).filter(x=>!/^\w+:/.test(x)).map(x=>{try{return slash(path.posix.normalize(path.posix.join(path.posix.dirname(base),decodeURIComponent(x.split('#')[0]))));}catch{return '';}}).filter(x=>x.startsWith('wiki/')&&x.endsWith('.md'));}
+function links(text,base){return [...text.matchAll(/\[[^\]]*\]\(\s*(?:<([^>]+)>|([^\s)>]+))(?:\s+"[^"]*")?\s*\)/g)].map(m=>m[1]??m[2]).filter(x=>!/^\w+:/.test(x)).map(x=>{try{return slash(path.posix.normalize(path.posix.join(path.posix.dirname(base),decodeURIComponent(x.split('#')[0]))));}catch{return '';}}).filter(x=>x.startsWith('wiki/')&&x.endsWith('.md'));}
 function listFiles(root,folder,errors){
  const result=[];let full;
  try{full=safe(root,folder);}catch(e){if(e.code!=='ENOENT')errors.push({path:folder,reason:e.code??e.message});return result;}
  const visit=(dir)=>{for(const entry of fs.readdirSync(dir,{withFileTypes:true}).sort((a,b)=>a.name.localeCompare(b.name,'en'))){const relative=slash(path.relative(fs.realpathSync(root),path.join(dir,entry.name)));try{const actual=safe(root,relative);if(entry.isSymbolicLink()){errors.push({path:relative,reason:'linked_discovery_entry_skipped'});continue;}if(entry.isDirectory())visit(actual);else if(entry.isFile()&&entry.name.endsWith('.md')&&!/^(README\.md|.*\.template\.md)$/i.test(entry.name))result.push(relative);}catch(e){errors.push({path:relative,reason:e.code??e.message});}}};
  visit(full);return result;
 }
-export function discover(input,root=defaultRoot){return discoverWithRetrieval(input,root,{legacy:discoverLegacy,normalize:normalizeRequest});}
+export function discover(input,root=defaultRoot){return observeLookup('discover',discoverWithRetrieval(input,root,{legacy:discoverLegacy,normalize:normalizeRequest}));}
 export function discoverLegacy(input,root=defaultRoot){
  const req=normalizeRequest(input);if(!req.sources.knowledge)return failure('disabled','Knowledge disabled',{need:req.need,candidates:[],metrics:{file_reads:0,bytes_read:0}});
  const errors=[],reads=new Map(),terms=termsFor(req),signals=new Map();
@@ -107,69 +111,91 @@ function extract(source,selection,req){
  }else if(mode!=='full')throw new Error('invalid_read_mode');
  return {content:lines.slice(start-1,end).join('\n'),range:{mode,heading:heading?.title??null,start_line:start+source.lineOffset,end_line:end+source.lineOffset,complete_unit:true,complete_source:mode==='full'&&source.lineOffset===0,scope_reason:selection.reason??'core_full_read',role:selection.role??'core'},selection:{mode,...(mode==='section'?{heading:selection.heading,reason:selection.reason,role:selection.role}: {})}};
 }
-export function readSource(input,root=defaultRoot){
+function readSourceImpl(input,root=defaultRoot){
  const req=normalizeRequest(input.request??input);let item;
  try{item=classify(input.ref);if(!allowed(req,item.kind)||(item.kind==='principle'&&!allowed(req,'domain')))return failure('disabled','Source kind disabled',{ref:input.ref});const source=contentSource(item,root);const unit=extract(source,input.selection??{},req);
  if(req.budget.max_sources===0||unit.content.length>req.budget.max_content_chars)return failure('budget_exhausted','Complete semantic unit exceeds available budget; no content was truncated',{ref:input.ref,required_chars:unit.content.length});
- const hs=headings(source.fullText);return {schema_version:1,status:'source_read',ref:source.ref,source_kind:item.kind,path:source.relative,source_sha256:hash(source.bytes),source_identity:source.sourceIdentity,context_sha256:req.context_sha256,need:req.need,selection:unit.selection,range:unit.range,content:unit.content,content_sha256:hash(unit.content),navigation:{headings:hs,linked_wiki:links(source.fullText,source.relative),source_links:[...new Set([...source.fullText.matchAll(/\[[^\]]*\]\(<?([^)>]+)>?\)/g)].map(m=>m[1]).concat([...source.fullText.matchAll(/\[\[([^\]]+)\]\]/g)].map(m=>m[1].split('|')[0])).filter(l=>/raw-sources|Clippings|https?:/.test(l)))]},read_event:'fresh_content_return',applicability:'requires_task_review',claim_support:'not_verified',metrics:{file_reads:1,bytes_read:source.bytes.length,content_chars_returned:unit.content.length},writes:false};
+ const hs=headings(source.fullText),navigationText=item.kind==='principle'?unit.content:source.fullText;return {schema_version:1,status:'source_read',ref:source.ref,source_kind:item.kind,path:source.relative,source_sha256:hash(source.bytes),source_identity:source.sourceIdentity,context_sha256:req.context_sha256,need:req.need,selection:unit.selection,range:unit.range,content:unit.content,content_sha256:hash(unit.content),navigation:{headings:hs,linked_wiki:links(navigationText,source.relative),source_links:[...new Set([...navigationText.matchAll(/\[[^\]]*\]\(<?([^)>]+)>?\)/g)].map(m=>m[1]).concat([...navigationText.matchAll(/\[\[([^\]]+)\]\]/g)].map(m=>m[1].split('|')[0])).filter(l=>/raw-sources|Clippings|https?:/.test(l)))]},read_event:'fresh_content_return',applicability:'requires_task_review',claim_support:'not_verified',metrics:{file_reads:1,bytes_read:source.bytes.length,content_chars_returned:unit.content.length},writes:false};
  }catch(e){return failure(e.message==='path_outside_root'||e.message==='source_scope_denied'?'denied':e.code==='ENOENT'?'missing':e.code==='EACCES'||e.code==='EPERM'?'permission_denied':e.message==='media_unreadable'?'media_unreadable':'unavailable',e.message,{ref:input.ref});}
 }
-export function verifyEvidence(input,root=defaultRoot){
+function verifyEvidenceImpl(input,root=defaultRoot,services={}){
  const req=normalizeRequest(input.request);const receipts=input.receipts??[];if(!Array.isArray(receipts))throw new Error('receipts must be an array');const issues=[],checked=[];
- for(const r of receipts){if(!r||!['source_read','source_reused'].includes(r.status)){issues.push({ref:r?.ref,reason:'not_a_read_receipt'});continue;}const fresh=readSource({request:req,ref:r.ref,selection:r.selection},root);if(fresh.status!=='source_read'){issues.push({ref:r.ref,reason:fresh.status,detail:fresh.reason});continue;}for(const key of ['path','source_sha256','content_sha256','content','context_sha256'])if(r[key]!==fresh[key])issues.push({ref:r.ref,reason:key==='context_sha256'?'applicability_changed':key+'_changed'});if(JSON.stringify(r.range)!==JSON.stringify(fresh.range))issues.push({ref:r.ref,reason:'range_changed'});checked.push({ref:r.ref,source_sha256:fresh.source_sha256,range:fresh.range});}
+ for(const r of receipts){if(!r||!['source_read','source_reused'].includes(r.status)){issues.push({ref:r?.ref,reason:'not_a_read_receipt'});continue;}const fresh=(services.readSource??readSource)({request:req,ref:r.ref,selection:r.selection},root);if(fresh.status!=='source_read'){issues.push({ref:r.ref,reason:fresh.status,detail:fresh.reason});continue;}for(const key of ['ref','source_kind','source_identity','path','source_sha256','content_sha256','content','context_sha256'])if(r[key]!==fresh[key])issues.push({ref:r.ref,reason:key==='context_sha256'?'applicability_changed':key+'_changed'});if(JSON.stringify(r.range)!==JSON.stringify(fresh.range))issues.push({ref:r.ref,reason:'range_changed'});if(JSON.stringify(r.research)!==JSON.stringify(fresh.research))issues.push({ref:r.ref,reason:'research_scope_changed'});checked.push({ref:r.ref,source_sha256:fresh.source_sha256,range:fresh.range});}
  for(const c of input.citations??[]){const r=receipts.find(r=>r.ref===c.ref);if(!r)issues.push({ref:c.ref,reason:'citation_not_read'});else if(typeof c.quote!=='string'||!c.quote.trim()||!r.content.includes(c.quote))issues.push({ref:c.ref,reason:'quote_outside_read_range'});}
  return {schema_version:1,status:issues.length?'invalid':'evidence_consistent',checked,issues,claim_support:'not_verified',semantic_review:'required_by_agent',writes:false};
 }
-export function reuseSource(input,root=defaultRoot){
- const verified=verifyEvidence({request:input.request,receipts:[input.receipt]},root);
+function reuseSourceImpl(input,root=defaultRoot,services={}){
+ const verified=(services.verifyEvidence??verifyEvidence)({request:input.request,receipts:[input.receipt]},root);
  if(verified.status!=='evidence_consistent')return failure('reuse_invalid','Source bytes, scope, permission or applicability changed',{issues:verified.issues});
  return {...input.receipt,status:'source_reused',read_event:'version_checked_prior_content_reused',applicability:'requires_task_review',claim_support:'not_verified',metrics:{version_checks:1,content_chars_returned:input.receipt.content.length},writes:false};
 }
 /** Check the caller's semantic assessment against this exact answer and fresh read receipts.
  * This verifies bindings/coverage declarations, never infers entailment or completeness. */
-export function reviewAnswer(input,root=defaultRoot){
+const contractError=(code,at,expected,message)=>Object.assign(new Error(message),{code,issues:[{path:at,code,expected}]});
+function reviewAnswerImpl(input,root=defaultRoot,services={}){
  const req=normalizeRequest(input.request),answer=input.answer,checks=input.answer_checks;
- if(typeof answer!=='string'||!answer.trim())throw new Error('answer must be nonempty text');
+ if(typeof answer!=='string'||!answer.trim())throw contractError('answer_text_required','$.answer','Provide nonempty final answer text.','answer must be nonempty text');
  const kinds=['condition','counterexample','provenance'];
- if(!Array.isArray(checks)||checks.length!==3||new Set(checks.map(c=>c?.kind)).size!==3||checks.some(c=>!kinds.includes(c?.kind)))throw new Error('answer_checks requires condition, counterexample and provenance exactly once');
+ if(!Array.isArray(checks)||checks.length!==3||new Set(checks.map(c=>c?.kind)).size!==3||checks.some(c=>!kinds.includes(c?.kind)))throw contractError('answer_review_categories_required','$.answer_checks','Provide condition, counterexample and provenance exactly once.','answer_checks requires condition, counterexample and provenance exactly once');
  const issues=[],citations=[],ids=new Set();
- for(const c of checks){
-  if(!['applicable','not_applicable'].includes(c.applicability)||typeof c.reason!=='string'||!c.reason.trim()||!Array.isArray(c.items))throw new Error('Each answer check requires applicability, reason and items');
-  if(c.applicability==='not_applicable'&&c.items.length||c.applicability==='applicable'&&!c.items.length)throw new Error('Check applicability and items disagree');
-  for(const item of c.items){
-   if(typeof item.id!=='string'||!item.id.trim()||ids.has(item.id)||typeof item.requirement!=='string'||!item.requirement.trim()||!Array.isArray(item.evidence)||!item.evidence.length)throw new Error('Review items require unique id, requirement and actual read evidence');
+ for(const [checkIndex,c] of checks.entries()){
+  const at='$.answer_checks['+checkIndex+']';
+  if(!['applicable','not_applicable'].includes(c.applicability)||typeof c.reason!=='string'||!c.reason.trim()||!Array.isArray(c.items))throw contractError('answer_review_shape_invalid',at,'Provide applicability, reason and items.','Each answer check requires applicability, reason and items');
+  if(c.applicability==='not_applicable'&&c.items.length||c.applicability==='applicable'&&!c.items.length)throw contractError('answer_review_applicability_mismatch',at,'Applicable checks need items; not_applicable checks must have none.','Check applicability and items disagree');
+  for(const [itemIndex,item] of c.items.entries()){
+   const itemAt=at+'.items['+itemIndex+']';
+   if(typeof item.id!=='string'||!item.id.trim()||ids.has(item.id)||typeof item.requirement!=='string'||!item.requirement.trim()||!Array.isArray(item.evidence)||!item.evidence.length)throw contractError('answer_review_item_invalid',itemAt,'Provide a unique ID, requirement and actual read evidence.','Review items require unique id, requirement and actual read evidence');
    ids.add(item.id);citations.push(...item.evidence);
-   if(!['covered','missing','uncertain'].includes(item.status)||typeof item.rationale!=='string'||!item.rationale.trim())throw new Error('Review item requires semantic status and rationale');
+   if(!['covered','missing','uncertain'].includes(item.status)||typeof item.rationale!=='string'||!item.rationale.trim())throw contractError('answer_review_item_status_invalid',itemAt,'Provide covered, missing or uncertain with a nonempty rationale.','Review item requires semantic status and rationale');
    if(item.status!=='covered')issues.push({id:item.id,kind:c.kind,reason:item.status});
    else if(typeof item.answer_quote!=='string'||!item.answer_quote.trim()||!answer.includes(item.answer_quote))issues.push({id:item.id,kind:c.kind,reason:'answer_quote_missing'});
   }
  }
  const receipts=input.receipts??[];
- const verification=verifyEvidence({request:req,receipts,citations},root);
+ const verification=(services.verifyEvidence??verifyEvidence)({request:req,receipts,citations},root);
  if(verification.status!=='evidence_consistent')return failure('invalid_evidence','Answer review references changed, unread or out-of-scope sources',{verification});
  if(new Set(receipts.map(r=>r.ref)).size>req.budget.max_sources||receipts.reduce((n,r)=>n+r.content.length,0)>req.budget.max_content_chars)return failure('budget_exhausted','Answer review exceeds declared read budget');
  return {schema_version:1,kind:'knowledge_answer_review',status:issues.length?'answer_revision_required':'answer_review_ready',answer_sha256:hash(answer),context_sha256:req.context_sha256,checks_sha256:hash(JSON.stringify(checks)),answer_checks:checks,issues,verification,claim_support:'not_verified',semantic_review:'caller_assessed_not_independently_verified',inventory_completeness:'requires_agent_review',writes:false};
 }
-export function assembleResult(input,root=defaultRoot){
+function assembleResultImpl(input,root=defaultRoot,services={}){
  const req=normalizeRequest(input.request);const receipts=input.receipts??[],claims=input.claims??[],gaps=input.gaps??[],stop=input.stop_reason;
- if(!['needs_answered','bounded_discovery_exhausted','budget_exhausted','sources_unavailable','user_scope_reached'].includes(stop))throw new Error('explicit stop_reason is required');
- if(!Array.isArray(claims)||!Array.isArray(gaps))throw new Error('claims and gaps must be arrays');
- const citations=claims.flatMap(c=>c.evidence??[]);const verification=verifyEvidence({request:req,receipts,citations},root);
+ if(!['needs_answered','bounded_discovery_exhausted','budget_exhausted','sources_unavailable','user_scope_reached'].includes(stop))throw contractError('query_stop_reason_required','$.stop_reason','Choose a declared stop reason.','explicit stop_reason is required');
+ if(!Array.isArray(claims)||!Array.isArray(gaps))throw contractError('query_claims_gaps_required','$','Provide claims and gaps arrays.','claims and gaps must be arrays');
+ const citations=claims.flatMap(c=>c.evidence??[]);const verification=(services.verifyEvidence??verifyEvidence)({request:req,receipts,citations},root);
  if(verification.status==='invalid')return failure('invalid_evidence','Cannot assemble changed or out-of-scope evidence',{verification});
  if(new Set(receipts.map(r=>r.ref)).size>req.budget.max_sources||receipts.reduce((n,r)=>n+r.content.length,0)>req.budget.max_content_chars)return failure('budget_exhausted','Read receipts exceed declared task budget; explicitly re-scope before delivery');
- for(const c of claims){if(!c.text||!c.applicability||!['source_statement','agent_inference'].includes(c.kind))throw new Error('Each claim requires text, kind and applicability');if(c.kind==='source_statement'&&!c.evidence?.length)throw new Error('Source statements require actual quoted read evidence');}
- if(stop==='needs_answered'&&gaps.some(g=>g.critical!==false))throw new Error('Critical gaps cannot be marked answered');
- if(['budget_exhausted','sources_unavailable','bounded_discovery_exhausted'].includes(stop)&&!gaps.length)throw new Error('Incomplete stops require explicit gaps');
+ for(const [index,c] of claims.entries()){const at='$.claims['+index+']';if(!c.text||!c.applicability||!['source_statement','agent_inference'].includes(c.kind))throw contractError('query_claim_shape_invalid',at,'Provide text, kind and applicability.','Each claim requires text, kind and applicability');if(c.kind==='source_statement'&&!c.evidence?.length)throw contractError('query_claim_evidence_required',at+'.evidence','Source statements need actual quoted read evidence.','Source statements require actual quoted read evidence');}
+ if(stop==='needs_answered'&&gaps.some(g=>g.critical!==false))throw contractError('critical_gaps_cannot_be_answered','$.stop_reason','Keep critical gaps explicit and choose an incomplete stop; do not mark them answered.','Critical gaps cannot be marked answered');
+ if(['budget_exhausted','sources_unavailable','bounded_discovery_exhausted'].includes(stop)&&!gaps.length)throw contractError('incomplete_stop_requires_gaps','$.gaps','Describe the unresolved scope for an incomplete stop.','Incomplete stops require explicit gaps');
  let answerReview;
  if(input.answer!==undefined||input.answer_checks!==undefined){
-  answerReview=reviewAnswer({...input,request:req},root);
+  answerReview=(services.reviewAnswer??reviewAnswer)({...input,request:req},root);
   if(answerReview.status!=='answer_review_ready')return failure(answerReview.status,'Revise or explicitly narrow the answer before assembly',{answer_review:answerReview});
  }
  return {schema_version:1,kind:'knowledge_query_result',status:'assembled',need:req.need,sources:receipts.map(({content,navigation,...r})=>r),claims:claims.map(c=>({...c,semantic_status:'agent_assessed_not_tool_verified'})),gaps,stop_reason:stop,verification,...(answerReview?{answer:input.answer,answer_review:answerReview}:{}),source_availability:req.sources,source_support:'agent_assessment_required',user_acceptance:'not_requested',writes:false};
 }
-export function main(argv=process.argv.slice(2)){
+export function readSource(input,root=defaultRoot){return observeLookup('read',readSourceImpl(input,root));}
+export function verifyEvidence(input,root=defaultRoot){return observeLookup('verify',verifyEvidenceImpl(input,root));}
+export function reuseSource(input,root=defaultRoot){return observeLookup('reuse',reuseSourceImpl(input,root));}
+export function reviewAnswer(input,root=defaultRoot){return observeLookup('review',reviewAnswerImpl(input,root));}
+export function assembleResult(input,root=defaultRoot){return observeLookup('assemble',assembleResultImpl(input,root));}
+/** Trusted host injection only; requests cannot register a reader or widen native source scope. */
+export function createEvidenceQuery({root=defaultRoot,resolveSource=null}={}){
+ const services={};
+ services.readSource=input=>resolveSource?.handles(input.ref)?resolveSource.read(input):readSource(input,root);
+ services.verifyEvidence=input=>observeLookup('verify',verifyEvidenceImpl(input,root,services));
+ services.reviewAnswer=input=>observeLookup('review',reviewAnswerImpl(input,root,services));
+ return Object.freeze({normalizeRequest,discover:input=>discover(input,root),readSource:services.readSource,
+  verifyEvidence:services.verifyEvidence,reviewAnswer:services.reviewAnswer,
+  reuseSource:input=>observeLookup('reuse',reuseSourceImpl(input,root,services)),
+  assembleResult:input=>observeLookup('assemble',assembleResultImpl(input,root,services))});
+}
+export async function main(argv=process.argv.slice(2)){
  const [action,jsonPath,...rest]=argv;const pos=rest.indexOf('--root');const root=pos>=0?path.resolve(rest[pos+1]):defaultRoot;
  if(!jsonPath||!['discover','read','reuse','verify','review','assemble'].includes(action))throw new Error('Usage: node system/query/query-evidence.mjs discover|read|reuse|verify|review|assemble <request.json|-> [--root <Knowledge>]');
- const input=JSON.parse(fs.readFileSync(jsonPath==='-'?0:jsonPath,'utf8').replace(/^\uFEFF/,''));const result=({discover,read:readSource,reuse:reuseSource,verify:verifyEvidence,review:reviewAnswer,assemble:assembleResult})[action](input,root);console.log(JSON.stringify(result,null,2));if(['invalid','invalid_evidence','answer_revision_required','denied','permission_denied'].includes(result.status))process.exitCode=2;
+ const input=JSON.parse(fs.readFileSync(jsonPath==='-'?0:jsonPath,'utf8').replace(/^\uFEFF/,''));
+ const result=await runCliLookup(()=>({discover,read:readSource,reuse:reuseSource,verify:verifyEvidence,review:reviewAnswer,assemble:assembleResult})[action](input,root),{root,entry:'query_cli',terms:(input.request??input).terms??[]});
+ console.log(renderCliResult(result));
+ if(['invalid','invalid_evidence','answer_revision_required','denied','permission_denied'].includes(result.status))process.exitCode=2;
 }
-if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){try{main();}catch(e){console.error(JSON.stringify(failure('invalid_request',e.message)));process.exitCode=2;}}
+if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){try{await main();}catch(e){console.error(JSON.stringify(failure('invalid_request',e.message)));process.exitCode=2;}}

@@ -1,0 +1,5 @@
+# Read-only collaboration checks
+
+Python 3.12+, Git. `python check.py message --file <commit-message>` validates declared closure metadata. `python check.py closure --file <actual-closure.json>` verifies Git objects and direct-parent gitlinks. The JSON uses repositories and edges as accepted by execution_contract.py. Each repository entry represents one result commit; check multiple result commits as separate actual phases. Inputs must be assembled from real Git state. A self-authored JSON cannot prove user authorization.
+
+`python semantic_check.py --workspace-root <workspace>` scans initialized tracked Git roots and reachable governance documents. It reports link, routing, load and heuristic rule-conflict candidates; it is not exhaustive semantic validation or user acceptance. It does not execute workspace inheritance generators, load private behavioral baselines, contact services or write state. Optional export-context registrations are parsed by the bundled AST resolver; unsupported dynamic construction fails closed. There are no leases, private repository registries or automatic fixes in this tool.

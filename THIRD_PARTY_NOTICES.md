@@ -67,3 +67,9 @@ Anatomy (`wheresryan22/anatomy`, revision `bc943e40c59998be5da61f9d39c6a983b1116
 ## Anti-Defensive Writing
 
 The writing specialist retains MIT from Kiterlin/anti-defensive-writing revision `f516147d017a3fe43ae99192cb89d8261b0c8679`. See the [package notice](packages/skills/THIRD_PARTY_NOTICES.md), [license](packages/skills/library/anti-defensive-writing/LICENSE), original method and `references/UPSTREAM.json` for fixed identity and limited adapter changes. Inclusion grants no upstream endorsement or rights to unrelated material.
+
+## 1.28.0 selected additions
+
+Matt Pocock/skills fixed revision 5beb35b040e3de97e54fa9e386d7e42d15c295c2 (MIT): four complete selected methods and resources. mouse-lin/finesse-skill fixed revision 5050b6c71e27b829d1b3087d2be889d29c60db00 (MIT): three selected reference files and original text/provenance; not the full upstream skill bundle. See each method's LICENSE and references/UPSTREAM.json.
+
+Tools includes a reviewed strict-reader subset of @xzxzzx/bilibili-mcp 1.14.3 (Apache-2.0), DSH fixed helper archive (MIT), and seven fixed MIT npm source archives for offline chart calculation. Original licenses, locks, patch hashes and source archive identities are retained under each integration. No model weights, real captured media or private records are included.

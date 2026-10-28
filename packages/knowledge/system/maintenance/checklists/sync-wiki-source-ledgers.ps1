@@ -1,7 +1,9 @@
 [CmdletBinding()]
 param(
     [ValidateSet('Check', 'Sync')][string]$Mode = 'Check',
-    [string]$ProjectRoot
+    [string]$ProjectRoot,
+    [string]$PathsCsv = '',
+    [switch]$RegistryOnly
 )
 
 Set-StrictMode -Version Latest
@@ -38,8 +40,8 @@ function Get-RawLinks {
     # relative links; ledger counts must include either form.
     foreach ($match in [regex]::Matches($Text, '(?m)\[[^\]]+\]\((?<target><[^>]+>|[^\)]+)\)')) {
         $target = $match.Groups['target'].Value.Trim('<', '>')
-        $target = [Uri]::UnescapeDataString($target)
         $target = $target.Split('#')[0]
+        $target = [Uri]::UnescapeDataString($target)
         if ($target -match '(?i)(?:^|/)raw-sources/(?<name>[^/]+\.md)$') {
             [void]$links.Add('raw-sources/' + $Matches['name'])
         }
@@ -96,6 +98,10 @@ function Add-SectionSources {
     $body = $section.Groups['body'].Value.TrimEnd("`r", "`n")
     $addition = @($Sources | ForEach-Object {
         $name = $_.Substring('raw-sources/'.Length)
+        if ($name -match '[\[\]|#]') {
+            '- [Raw](<../raw-sources/' + [Uri]::EscapeDataString($name) + '>)'
+            return
+        }
         if ($name.EndsWith('.md')) { $name = $name.Substring(0, $name.Length - 3) }
         '- [[raw-sources/' + $name + ']]'
     }) -join "`n"
@@ -124,17 +130,25 @@ try {
         if (-not (Test-Path -LiteralPath $required)) { throw "Missing required Knowledge path: $required" }
     }
     $changes = New-Object 'System.Collections.Generic.List[object]'
-    foreach ($wikiFile in @(Get-ChildItem -LiteralPath $wikiRoot -Filter '*.md' -File | Where-Object { $_.Name -ne 'README.md' -and $_.Name -notlike '*.template.md' } | Sort-Object Name)) {
+    $selected = @{}
+    if ($PathsCsv) { foreach ($rel in ($PathsCsv -split '\|')) {
+        $full = [IO.Path]::GetFullPath((Join-Path $projectRoot $rel))
+        if (-not $full.StartsWith($wikiRoot.TrimEnd('\','/') + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase) -or -not (Test-Path -LiteralPath $full -PathType Leaf)) { throw "Invalid scoped Wiki: $rel" }
+        $selected[$full] = $true
+    } }
+    $scopedRaw = @{}
+    foreach ($wikiFile in @(Get-ChildItem -LiteralPath $wikiRoot -Filter '*.md' -File | Where-Object { $_.Name -ne 'README.md' -and $_.Name -notlike '*.template.md' -and (-not $PathsCsv -or $selected.ContainsKey($_.FullName)) } | Sort-Object Name)) {
         $relative = 'wiki/' + $wikiFile.Name
         $text = Get-Content -Raw -Encoding UTF8 -LiteralPath $wikiFile.FullName
         $ledger = Get-WikiLedger $text $relative
+        foreach ($source in @($ledger.front_sources) + @($ledger.section_sources) + @($ledger.body_sources)) { $scopedRaw[$source.Substring('raw-sources/'.Length)] = $true }
         if ($ledger.missing_front.Count -eq 0 -and $ledger.missing_section.Count -eq 0) { continue }
         [void]$changes.Add([pscustomobject][ordered]@{
             path = $relative
             added_to_frontmatter = @($ledger.missing_front)
             added_to_source_section = @($ledger.missing_section)
         })
-        if ($Mode -eq 'Sync') {
+        if ($Mode -eq 'Sync' -and -not $RegistryOnly) {
             $updated = Add-FrontmatterSources $text $ledger.missing_front $relative
             $updated = Add-SectionSources $updated $ledger.missing_section $relative
             [IO.File]::WriteAllText($wikiFile.FullName, $updated.Replace("`r`n", "`n"), $utf8NoBom)
@@ -149,6 +163,7 @@ try {
         if ($line -notmatch '^\|\s*[^|]+\.md\s*\|') { [void]$updatedLines.Add($line); continue }
         $columns = @($line -split '\|')
         $name = $columns[1].Trim()
+        if ($PathsCsv -and -not $scopedRaw.ContainsKey($name)) { [void]$updatedLines.Add($line); continue }
         if (-not $counts.ContainsKey($name)) { [void]$updatedLines.Add($line); continue }
         $match = [regex]::Match($columns[5].Trim(), '^(?<count>\d+)')
         if (-not $match.Success) { throw "Invalid raw-list reference count: $name" }

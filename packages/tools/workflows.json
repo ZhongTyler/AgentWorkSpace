@@ -97,6 +97,46 @@
         "anatomy"
       ],
       "default_path": "Text, simple diagrams or existing lightweight interaction; Anatomy only when useful for personal understanding, video separate"
+    },
+    {
+      "id": "knowledge-feedback",
+      "owner": "Recipient host",
+      "entry": "README.md",
+      "stage": "optional_host_binding_required",
+      "tools": [
+        "knowledge-feedback"
+      ],
+      "default_path": "Use the existing host workflow or the integration README; no implicit setup or invocation"
+    },
+    {
+      "id": "bilibili-capture",
+      "owner": "Recipient host",
+      "entry": "README.md",
+      "stage": "optional_host_binding_required",
+      "tools": [
+        "bilibili-capture"
+      ],
+      "default_path": "Use the existing host workflow or the integration README; no implicit setup or invocation"
+    },
+    {
+      "id": "metaphysics-charting",
+      "owner": "Recipient host",
+      "entry": "README.md",
+      "stage": "optional_host_binding_required",
+      "tools": [
+        "metaphysics-charting"
+      ],
+      "default_path": "Use the existing host workflow or the integration README; no implicit setup or invocation"
+    },
+    {
+      "id": "collaboration-checks",
+      "owner": "Recipient host",
+      "entry": "README.md",
+      "stage": "optional_host_binding_required",
+      "tools": [
+        "collaboration-checks"
+      ],
+      "default_path": "Use the existing host workflow or the integration README; no implicit setup or invocation"
     }
   ]
 }

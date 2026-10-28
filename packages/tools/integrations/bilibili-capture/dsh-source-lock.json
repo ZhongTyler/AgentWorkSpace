@@ -1,0 +1,219 @@
+{
+  "repository": "https://github.com/c1overzz/dsh-bili-scroll",
+  "revision": "4af98392ee078e02f50a7fd0bf0491033f4675ed",
+  "archive_url": "https://codeload.github.com/c1overzz/dsh-bili-scroll/zip/4af98392ee078e02f50a7fd0bf0491033f4675ed",
+  "archive_sha256": "29624c1803b60c42971d916c94faf4dc71c52547d034b887d5e640c3146a9aaa",
+  "archive_bytes": 232838,
+  "files": [
+    {
+      "path": ".gitignore",
+      "sha256": "e1509d96866d473ea7e87946926ef58ff852d913c9d04c17e8cbad0b7eab9d0f",
+      "bytes": 329
+    },
+    {
+      "path": ".npmignore",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "32934060eaa3fbc3f9fc73bc67f6393ef1ad4840fffa6887a4d9e3220ad4854a",
+      "bytes": 5789
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "16ad481f4cf1ffd82867438116a8fb12267382512309115541a918073c7223fe",
+      "bytes": 59883
+    },
+    {
+      "path": "CONTRIBUTORS.md",
+      "sha256": "caa4661882f1350994432b49927b541062c1036e6e55339545073f66fb51f0f5",
+      "bytes": 2158
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "9b935019d62b1f2548caecc540ebe0bb3c04636626cdd63b40eef725c5e633fa",
+      "bytes": 1064
+    },
+    {
+      "path": "NOTICE.md",
+      "sha256": "f45aec9e15474835d314db2fe343985ecc75aa1f8731b655a4850e7718ca5ba8",
+      "bytes": 634
+    },
+    {
+      "path": "README.md",
+      "sha256": "8896033d41f9c46bc09238b3145164a3ba59a6d72d4fab7a2aa8936b61b7d56f",
+      "bytes": 14984
+    },
+    {
+      "path": "RELEASE-2.0.0.md",
+      "sha256": "7c904d939372ccabf4719b7385d8d88a21fe6bd95bf533f9b1326681cc27c6ba",
+      "bytes": 2755
+    },
+    {
+      "path": "client.js",
+      "sha256": "050b94efc59dfabefe54e87d1ccf84b2703ea7f92f2afe4ebb2c9f52322f92c1",
+      "bytes": 53967
+    },
+    {
+      "path": "cordis.patch.yml",
+      "sha256": "2bf159f963c83baaa62565a84198ec9d4fbc2010818fdb8aa876c6496564d5b6",
+      "bytes": 1081
+    },
+    {
+      "path": "index.js",
+      "sha256": "6b2a6becfb3daf260cc20f8e37fed55145ef8657b908875ef5b0cf7d768866f4",
+      "bytes": 180991
+    },
+    {
+      "path": "lib/asr.py",
+      "sha256": "7798bfc248d0d34d5130628a4448dcae3d65d64d14279c9853a1d78b0c099165",
+      "bytes": 6450
+    },
+    {
+      "path": "lib/diagnose.mjs",
+      "sha256": "4a79f5b64f320b07c05830ed0f26c0b69540bd0314d48b9f2c47bb83912a6df3",
+      "bytes": 4220
+    },
+    {
+      "path": "lib/dm.mjs",
+      "sha256": "0eb8b515ba6f05c82f7359d4a833dfa3b7fc32a3d37a74153fd1eeb6e9455426",
+      "bytes": 4366
+    },
+    {
+      "path": "lib/favops.py",
+      "sha256": "db2929cc513da009d3d711791b4e8b39852ec11c8f43ee29c4154d063b310ac9",
+      "bytes": 3459
+    },
+    {
+      "path": "lib/hostdeps.mjs",
+      "sha256": "6adcd90c8ca33b7bb5df3aefd790a7452ac088d81465912cedea085c0318d35f",
+      "bytes": 7098
+    },
+    {
+      "path": "lib/login.mjs",
+      "sha256": "a782c54789b5a8e661a9e3d774814f619c9201a459207a2d9ce935e12d020ec8",
+      "bytes": 7080
+    },
+    {
+      "path": "lib/mcp.mjs",
+      "sha256": "e2c843d6895845247fe2fb9eac072f854ec9a7560124d3c5db38714e164afc75",
+      "bytes": 5740
+    },
+    {
+      "path": "lib/state.mjs",
+      "sha256": "1165d0c3bc36b2398a74b37d34bf708517d420a75ff75f73972895e2b038cb1e",
+      "bytes": 12299
+    },
+    {
+      "path": "lib/uid.mjs",
+      "sha256": "31fcd577ba075897255fb17e2d6f1c912f707b2d108ad0485c26a2e091e9be9f",
+      "bytes": 2580
+    },
+    {
+      "path": "lib/uvfetch.mjs",
+      "sha256": "d7dfa045501a738cc44b3d1fa51b4e82509306bc59fe250801b15c72a913ba31",
+      "bytes": 10243
+    },
+    {
+      "path": "lib/verify.mjs",
+      "sha256": "4ebbe30b6b0c823fded72879e20d4a9b8aa9871fe574bd74fca2e188969a0f9b",
+      "bytes": 9123
+    },
+    {
+      "path": "package.json",
+      "sha256": "2f5f19982bd82358943054b581fca82c90eb93bba15047d762bb3bde4497bc70",
+      "bytes": 1805
+    },
+    {
+      "path": "profile-template/bili-duty/cordis.patch.yml",
+      "sha256": "1943fe369d0b93fb59a2707594b6ebb1994a860e15b49da7ed04a03c2c3cbe6b",
+      "bytes": 4705
+    },
+    {
+      "path": "profile-template/bili-duty/cordis.yml",
+      "sha256": "c300dcf2ebc5f02062d6591268d29d3db6fe45e0cb138f5467276fe2ba06076e",
+      "bytes": 223
+    },
+    {
+      "path": "profile-template/bili-duty/package.json",
+      "sha256": "84d988e803374a56ce640694cb50393813f74ffa443c1aef7800f2af353bff3b",
+      "bytes": 214
+    },
+    {
+      "path": "prompts/duty.md",
+      "sha256": "de6e5398ef20c6c049e188bf742e2e75b3bae234afffadbe616552a8f88c6ee0",
+      "bytes": 25781
+    },
+    {
+      "path": "selfcheck.mjs",
+      "sha256": "3b84dee9a97af9da1a5e93f9701166b1f4d6f808c837dc22cb93a84f9ffd0a11",
+      "bytes": 5255
+    },
+    {
+      "path": "test/harden-perms.test.mjs",
+      "sha256": "aef9a9f3ee307a2ae779a206ebc364f2f24df126882921885134aa83ff6fa1bb",
+      "bytes": 1503
+    },
+    {
+      "path": "test/seen-day.test.mjs",
+      "sha256": "3f2b691c9a37ec54ef33c8d9e06fd79dfe9de535a02fe30e35f0498366e4318e",
+      "bytes": 1780
+    },
+    {
+      "path": "tools/_check-1016.mjs",
+      "sha256": "c284bc97229939550d7898a4267f160ff8e0bca760ac48f3eb174775e03fdc45",
+      "bytes": 13596
+    },
+    {
+      "path": "tools/check-vision.py",
+      "sha256": "29e667b5843edb6d5604ddde792e6f7c27416c874dbceb954ea21f58edb73a86",
+      "bytes": 3456
+    },
+    {
+      "path": "tools/host-resolver.mjs",
+      "sha256": "975e7c85880661455c52013303cb80af2a18320a1a6adffb7555315b114e7794",
+      "bytes": 2166
+    },
+    {
+      "path": "tools/register.mjs",
+      "sha256": "167a25b18699c5021771f8faba806441c0d8bf5b849920f732508816d1e364d8",
+      "bytes": 534
+    },
+    {
+      "path": "vendor/bilibili-mcp/LICENSE",
+      "sha256": "613dc22ea40922528e661ff5112c207a87c5fd323b8f24202b06e69317cc888e",
+      "bytes": 1067
+    },
+    {
+      "path": "vendor/bilibili-mcp/README.md",
+      "sha256": "ef1686cc8d2a7d9448c45e250260ce850998a8a9fa88b2d3e5a5ba6f4cd46a76",
+      "bytes": 5921
+    },
+    {
+      "path": "vendor/bilibili-mcp/mcp_server.py",
+      "sha256": "a0326ba53f236fd9133271b8c09aacc2c41ebb0ef172283f9c55121be19e6d8f",
+      "bytes": 73678
+    },
+    {
+      "path": "vendor/bilibili-mcp/requirements.txt",
+      "sha256": "ebe3bee36ed2baf1061a2fb199d6047c2e26dcc7e921f2c261b15839b245afcb",
+      "bytes": 509
+    },
+    {
+      "path": "\u53d1\u7248\u6e05\u5355-2.0.md",
+      "sha256": "0f28bda2c3eb0ef639a43463f2cc1eb7f254a9cd9c2ad69eba60cf3789fbf58c",
+      "bytes": 2323
+    },
+    {
+      "path": "\u7fa4\u7b54\u7591.md",
+      "sha256": "a5eb4e7aee12dbbec8219a701c955dbb29ef04fb2701d2eaf2e99edd819640e0",
+      "bytes": 4999
+    },
+    {
+      "path": "\u89c6\u9891\u811a\u672c-2.0.md",
+      "sha256": "83726f28abf6f6d233015daca5c581c8baf9aa779157d0c1fbda895fa81e4050",
+      "bytes": 2955
+    }
+  ]
+}

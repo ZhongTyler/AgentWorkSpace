@@ -66,7 +66,9 @@ def stage(source, destination):
             if component == 'tools' and target.startswith('integrations/mcp/demand/'):
                 public = {'README.md', 'demand_fixture.py', 'test_portable.py', 'demand_portable_install.py',
                           'demand_common.py', 'demand_admin.py', 'demand_broker.py', 'demand_plugin.py',
-                          'demand_http.py', 'demand_http_headers.py', 'demand_http_spawn.ps1'}
+                          'demand_http.py', 'demand_http_headers.py', 'demand_http_spawn.ps1',
+                          'demand_http_install.py', 'demand_app_native_repair.py', 'zhihu_stdio_repair.py', 'demand_proxy.py',
+                          'test_demand_http_install.py', 'test_app_native_repair.py', 'test_zhihu_stdio_repair.py'}
                 if target.removeprefix('integrations/mcp/demand/') not in public:
                     raise ContractError('MCP demand publication permits reviewed source only')
             if component == 'tools' and target.startswith('docs/') and target not in {'docs/decision-model-policy.md','docs/local-image-validation.md'}:
@@ -77,7 +79,8 @@ def stage(source, destination):
                 raise ContractError('Research input is outside the reviewed public whitelist')
             vendors = ('integrations/mcp/vendor/', 'integrations/rea/vendor/')
             if component == 'tools':
-                vendors += ('integrations/decision-models/vendor/', 'integrations/anatomy/vendor/')
+                vendors += ('integrations/decision-models/vendor/', 'integrations/anatomy/vendor/',
+                            'integrations/bilibili-capture/vendor/', 'integrations/metaphysics-charting/vendor/')
             if target.endswith(('.tgz', '.tar.gz', '.zip')) and not target.startswith(vendors):
                 raise ContractError('Research archives must use the reviewed vendor directory')
     if component == 'game-project':

@@ -1,0 +1,11 @@
+{
+  "name": "tyler-metaphysics-charting",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Pinned offline calculation engines with explicit host conventions",
+  "dependencies": {
+    "lunar-javascript": "1.7.7",
+    "iztro": "2.6.3"
+  }
+}

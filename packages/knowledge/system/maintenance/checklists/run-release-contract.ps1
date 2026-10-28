@@ -13,7 +13,7 @@ function Relative-Path([string]$Path) {
 
 $requiredDirectories = @(
     'Clippings', 'raw-sources', 'wiki', 'domains', 'groups', 'tests', 'system', 'system/protocols',
-    'system/query', 'system/registry', 'system/integrations', 'system/maintenance',
+    'research-reports', 'system/sync', 'system/query', 'system/registry', 'system/integrations', 'system/maintenance',
     'system/maintenance/CHANGELOG_archive', 'system/maintenance/checklists',
     'system/maintenance/ingest-runs', 'system/maintenance/group-proposals',
     'system/maintenance/receipts', 'system/maintenance/schemas', 'system/examples', 'system/examples/ingest-content'
@@ -51,9 +51,9 @@ foreach ($relative in $requiredFiles) {
 if (Test-Path -LiteralPath (Join-Path $rootPath 'agents')) { $failures.Add('Released package must not contain agents/.') }
 $allowedRootFiles = @('.gitignore', '_release.json', 'README.md', 'AGENTS.md', 'COMMAND_MANUAL.md', 'NOW.md')
 Get-ChildItem -LiteralPath $rootPath -File -Force | Where-Object { $_.Name -notin $allowedRootFiles } | ForEach-Object { $failures.Add("Unexpected root file: $($_.Name)") }
-$allowedRootDirectories = @('Clippings', 'raw-sources', 'wiki', 'domains', 'groups', 'tests', 'system')
+$allowedRootDirectories = @('Clippings', 'raw-sources', 'wiki', 'domains', 'groups', 'tests', 'system', 'research-reports')
 Get-ChildItem -LiteralPath $rootPath -Directory -Force | Where-Object { $_.Name -notin $allowedRootDirectories } | ForEach-Object { $failures.Add("Unexpected root directory: $($_.Name)") }
-$allowedTests = @('retrieval.contract.mjs', 'retrieval-maintenance.contract.mjs', 'retrieval-hook.contract.mjs', 'answer-review.contract.mjs')
+$allowedTests = @('answer-review.contract.mjs', 'ingest-agent-routing.contract.mjs', 'ingest-consolidated.contract.mjs', 'ingest-finalizer.contract.mjs', 'ingest-parent-pipeline.contract.mjs', 'ingest-preflight.contract.mjs', 'research-reports.contract.mjs', 'retrieval-hook.contract.mjs', 'retrieval-maintenance.contract.mjs', 'retrieval.contract.mjs')
 Get-ChildItem -LiteralPath (Join-Path $rootPath 'tests') -File -Force -ErrorAction SilentlyContinue | Where-Object { $_.Name -notin $allowedTests } | ForEach-Object { $failures.Add("Unexpected regression test file: $($_.Name)") }
 
 $allFiles = @(Get-ChildItem -LiteralPath $rootPath -Recurse -File -Force)

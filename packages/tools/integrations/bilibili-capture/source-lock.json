@@ -1,0 +1,34 @@
+{
+  "status": "adapted_reader_available_full_mcp_not_enabled",
+  "package": "@xzxzzx/bilibili-mcp",
+  "version": "1.14.3",
+  "repository": "https://github.com/XZXZZX-Ai/bilibili-mcp",
+  "gitHead": "95a512ba6f9eaaac268625f3ee3a49d21109d50a",
+  "tarball": "https://registry.npmjs.org/@xzxzzx/bilibili-mcp/-/bilibili-mcp-1.14.3.tgz",
+  "integrity": "sha512-ajbUVYKICidXLwfrnzkLW5+fvhOqvy6wob6BuNFZYtyN0hGpjd55SV1kCHQ3PrxHCj2pjWOkZAvlCcKznKIF9Q==",
+  "downloaded_bytes": 1154064,
+  "integrity_verified": true,
+  "license": "Apache-2.0",
+  "static_files_read": [
+    "package.json",
+    "dist/bilibili/video-api.js",
+    "dist/bilibili/subtitle-integrity.js",
+    "dist/config.js"
+  ],
+  "reason_not_enabled": "HTTP 412 in getVideoInfo/getVideoSubtitle triggers another endpoint; incompatible with this trial stop rule.",
+  "dependencies_installed": false,
+  "candidate_code_executed": true,
+  "credentials_read": false,
+  "asr_run": false,
+  "complete_security_audit": false,
+  "reviewed_file_sha256": {
+    "package.json": "4e55dc3032bb18d952bb592484600eadb8cddf513ac3fa513b4e0cf9d2ddd733",
+    "dist/bilibili/video-api.js": "183723c02347360da0e0e8ea0fba13c5da219e86e0c5a9aee6fa3756d22a140a",
+    "dist/bilibili/subtitle-integrity.js": "b3e47bd6c055b8234264ba88328c90097d7a3c24a2780d4b3d739d93c37a63f9",
+    "dist/config.js": "80dc767678c643d13f663d6a5a44316bd3ba012d7bb15c86212917a0b92f872f"
+  },
+  "execution_scope": "adapted 16-module anonymous reader only; unmodified full MCP server was not executed",
+  "full_mcp_server_executed": false,
+  "adapted_reader_lock": "reader-lock.json",
+  "content_readiness": "anonymous metadata verified for two real videos; anonymous captions unavailable; signed-in browser separately read one native Chinese subtitle and one frame at 05:13, not a full transcript export"
+}

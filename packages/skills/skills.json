@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "version": "1.27.0",
+  "version": "1.28.0",
   "skills": [
     {
       "id": "game-presentation",
@@ -149,6 +149,42 @@
     {
       "id": "anti-defensive-writing",
       "description": "修改论文、技术报告、审稿回复及技术SOP的重复免责和薄弱主线，保留必要限定",
+      "optional_modules": [],
+      "install_requires": []
+    },
+    {
+      "id": "codebase-design",
+      "description": "设计深模块接口、复杂度边界与测试接缝",
+      "optional_modules": [],
+      "install_requires": []
+    },
+    {
+      "id": "domain-modeling",
+      "description": "澄清领域术语和真实架构决定，复用宿主词表与ADR",
+      "optional_modules": [],
+      "install_requires": []
+    },
+    {
+      "id": "prototype",
+      "description": "围绕具体设计问题制作可撤回的逻辑或界面原型",
+      "optional_modules": [],
+      "install_requires": []
+    },
+    {
+      "id": "writing-for-agents",
+      "description": "编写Agent文档、Skill及条件触发指针",
+      "optional_modules": [],
+      "install_requires": []
+    },
+    {
+      "id": "eval-result-analysis",
+      "description": "分析已有评测的正确性、稳定性、排序与成本",
+      "optional_modules": [],
+      "install_requires": []
+    },
+    {
+      "id": "finesse-ui",
+      "description": "按实际缺口使用组件、配置流程与产品界面专项参考",
       "optional_modules": [],
       "install_requires": []
     }

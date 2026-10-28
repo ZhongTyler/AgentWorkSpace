@@ -167,7 +167,27 @@ try {
     [void]$lines.Add('')
     [void]$lines.Add('### Fixed judgment table')
     [void]$lines.Add('')
-    Add-ObjectTable -Lines $lines -Rows @($section.semantic.rows) -Columns $columns[$Package] -LinkColumns $linkColumns -LinkBaseDirectory (Split-Path -Parent $outputFull)
+      Add-ObjectTable -Lines $lines -Rows @($section.semantic.rows) -Columns $columns[$Package] -LinkColumns $linkColumns -LinkBaseDirectory (Split-Path -Parent $outputFull)
+      if ($section.semantic.PSObject.Properties['consumption']) {
+          [void]$lines.Add('')
+          [void]$lines.Add('### Raw to Wiki consumption (traceability, not semantic approval)')
+          foreach ($entry in @($section.semantic.consumption)) {
+              [void]$lines.Add('')
+              [void]$lines.Add('#### ' + [string]$entry.raw)
+              [void]$lines.Add((Escape-Cell $entry.coverage_reason))
+              $decisionRows = @($entry.decisions | ForEach-Object {
+                  [pscustomobject]@{
+                      claim_ids = @($_.claim_ids) -join ', '
+                      disposition = $_.disposition
+                      destinations = if ($_.PSObject.Properties['destinations']) { ConvertTo-Json -InputObject @($_.destinations) -Depth 8 -Compress } else { '-' }
+                      reason = $_.reason
+                      registry_tag = if ($_.PSObject.Properties['registry_tag']) { $_.registry_tag } else { '-' }
+                      review_when = if ($_.PSObject.Properties['review_when']) { $_.review_when } else { '-' }
+                  }
+              })
+              Add-ObjectTable -Lines $lines -Rows $decisionRows -Columns @('claim_ids','disposition','destinations','reason','registry_tag','review_when') -LinkColumns @() -LinkBaseDirectory (Split-Path -Parent $outputFull)
+          }
+      }
     foreach ($slot in @('semantic_exceptions', 'unresolved_risks', 'structure_change_requests', 'micro_failures')) {
         [void]$lines.Add('')
         [void]$lines.Add('### ' + $slot)

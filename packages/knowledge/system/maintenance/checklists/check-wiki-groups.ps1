@@ -52,7 +52,43 @@ function Get-GeneratedMembers([string]$Text) {
     return @([regex]::Matches($match.Groups['body'].Value, '\]\(<?\.\./wiki/(?<name>[^\)>]+)\.md>?\)') | ForEach-Object { [Uri]::UnescapeDataString($_.Groups['name'].Value) } | Sort-Object -Unique)
 }
 
+# A count threshold is a review signal, not evidence that an approved Group is
+# wrong. Only an explicit, current, version-bound assessment can acknowledge it.
+function Test-ThresholdAssessment($Group, [string]$Condition, [string[]]$Members) {
+    try {
+        $document = $Group.receipt_document
+        if ($null -eq $document -or $document.kind -ne 'wiki_group_adjudication_receipt') { return $false }
+        if ($document.group_id -ne $Group.id -or $document.definition_hash -ne $Group.definition_hash -or $document.repository_revision -ne $Group.reviewed_revision) { return $false }
+        if (-not $document.PSObject.Properties['threshold_assessment']) { return $false }
+        $assessment = $document.threshold_assessment
+        if ($Condition -notin @($assessment.conditions) -or [string]::IsNullOrWhiteSpace([string]$assessment.reason)) { return $false }
+        if ($assessment.not_a_permanent_waiver -ne $true -or [string]::IsNullOrWhiteSpace([string]$assessment.review_when)) { return $false }
+        if ([string]$assessment.evidence -notmatch '^docs/[^:]+\.(md|json)$' -or [string]$assessment.evidence -match '(^|[/\\])\.\.([/\\]|$)') { return $false }
+        if (-not (Test-Path -LiteralPath (Join-Path $rootPath $assessment.evidence) -PathType Leaf)) { return $false }
+        if ([DateTimeOffset]::Parse($assessment.review_by) -le [DateTimeOffset]::UtcNow) { return $false }
+        $canonical = [regex]::Replace($Group.text.Replace("`r`n", "`n"), '(?ms)\A---\n.*?\n---\n?', '')
+        $canonical = [regex]::Replace($canonical, '(?ms)<!-- generated:wiki-group-members:start -->.*?<!-- generated:wiki-group-members:end -->', '').Trim()
+        $digest = [Security.Cryptography.SHA256]::Create()
+        try { $actual = ([BitConverter]::ToString($digest.ComputeHash([Text.Encoding]::UTF8.GetBytes($canonical)))).Replace('-', '').ToLowerInvariant() } finally { $digest.Dispose() }
+        if ($assessment.group_semantic_sha256 -ne $actual) { return $false }
+        $expected = @($Members | ForEach-Object { 'wiki/' + $_ + '.md' } | Sort-Object -Unique)
+        if (($expected -join "`n") -ne (@($assessment.members | Sort-Object -Unique) -join "`n")) { return $false }
+        $required = @($expected + @($Group.candidate_members) | Sort-Object -Unique)
+        $bindings = @($assessment.input_hashes.PSObject.Properties)
+        foreach ($item in $required) { if ($item -notin @($bindings.Name)) { return $false } }
+        foreach ($item in $bindings) {
+            if ($item.Name -notmatch '^wiki/[^/\\]+\.md$' -or $item.Value -notmatch '^[a-f0-9]{64}$') { return $false }
+            $file = Join-Path $rootPath $item.Name
+            if (-not (Test-Path -LiteralPath $file -PathType Leaf)) { return $false }
+            if ((Get-FileHash -LiteralPath $file -Algorithm SHA256).Hash.ToLowerInvariant() -ne $item.Value) { return $false }
+        }
+        [void]$script:thresholdReviewDeadlines.Add([DateTimeOffset]::Parse($assessment.review_by).UtcDateTime.ToString('o'))
+        return $true
+    } catch { return $false } # Malformed or incomplete evidence must remain due.
+}
+
 $findings = New-Object 'System.Collections.Generic.List[object]'
+$script:thresholdReviewDeadlines = New-Object 'System.Collections.Generic.List[string]'
 $requiredHeadings = @('\u5B9A\u4E49', '\u68C0\u7D22\u4E0E\u5171\u540C\u9605\u8BFB\u7528\u4F8B', '\u7EB3\u5165\u8FB9\u754C', '\u6392\u9664\u8FB9\u754C', '\u53CD\u4F8B', '\u8986\u76D6\u7EF4\u5EA6', '\u76F8\u5173 Wiki \u9875\u9762') | ForEach-Object { Convert-UnicodeLiteral $_ }
 try {
     $wikiFiles = @(Get-ChildItem -LiteralPath $wikiRoot -Filter '*.md' -File | Where-Object { $_.Name -ne 'README.md' -and $_.Name -notlike '*.template.md' } | Sort-Object Name)
@@ -115,6 +151,7 @@ try {
         foreach ($candidatePath in $candidateDecisionPaths.Keys) {
             if ($candidateDecisionPaths[$candidatePath] -in @('exclude', 'unresolved') -and $candidatePath -notin $candidateMembers) { Add-Finding $findings 'error' 'group_candidate_record_missing' $relative $candidatePath }
         }
+        $receiptDocument = $null
         if (-not [string]::IsNullOrWhiteSpace($receiptPath) -and (Test-Path -LiteralPath $receiptPath -PathType Leaf)) {
             try {
                 $receiptDocument = Get-Content -Raw -Encoding UTF8 -LiteralPath $receiptPath | ConvertFrom-Json
@@ -135,7 +172,7 @@ try {
             if ($termOwners.ContainsKey($key) -and $termOwners[$key] -ne $id) { Add-Finding $findings 'error' 'group_term_duplicate' $relative "term=$term; owner=$($termOwners[$key])" } else { $termOwners[$key] = $id }
         }
         if ($groupById.ContainsKey($id)) { Add-Finding $findings 'error' 'group_id_duplicate' $relative $id; continue }
-        $groupById[$id] = [pscustomobject]@{ id = $id; name = $name; status = $status; maturity = $maturity; path = $relative; text = $text; candidate_members = $candidateMembers }
+        $groupById[$id] = [pscustomobject]@{ id = $id; name = $name; status = $status; maturity = $maturity; path = $relative; text = $text; candidate_members = $candidateMembers; receipt_document = $receiptDocument; definition_hash = $definitionHash; reviewed_revision = $reviewedRevision }
         $members = Get-GeneratedMembers $text
         if ($null -eq $members) { Add-Finding $findings 'error' 'group_member_markers_missing' $relative 'Run sync-wiki-groups.ps1 -Mode Sync.'; $members = @() }
         $groupMembers[$id] = @($members)
@@ -168,8 +205,14 @@ try {
         }
         if (($expected -join "`n") -ne ($actual -join "`n")) { Add-Finding $findings 'error' 'group_member_navigation_drift' $group.path "expected=$($expected.Count); actual=$($actual.Count)" }
         if ($group.status -eq 'retired' -and $expected.Count -gt 0) { Add-Finding $findings 'error' 'retired_group_has_members' $group.path $expected.Count }
-        if ($group.maturity -eq 'seed' -and $expected.Count -le 1) { Add-Finding $findings 'warning' 'seed_group_review_due' $group.path "members=$($expected.Count)" }
-        if ($expected.Count -ge 20) { Add-Finding $findings 'warning' 'group_breadth_review_due' $group.path "members=$($expected.Count); soft_threshold=20" }
+        if ($group.status -eq 'active' -and $group.maturity -eq 'seed' -and $expected.Count -le 1) {
+            if (Test-ThresholdAssessment $group 'seed' $expected) { Add-Finding $findings 'info' 'seed_group_reviewed' $group.path "members=$($expected.Count); retained by current assessment; review_when still applies" }
+            else { Add-Finding $findings 'warning' 'seed_group_review_due' $group.path "members=$($expected.Count); no current threshold assessment" }
+        }
+        if ($group.status -eq 'active' -and $expected.Count -ge 20) {
+            if (Test-ThresholdAssessment $group 'breadth' $expected) { Add-Finding $findings 'info' 'group_breadth_reviewed' $group.path "members=$($expected.Count); soft_threshold=20; retained by current assessment" }
+            else { Add-Finding $findings 'warning' 'group_breadth_review_due' $group.path "members=$($expected.Count); soft_threshold=20; no current threshold assessment" }
+        }
     }
     $ids = @($groupById.Keys | Sort-Object)
     for ($left = 0; $left -lt $ids.Count; $left++) {
@@ -184,7 +227,8 @@ try {
     $findingArray = @($findings.ToArray())
     $errors = @($findingArray | Where-Object { $_.severity -eq 'error' })
     $warnings = @($findingArray | Where-Object { $_.severity -eq 'warning' })
-    $receipt = [pscustomobject][ordered]@{ schema_version = 1; status = if ($errors.Count -eq 0) { 'passed' } else { 'failed' }; summary = [pscustomobject]@{ wiki = $wikiFiles.Count; groups = $groupFiles.Count; errors = $errors.Count; warnings = $warnings.Count }; findings = $findingArray }
+    $nextThresholdReview = @($script:thresholdReviewDeadlines | Sort-Object | Select-Object -First 1)
+    $receipt = [pscustomobject][ordered]@{ schema_version = 1; status = if ($errors.Count -eq 0) { 'passed' } else { 'failed' }; summary = [pscustomobject]@{ wiki = $wikiFiles.Count; groups = $groupFiles.Count; errors = $errors.Count; warnings = $warnings.Count; next_threshold_review_at = if ($nextThresholdReview.Count) { $nextThresholdReview[0] } else { $null } }; findings = $findingArray }
     $json = $receipt | ConvertTo-Json -Depth 8
     if (-not [string]::IsNullOrWhiteSpace($OutputPath)) { [IO.File]::WriteAllText((Join-Path $rootPath $OutputPath), ($json + "`n"), (New-Object Text.UTF8Encoding($false))) }
     Write-Output $json

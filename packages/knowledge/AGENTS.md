@@ -11,3 +11,5 @@
 - 标准interactive默认；显式自动deferred。两者同等质量，未经当前精确批准不得finish。
 - 新建运行使用schema8与RAW_STANDARD_V2全文双向独立审核；历史运行按原版本解释，迁移须按raw-v2-migration.md显式授权与保全。
 - 只读健康使用统一run-knowledge-health.ps1；按输入与规则版本复用，过期/变更/失败必须重验。
+
+本版的合并执行、主审核者、精确版本收尾与可选研究/知识复利接线见 [便携执行说明](system/protocols/PORTABLE_EXECUTION.md)。模型、会话、资料绑定和外部发布均由接收方配置与授权；安装不启动这些行为。

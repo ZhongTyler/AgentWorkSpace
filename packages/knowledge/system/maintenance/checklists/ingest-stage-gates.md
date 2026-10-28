@@ -1,5 +1,7 @@
 # Ingest 阶段闸门清单
 
+执行前核对运行的 execution_profile：新 core/deferred 可走 consolidated-v1，existing 与历史运行保留原合同。共同内容闸门继续适用，具体执行与审核者路由见[便携执行说明](../../protocols/PORTABLE_EXECUTION.md)，不混用不同 profile 的审核证据。
+
 > **用途**：固定统一 Ingest 流水线的阶段包，以及标准和自动两种审核模式。
 > **适用**：所有 URL / IMA / Clippings / 多 URL / 补审式 Ingest；自动消化仅适用于协议规定的 direct 或 managed-isolated 单批任务。
 > **协议归属**：`system/protocols/INGEST_PROTOCOL.md` 是三阶段行为与状态转换 SSOT；本文只固定各阶段输出闸门。

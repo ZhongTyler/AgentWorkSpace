@@ -47,3 +47,15 @@ python prepare_home.py --home <external-versioned-tools-home>
 研究正文、模型推理输入、媒体、实验收据及账号保存在包外。公开版没有私人来源停用决定、连接状态、主机路径或旧路径联接。旧 Research helper 保持兼容；新工具优先在独立 Tools home 维护，不要求迁移历史证据。
 
 FLUX klein和CPU抠图维护组件随包保存固定版本与显式入口，权重与运行环境不附带。先准备外部Tools home，再自行配置验证；私人配对实验不包含在本版本。
+
+## 可选研究、反馈与检查工具
+
+- [知识复利核心](integrations/knowledge-feedback/README.md)：宿主隔离的查阅观察、语义增量和显式保留策略；缺失时不影响普通查询。
+- [B站采集](integrations/bilibili-capture/README.md)：匿名字幕、稀疏画面和按需音轨；ASR、MCP 和模型分别配置。
+- [离线排盘](integrations/metaphysics-charting/README.md)：固定引擎、明确口径与 SVG；源码恢复到新外部目录，PNG 可选。
+- [协作检查](integrations/collaboration-checks/README.md)：提交信息、直接父仓指针和只读协作诊断。
+- [MCP 恢复](integrations/mcp/demand/README.md)：已知版本的原生入口与知乎传输恢复，按需显式执行。
+
+安装只复制版本化源码。以上能力均不自动启动、注册服务、下载模型或启用账号；真实输入与接收方验证另行完成。
+
+统一入口示例：`python toolbox.py request --workflow knowledge-feedback --tool knowledge-feedback --action health` 只查看计划；`run` 才执行明确动作。排盘计算还须传入 `-- --chart-home <已恢复的外部目录>`；B站画面命令为 `frames`。也可直接按工具内 README 使用。

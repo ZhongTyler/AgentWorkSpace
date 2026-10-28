@@ -1,0 +1,3 @@
+# Optional reviewed-publication maintenance
+
+The publication-maintenance entry admits only an exact reviewed committed source revision and bounded content paths into an explicitly configured private publication home. It is separate from querying, Knowledge ingestion and package installation. No publication.local.json, service, online host, destination or credentials are included. With no binding the retrieval-maintenance hook is skipped; ordinary query remains available. Configure and validate a recipient-owned binding and its access/retention policy before enabling any sync. Publication admission does not itself authorize an external upload or deployment.

@@ -73,7 +73,7 @@ try {
     $relatedHeading = Convert-UnicodeLiteral '\u76f8\u5173\u9875\u9762'
     $readingHeading = Convert-UnicodeLiteral '\u9605\u8bfb\u8def\u7ebf'
     $sourceMarkerPattern = Convert-UnicodeLiteral '(?m)^>\s*\uD83D\uDCCD\s*\u6765\u6e90\uFF1A'
-    $conflictPattern = Convert-UnicodeLiteral '(\u76f8\u53cd|\u76f8\u4e92\u51b2\u7a81|\u8bf4\u6cd5\u4e0d\u540c|\u4e0d\u540c\u6765\u6e90)'
+    $conflictPattern = Convert-UnicodeLiteral '((?<!\u4e92)\u76f8\u53cd|\u76f8\u4e92\u51b2\u7a81|\u8bf4\u6cd5\u4e0d\u540c|\u4e0d\u540c\u6765\u6e90)'
     $conflictMarkerPattern = Convert-UnicodeLiteral '\[!\u51b2\u7a81\]'
     $semanticClosurePath = Join-Path $projectRoot 'system/maintenance/wiki-semantic-review-closures.json'
     $semanticClosure = if (Test-Path -LiteralPath $semanticClosurePath -PathType Leaf) { Get-Content -Raw -Encoding UTF8 -LiteralPath $semanticClosurePath | ConvertFrom-Json } else { $null }

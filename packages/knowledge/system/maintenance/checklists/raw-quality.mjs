@@ -104,21 +104,24 @@ export function prepare(root,{raw,manifest,request,producer,config='fresh-contex
   const body=text(root,raw),declared=sourcePaths(body);
   if(declared.length)assert(JSON.stringify([...declared].sort())===JSON.stringify(m.sources.map(s=>s.source_path).sort()),'Manifest must contain every declared clipping');
   const fullSourceUnits=m.units,fullRawUnits=rawUnits(body),allRaw=fullRawUnits.map(u=>u.text).join('\n');
-  const plan=baseline?targetPlan(root,manifest,m,fullRawUnits,baseline):null;
+  const baselineContract=baseline?(read(root,baseline.request).evidence_contract_version??1):0;
+  const compatibleBaseline=baseline&&baselineContract>=2?baseline:null;
+  const plan=compatibleBaseline?targetPlan(root,manifest,m,fullRawUnits,compatibleBaseline):null;
   const source_units=plan?.source_units??fullSourceUnits,raw_units=plan?.raw_units??fullRawUnits;
   const signals=source_units.flatMap(u=>(u.numbers??[]).filter(n=>!allRaw.includes(n)).map(n=>({source_id:u.id,kind:'number_not_literal_in_raw',value:n,meaning:'candidate_only'})));
-  const q={schema_version:2,standard:VERSION,ruleset:RULESET,producer_context_id:producer,audit_config:config,report_format:'compact-v1',
+  const q={schema_version:2,standard:VERSION,ruleset:RULESET,evidence_contract_version:2,producer_context_id:producer,audit_config:config,report_format:'compact-v1',
     raw:record(root,raw),manifest:record(root,manifest),dependencies:dependencies.map(p=>record(root,p)),
     sources:m.sources.map(s=>record(root,s.source_path)),source_units,raw_units,raw_line_count:body.split(/\r?\n/).length,
     mechanical:styleCheck(body),signals,review_instructions:'system/maintenance/checklists/raw-writing-v2.md'};
   if(plan){
     q.review_scope='targeted_recheck';q.raw_inventory=plan.raw_inventory;q.target_core_claims=plan.target_core_claims;q.target_summary=plan.target_summary;
-    q.baseline={request:record(root,baseline.request),review:record(root,baseline.review),receipt:record(root,baseline.receipt)};
+    q.baseline={request:record(root,compatibleBaseline.request),review:record(root,compatibleBaseline.review),receipt:record(root,compatibleBaseline.receipt)};
   }else q.review_scope='full_text_bidirectional';
   output(root,request,q);return {status:'needs_review',review_scope:q.review_scope,request_path:request,request_sha256:hash(root,request),source_units:source_units.length,raw_units:raw_units.length,signals:signals.length,...(plan?{target_summary:plan.target_summary}:{})};
 }
 function verifyRequest(root,q){
   assert(q.schema_version===2&&q.standard===VERSION&&q.ruleset===RULESET,'Wrong request standard/ruleset');
+  assert(q.evidence_contract_version===undefined||q.evidence_contract_version===1||q.evidence_contract_version===2,'Unsupported evidence contract version');
   assert(JSON.stringify(q.dependencies.map(x=>x.path).sort())===JSON.stringify([...dependencies].sort()),'Required dependency set changed');
   for(const r of [q.raw,q.manifest,...q.sources,...q.dependencies])assert(hash(root,r.path)===r.sha256,'Request dependency drift: '+r.path);
   const m=read(root,q.manifest.path);verifyManifest(root,m);
@@ -271,7 +274,11 @@ export function evaluate(root,{request,review,host,mode='stage1'}){
   exactChecks(submitted.source_checks,q.source_units);exactChecks(submitted.raw_checks,q.raw_units);
   const r=materializeReport(root,q,submitted);
   exactChecks(r.source_checks,fullSourceUnits);exactChecks(r.raw_checks,fullRawUnits);
-  const ids=new Set(fullSourceUnits.map(u=>u.id));let limited=false,uncertain=false;
+  const ids=new Set(fullSourceUnits.map(u=>u.id)),rawUnitsById=new Map(fullRawUnits.map(u=>[u.id,u]));
+  const rawLines=text(root,q.raw.path).split(/\r?\n/);
+  const requiresRawQuote=(q.evidence_contract_version??1)>=2;
+  const rawQuoteInRanges=(quote,rs)=>nonempty(quote)&&rs.some(([a,b])=>norm(rawLines.slice(a-1,b).join('\n')).includes(norm(quote)));
+  let limited=false,uncertain=false;
   const failures=new Set();
   assert(Array.isArray(r.core_claims)&&r.core_claims.length,'Core claim inventory required');
   const claimIds=new Set();
@@ -294,7 +301,10 @@ export function evaluate(root,{request,review,host,mode='stage1'}){
         assert(nonempty(e.source_quote)&&norm(u.text).includes(norm(e.source_quote))&&(e.status==='complete'||nonempty(e.reason)),'Missing/unsupported source element or unexplained failure: '+u.id);
         assert(['complete','partial','missing','distorted','uncertain'].includes(e.status)||omitted(e),'Invalid element status');ranges(e.raw_ranges,q.raw_line_count);
         if(omitted(e)){justify(e.omission,'Context omission');assert(!e.raw_ranges.length,'Omitted context cannot claim a Raw range');base.context_omissions.push({source_id:u.id,meaning:nonempty(e.meaning)?e.meaning:e.source_quote,...e.omission});continue;}
-        if(['complete','partial','distorted'].includes(e.status))assert(e.raw_ranges.length,'Located element needs Raw range');
+        if(['complete','partial','distorted'].includes(e.status)){
+          assert(e.raw_ranges.length,'Located element needs Raw range');
+          if(requiresRawQuote)assert(rawQuoteInRanges(e.raw_quote,e.raw_ranges),'Located element needs an actual Raw quote inside its claimed range: '+u.id);
+        }
         if(e.status==='missing')assert(e.raw_ranges.length===0,'Missing element cannot claim a Raw range');
         if(e.status!=='complete')failures.add(u.id);if(e.status==='uncertain')uncertain=true;
       }
@@ -322,7 +332,14 @@ export function evaluate(root,{request,review,host,mode='stage1'}){
     }
     if(c.status==='uncertain')uncertain=true;
   }
-  for(const c of r.raw_checks){assert(['supported','unsupported','uncertain'].includes(c.status)&&(c.status==='supported'||nonempty(c.reason))&&Array.isArray(c.source_ids)&&c.source_ids.every(id=>ids.has(id)),'Invalid or unexplained reverse judgment');if(c.status==='supported')assert(c.source_ids.length,'Supported Raw needs source');if(c.status!=='supported')failures.add(c.id);if(c.status==='uncertain')uncertain=true;}
+  for(const c of r.raw_checks){
+    assert(['supported','unsupported','uncertain'].includes(c.status)&&(c.status==='supported'||nonempty(c.reason))&&Array.isArray(c.source_ids)&&c.source_ids.every(id=>ids.has(id)),'Invalid or unexplained reverse judgment');
+    if(c.status==='supported'){
+      assert(c.source_ids.length,'Supported Raw needs source');
+      if(requiresRawQuote)assert(nonempty(c.raw_quote)&&norm(rawUnitsById.get(c.id)?.text??'').includes(norm(c.raw_quote)),'Supported Raw needs an actual Raw quote from its own unit: '+c.id);
+    }
+    if(c.status!=='supported')failures.add(c.id);if(c.status==='uncertain')uncertain=true;
+  }
   for(const key of ['manifest_review','style','cross_section']){
     assert(['complete','partial','uncertain'].includes(r[key]?.status)&&(r[key].status==='complete'||nonempty(r[key]?.reason)),'Missing or unexplained holistic review: '+key);
     if(r[key].status!=='complete')failures.add(key);if(r[key].status==='uncertain')uncertain=true;

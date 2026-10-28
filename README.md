@@ -139,14 +139,14 @@ Agent 按审计返回的 criteria 审阅现有规则与接口，记录理由、�
 | [Brainstorm](packages/brainstorm/README.md) | “一起脑暴这个问题……”；会话随任务创建 | `modules/brainstorm` | 无需其他业务包；Knowledge、GameAnalysisDecision 可选 |
 | [FromDemoToSpec](packages/fromdemotospec/README.md) | “制作一个可玩原型……”；在独立项目目录开发 | `modules/fromdemotospec` | 无需其他业务包；知识、分析、表现与素材包按需接入 |
 | [Knowledge](packages/knowledge/README.md) | “查询知识库”或“消化这些材料”；空库也可查询 | `modules/knowledge` | 无需其他业务包；首次 Ingest 前配置知识范围与本地 Git |
-| [Skills](packages/skills/README.md) | 24 项开发、研究、表达、交互与工作流方法，按名字选择安装 | `modules/skills` | 不需要其他模块；安装库不会自动启用全部 Skill |
+| [Skills](packages/skills/README.md) | 30 项开发、研究、表达、交互与工作流方法，按名字选择安装 | `modules/skills` | 不需要其他模块；安装库不会自动启用全部 Skill |
 | [GameAnalysisDecision](packages/game-analysis-decision/README.md) | 有事实依据的游戏问题分析、条件建议与方法校正 | `modules/game-analysis-decision` | 可单独使用；Knowledge 与其他宿主包可选 |
 | [GameProject](packages/game-project/README.md) | 创建或选择性接入 Godot 项目工作区：维护、决定、资源与构建骨架 | `modules/game-project` | 可单独使用；新建包外副本，已有项目先审阅，不预装游戏或引擎 |
 | [GamePresentation](packages/game-presentation/README.md) | 表现规格、资源制作与 Godot 交付、恢复 | `modules/game-presentation` | 可使用手工或生成来源；PrototypeAssets 可选 |
 | [Travel](packages/travel/README.md) | “帮我研究并规划这趟旅行……”；生成私人离线网站 | `modules/travel` | 可单独使用；无必装包，采集服务、浏览器验收和服务器可选 |
 | [PrototypeAssets](packages/prototype-assets/README.md) | 119 项有来源和许可记录的精选，以及校验导出工具 | `modules/prototype-assets` | 素材和许可复制后，游戏不依赖来源包 |
 | [Research](packages/research/README.md) | MD/网址/问题研究、游戏设计与源码参考、可选主动探索 | `modules/research` | 可单独使用；Knowledge、MCP、媒体工具和宿主调度按需授权 |
-| [Tools](packages/tools/README.md) | 决策模型、REA、图像候选、采集、来源、只读检索、可选 MCP 共享入口与原理交互解释 | `modules/tools` | 可单独使用；运行依赖在包外安装维护，业务接线需验证 |
+| [Tools](packages/tools/README.md) | 图像/媒体、来源与检索、B站采集、知识复利、离线排盘及协作检查等可选工具 | `modules/tools` | 可独立使用；运行环境另行准备，跨包接线按需验证 |
 
 点击表中的包名，查看该包的快速开始、任务流程、环境要求与使用边界。安装统一使用上文的 `init`；已有安装通过 `add --packages <package-id>` 预览，加 `--apply` 应用。
 

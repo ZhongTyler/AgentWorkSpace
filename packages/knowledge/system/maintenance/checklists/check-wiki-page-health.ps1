@@ -219,7 +219,7 @@ try {
                 if ($entry.tail -match '\u2192\s*\u672c\u6587\s*\u00A7.+?\u5904\u5df2\u63d2\u5165') {
                     $targetPattern = [regex]::Escape($entry.target)
                     $beforeFooter = $text.Substring(0, $related.Index)
-                    if (-not [regex]::IsMatch($beforeFooter, '(?m)^>\s*\uD83D\uDCCE\s*\u53c2\u89c1\uFF1A?\s*\[[^\]]+\]\(' + $targetPattern + '\)')) {
+                    if (-not [regex]::IsMatch($beforeFooter, '(?m)^>\s*\uD83D\uDCCE\s*\u53c2\u89c1\uFF1A?\s*\[[^\]]+\]\((?:' + $targetPattern + '|<' + $targetPattern + '>)\)')) {
                         Add-Finding $findings 'warning' 'related_pages_inline_mirror_missing' $relative $entry.target
                     }
                 }

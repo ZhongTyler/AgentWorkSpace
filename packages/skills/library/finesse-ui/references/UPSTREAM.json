@@ -1,0 +1,42 @@
+{
+  "repository": "mouse-lin/finesse-skill",
+  "revision": "5050b6c71e27b829d1b3087d2be889d29c60db00",
+  "version": "0.20.0",
+  "license": "MIT",
+  "scope": "unmodified main, upstream README/license and three selected original references; not a full repository or global Skill install",
+  "skills": [
+    "finesse-ui"
+  ],
+  "files": {
+    "LICENSE": {
+      "sha256": "eb21a561decb7f663dfcf3bc12fc07055f19ea20c814520eca04e011c1f3c8e0",
+      "bytes": 1069,
+      "url": "https://github.com/mouse-lin/finesse-skill/blob/5050b6c71e27b829d1b3087d2be889d29c60db00/LICENSE"
+    },
+    "README.en.md": {
+      "sha256": "058bb43780b811008694c9d80622f5edb732e01794431c8deb3289dc84fe5543",
+      "bytes": 20673,
+      "url": "https://github.com/mouse-lin/finesse-skill/blob/5050b6c71e27b829d1b3087d2be889d29c60db00/README.en.md"
+    },
+    "skills/finesse-ui/SKILL.md": {
+      "sha256": "b3c95a871163a8fbed75dca16a6530170c6311627c577dd12e05242e412a2b8c",
+      "bytes": 78876,
+      "url": "https://github.com/mouse-lin/finesse-skill/blob/5050b6c71e27b829d1b3087d2be889d29c60db00/skills/finesse-ui/SKILL.md"
+    },
+    "skills/finesse-ui/references/component-scope.md": {
+      "sha256": "9721dffd207817721ebf846002828bdecfeff49f8886a4a45fbd460ec8502485",
+      "bytes": 9769,
+      "url": "https://github.com/mouse-lin/finesse-skill/blob/5050b6c71e27b829d1b3087d2be889d29c60db00/skills/finesse-ui/references/component-scope.md"
+    },
+    "skills/finesse-ui/references/product-ui.md": {
+      "sha256": "7120c76be6c1a35872d2c2dec21dd06c663c75b0f98c77e575f66b717561473b",
+      "bytes": 28776,
+      "url": "https://github.com/mouse-lin/finesse-skill/blob/5050b6c71e27b829d1b3087d2be889d29c60db00/skills/finesse-ui/references/product-ui.md"
+    },
+    "skills/finesse-ui/references/workflow-ui.md": {
+      "sha256": "c7210c38844f9afe7243ddb8ea8aeda7a1a86cf08cf0cfb35ebcd12af0b38ce8",
+      "bytes": 18698,
+      "url": "https://github.com/mouse-lin/finesse-skill/blob/5050b6c71e27b829d1b3087d2be889d29c60db00/skills/finesse-ui/references/workflow-ui.md"
+    }
+  }
+}

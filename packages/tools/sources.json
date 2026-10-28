@@ -1,0 +1,454 @@
+{
+  "schema_version": 1,
+  "source_revision": "68810b0b0e1a095db81af00d65835bc573e70f95",
+  "entries": [
+    {
+      "target": "integrations/knowledge-feedback/core.mjs",
+      "source": "integrations\\knowledge-feedback\\core.mjs",
+      "source_sha256": "3551205247bd31a212be19d855b64db14255278cdbe9edda653a82d9ba05678b",
+      "adapted": false
+    },
+    {
+      "target": "integrations/knowledge-feedback/host.mjs",
+      "source": "integrations\\knowledge-feedback\\host.mjs",
+      "source_sha256": "1a01d4689c55bcc9f980816ce73bebb1e350cbb7c80ae8abc1c04740b67e30ef",
+      "adapted": false
+    },
+    {
+      "target": "integrations/knowledge-feedback/store.mjs",
+      "source": "integrations\\knowledge-feedback\\store.mjs",
+      "source_sha256": "39f71a53c71327d5b214ec0f3a347bdcc8aeb96a00bc20011bbaff8efb68caad",
+      "adapted": false
+    },
+    {
+      "target": "integrations/knowledge-feedback/cli.mjs",
+      "source": "integrations\\knowledge-feedback\\cli.mjs",
+      "source_sha256": "9bc54b5c28841caeb8ace1f862b6164d3d3c5c7d79d5fa159a844696956ebcad",
+      "adapted": false
+    },
+    {
+      "target": "integrations/knowledge-feedback/tests/core.test.mjs",
+      "source": "integrations\\knowledge-feedback\\tests\\core.test.mjs",
+      "source_sha256": "07efa45a942dfd9fe4a45f9f44d6a2ec38d1627f03b9da515caeb3e70b9a160f",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/capture.py",
+      "source": "integrations\\bilibili-capture\\capture.py",
+      "source_sha256": "8b6890b755ea334e838f6c78c647002a1ec5ef6241efe4183fc822a731d9df16",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/asr.py",
+      "source": "integrations\\bilibili-capture\\asr.py",
+      "source_sha256": "f3e82a05c584b0eb779ec9c387dfd5a538140b2c49da5c712a6679724e45a919",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/platform.mjs",
+      "source": "integrations\\bilibili-capture\\platform.mjs",
+      "source_sha256": "9b8e24f0bcc851385f3d97fb1b875dce9b3a5fdcb00f9b6627d0fe447bc4bcd2",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/reader.mjs",
+      "source": "integrations\\bilibili-capture\\reader.mjs",
+      "source_sha256": "3df936d817643c2238d70efa8f26382dc0b01373022681aef62d1a8a45c33f4e",
+      "adapted": true
+    },
+    {
+      "target": "integrations/bilibili-capture/server.py",
+      "source": "integrations\\bilibili-capture\\server.py",
+      "source_sha256": "7d064e2ae5ea8da89875f87bc7d9dbc0bdf89bb8082cb2cc69dc289329a8e1bc",
+      "adapted": true
+    },
+    {
+      "target": "integrations/bilibili-capture/reader-lock.json",
+      "source": "integrations\\bilibili-capture\\reader-lock.json",
+      "source_sha256": "f3eddd3ac02f613e5664c64a16d105b84adaf0288bb7eeade789443e31cd6f49",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/source-lock.json",
+      "source": "integrations\\bilibili-capture\\source-lock.json",
+      "source_sha256": "b18632ba1830c20274960632386dc75d1735db277092b573c8dfeca6f6ac4e6a",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/dsh-source-lock.json",
+      "source": "integrations\\bilibili-capture\\dsh-source-lock.json",
+      "source_sha256": "e120511474df3c7ad001160ae95fa0387ab26ba514a5f6de365a708f8216f5de",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/asr-model-lock.json",
+      "source": "integrations\\bilibili-capture\\asr-model-lock.json",
+      "source_sha256": "b2a0628273195e19d76880cb7d3e70f95fac8f1e335261fd912eaea540f200e0",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/requirements-windows-py312.lock",
+      "source": "integrations\\bilibili-capture\\requirements-windows-py312.lock",
+      "source_sha256": "486c452f41446c39a7b4fcf680d9a81f700c3570f9c48b8a5cbff055f430ea4b",
+      "adapted": true,
+      "adaptation": "Canonical LF only; dependency versions and hashes unchanged."
+    },
+    {
+      "target": "integrations/bilibili-capture/test_capture.py",
+      "source": "integrations\\bilibili-capture\\test_capture.py",
+      "source_sha256": "907b0024c3eb503e8bd02f77e29de610b477d4e8d155bc2ebf7e91d523e412c0",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/check-reader.mjs",
+      "source": "integrations\\bilibili-capture\\check-reader.mjs",
+      "source_sha256": "355cbf0c17a7d74c1b1a801c582ff3c97f2f7af5d80053ce8abb9dcdb88204df",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/check-platform.mjs",
+      "source": "integrations\\bilibili-capture\\check-platform.mjs",
+      "source_sha256": "8d803076eab5198e8ad4e4e6d4405f0a4a5a18d04b23d9dcd8692227a930a2ec",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/check-no-dotenv.py",
+      "source": "integrations\\bilibili-capture\\check-no-dotenv.py",
+      "source_sha256": "e85f18737155bebf9af8ec03d57f78681adee6267b772b6b45a356b9fdf2d23a",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/vendor/dsh-bili-scroll-2.2.2.zip",
+      "source": "integrations\\bilibili-capture\\vendor\\dsh-bili-scroll-2.2.2.zip",
+      "source_sha256": "29624c1803b60c42971d916c94faf4dc71c52547d034b887d5e640c3146a9aaa",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/vendor/LICENSE-MIT.txt",
+      "source": "integrations\\bilibili-capture\\vendor\\LICENSE-MIT.txt",
+      "source_sha256": "9b935019d62b1f2548caecc540ebe0bb3c04636626cdd63b40eef725c5e633fa",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/vendor/LICENSE-vendor-MIT.txt",
+      "source": "integrations\\bilibili-capture\\vendor\\LICENSE-vendor-MIT.txt",
+      "source_sha256": "613dc22ea40922528e661ff5112c207a87c5fd323b8f24202b06e69317cc888e",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/vendor/NOTICE.md",
+      "source": "integrations\\bilibili-capture\\vendor\\NOTICE.md",
+      "source_sha256": "f45aec9e15474835d314db2fe343985ecc75aa1f8731b655a4850e7718ca5ba8",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/vendor/reader/LICENSE",
+      "source": "LICENSE",
+      "source_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/vendor/reader/dist/bilibili/subtitle-integrity.js",
+      "source": "subtitle-integrity.js",
+      "source_sha256": "b3e47bd6c055b8234264ba88328c90097d7a3c24a2780d4b3d739d93c37a63f9",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/vendor/reader/dist/bilibili/video-api.js",
+      "source": "video-api.js",
+      "source_sha256": "bf1b20563a6feb57cedb4e3f665b8c97b5016168f7ed6467ec021949643d6eea",
+      "adapted": true,
+      "adaptation": "Prominent modification notice only; executable statements unchanged."
+    },
+    {
+      "target": "integrations/bilibili-capture/vendor/reader/dist/bilibili/fingerprint.js",
+      "source": "fingerprint.js",
+      "source_sha256": "1c778b11373eb8fe5d6599b16ce8c51177ff8a9e9076c5ff3750545c868efd8d",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/vendor/reader/dist/bilibili/http.js",
+      "source": "http.js",
+      "source_sha256": "f752545f8b98df86fd3835b71235e085d9753864ad1a79ba5e7d2427246bd43c",
+      "adapted": true,
+      "adaptation": "Prominent modification notice only; executable statements unchanged."
+    },
+    {
+      "target": "integrations/bilibili-capture/vendor/reader/dist/bilibili/types.js",
+      "source": "types.js",
+      "source_sha256": "68937abb1503ec1a840c8904dc9ec188d7e0f40774c9197ee9d2d92847acdf43",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/vendor/reader/dist/bilibili/wbi.js",
+      "source": "wbi.js",
+      "source_sha256": "053613f00185a1aad1f4cf24898375f24237536a8017d78813076af2ae863b09",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/vendor/reader/dist/config.js",
+      "source": "config.js",
+      "source_sha256": "80dc767678c643d13f663d6a5a44316bd3ba012d7bb15c86212917a0b92f872f",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/vendor/reader/dist/security/limits.js",
+      "source": "limits.js",
+      "source_sha256": "ce244d72a3310f42c2b59f8df8a8dc70434243d37297b6320fcba993f92cd1bf",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/vendor/reader/dist/security/operation-context.js",
+      "source": "operation-context.js",
+      "source_sha256": "9f15383decdf71bde972b3a35efe51c3608b6806eb9e9aa47cd0359be7f1e962",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/vendor/reader/dist/utils/bounded-response.js",
+      "source": "bounded-response.js",
+      "source_sha256": "c45e9f23d74dce11b7351171b46cc065dd3fe0509f0c7f076c021a311d13c7e7",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/vendor/reader/dist/utils/bounded-text.js",
+      "source": "bounded-text.js",
+      "source_sha256": "c9f09c3f5861cdc7c0a8589b71ff25d948bf3189809e65e06a3ede3dfc6f04ce",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/vendor/reader/dist/utils/credentials.js",
+      "source": "credentials.js",
+      "source_sha256": "fc106b96b013c6e8eef9f4fdaf17373addae7e7dc2997b2b8a30665ec6d4eeaa",
+      "adapted": true,
+      "adaptation": "Prominent modification notice only; executable statements unchanged."
+    },
+    {
+      "target": "integrations/bilibili-capture/vendor/reader/dist/utils/errors.js",
+      "source": "errors.js",
+      "source_sha256": "2676e688b343c09edd43b2933b54b35881c14701e268c9262a289996d2a7e07a",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/vendor/reader/dist/utils/logger.js",
+      "source": "logger.js",
+      "source_sha256": "f7e2dfa170e06595c9e145a9f084daac01c4cf4cac4d74a551f5963970945d2a",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/vendor/reader/dist/utils/retry.js",
+      "source": "retry.js",
+      "source_sha256": "1094eac28cfa7f950af9e716958f1556e96559cf9f62ccce9bc2e4f50b1e9767",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/vendor/reader/dist/utils/validation.js",
+      "source": "validation.js",
+      "source_sha256": "0faf8463214fb73e452c582af7f705d958ac3e82a86d5de377bab2f1ba23bc43",
+      "adapted": false
+    },
+    {
+      "target": "integrations/bilibili-capture/vendor/reader/package.json",
+      "source": "package.json",
+      "source_sha256": "9d4c8a972e87e51aa0ac649f786b9ff512d11eb3634e6cd27319ff017bdb0b02",
+      "adapted": false
+    },
+    {
+      "target": "integrations/metaphysics-charting/chart.mjs",
+      "source": "integrations\\metaphysics-charting\\chart.mjs",
+      "source_sha256": "ec8967d5811547d46c78256e285d2b15aeaa3c5b2935848d2bd7e8b5c73c6977",
+      "adapted": false
+    },
+    {
+      "target": "integrations/metaphysics-charting/facts.mjs",
+      "source": "integrations\\metaphysics-charting\\facts.mjs",
+      "source_sha256": "c0224db920e96529b2ff8d8e2f7e9b47412a45f54e0700de5239a1f384d49e3e",
+      "adapted": false
+    },
+    {
+      "target": "integrations/metaphysics-charting/render.mjs",
+      "source": "integrations\\metaphysics-charting\\render.mjs",
+      "source_sha256": "8468a956e30796a7bcaae8af175bb5ef7feefa0e4efc88763fbd206ab2b92292",
+      "adapted": true
+    },
+    {
+      "target": "integrations/metaphysics-charting/shensha.mjs",
+      "source": "integrations\\metaphysics-charting\\shensha.mjs",
+      "source_sha256": "09f5954e8e99427b67f3ca15f57dfeb1fe28ee340e550988908a8e37a1c68126",
+      "adapted": false
+    },
+    {
+      "target": "integrations/metaphysics-charting/study-view.mjs",
+      "source": "integrations\\metaphysics-charting\\study-view.mjs",
+      "source_sha256": "49e76eb8c2bd5486368ac5f80930d8f77f8360d1d3422f1c0aa6dfee905634ac",
+      "adapted": false
+    },
+    {
+      "target": "integrations/metaphysics-charting/example.synthetic.json",
+      "source": "integrations\\metaphysics-charting\\example.synthetic.json",
+      "source_sha256": "7d80b043df60a605dfb878d28d08f14c39c7e0246c9e67e09add3f45b94f0b42",
+      "adapted": false
+    },
+    {
+      "target": "integrations/metaphysics-charting/offline-guard.cjs",
+      "source": "integrations\\metaphysics-charting\\offline-guard.cjs",
+      "source_sha256": "dd60b3946333b79517c3752682096e04ea41dcf5f2c36d19ddab3c013c774420",
+      "adapted": false
+    },
+    {
+      "target": "integrations/metaphysics-charting/shensha-rules.md",
+      "source": "integrations\\metaphysics-charting\\shensha-rules.md",
+      "source_sha256": "f148bc853a9556208feee06e107cd8cf2665cf00a583279982ac3bd240aada5c",
+      "adapted": false
+    },
+    {
+      "target": "integrations/metaphysics-charting/package.json",
+      "source": "integrations\\metaphysics-charting\\package.json",
+      "source_sha256": "4e37859f328b9ed89d29475134cb9cc037e256b50129d2236db2537c0972b006",
+      "adapted": false
+    },
+    {
+      "target": "integrations/metaphysics-charting/package-lock.json",
+      "source": "integrations\\metaphysics-charting\\package-lock.json",
+      "source_sha256": "60bddaa8e5b2ff9623ea62121ce1f8375d668499e41e552de4c16460390f4313",
+      "adapted": false
+    },
+    {
+      "target": "integrations/metaphysics-charting/source-lock.json",
+      "source": "integrations\\metaphysics-charting\\source-lock.json",
+      "source_sha256": "8d5e1986b29e5d7680968c840449f0c3e57cdd7ed54953456376b52bf668756e",
+      "adapted": false
+    },
+    {
+      "target": "integrations/metaphysics-charting/check.mjs",
+      "source": "integrations\\metaphysics-charting\\check.mjs",
+      "source_sha256": "4780b016a0fc3c9dd71931db116059ff930400b090137893b66ade4e54e27920",
+      "adapted": false
+    },
+    {
+      "target": "integrations/metaphysics-charting/check-shensha.mjs",
+      "source": "integrations\\metaphysics-charting\\check-shensha.mjs",
+      "source_sha256": "cb69e7417e6cbff3d228bc801d4730c5ab9730e420d38e5cce701b0e9d153700",
+      "adapted": false
+    },
+    {
+      "target": "integrations/metaphysics-charting/sources/iztro-astro.test.ts.txt",
+      "source": "integrations\\metaphysics-charting\\sources\\iztro-astro.test.ts.txt",
+      "source_sha256": "51fc0c526c08cb1aecf35c2d59b161741191484b5ba6d25de265584783da2088",
+      "adapted": false
+    },
+    {
+      "target": "integrations/metaphysics-charting/sources/iztro.LICENSE",
+      "source": "integrations\\metaphysics-charting\\sources\\iztro.LICENSE",
+      "source_sha256": "e6c7b6e313cbda3135b41bccc66c98be132cb8319d0d465903d17e669e748b36",
+      "adapted": false
+    },
+    {
+      "target": "integrations/metaphysics-charting/sources/lunar-EightChar.test.js.txt",
+      "source": "integrations\\metaphysics-charting\\sources\\lunar-EightChar.test.js.txt",
+      "source_sha256": "8fce30491bd33cc07ab3434be7e5ef7c8f48d0023c33ae3be43ee3f691042a9b",
+      "adapted": false
+    },
+    {
+      "target": "integrations/metaphysics-charting/sources/lunar-javascript.LICENSE",
+      "source": "integrations\\metaphysics-charting\\sources\\lunar-javascript.LICENSE",
+      "source_sha256": "d9210caf1844dcf410095cea464b79800aad30dbd49df092076b9f0ddc015404",
+      "adapted": false
+    },
+    {
+      "target": "integrations/metaphysics-charting/vendor/babel-runtime-7.29.10.tgz",
+      "source": "babel-runtime-7.29.10.tgz",
+      "source_sha256": "178671999a0973c5165e5cec57f49ff4d9dd055523962763a771af6bc7e439b1",
+      "adapted": false
+    },
+    {
+      "target": "integrations/metaphysics-charting/vendor/dayjs-1.11.23.tgz",
+      "source": "dayjs-1.11.23.tgz",
+      "source_sha256": "7da0ff55ddb6d4050b91ea0a11a8e9d92c048305155039387373f20be080e594",
+      "adapted": false
+    },
+    {
+      "target": "integrations/metaphysics-charting/vendor/i18next-23.16.8.tgz",
+      "source": "i18next-23.16.8.tgz",
+      "source_sha256": "283f7f0da577e8ee54eb5fdeb4c97cdaecbb54e28fc85b32e5c908731d131015",
+      "adapted": false
+    },
+    {
+      "target": "integrations/metaphysics-charting/vendor/iztro-2.6.3.tgz",
+      "source": "iztro-2.6.3.tgz",
+      "source_sha256": "beb5339c1945e0e7998db6378c319a9f20ed2430d8078dc1766a649fe089abf0",
+      "adapted": false
+    },
+    {
+      "target": "integrations/metaphysics-charting/vendor/lunar-javascript-1.7.7.tgz",
+      "source": "lunar-javascript-1.7.7.tgz",
+      "source_sha256": "d1359ab9ca4913d1db3978a42ddfc290eb8ea9de54ce043f5b1f718ff71eea36",
+      "adapted": false
+    },
+    {
+      "target": "integrations/metaphysics-charting/vendor/lunar-lite-0.2.8.tgz",
+      "source": "lunar-lite-0.2.8.tgz",
+      "source_sha256": "963f134a8a46b92ec6e243a98be90dc5a33c33637581b151b7c11e5833d0b157",
+      "adapted": false
+    },
+    {
+      "target": "integrations/metaphysics-charting/vendor/lunar-typescript-1.8.6.tgz",
+      "source": "lunar-typescript-1.8.6.tgz",
+      "source_sha256": "257163cff2e2bb8359861721e72e5dbed2f583340b1400e459fd27816ac2ac39",
+      "adapted": false
+    },
+    {
+      "target": "integrations/mcp/demand/demand_http_install.py",
+      "source": "integrations\\mcp\\scripts\\demand_http_install.py",
+      "source_sha256": "8a0a0fa872f6d49e85f5eb3c2022bde72c0a777d9011c6880666411eaac7e310",
+      "adapted": false
+    },
+    {
+      "target": "integrations/mcp/demand/demand_app_native_repair.py",
+      "source": "integrations\\mcp\\scripts\\demand_app_native_repair.py",
+      "source_sha256": "5dbf514f4d9ba520a80f7eb95abb865d4ffdf1d30b2f3ff08f23a89a4b6ed660",
+      "adapted": false
+    },
+    {
+      "target": "integrations/mcp/demand/zhihu_stdio_repair.py",
+      "source": "integrations\\mcp\\scripts\\zhihu_stdio_repair.py",
+      "source_sha256": "b66e8c624d1fb6ce814537b9cadf22d7082d09564732f762df2cb9988bd9b820",
+      "adapted": false
+    },
+    {
+      "target": "integrations/mcp/demand/demand_proxy.py",
+      "source": "integrations\\mcp\\scripts\\demand_proxy.py",
+      "source_sha256": "f62cda518b5f47297d6cd41f14c2440e0d130d2594cb77b512694beeba3cb4ec",
+      "adapted": false
+    },
+    {
+      "target": "integrations/mcp/demand/test_zhihu_stdio_repair.py",
+      "source": "integrations\\mcp\\tests\\test_zhihu_stdio_repair.py",
+      "source_sha256": "69afdfbbf9b4f74d16a2b5c5fd5a7c3b882b7e390d7b2d13e78425e841e3c50e",
+      "adapted": true
+    },
+    {
+      "target": "integrations/mcp/demand/test_demand_http_install.py",
+      "source": "integrations\\mcp\\tests\\test_demand_http_install.py",
+      "source_sha256": "ef3efc0325a630b1f9e20dec72501bd5348bd660469371990b7b297200b2ec16",
+      "adapted": true
+    },
+    {
+      "target": "integrations/collaboration-checks/execution_contract.py",
+      "source": "execution_contract.py",
+      "source_sha256": "9f17a524cd784111efa40bf2300cbd98b991cc25039308488cddd24707303e2b",
+      "adapted": false
+    },
+    {
+      "target": "integrations/collaboration-checks/semantic_check.py",
+      "source": "semantic_check.py",
+      "source_sha256": "716c18265ae813c9b2d5bbaf008328b2fd5e367eb7a7b7fa354d9071cf43052c",
+      "adapted": true
+    },
+    {
+      "target": "integrations/collaboration-checks/semantic/export_context.py",
+      "source": "export_context.py",
+      "source_sha256": "8253e690b551b636f93fafec7805bd2c51aa0203d8271a6b9613285cbadf6977",
+      "adapted": false
+    }
+  ]
+}

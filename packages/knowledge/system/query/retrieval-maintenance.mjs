@@ -2,6 +2,12 @@
 import fs from 'node:fs';import path from 'node:path';import crypto from 'node:crypto';
 import {execFileSync,spawnSync} from 'node:child_process';import {fileURLToPath} from 'node:url';
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
+function recordPublication(root,event){
+ const tool=path.join(root,'system/sync/publication-maintenance.mjs'),binding=process.env.KNOWLEDGE_PUBLICATION_CONFIG??path.join(root,'system/sync/publication.local.json');
+ if(!fs.existsSync(tool)||!fs.existsSync(binding))return null;
+ const child=spawnSync(process.execPath,[tool,'--root',root],{input:JSON.stringify(event),encoding:'utf8',timeout:60000,windowsHide:true,maxBuffer:1024*1024});
+ try{return JSON.parse(child.status===0?child.stdout:child.stderr);}catch{return {status:'failed',reason:'publication_review_event_unavailable'};}
+}
 export function afterReviewedCommit(root,{run:runPath,revision='HEAD',reviewRef,paths=[]}={}){
  try{
   root=fs.realpathSync(root);
@@ -30,14 +36,16 @@ export function afterReviewedCommit(root,{run:runPath,revision='HEAD',reviewRef,
    throw Error('maintenance needs actual review reference and explicit Wiki paths');
   }
   // These are trusted host arguments, never Query request fields or an approval service.
+  const publication=recordPublication(root,{revision:rev,run:runPath??null,reviewRef,paths});
+  const result=value=>publication?{...value,publication}:value;
   const bindingPath=process.env.KNOWLEDGE_RETRIEVAL_CONFIG??path.join(root,'system/query/retrieval.local.json');
-  if(!fs.existsSync(bindingPath))return {status:'skipped',reason:'optional_local_binding_absent'};
+  if(!fs.existsSync(bindingPath))return result({status:'skipped',reason:'optional_local_binding_absent'});
   const binding=JSON.parse(fs.readFileSync(bindingPath,'utf8'));
-  if(binding.maintenance?.enabled!==true)return {status:'skipped',reason:'maintenance_not_enabled'};
+  if(binding.maintenance?.enabled!==true)return result({status:'skipped',reason:'maintenance_not_enabled'});
   const tools=path.resolve(path.dirname(bindingPath),binding.tools_root);
   const p=spawnSync(binding.python,['-X','utf8','-B',path.join(tools,'integrations/retrieval/cli.py'),'refresh','--root',root,'--binding',bindingPath,'--revision',rev],{input:JSON.stringify({review_ref:reviewRef,review_paths:paths}),encoding:'utf8',timeout:900000,windowsHide:true,maxBuffer:4*1024*1024});
-  if(p.error||p.status!==0)return {status:'failed',reason:'refresh_unavailable_or_rejected',fallback:'original Query; previous binding retained unless fresh BM25 activated with explicit hybrid limitation'};
-  return JSON.parse(p.stdout);
+  if(p.error||p.status!==0)return result({status:'failed',reason:'refresh_unavailable_or_rejected',fallback:'original Query; previous binding retained unless fresh BM25 activated with explicit hybrid limitation'});
+  return result(JSON.parse(p.stdout));
  }catch(e){return {status:'failed',reason:e.message,fallback:'original Query; no knowledge or approval edits'};}
 }
 export function afterCommitEvent(root){

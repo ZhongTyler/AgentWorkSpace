@@ -1,0 +1,5 @@
+{
+  "schema_version": 1,
+  "writer": {"model": "gpt-6.1-terra", "reasoning_effort": "xhigh"},
+  "post_ingest_reread": {"enabled": false, "model": "gpt-6-astra", "reasoning_effort": "medium"}
+}

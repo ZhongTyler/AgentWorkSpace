@@ -114,9 +114,12 @@ try {
             distinct_agent_count = $knownAgentIds.Count
             actual_child_session_count = $actualSessionCount
             remaining_child_session_slots = [int]$run.execution_control.child_session_cap - $actualSessionCount
-            routine_batch_target = 'Group compatible files: normally 2-3 Raw writers, one primary Terra reviewer, and 2-3 Wiki writers; reserve only for broad rewrite or Astra escalation.'
+            routine_batch_target = 'Route v3: one run-pinned writer for Raw and Wiki (new runs gpt-6-luna/xhigh), parent non-author reviewer. Historical runs remain unchanged.'
+            parent_context_policy = 'Fresh versus continued parent context is unproven. Include cold-start and historical retrieval cost in comparisons; use verified history references without loading every prior package.'
+            next_batch_trial = 'Next real six sources exercise the approved pipeline; no separate model experiment. Record actual parent configuration, fast, context, quality, intervention counts and costs.'
+            optimization_contract = 'system/maintenance/checklists/ingest-local-execution.md'
             context_rule = 'Use this compact manifest and direct file paths. Do not fork full conversation history or paste prior tool output into child prompts.'
-            raw_review_flow = 'reserve/bind one primary Terra session -> prepare-raw-review -> fill generated template -> preflight once -> complete -> apply exact small repairs or Luna rewrite -> same Terra targeted verification'
+            raw_review_flow = 'Route v3: bind-parent -> same writer dispatch/deliver by article -> parent full-source bundle -> ingest-batch review -> Stage1 checkpoint -> Stage2 -> same writer page groups -> parent page reviews -> aggregate and bind-review -> Seal. Parent is not a fresh context. Historical pending requests retain their contract.'
             writer_completion_action = if ($Stage -in @('stage1', 'stage3')) { "record-writer-stage -Package $Stage before sealing" } else { $null }
         }
     }
@@ -128,6 +131,8 @@ try {
         distinct_agent_count = $knownAgentIds.Count
         actual_child_session_count = if ($null -ne $executionBudget) { [int]$executionBudget.actual_child_session_count } else { 0 }
     })
+    $parentReview = $run.PSObject.Properties['execution_control'] -and $run.execution_control.PSObject.Properties['reviewer_route_version'] -and $run.execution_control.reviewer_route_version -eq 3
+    $childWrites = $Stage -eq 'stage1' -or ($parentReview -and $Stage -eq 'stage3')
     $context = [pscustomobject]([ordered]@{
         schema_version = 2
         batch_id = [string]$run.batch_id
@@ -138,16 +143,18 @@ try {
         writer_execution = [pscustomobject][ordered]@{
             policy_path = 'system/protocols/INGEST_WRITER_ROUTING.md'
             applies_when = 'Codex host and GPT model family; resolve from actual host context.'
-            dispatch_required_when_applicable = $Stage -in @('stage1','stage3')
-            delegated_scope = switch ($Stage) { 'stage1' { 'Raw prose writing and revision only' } 'stage3' { 'Wiki prose integration and revision only, after Stage2 gate' } default { 'none; main session owns this stage' } }
+            dispatch_required_when_applicable = $childWrites
+            writer_mode = if ($childWrites) { 'child_agent' } else { 'primary_session' }
+            delegated_scope = if ($childWrites) { 'Assigned prose only; reuse the same content_writer for Raw and Wiki, no metadata/state/review/Git writes' } else { 'none; main session owns this stage' }
+            metadata_owner = 'Controller freezes YAML; writer supplies run-local body only; assemble-raw.mjs creates a new Raw before review.'
             raw_style_reference_required = $Stage -eq 'stage1'
             raw_style_reference = $rawStyleSample
             raw_style_reference_contract = if ($Stage -eq 'stage1') { 'Read the complete sample before writing; use it only for paragraph rhythm, reasoning exposition, and semantic choice of prose/list/table. Do not copy its facts, conclusions, annotations, or fixed outline.' } else { $null }
             dispatch_status = 'not_dispatched_by_context_preparer'
-            audit_rule = 'Preserve mandatory independent audits; writer cannot approve own output.'
-            requested_model = if ($Stage -in @('stage1', 'stage3')) { 'gpt-5.6-luna' } else { $null }
-            requested_reasoning_effort = if ($Stage -in @('stage1', 'stage3')) { 'max' } else { $null }
-            completion_gate = if ($Stage -in @('stage1', 'stage3')) { 'record-writer-stage must bind final output hashes and actual agent IDs before package sealing.' } else { $null }
+            audit_rule = if ($parentReview) { 'Parent full-source non-author review; fresh_context=false. Writer cannot approve output; parent cannot author prose and self-approve.' } else { 'Preserve mandatory independent audits; writer cannot approve own output.' }
+            requested_model = if ($childWrites) { if ($run.execution_control.PSObject.Properties['writer_config'] -and $run.execution_control.writer_config) { [string]$run.execution_control.writer_config.model } else { 'gpt-5.6-luna' } } else { $null }
+            requested_reasoning_effort = if ($childWrites) { if ($run.execution_control.PSObject.Properties['writer_config'] -and $run.execution_control.writer_config) { [string]$run.execution_control.writer_config.reasoning_effort } else { 'max' } } else { $null }
+            completion_gate = if ($parentReview -and $Stage -eq 'stage3') { 'finalize-ingest-stage3.ps1 -Phase Seal -AgentIds <actual writer> binds final writer outputs; page review precedes Seal.' } else { switch ($Stage) { 'stage1' { 'record-writer-stage must bind final output hashes and actual agent IDs before package sealing.' } 'stage3' { 'finalize-ingest-stage3.ps1 -Phase Seal -PrimaryWriter binds record-writer-stage with explicit primary_session attribution.' } default { $null } } }
         }
         execution_budget = $executionBudget
         mode = if ($run.review_policy -eq 'interactive') { 'standard' } else { 'automatic' }
@@ -156,10 +163,14 @@ try {
         stage_task = switch ($Stage) {
             'scoring' { 'Read complete source structure, decide ingest/conditional/skip from evidence; do not rescore history silently.' }
             'stage1' { 'Inventory complete source units before raw writing; read the bound raw_style_reference sample in full; retain definitions, reasoning, numbers, examples, conditions and media. Coverage and retention policy are separate. Include content_summary in each raw row.' }
-            'stage2' { 'Read relevant Wiki synthesis; specify concrete additions, conditions, conflicts, destination and unconsumed content. Verify Stage1 checkpoint before writes.' }
-            'stage3' { 'Describe actual knowledge increments and verify changed dependencies. List completed splits or explicit empty array; preserve actual backtest results and recovery state.' }
+            'stage2' { 'Read complete Raw and candidate Wiki prose. Reuse passed claim IDs via wiki-consumption.mjs inventory; map every claim to planned/existing/deferred/not_applicable with reasons. No one-Wiki quota. Preserve distinctions and causal limits, not generic checklists. Verify Stage1 checkpoint before writes.' }
+            'stage3' { 'Close consumption decisions with exact Wiki heading and substantive quote, or explicit deferred tag/review_when. Check full Raw beyond the ledger. Route v3 requires parent page reviews and batch coverage; historical runs retain risk review. Use Prepare -> stage exact diff -> Seal; final writer hashes follow synchronization.' }
         }
-        required_evidence = $requiredRows
+        controller_snapshot = [pscustomobject]@{ status=$(if($run.PSObject.Properties['status']){$run.status}else{$null}); counts=$(if($run.PSObject.Properties['counts']){$run.counts}else{$null}); commits=$(if($run.PSObject.Properties['commits']){$run.commits}else{$null}); final_review=$(if($run.PSObject.Properties['final_review']){$run.final_review}else{$null}) }
+        handoff_command = 'node system/maintenance/checklists/ingest-runtime-contract.mjs handoff --root <Knowledge> --run <run.json>; use compact output after context compaction, verify references before continuing'
+        required_evidence = @($requiredRows | Where-Object { $_.role -notmatch '^(run_manifest|sealed_|content_audit_receipt)' })
+        evidence_references = @($requiredRows | Where-Object { $_.role -match '^(run_manifest|sealed_|content_audit_receipt)' })
+        reading_contract = 'Read complete required source/Raw; for Wiki read heading structure, complete changed sections and affected adjacent/cross-referenced context. Reuse unchanged material already read. Expand to full page when placement, conflict or dependencies are unclear. Controller snapshot replaces reading full run history. Never use writer summaries or tool PASS in place of prose review. Do not repeatedly paste sealed packages.'
         expandable_evidence = @($expandable)
         prior_sections = @($prior)
         failed_workset = @($workset)
@@ -167,6 +178,13 @@ try {
         allowed_exception_fields = @('semantic_exceptions','unresolved_risks','structure_change_requests','micro_failures')
         cost = $cost
     })
+    if ($run.PSObject.Properties['execution_control'] -and $run.execution_control.PSObject.Properties['execution_profile'] -and $run.execution_control.execution_profile -eq 'consolidated-v1') {
+        $context.execution_budget.raw_review_flow = 'Use ingest-control advance. Complete only returned semantic or host tasks; assembly, compilation, recording, checkpoints and finalization are controller-owned.'
+        $context.execution_budget.writer_completion_action = 'advance records actual delivered outputs; do not run internal completion commands manually.'
+        $context.writer_execution.completion_gate = 'Return assigned prose and finish this writer turn. advance performs mechanical preparation before parent review; Seal never edits reviewed prose.'
+        $context.handoff_command = 'ingest-control.ps1 -Action advance -RunPath <run.json>'
+        if ($Stage -eq 'stage3') { $context.stage_task = 'Judge actual knowledge increments, boundaries and final dispositions. Read all affected prose, complete generated page tasks and one cross-page review; then advance. Do not fill hashes, counts or paths from memory.' }
+    }
     $json = (@(($context | ConvertTo-Json -Depth 30) -split '\r?\n' | ForEach-Object { $_.TrimEnd() }) -join "`n") + "`n"
     Write-Utf8 -Path $outputFull -Text $json
     $result = [pscustomobject][ordered]@{ status = 'prepared'; path = Get-RelativePath -FullPath $outputFull; sha256 = (Get-FileHash -LiteralPath $outputFull -Algorithm SHA256).Hash.ToLowerInvariant(); next_action = 'read required_evidence, then submit semantic section' }

@@ -57,7 +57,7 @@ function Get-ProjectPath {
 
 function Assert-Revision {
     param([string]$Revision)
-    & git -c "safe.directory=$safeProject" -C $projectRoot cat-file -e ($Revision + '^{commit}') 2>$null
+    & git -c "safe.directory=$safeProject" -c core.excludesFile= -C $projectRoot cat-file -e ($Revision + '^{commit}') 2>$null
     if ($LASTEXITCODE -ne 0) { throw "Revision does not exist: $Revision" }
 }
 
@@ -75,6 +75,8 @@ function Get-EvidenceCostSummary {
             raw_review_attempt_count = 0
             terra_full_count = 0
             terra_targeted_count = 0
+            sol_full_count = 0
+            sol_targeted_count = 0
             astra_escalation_count = 0
             distinct_child_agent_count = 0
             actual_child_session_count = 0
@@ -95,17 +97,23 @@ function Get-EvidenceCostSummary {
         } catch { }
     }
     $attempts = @()
+    $historicalAttempts = @()
     $writerRecords = @()
     $agentSessions = @()
     $qualityEvents = @()
+    $coreAttempts = @()
     $childSessionCap = $null
+    $run = $null
     $runPath = Join-Path $RunDirectory 'run.json'
     if (Test-Path -LiteralPath $runPath -PathType Leaf) {
         try {
             $run = Get-Content -Raw -Encoding UTF8 -LiteralPath $runPath | ConvertFrom-Json
             if ($null -ne $run.PSObject.Properties['execution_control']) {
                 $attempts = @($run.execution_control.raw_review_attempts)
+                if ($run.execution_control.PSObject.Properties['raw_review_history']) { $historicalAttempts = @($run.execution_control.raw_review_history) }
                 if ($null -ne $run.execution_control.PSObject.Properties['agent_sessions']) { $agentSessions = @($run.execution_control.agent_sessions) }
+                if ($run.execution_control.PSObject.Properties['core_review_attempts']) { $coreAttempts = @($run.execution_control.core_review_attempts) }
+                if ($run.execution_control.PSObject.Properties['core_review_history']) { $coreAttempts += @($run.execution_control.core_review_history) }
                 if ($null -ne $run.execution_control.PSObject.Properties['quality_events']) { $qualityEvents = @($run.execution_control.quality_events) }
                 $childSessionCap = [int]$run.execution_control.child_session_cap
                 foreach ($stage in @('stage1', 'stage3')) {
@@ -129,22 +137,39 @@ function Get-EvidenceCostSummary {
     }
     $usageRecords = @($agentSessions | Where-Object { $null -ne $_.usage })
     $usageAvailable = $usageRecords.Count -gt 0
+    $hostCost = $null
+    if ($null -ne $run -and $run.PSObject.Properties['execution_control'] -and $run.execution_control.PSObject.Properties['host_cost']) { $hostCost = $run.execution_control.host_cost }
+    $invalidDurationCount = @($agentSessions | Where-Object { $null -ne $_.duration_seconds -and $_.duration_seconds -lt 0 }).Count
     $firstReviewFindingCount = 0
+    $firstReviewArticles = @($qualityEvents | Where-Object { $_.PSObject.Properties['detection_stage'] -and $_.detection_stage -eq 'first_review' -and $_.raw_path } | Sort-Object recorded_at | Group-Object raw_path | ForEach-Object { $_.Group[0] })
+    $firstReviewPassed = @($firstReviewArticles | Where-Object { $_.result -eq 'passed' }).Count
     $repairResidualCount = 0
     $repairIntroducedCount = 0
     foreach ($event in $qualityEvents) {
-        if ($null -ne $event.PSObject.Properties['first_review_finding_count']) { $firstReviewFindingCount += [int]$event.first_review_finding_count }
         if ($null -ne $event.PSObject.Properties['repair_residual_count']) { $repairResidualCount += [int]$event.repair_residual_count }
         if ($null -ne $event.PSObject.Properties['repair_introduced_count']) { $repairIntroducedCount += [int]$event.repair_introduced_count }
+    }
+    foreach ($event in $firstReviewArticles) { if ($event.PSObject.Properties['first_review_finding_count']) { $firstReviewFindingCount += [int]$event.first_review_finding_count } }
+    $firstReviewFailureSignalCount = 0
+    $legacyCoreFindingCount = $false
+    foreach ($event in $firstReviewArticles) {
+        if ($event.PSObject.Properties['review_kind'] -and $event.review_kind -eq 'core_full') {
+            if ($event.PSObject.Properties['failure_signal_count']) { $firstReviewFailureSignalCount += [int]$event.failure_signal_count }
+            else { $firstReviewFailureSignalCount += [int]$event.finding_count; $legacyCoreFindingCount = $true }
+        }
     }
     $tokenUsage = if ($usageAvailable) {
         [pscustomobject][ordered]@{
             input_tokens = [int64](($usageRecords | ForEach-Object { if ($null -eq $_.usage.input_tokens) { 0 } else { [int64]$_.usage.input_tokens } } | Measure-Object -Sum).Sum)
             cached_input_tokens = [int64](($usageRecords | ForEach-Object { if ($null -eq $_.usage.cached_input_tokens) { 0 } else { [int64]$_.usage.cached_input_tokens } } | Measure-Object -Sum).Sum)
             output_tokens = [int64](($usageRecords | ForEach-Object { if ($null -eq $_.usage.output_tokens) { 0 } else { [int64]$_.usage.output_tokens } } | Measure-Object -Sum).Sum)
-            source = 'host_session_ledger'
+            source = 'registered_child_sessions_only'
+            coverage = 'partial; excludes parent and any undiscovered sessions'
         }
     } else { 'unavailable' }
+    if ($null -ne $hostCost) {
+        $tokenUsage = [pscustomobject]@{ known_usage=$hostCost.total.known_usage; coverage=$hostCost.total.status; coverage_scope='explicit_window_only'; lifecycle_complete=$false; missing_session_ids=$hostCost.total.missing_session_ids; source='host_session_counter_deltas'; parent=$hostCost.parent; children=$hostCost.children; window=$hostCost.window }
+    }
     return [pscustomobject][ordered]@{
         evidence_file_count = $files.Count
         evidence_bytes = [int64](($files | Measure-Object -Property Length -Sum).Sum)
@@ -154,20 +179,43 @@ function Get-EvidenceCostSummary {
         retry_directory_count = $retryCount
         reused_receipt_count = $reusedCount
         raw_review_attempt_count = $attempts.Count
+        historical_raw_review_attempt_count = $historicalAttempts.Count
+        total_raw_review_attempt_count = $attempts.Count + $historicalAttempts.Count
+        raw_review_count_scope = 'current and historical attempts are separate; total includes replaced reviews and targeted rechecks'
         terra_full_count = @($attempts | Where-Object { [string]$_.kind -eq 'full_default' -and [string]$_.model -eq 'gpt-5.6-terra' }).Count
         terra_targeted_count = @($attempts | Where-Object { [string]$_.kind -eq 'targeted_recheck' -and [string]$_.model -eq 'gpt-5.6-terra' }).Count
+        sol_full_count = @($attempts | Where-Object { [string]$_.kind -eq 'full_default' -and [string]$_.model -eq 'gpt-5.6-sol' }).Count
+        sol_targeted_count = @($attempts | Where-Object { [string]$_.kind -eq 'targeted_recheck' -and [string]$_.model -eq 'gpt-5.6-sol' }).Count
         astra_escalation_count = @($attempts | Where-Object { [string]$_.kind -eq 'escalated_review' -and [string]$_.model -eq 'gpt-6-astra' }).Count
-        distinct_child_agent_count = $agentIds.Count
-        actual_child_session_count = $(if ($agentSessions.Count -gt 0) { $agentSessions.Count } else { $agentIds.Count })
+        distinct_child_agent_count = $(if ($null -ne $hostCost) { $hostCost.actual_child_session_count } else { @(@($agentIds) + @($agentSessions | ForEach-Object { $_.agent_id }) | Where-Object { $_ } | Sort-Object -Unique).Count })
+        core_review_attempt_count = $coreAttempts.Count
+        actual_child_session_count = $(if ($null -ne $hostCost) { $hostCost.actual_child_session_count } elseif ($agentSessions.Count -gt 0) { $agentSessions.Count } else { $agentIds.Count })
         failed_or_interrupted_session_count = @($agentSessions | Where-Object { [string]$_.status -in @('failed','aborted','replaced') }).Count
-        child_session_duration_seconds = $(if (@($agentSessions | Where-Object { $null -ne $_.duration_seconds }).Count -gt 0) { [Math]::Round([double](($agentSessions | Where-Object { $null -ne $_.duration_seconds } | Measure-Object -Property duration_seconds -Sum).Sum), 3) } else { $null })
+        completed_session_count = @($agentSessions | Where-Object { [string]$_.status -eq 'completed' }).Count
+        completion_count_scope = 'session termination only; task_complete does not prove file access or successful delivery'
+        permission_failed_session_count = @($agentSessions | Where-Object { $_.PSObject.Properties['work_outcome'] -and $_.work_outcome -eq 'permission_failed' }).Count
+        successful_work_session_count = @($agentSessions | Where-Object { $_.PSObject.Properties['work_outcome'] -and $_.work_outcome -eq 'succeeded' }).Count
+        unknown_work_outcome_count = @($agentSessions | Where-Object { -not $_.PSObject.Properties['work_outcome'] -or $_.work_outcome -eq 'unknown' }).Count
+        replaced_session_count = @($agentSessions | Where-Object { [string]$_.status -eq 'replaced' }).Count
+        aborted_session_count = @($agentSessions | Where-Object { [string]$_.status -eq 'aborted' }).Count
+        failure_count_scope = 'known registered terminal statuses; unregistered or incomplete host sessions are not assumed successful'
+        child_session_duration_seconds = $(if ($invalidDurationCount -eq 0 -and @($agentSessions | Where-Object { $null -ne $_.duration_seconds }).Count -gt 0) { [Math]::Round([double](($agentSessions | Where-Object { $null -ne $_.duration_seconds } | Measure-Object -Property duration_seconds -Sum).Sum), 3) } else { $null })
+        invalid_duration_count = $invalidDurationCount
+        unregistered_child_ids = $(if ($null -ne $hostCost) { @($hostCost.unregistered_child_ids) } else { @() })
         child_session_cap = $childSessionCap
         writer_completion_count = @($writerRecords | Where-Object { [string]$_.status -eq 'completed' }).Count
-        first_review_finding_count = $firstReviewFindingCount
+        first_review_finding_count = $(if ($legacyCoreFindingCount) { $null } else { $firstReviewFindingCount })
+        first_review_failure_signal_count = $firstReviewFailureSignalCount
+        finding_count_scope = 'Explicit report findings; legacy core events counted failure signals, not distinct findings. Unknown explicit totals remain null. No semantic deduplication is inferred.'
+        first_review_article_count = $firstReviewArticles.Count
+        first_review_passed_count = $firstReviewPassed
+        first_review_pass_rate = $(if ($firstReviewArticles.Count) { $firstReviewPassed / $firstReviewArticles.Count } else { $null })
+        missed_defect_rate = $null
+        quality_counting_scope = 'First chronological review per article; rebinds and re-reviews do not reset first-pass history. Missed-defect rate needs independent sampling.'
         repair_residual_count = $repairResidualCount
         repair_introduced_count = $repairIntroducedCount
         token_usage = $tokenUsage
-        note = $(if ($usageAvailable) { 'Session and token totals come from the execution ledger, including automatically synchronized host session logs.' } else { 'Token usage is unavailable unless an authoritative host ledger can be synchronized.' })
+        note = 'Known counter deltas are not billing totals. Missing sessions remain explicit; cached input is a subset of input. Session durations include overlap/idle and are not wall time.'
     }
 }
 
@@ -205,18 +253,34 @@ try {
         }
     }
     $changed = if ($Staged) {
-        @(& git -c "safe.directory=$safeProject" -c core.quotepath=false -C $projectRoot diff --cached --name-only $Stage1Revision -- $excludedPathspecs)
+        @(& git -c "safe.directory=$safeProject" -c core.excludesFile= -c core.quotepath=false -C $projectRoot diff --cached --name-only $Stage1Revision -- $excludedPathspecs)
     } else {
-        @(& git -c "safe.directory=$safeProject" -c core.quotepath=false -C $projectRoot diff --name-only $Stage1Revision $Stage3Revision -- $excludedPathspecs)
+        @(& git -c "safe.directory=$safeProject" -c core.excludesFile= -c core.quotepath=false -C $projectRoot diff --name-only $Stage1Revision $Stage3Revision -- $excludedPathspecs)
     }
     if ($LASTEXITCODE -ne 0) { throw 'Unable to read Stage 3 changed paths.' }
     $changed = @($changed | ForEach-Object { $_.Trim().Replace('\', '/') } | Where-Object { $_ -ne '' })
     Add-Check $checks 'stage3_has_changes' ($changed.Count -gt 0) (($changed | Sort-Object) -join ', ')
+    $verifiedCaptures = @()
+    if ($null -ne $maintenanceRun -and [int]$maintenanceRun.schema_version -ge 8 -and @($changed | Where-Object { $_ -like 'Clippings/_source-captures/*' }).Count -gt 0) {
+        $captureOutput = @(& node (Join-Path $PSScriptRoot 'ingest-maintenance-scope.mjs') --root $projectRoot --runDirectory (Split-Path -Parent $maintenanceRunPath) --captureEvidence true 2>&1) -join "`n"
+        if ($LASTEXITCODE -eq 0) {
+            $verifiedCaptures = [string[]](ConvertFrom-Json -InputObject $captureOutput)
+            Add-Check $checks 'source_capture_manifest_bytes' $true "verified_files=$($verifiedCaptures.Count)"
+        } else {
+            Add-Check $checks 'source_capture_manifest_bytes' $false $captureOutput
+        }
+    }
+    $healthChanged = @($changed | Where-Object { $verifiedCaptures -notcontains $_ })
 
     # Same read-only judgment core as standalone Lint. No repair, status write, or approval.
-    $healthArguments = @((Join-Path $PSScriptRoot 'knowledge-health.mjs'), '--scope', $HealthScope)
+    $healthWork = Join-Path (Split-Path -Parent (Get-ProjectPath $OutputPath)) 'work'
+    New-Item -ItemType Directory -Path $healthWork -Force | Out-Null
+    $healthChangedFile = Join-Path $healthWork 'health-changed-paths.json'
+    [IO.File]::WriteAllText($healthChangedFile, (ConvertTo-Json -InputObject @($healthChanged) -Compress -Depth 3), $utf8NoBom)
+    $healthChangedRelative = $healthChangedFile.Substring($projectRoot.TrimEnd('\', '/').Length + 1).Replace('\', '/')
+    $healthArguments = @((Join-Path $PSScriptRoot 'ingest-health-runner.mjs'), '--root', $projectRoot, '--scope', $HealthScope, '--changed-file', $healthChangedRelative)
     if ($PreviousHealthReport) { $healthArguments += @('--previous', $PreviousHealthReport) }
-    foreach ($changedPath in $changed) { $healthArguments += @('--changed', $changedPath) }
+    # Verified captures stay in changed_paths/coverage, but are not migrated Clippings.
     $healthOutput = @(& node @healthArguments) -join "`n"
     $healthExit = $LASTEXITCODE
     $healthEvidence = $null
@@ -227,8 +291,11 @@ try {
         $scopeErrors = @($healthEvidence.checks | Where-Object {
             $item = $_
             $affectedModule = $HealthScope -eq 'full'
-            foreach ($dependency in @($item.dependencies)) {
-                if (@($changed | Where-Object { $_ -eq $dependency -or $_.StartsWith($dependency.TrimEnd('/') + '/') }).Count -gt 0) { $affectedModule = $true }
+            # The clipping migration checker reads only migrated Clippings and its map.
+            # A changed Raw does not make unrelated historical clipping hash drift new.
+            $dependencies = if ([string]$item.id -eq 'clipping_identity') { @('Clippings', 'system/registry/clipping-path-migrations.json') } else { @($item.dependencies) }
+            foreach ($dependency in $dependencies) {
+                if (@($healthChanged | Where-Object { $_ -eq $dependency -or $_.StartsWith($dependency.TrimEnd('/') + '/') }).Count -gt 0) { $affectedModule = $true }
             }
             $affectedModule -and @($item.findings | Where-Object { $_.severity -eq 'error' }).Count -gt 0
         })
@@ -349,17 +416,42 @@ try {
     }
 
     $wikiPaths = @($changed | Where-Object { $_.StartsWith('wiki/') -and $_.EndsWith('.md') -and $_ -ne 'wiki/README.md' })
+    $independentMaintenance = @()
+    $presealScope = $null
+    if ($null -ne $maintenanceRun -and [int]$maintenanceRun.schema_version -ge 8 -and $wikiPaths.Count -gt 0) {
+        $scopeScript = Join-Path $PSScriptRoot 'ingest-preseal-maintenance.mjs'
+        $scopeOutput = @(& node $scopeScript $projectRoot $maintenanceRunPath @wikiPaths 2>&1) -join "`n"
+        $scopeExit = $LASTEXITCODE
+        if ($scopeExit -eq 0) {
+            $presealScope = $scopeOutput | ConvertFrom-Json
+            $independentMaintenance = @($presealScope.maintenance)
+            Add-Check $checks 'independent_wiki_maintenance_preseal' $true "status=$($presealScope.status); independently_reviewed=$($independentMaintenance.Count); new_knowledge=$(@($presealScope.newKnowledge).Count)"
+        } else {
+            Add-Check $checks 'independent_wiki_maintenance_preseal' $false $scopeOutput
+        }
+    }
     $linkProblems = New-Object System.Collections.Generic.List[string]
+    $reviewedWholePageLinks = New-Object System.Collections.Generic.List[string]
     foreach ($path in $wikiPaths) {
         $full = Join-Path $projectRoot $path
         if (-not (Test-Path -LiteralPath $full -PathType Leaf)) { continue }
         $lineNumber = 0
         foreach ($line in Get-Content -Encoding UTF8 -LiteralPath $full) {
             $lineNumber++
-            foreach ($match in [regex]::Matches($line, '\]\(\./[^)#]+\.md\)')) { [void]$linkProblems.Add("$path`:$lineNumber $($match.Value)") }
+            foreach ($match in [regex]::Matches($line, '\]\(\./(?<target>[^)#]+\.md)\)')) {
+                $target = [IO.Path]::GetFullPath((Join-Path (Split-Path -Parent $full) $match.Groups['target'].Value))
+                $insideWiki = $target.StartsWith((Join-Path $projectRoot 'wiki').TrimEnd('\', '/') + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)
+                if ($independentMaintenance -contains $path -and $insideWiki -and (Test-Path -LiteralPath $target -PathType Leaf)) {
+                    [void]$reviewedWholePageLinks.Add("$path`:$lineNumber $($match.Value)")
+                } else {
+                    [void]$linkProblems.Add("$path`:$lineNumber $($match.Value)")
+                }
+            }
         }
     }
-    $linkDetails = if ($linkProblems.Count -eq 0) { 'passed' } else { $linkProblems -join ', ' }
+    $linkDetails = "blockers=$($linkProblems.Count); independently_reviewed_whole_page_links=$($reviewedWholePageLinks.Count)"
+    if ($linkProblems.Count -gt 0) { $linkDetails += '; ' + ($linkProblems -join ', ') }
+    if ($reviewedWholePageLinks.Count -gt 0) { $linkDetails += '; reviewed=' + ($reviewedWholePageLinks -join ', ') }
     Add-Check $checks 'wiki_links_have_anchors' ($linkProblems.Count -eq 0) $linkDetails
 
     $pageHealthScript = Join-Path $projectRoot 'system/maintenance/checklists/check-wiki-page-health.ps1'
@@ -370,8 +462,9 @@ try {
         $pageHealthExit = (Get-HealthModule 'page_health').exit_code
         $pageHealth = if ($pageHealthExit -eq 0) { $pageHealthOutput | ConvertFrom-Json } else { $null }
         $pageHealthBlockers = @()
+        $reviewedNumbering = @()
         if ($null -ne $pageHealth) {
-            $pageHealthBlockers = @($pageHealth.findings | Where-Object {
+            $pageHealthCandidates = @($pageHealth.findings | Where-Object {
                 ($wikiPaths -contains $_.path -or ($null -ne $_.PSObject.Properties['target_path'] -and $wikiPaths -contains $_.target_path)) -and
                 $_.code -in @(
                     'wiki_title_missing', 'wiki_title_multiple', 'wiki_title_not_first_heading',
@@ -382,14 +475,23 @@ try {
                     'wiki_link_target_missing', 'wiki_link_anchor_target_missing'
                 )
             })
+            $reviewedNumbering = @($pageHealthCandidates | Where-Object {
+                $candidate = $_
+                $candidate.code -eq 'wiki_h2_numbering_gap' -and $independentMaintenance -contains $candidate.path -and
+                @($presealScope.reviewedNumbering | Where-Object { $_.path -eq $candidate.path -and $_.code -eq $candidate.code -and $_.detail -eq $candidate.detail }).Count -gt 0
+            })
+            $pageHealthBlockers = @($pageHealthCandidates | Where-Object {
+                $candidate = $_
+                -not @($reviewedNumbering | Where-Object { $_.path -eq $candidate.path -and $_.code -eq $candidate.code -and $_.detail -eq $candidate.detail }).Count
+            })
         }
         $pageHealthPassed = $pageHealthExit -eq 0 -and $pageHealthBlockers.Count -eq 0
         $pageHealthDetails = if ($null -eq $pageHealth) {
             $pageHealthOutput
         } elseif ($pageHealthBlockers.Count -eq 0) {
-            "status=$($pageHealth.status); warnings=$($pageHealth.summary.warnings); blockers=0"
+            "status=$($pageHealth.status); warnings=$($pageHealth.summary.warnings); blockers=0; independently_reviewed_numbering_gaps=$($reviewedNumbering.Count)"
         } else {
-            "status=$($pageHealth.status); blockers=" + (($pageHealthBlockers | ForEach-Object { "$($_.path):$($_.code)" }) -join ', ')
+            "status=$($pageHealth.status); independently_reviewed_numbering_gaps=$($reviewedNumbering.Count); blockers=" + (($pageHealthBlockers | ForEach-Object { "$($_.path):$($_.code)" }) -join ', ')
         }
         Add-Check $checks 'changed_wiki_page_health' $pageHealthPassed $pageHealthDetails
     }
@@ -450,9 +552,9 @@ try {
     $hasRaw = @($changed | Where-Object { $_.StartsWith('raw-sources/') }).Count -gt 0
     $hasWiki = $wikiPaths.Count -gt 0
     $wikiRegistryChanges = if ($Staged) {
-        @(& git -c "safe.directory=$safeProject" -C $projectRoot diff --cached --name-only --diff-filter=ADR $Stage1Revision -- 'wiki/')
+        @(& git -c "safe.directory=$safeProject" -c core.excludesFile= -C $projectRoot diff --cached --name-only --diff-filter=ADR $Stage1Revision -- 'wiki/')
     } else {
-        @(& git -c "safe.directory=$safeProject" -C $projectRoot diff --name-only --diff-filter=ADR $Stage1Revision $Stage3Revision -- 'wiki/')
+        @(& git -c "safe.directory=$safeProject" -c core.excludesFile= -C $projectRoot diff --name-only --diff-filter=ADR $Stage1Revision $Stage3Revision -- 'wiki/')
     }
     if ($LASTEXITCODE -ne 0) { throw 'Unable to inspect Wiki registry-affecting paths.' }
     $wikiRegistryChanges = @($wikiRegistryChanges | ForEach-Object { $_.Trim().Replace('\', '/') } | Where-Object { $_ -ne '' -and $_ -ne 'wiki/README.md' })
@@ -474,18 +576,18 @@ try {
     $contractPassed = (Get-HealthModule 'query_contract').exit_code -eq 0
     Add-Check $checks 'query_contract' $contractPassed $contractOutput
 
-    $diffOutput = if ($Staged) {
-        @(& git -c "safe.directory=$safeProject" -C $projectRoot diff --cached --check $Stage1Revision -- $excludedPathspecs) -join "`n"
-    } else {
-        @(& git -c "safe.directory=$safeProject" -C $projectRoot diff --check $Stage1Revision $Stage3Revision -- $excludedPathspecs) -join "`n"
-    }
+    $scopeArgs = @('--root', $projectRoot, '--base', $Stage1Revision, '--runDirectory', (Split-Path -Parent (Get-ProjectPath $OutputPath)))
+    if ($Staged) { $scopeArgs += @('--staged', 'true') } else { $scopeArgs += @('--revision', $Stage3Revision) }
+    $diffOutput = @(& node (Join-Path $PSScriptRoot 'ingest-maintenance-scope.mjs') @scopeArgs) -join "`n"
     $diffPassed = $LASTEXITCODE -eq 0
+    $validationScope = if ($diffPassed) { $diffOutput | ConvertFrom-Json } else { $null }
     $diffDetails = if ($diffPassed) { 'passed' } else { $diffOutput }
     Add-Check $checks 'git_diff_check' $diffPassed $diffDetails
 
     $status = if (@($checks | Where-Object { -not $_.passed }).Count -eq 0) { 'passed' } else { 'failed' }
     $receipt = [pscustomobject][ordered]@{
         schema_version = 1; status = $status; source = $(if ($Staged) { 'staged' } else { 'revision' }); stage1_revision = $Stage1Revision.ToLowerInvariant(); stage3_revision = $(if ($Staged) { $null } else { $Stage3Revision.ToLowerInvariant() })
+        validation_scope = $validationScope
         health = $healthEvidence; changed_paths = @($changed); checks = @($checks | ForEach-Object { $_ }); evidence_cost = Get-EvidenceCostSummary -RunDirectory (Split-Path -Parent (Get-ProjectPath $OutputPath)); generated_at = [DateTime]::UtcNow.ToString('o')
     }
     $outputFull = Get-ProjectPath $OutputPath

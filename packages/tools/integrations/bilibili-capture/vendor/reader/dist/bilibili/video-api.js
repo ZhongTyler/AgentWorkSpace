@@ -1,0 +1,314 @@
+// Modified by AgentWorkSpace: strict anonymous read-only adapter; no credential access or fallback on denied responses.
+// B站 视频/字幕 API
+import { config } from "../config.js";
+import { credentialManager } from "../utils/credentials.js";
+import { NetworkError, ResourceLimitError, UpstreamResponseError, ValidationError, } from "../utils/errors.js";
+import { logger } from "../utils/logger.js";
+import { boundedFiniteInteger, boundedRemoteText, sanitizeRemoteText, } from "../utils/bounded-text.js";
+import { getBuvid } from "./fingerprint.js";
+import { fetchWithWBI, fetchWithoutWBI, retryableFetch, throttledFetch, } from "./http.js";
+const MAX_SUBTITLE_RESPONSE_BYTES = 1_000_000;
+const MAX_VIDEO_PAGES = 1_000;
+const MAX_VIDEO_TAGS = 100;
+const MAX_PLAYER_CHAPTERS = 200;
+function isRecord(value) {
+    return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+function parseVideoInfoResponse(raw) {
+    if (!isRecord(raw)) {
+        throw new UpstreamResponseError("Bilibili returned invalid video metadata");
+    }
+    const owner = isRecord(raw.owner) ? raw.owner : {};
+    const stat = isRecord(raw.stat) ? raw.stat : {};
+    const title = boundedRemoteText(raw.title, 512);
+    if (!title || !Number.isSafeInteger(raw.cid) || raw.cid <= 0) {
+        throw new UpstreamResponseError("Bilibili returned invalid video metadata");
+    }
+    if (!Number.isSafeInteger(raw.aid) || raw.aid <= 0) {
+        throw new UpstreamResponseError("Bilibili returned invalid video metadata");
+    }
+    let pages;
+    if (raw.pages !== undefined) {
+        if (!Array.isArray(raw.pages)) {
+            throw new UpstreamResponseError("Bilibili returned invalid Part metadata");
+        }
+        if (raw.pages.length > MAX_VIDEO_PAGES) {
+            throw new ResourceLimitError("Video Part list exceeded its item limit", "video_parts", MAX_VIDEO_PAGES);
+        }
+        pages = raw.pages.map((entry) => {
+            if (!isRecord(entry) ||
+                !Number.isSafeInteger(entry.cid) ||
+                entry.cid <= 0 ||
+                !Number.isSafeInteger(entry.page) ||
+                entry.page <= 0 ||
+                typeof entry.duration !== "number" ||
+                !Number.isFinite(entry.duration) ||
+                entry.duration <= 0) {
+                throw new UpstreamResponseError("Bilibili returned invalid Part metadata");
+            }
+            return {
+                cid: entry.cid,
+                page: entry.page,
+                part: boundedRemoteText(entry.part, 256),
+                duration: entry.duration,
+            };
+        });
+    }
+    let tag;
+    if (raw.tag !== undefined) {
+        if (!Array.isArray(raw.tag)) {
+            throw new UpstreamResponseError("Bilibili returned invalid tag metadata");
+        }
+        if (raw.tag.length > MAX_VIDEO_TAGS) {
+            throw new ResourceLimitError("Video tag list exceeded its item limit", "video_tags", MAX_VIDEO_TAGS);
+        }
+        tag = raw.tag
+            .filter(isRecord)
+            .map((entry) => ({ tag_name: boundedRemoteText(entry.tag_name, 128) }))
+            .filter((entry) => entry.tag_name.length > 0);
+    }
+    return {
+        bvid: boundedRemoteText(raw.bvid, 32),
+        title,
+        desc: boundedRemoteText(raw.desc, 20_000),
+        pic: boundedRemoteText(raw.pic, 2_048) || undefined,
+        owner: {
+            name: boundedRemoteText(owner.name, 128),
+            face: boundedRemoteText(owner.face, 2_048),
+        },
+        stat: {
+            view: boundedFiniteInteger(stat.view),
+            danmaku: boundedFiniteInteger(stat.danmaku),
+            reply: boundedFiniteInteger(stat.reply),
+            favorite: boundedFiniteInteger(stat.favorite),
+            coin: boundedFiniteInteger(stat.coin),
+            share: boundedFiniteInteger(stat.share),
+            like: boundedFiniteInteger(stat.like),
+        },
+        cid: raw.cid,
+        aid: raw.aid,
+        duration: typeof raw.duration === "number" &&
+            Number.isFinite(raw.duration) &&
+            raw.duration > 0
+            ? raw.duration
+            : 0,
+        pubdate: boundedFiniteInteger(raw.pubdate),
+        pages,
+        tag,
+    };
+}
+function parseSubtitleResponse(raw) {
+    if (!isRecord(raw) || !isRecord(raw.subtitle)) {
+        throw new NetworkError("Bilibili returned invalid subtitle metadata");
+    }
+    const rows = raw.subtitle.subtitles;
+    if (!Array.isArray(rows) || rows.length > 100) {
+        throw new NetworkError("Bilibili returned invalid subtitle metadata");
+    }
+    const subtitles = [];
+    for (const row of rows) {
+        if (!isRecord(row) ||
+            typeof row.id !== "number" ||
+            !Number.isInteger(row.id) ||
+            row.id < 0 ||
+            typeof row.lan !== "string" ||
+            row.lan.length < 1 ||
+            row.lan.length > 64 ||
+            typeof row.lan_doc !== "string" ||
+            row.lan_doc.length > 128 ||
+            typeof row.subtitle_url !== "string" ||
+            row.subtitle_url.length < 1 ||
+            row.subtitle_url.length > 8_192) {
+            throw new NetworkError("Bilibili returned invalid subtitle metadata");
+        }
+        subtitles.push({
+            id: row.id,
+            lan: row.lan,
+            lan_doc: row.lan_doc,
+            subtitle_url: row.subtitle_url,
+        });
+    }
+    return { subtitle: { subtitles } };
+}
+function parseSubtitleContent(raw) {
+    if (!isRecord(raw) || !Array.isArray(raw.body) || raw.body.length > 5_000) {
+        throw new NetworkError("Bilibili returned invalid subtitle content");
+    }
+    let totalCharacters = 0;
+    const body = [];
+    for (const row of raw.body) {
+        if (!isRecord(row) ||
+            typeof row.from !== "number" ||
+            !Number.isFinite(row.from) ||
+            row.from < 0 ||
+            typeof row.to !== "number" ||
+            !Number.isFinite(row.to) ||
+            row.to < row.from ||
+            typeof row.content !== "string" ||
+            row.content.length > 10_000) {
+            throw new NetworkError("Bilibili returned invalid subtitle content");
+        }
+        totalCharacters += row.content.length;
+        if (totalCharacters > 500_000) {
+            throw new NetworkError("Bilibili returned invalid subtitle content");
+        }
+        body.push({
+            from: row.from,
+            to: row.to,
+            location: typeof row.location === "number" && Number.isFinite(row.location)
+                ? row.location
+                : 0,
+            content: sanitizeRemoteText(row.content),
+        });
+    }
+    return { body };
+}
+/**
+ * 获取视频基本信息（含多P pages）
+ *
+ * 策略：优先使用带 WBI 签名的 /x/web-interface/wbi/view 接口。
+ * B站已对部分地区的旧接口 /x/web-interface/view 返回 HTTP 412（见 issue #83），
+ * 若新接口也遇到 412 风控，自动降级到旧接口重试一次。
+ */
+export async function getVideoInfo(bvid) {
+    return parseVideoInfoResponse(await fetchWithWBI("/x/web-interface/wbi/view", { bvid }));
+}
+/**
+ * 获取视频字幕信息
+ *
+ * 策略：优先使用带 WBI 签名的 /x/player/wbi/v2 接口。
+ * 若该接口返回空字幕或 HTTP 412（部分环境下的登录态风控），
+ * 自动降级到 /x/player/v2 重试一次。
+ */
+export async function getVideoSubtitle(bvid, cid) {
+    return parseSubtitleResponse(await fetchWithWBI("/x/player/wbi/v2", { bvid, cid }));
+}
+/**
+ * 获取播放器数据（用于章节等不需要字幕的场景）
+ */
+export async function getPlayerData(bvid, cid) {
+    const authHeaders = credentialManager.getAuthHeaders();
+    const buvidFingerprint = await getBuvid();
+    const headers = { ...authHeaders };
+    if (buvidFingerprint) {
+        const existingCookie = headers["Cookie"] || "";
+        const buvidCookie = `buvid3=${buvidFingerprint.buvid3}; buvid4=${buvidFingerprint.buvid4}`;
+        headers["Cookie"] = existingCookie ? `${existingCookie}; ${buvidCookie}` : buvidCookie;
+    }
+    const raw = await fetchWithoutWBI("/x/player/v2", { bvid, cid }, headers);
+    if (!isRecord(raw)) {
+        throw new UpstreamResponseError("Bilibili returned invalid player metadata");
+    }
+    if (raw.view_points === undefined)
+        return {};
+    if (!Array.isArray(raw.view_points)) {
+        throw new UpstreamResponseError("Bilibili returned invalid chapter metadata");
+    }
+    if (raw.view_points.length > MAX_PLAYER_CHAPTERS) {
+        throw new ResourceLimitError("Video chapter list exceeded its item limit", "video_chapters", MAX_PLAYER_CHAPTERS);
+    }
+    return {
+        view_points: raw.view_points.map((entry) => {
+            if (!isRecord(entry) ||
+                typeof entry.from !== "number" ||
+                !Number.isFinite(entry.from) ||
+                entry.from < 0 ||
+                typeof entry.to !== "number" ||
+                !Number.isFinite(entry.to) ||
+                entry.to < entry.from) {
+                throw new UpstreamResponseError("Bilibili returned invalid chapter metadata");
+            }
+            return {
+                content: boundedRemoteText(entry.content, 500),
+                title: boundedRemoteText(entry.title, 500),
+                from: entry.from,
+                to: entry.to,
+            };
+        }),
+    };
+}
+/**
+ * 获取字幕内容
+ */
+export async function getSubtitleContent(url) {
+    const allowedSubtitleHosts = new Set([
+        "aisubtitle.hdslb.com",
+        "subtitle.bilibili.com",
+    ]);
+    const fullUrl = new URL(url, "https://www.bilibili.com");
+    if (fullUrl.protocol !== "https:" ||
+        !allowedSubtitleHosts.has(fullUrl.hostname)) {
+        throw new ValidationError("Unsupported subtitle URL host");
+    }
+    if (fullUrl.port !== "" ||
+        fullUrl.username !== "" ||
+        fullUrl.password !== "") {
+        throw new ValidationError("Unsupported subtitle URL port or userinfo");
+    }
+    async function readSubtitleResponse(response) {
+        const contentLength = response.headers.get("content-length");
+        if (contentLength !== null &&
+            Number.isFinite(Number(contentLength)) &&
+            Number(contentLength) > MAX_SUBTITLE_RESPONSE_BYTES) {
+            throw new ValidationError("Subtitle response is too large");
+        }
+        if (!response.body) {
+            const text = await response.text();
+            if (new TextEncoder().encode(text).byteLength > MAX_SUBTITLE_RESPONSE_BYTES) {
+                throw new ValidationError("Subtitle response is too large");
+            }
+            return text;
+        }
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        const chunks = [];
+        let receivedBytes = 0;
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done)
+                break;
+            receivedBytes += value.byteLength;
+            if (receivedBytes > MAX_SUBTITLE_RESPONSE_BYTES) {
+                await reader.cancel();
+                throw new ValidationError("Subtitle response is too large");
+            }
+            chunks.push(decoder.decode(value, { stream: true }));
+        }
+        chunks.push(decoder.decode());
+        return chunks.join("");
+    }
+    return retryableFetch(async () => {
+        return throttledFetch(async (controller) => {
+            try {
+                const response = await fetch(fullUrl.toString(), {
+                    headers: {
+                        "User-Agent": config.userAgent,
+                        Referer: config.referer,
+                    },
+                    redirect: "manual",
+                    signal: controller.signal,
+                });
+                if (response.status >= 300 && response.status < 400) {
+                    throw new ValidationError("Unsupported subtitle URL redirect");
+                }
+                if (!response.ok) {
+                    throw new NetworkError(`HTTP ${response.status}: ${response.statusText}`, undefined, url.toString(), response.status);
+                }
+                const responseText = await readSubtitleResponse(response);
+                let parsed;
+                try {
+                    parsed = JSON.parse(responseText);
+                }
+                catch {
+                    throw new NetworkError("Bilibili returned invalid subtitle content");
+                }
+                return parseSubtitleContent(parsed);
+            }
+            catch (error) {
+                logger.error("Error fetching subtitle content", { error: error instanceof Error ? error.name : "UnknownError" }, { type: "subtitle-error" });
+                throw error;
+            }
+        });
+    });
+}
+//# sourceMappingURL=video-api.js.map

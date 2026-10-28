@@ -221,6 +221,21 @@ def launch(workflow,tool,action,args,base=BASE):
         python=selected.tools_home/'integrations/cutout/runtime/venv/Scripts/python.exe'
         if not python.is_file():raise ValueError('Local processing Python unavailable; restore through the tool guide')
         cmd=[str(python),'-X','utf8','-B',str(folder/'pipeline.py'),'--tools-home',str(selected.tools_home),action,*remaining]
+    elif tool=='knowledge-feedback':cmd=['node',str(folder/'cli.mjs'),action,*args]
+    elif tool=='bilibili-capture':cmd=[sys.executable,'-X','utf8','-B',str(folder/'capture.py'),action,*args]
+    elif tool=='collaboration-checks':
+        script='semantic_check.py' if action=='audit' else 'check.py'
+        cmd=[sys.executable,'-X','utf8','-B',str(folder/script),*([] if action=='audit' else [action]),*args]
+    elif tool=='metaphysics-charting':
+        if action=='restore':cmd=[sys.executable,'-X','utf8','-B',str(folder/'restore.py'),*args]
+        else:
+            if len(args)<2 or args[0]!='--chart-home':raise ValueError('Explicit --chart-home <restored-external-home> required')
+            home=Path(args[1]).resolve()
+            if home.is_relative_to(base.resolve()):raise ValueError('Chart home must be outside the managed Tools package')
+            for name in ['chart.mjs','render.mjs','source-lock.json','package-lock.json']:
+                if not (home/name).is_file() or (home/name).read_bytes()!=(folder/name).read_bytes():raise ValueError('Chart source changed; preserve it and restore the selected version into a new home')
+            script='render.mjs' if action=='render' else 'chart.mjs'
+            cmd=['node',str(home/script),*([action] if action!='render' else []),*args[2:]]
     else:raise ValueError('Action has no executable launcher')
     return subprocess.run(cmd,cwd=base.parent if tool=='local-image' else folder,check=False).returncode
 

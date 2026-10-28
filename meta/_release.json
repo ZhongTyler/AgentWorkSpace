@@ -1,10 +1,10 @@
 {
   "component_id": "meta",
-  "file_count": 70,
-  "generated_at": "2026-10-20T23:27:42+08:00",
+  "file_count": 71,
+  "generated_at": "2026-10-28T08:45:33+08:00",
   "generator_version": "3.0.0",
-  "manifest_sha256": "0f0fe2a99deed74c4f77e4f50584291d0bd2a13409b8aff125f236bc59e0040e",
+  "manifest_sha256": "995b155d0bf87c8e543c1377e8a5b5150280ec58dcf58a7c52f6541e206c5f4c",
   "preview": false,
   "release_schema": 1,
-  "source_revision": "0e8469a680f44ec025274cbe763be2f7c801e240"
+  "source_revision": "f5dc9f4cc212fc9f4ec23b0e8691440314659a35"
 }

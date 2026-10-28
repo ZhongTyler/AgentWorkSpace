@@ -9,3 +9,5 @@ The package includes pinned source and top-level npm archives, not a complete of
 Decision-model adapters are original maintenance code under MIT; upstream source and weights retain their own terms. Intern and Laya pins identify their upstream repositories; Laya weights are Apache-2.0. StartLux weights are CC BY-NC 4.0, not covered by the source Apache grant. See integrations/decision-models/vendor/startlux-model-metadata/LICENSE and NOTICE. No weights are bundled.
 
 Anatomy by wheresryan22 is included as pinned MIT source. Its original license is preserved at integrations/anatomy/vendor/LICENSE.txt and inside the fixed archive. No maintainer research, examples derived from private projects, runtime or learning-effect claims are included.
+
+Bilibili strict-reader subset: @xzxzzx/bilibili-mcp 1.14.3, Apache-2.0, original license in vendor/reader/LICENSE; reviewed patches pinned by reader-lock.json. DSH helper archive and chart engines retain their MIT licenses in the fixed vendor archives and source notices. Original adapters and knowledge-feedback/collaboration tools use the package MIT license. No model weights or captured media are distributed.

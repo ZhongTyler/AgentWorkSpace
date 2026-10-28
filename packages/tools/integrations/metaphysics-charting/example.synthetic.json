@@ -1,0 +1,13 @@
+{
+  "system": "both",
+  "date": "2000-08-16",
+  "time": "03:30:00",
+  "calendar": "solar",
+  "gender": "female",
+  "timezone": "UTC+08:00",
+  "timeBasis": "civil_standard",
+  "preset": "civil-cn-v1",
+  "inputConfirmed": false,
+  "conventionsConfirmed": false,
+  "synthetic": true
+}

@@ -1,5 +1,13 @@
 # Releases
 
+## 1.28.0 — 2026-10-28
+
+- Skills: six selected engineering, evaluation and UI methods; 30 optional methods in total.
+- Knowledge: portable consolidated Ingest, exact review/finalization, evidence fixes and optional research/feedback adapters.
+- Tools: knowledge-feedback core, Bilibili capture, pinned offline chart engines, MCP repair and read-only collaboration checks.
+- meta: recipient-owned compatibility and optional capability contracts. No new required cross-package dependency or automatic runtime setup.
+
+
 ## 1.27.0 — 2026-10-28
 
 - Add research-expression and pinned MIT Anti-Defensive Writing; Skills now offers24 methods. Update research audit, bounded Agent responsibilities and optional technical editing.

@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "type": "module",
+  "name": "local-bilibili-strict-reader",
+  "version": "1.0.0",
+  "upstream": "@xzxzzx/bilibili-mcp@1.14.3"
+}

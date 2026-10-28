@@ -31,7 +31,13 @@ try {
         if ([string]::IsNullOrWhiteSpace($id)) { throw "Group has no id: $($group.FullName)" }
         if ($status -ne 'active' -or $approvalStatus -ne 'approved') { throw "Group is not active and approved: $($group.FullName)" }
         if ([string]::IsNullOrWhiteSpace($receipt) -or -not (Test-Path -LiteralPath (Join-Path $rootPath $receipt) -PathType Leaf)) { throw "Group review receipt is unavailable: $($group.FullName)" }
-        $rows = @($members[$id] | Sort-Object -Unique | ForEach-Object { '- [' + $_ + '](<../wiki/' + $_ + '.md>)' })
+        # Culture-sensitive Sort-Object differs between Windows PowerShell and
+        # PowerShell 7 for mixed CJK/Latin names. Persist one ordinal order.
+        $memberNames = New-Object 'System.Collections.Generic.SortedSet[string]' ([StringComparer]::Ordinal)
+        if ($members.ContainsKey($id)) {
+            foreach ($member in $members[$id]) { [void]$memberNames.Add($member) }
+        }
+        $rows = @($memberNames | ForEach-Object { '- [' + $_ + '](<../wiki/' + $_ + '.md>)' })
         $replacement = "<!-- generated:wiki-group-members:start -->`n" + ($rows -join "`n") + $(if ($rows.Count -gt 0) { "`n" } else { '' }) + '<!-- generated:wiki-group-members:end -->'
         $markerPattern = '(?ms)<!-- generated:wiki-group-members:start -->\r?\n?.*?<!-- generated:wiki-group-members:end -->'
         if (-not [regex]::IsMatch($text, $markerPattern)) { throw "Group member markers missing: $($group.FullName)" }

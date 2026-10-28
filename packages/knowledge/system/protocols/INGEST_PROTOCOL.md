@@ -1,5 +1,7 @@
 # INGEST_PROTOCOL · 内容消化与入库协议
 
+执行前核对运行的 execution_profile：新 core/deferred 可走 consolidated-v1，existing 与历史运行保留原合同。共同内容闸门继续适用，具体执行与审核者路由见[便携执行说明](PORTABLE_EXECUTION.md)，不混用不同 profile 的审核证据。
+
 > **用途**：定义外部材料从评分、raw 审核、Wiki 归属到写入维护的完整行为。
 > **边界**：`system/protocols/QUERY_PROTOCOL.md` 管只读查询；本文只在用户存在消化/入库意图时加载。
 > **SSOT 分工**：评分细则见 `system/protocols/SCORING_SYSTEM.md`；输出闸门见 `system/maintenance/checklists/ingest-stage-gates.md`；本文负责流程顺序和状态转换。

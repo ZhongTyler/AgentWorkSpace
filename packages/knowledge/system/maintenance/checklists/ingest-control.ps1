@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)]
-    [ValidateSet('start', 'status', 'merge-pending', 'plan-backtests', 'verify-backtest-set', 'record-package', 'record-artifact', 'reserve-agent-session', 'bind-agent-session', 'close-agent-session', 'sync-agent-sessions', 'prepare-raw-review', 'preflight-raw-review', 'apply-review-repairs', 'complete-raw-review', 'invalidate-raw-review', 'record-content-audit', 'record-writer-stage', 'correct-stage1-duplicate', 'render-stage1-audit-summary', 'record-backtest', 'approve-gate', 'prepare-semantic-review', 'record-semantic-review', 'check-semantic-review', 'check-stage1', 'check-stage2', 'check-backtests', 'check-stage3', 'render-final-review', 'verify-final-review', 'find-review', 'fuse', 'abandon-fused', 'record-depth-remediation', 'recover-fused', 'rebase-stage1-baseline', 'finish', 'prepare-managed-close', 'initialize-package-data', 'seal-package-section', 'render-package', 'prepare-context', 'reopen-package-section')]
+    [ValidateSet('advance', 'start', 'status', 'merge-pending', 'plan-backtests', 'verify-backtest-set', 'record-package', 'record-artifact', 'reserve-agent-session', 'bind-agent-session', 'close-agent-session', 'sync-agent-sessions', 'prepare-raw-review', 'preflight-raw-review', 'apply-review-repairs', 'complete-raw-review', 'invalidate-raw-review', 'discard-raw-review', 'recover-reviewer-drift', 'prepare-core-review', 'preflight-core-review', 'complete-core-review', 'record-content-audit', 'record-writer-stage', 'correct-stage1-duplicate', 'render-stage1-audit-summary', 'record-backtest', 'approve-gate', 'prepare-semantic-review', 'record-semantic-review', 'check-semantic-review', 'check-stage1', 'check-stage2', 'check-backtests', 'check-stage3', 'render-final-review', 'verify-final-review', 'find-review', 'fuse', 'abandon-fused', 'record-depth-remediation', 'recover-fused', 'rebase-stage1-baseline', 'finish', 'prepare-managed-close', 'initialize-package-data', 'seal-package-section', 'render-package', 'prepare-context', 'reopen-package-section')]
     [string]$Action,
     [string]$RunPath = '',
     [string]$BatchId = '',
@@ -21,19 +21,28 @@ param(
     [string]$OutputPath = '',
     [string]$Reason = '',
     [string]$ApprovedHash = '',
+    [switch]$ViaFinalizer,
     [ValidateSet('interactive', 'deferred')]
     [string]$ReviewPolicy = 'interactive',
+    [ValidateSet('core', 'legacy')]
+    [string]$ReviewChannel = 'core',
+    [ValidateSet('auto', 'existing', 'consolidated-v1')]
+    [string]$ExecutionProfile = 'auto',
+    [switch]$PostIngestReread,
     [ValidateSet('', 'scoring', 'stage1', 'stage2', 'stage3')]
     [string]$Gate = '',
     [string]$ArtifactPath = '',
     [string]$AuditReceiptPath = '',
     [string]$AgentId = '',
     [string]$AgentIds = '',
+    [switch]$PrimaryWriter,
     [string]$SessionKey = '',
-    [ValidateSet('', 'content_writer', 'raw_writer', 'wiki_writer', 'raw_reviewer', 'report_repair', 'other')]
+    [ValidateSet('', 'content_writer', 'raw_writer', 'wiki_writer', 'raw_reviewer', 'core_reviewer', 'report_repair', 'other')]
     [string]$AgentRole = '',
     [ValidateSet('', 'reserved', 'active', 'completed', 'failed', 'aborted', 'replaced')]
     [string]$SessionStatus = '',
+    [ValidateSet('unknown', 'succeeded', 'permission_failed', 'failed')]
+    [string]$WorkOutcome = 'unknown',
     [string]$Model = '',
     [string]$ReasoningEffort = '',
     [string]$Purpose = '',
@@ -85,6 +94,7 @@ $script:hostExecutable = (Get-Process -Id $PID).Path
 $script:packageRendererPath = Join-Path $PSScriptRoot 'render-ingest-package.ps1'
 $script:contextPreparerPath = Join-Path $PSScriptRoot 'prepare-ingest-context.ps1'
 $script:rawReviewControllerPath = Join-Path $PSScriptRoot 'raw-review-control.mjs'
+$script:coreReviewControllerPath = Join-Path $PSScriptRoot 'core-review-control.mjs'
 . (Join-Path $PSScriptRoot 'clippings-path-resolver.ps1')
 
 function Write-Utf8File {
@@ -94,6 +104,13 @@ function Write-Utf8File {
         New-Item -ItemType Directory -Path $parent -Force | Out-Null
     }
     [IO.File]::WriteAllText($Path, $Text, $script:utf8NoBom)
+}
+
+function Convert-HostUtc([object]$Value) {
+    if ($Value -is [DateTimeOffset]) { return $Value.UtcDateTime }
+    if ($Value -is [DateTime]) { return $Value.ToUniversalTime() }
+    if ([string]$Value -notmatch '(Z|[+-]\d{2}:\d{2})$') { throw 'Host timestamp requires an explicit timezone.' }
+    return [DateTimeOffset]::Parse([string]$Value, [Globalization.CultureInfo]::InvariantCulture).UtcDateTime
 }
 
 function Write-JsonFile {
@@ -331,6 +348,7 @@ function Read-ControlItems {
 function Read-Run {
     $full = Get-FullPathInsideProject -Path $RunPath -MustExist
     $run = Read-JsonFile -Path $full
+    if ((Test-ObjectProperty -Value $run -Name 'execution_control') -and (Test-ObjectProperty -Value $run.execution_control -Name 'execution_profile') -and @('existing', 'consolidated-v1') -notcontains [string]$run.execution_control.execution_profile) { throw 'Unsupported execution profile; do not reinterpret this run through another route.' }
     foreach ($field in @('schema_version', 'batch_id', 'status', 'items', 'base_revision', 'counts', 'packages', 'commits', 'backtests', 'final_review')) {
         if (-not (Test-ObjectProperty -Value $run -Name $field)) { throw "Run manifest missing field: $field" }
     }
@@ -361,6 +379,9 @@ function Read-Run {
         }
     }
     if (Test-ObjectProperty -Value $run -Name 'execution_control') {
+        if ((Test-ObjectProperty $run.execution_control 'workflow_revision') -and $run.execution_control.workflow_revision -notin @(1,2)) { throw 'Unsupported workflow_revision; preserve the original run contract.' }
+        if ((Test-ObjectProperty $run.execution_control 'mechanical_contract_version') -and $run.execution_control.mechanical_contract_version -ne 1) { throw 'Unsupported mechanical_contract_version.' }
+        if ((Test-ObjectProperty $run.execution_control 'reviewer_route_version') -and $run.execution_control.reviewer_route_version -notin @(1,2,3)) { throw 'Unsupported reviewer_route_version.' }
         foreach ($field in @('schema_version', 'child_session_cap', 'raw_review_attempts', 'writer_stages', 'writer_stage_history')) {
             if (-not (Test-ObjectProperty -Value $run.execution_control -Name $field)) { throw "Run manifest execution_control missing field: $field" }
         }
@@ -382,6 +403,9 @@ function Read-Run {
             if (-not (Test-ObjectProperty -Value $run.execution_control.writer_stages -Name $stage)) {
                 throw "Run manifest writer stage is missing: $stage"
             }
+        }
+        if ((Test-ObjectProperty $run.execution_control 'runtime_contract_version') -and [int]$run.execution_control.runtime_contract_version -ge 3) {
+            if (-not (Test-ObjectProperty $run.execution_control 'wiki_consumption_contract_version') -or $run.execution_control.wiki_consumption_contract_version -ne 1) { throw 'Runtime v3 requires wiki_consumption_contract_version=1.' }
         }
     }
     return [pscustomobject]@{ Path = $full; Value = $run }
@@ -749,6 +773,38 @@ function Get-SemanticReviewEvidence {
             Add-SemanticEvidence -Records $records -FullPath $rule -Role 'semantic_review_contract'
         }
         if ($Stage -eq 'scoring' -and $RunSnapshotPath) { Add-SemanticEvidence -Records $records -FullPath $RunSnapshotPath -Role 'scoring_run_snapshot' }
+        if ($Stage -eq 'scoring') {
+            foreach ($reference in @(
+                @{ path = 'system/registry/quick-reference.md'; role = 'scoring_knowledge_index' },
+                @{ path = 'system/registry/raw-list.md'; role = 'scoring_history_raw_list' },
+                @{ path = 'system/registry/skipped-sources.md'; role = 'scoring_history_skipped' },
+                @{ path = 'Clippings/temp-review-2026-07-13.md'; role = 'scoring_pending_queue' }
+            )) {
+                Add-SemanticEvidence -Records $records -FullPath (Join-Path $script:projectRoot $reference.path) -Role $reference.role
+            }
+            $baselineWikiManifestPath = Join-Path (Split-Path -Parent $RunManifestPath) 'semantic-reviews/scoring/baseline-wiki-manifest.json'
+            if (-not (Test-Path -LiteralPath $baselineWikiManifestPath -PathType Leaf)) {
+                throw 'Schema 7+ scoring semantic review requires a run-local baseline Wiki manifest.'
+            }
+            Add-SemanticEvidence -Records $records -FullPath $baselineWikiManifestPath -Role 'scoring_related_wiki_baseline_manifest'
+            $baselineWikiManifest = Read-JsonFile -Path $baselineWikiManifestPath
+            if ([string]$baselineWikiManifest.kind -ne 'scoring_baseline_wiki_manifest' -or
+                [string]$baselineWikiManifest.batch_id -ne [string]$Run.batch_id -or
+                [string]$baselineWikiManifest.baseline_revision -ne [string]$Run.base_revision) {
+                throw 'Scoring baseline Wiki manifest does not bind the run baseline revision.'
+            }
+            $baselineWikiEntries = @($baselineWikiManifest.paths)
+            $baselineWikiPaths = @($baselineWikiEntries | ForEach-Object { [string]$_.baseline_path })
+            if ($baselineWikiEntries.Count -ne 12 -or (@($baselineWikiPaths | Sort-Object -Unique).Count -ne 12)) {
+                throw 'Scoring baseline Wiki manifest must contain 12 unique pages.'
+            }
+            foreach ($entry in $baselineWikiEntries) {
+                if ([string]$entry.baseline_path -notmatch '^wiki/.+\.md$' -or [string]::IsNullOrWhiteSpace([string]$entry.snapshot_path)) {
+                    throw 'Scoring baseline Wiki manifest contains an invalid page path.'
+                }
+                Add-SemanticEvidence -Records $records -FullPath (Get-FullPathInsideProject -Path ([string]$entry.snapshot_path) -MustExist) -Role 'scoring_related_wiki_baseline'
+            }
+        }
         if ($Stage -eq 'stage2') {
             if ([string]::IsNullOrWhiteSpace($CandidatesPath)) { throw 'Stage2 semantic review requires explicit candidate scope, including an empty justified set when appropriate.' }
             $candidateFull = Get-FullPathInsideProject -Path $CandidatesPath -MustExist
@@ -901,17 +957,8 @@ function Get-SemanticReviewEvidence {
                 Add-SemanticEvidence -Records $records -FullPath (Join-Path $script:projectRoot ('system/maintenance/checklists/' + $rule)) -Role 'raw_v2_rules'
             }
         }
-        foreach ($samplePath in @(
-            (Convert-UnicodeLiteral 'raw-sources/\u4ece0\u52301\u521b\u9020\u5f00\u653e\u4e16\u754c\u8bbe\u8ba1\u6d41\u7a0b-\u5929\u7f8e\u6c5f\u5cb8\u6816-20260705.md'),
-            (Convert-UnicodeLiteral 'raw-sources/Game Master-\u5a01\u5c14\u83b1\u7279\u6e38\u620f\u5927\u5e08-indienova-\u843d\u65e5\u95f4-20061106.md'),
-            (Convert-UnicodeLiteral 'raw-sources/\u6e38\u620f\u5206\u6790(\u56db\u4e94)-\u6697\u9ed1\u7cfb\u5217\u4e3a\u4ec0\u4e48\u597d\u73a9-\u6e38\u620f\u8bbe\u8ba1\u7406\u8bba-20230701.md')
-        )) {
-            if ([int]$Run.schema_version -lt 8 -or $samplePath -notmatch 'Game Master|20230701') {
-                if ([int]$Run.schema_version -ge 8 -and -not (Test-Path -LiteralPath (Join-Path $script:projectRoot $samplePath))) {
-                    $samplePath = 'system/maintenance/checklists/raw-writing-v2.md'
-                }
-                Add-SemanticEvidence -Records $records -FullPath (Join-Path $script:projectRoot $samplePath) -Role 'style_boundary_sample'
-            }
+        foreach ($samplePath in @('system/maintenance/checklists/raw-writing-v2.md')) {
+            Add-SemanticEvidence -Records $records -FullPath (Join-Path $script:projectRoot $samplePath) -Role 'style_boundary_sample'
         }
     }
     if ($Stage -eq 'stage2') {
@@ -1198,7 +1245,7 @@ function Assert-ContentBacktest {
         $audit = Read-JsonFile -Path $auditFull
         if ($RunSchemaVersion -ge 8) {
             if ([int]$audit.schema_version -ne 6 -or $audit.standard -ne 'RAW_STANDARD_V2' -or $audit.evidence_class -notin @('host_observed','reviewer_attested')) { throw 'Legacy or fixture backtest cannot satisfy schema 8.' }
-            $auditVerifier = if ($audit.evidence_class -eq 'reviewer_attested') { 'backtest-quality.mjs' } else { 'raw-quality.mjs' }
+            $auditVerifier = 'backtest-quality.mjs'
             $verifiedAudit = @(& node (Join-Path $script:projectRoot "system/maintenance/checklists/$auditVerifier") verify --root $script:projectRoot --receipt $auditFull) -join "`n"
             if ($LASTEXITCODE -ne 0) { throw "Backtest unified core verification failed: $verifiedAudit" }
         }
@@ -1347,7 +1394,9 @@ function Update-ReviewIndex {
         semantic_reviews = @($semanticReviews)
         completed_at = [string]$Run.updated_at
     }
-    $index.runs = @($remainingRuns + $runRecord) | Sort-Object -Property batch_id
+    # Preserve historical sequence; sorting the full index rewrites thousands of
+    # unrelated rows on every batch close.
+    $index.runs = @($remainingRuns + $runRecord)
     $remaining = @($index.entries | Where-Object { [string]$_.batch_id -ne [string]$Run.batch_id })
     $newEntries = New-Object System.Collections.Generic.List[object]
     foreach ($artifact in @($Run.artifacts)) {
@@ -1359,7 +1408,7 @@ function Update-ReviewIndex {
             related_paths = @($relatedPaths | Where-Object { $_ -ne [string]$artifact.path })
         })
     }
-    $index.entries = @($remaining + $newEntries.ToArray()) | Sort-Object -Property path, batch_id
+    $index.entries = @($remaining + $newEntries.ToArray())
     $index.updated_at = [DateTime]::UtcNow.ToString('o')
     Write-JsonFile -Path $script:indexPath -Value $index
 }
@@ -1401,6 +1450,17 @@ function Get-ContentAuditRecord {
     Assert-RunLocalPath -RunManifestPath $RunManifestPath -CandidatePath $full
     $receipt = Read-JsonFile -Path $full
     if ([int]$Run.schema_version -ge 8) {
+        $isCoreClaimReceipt = (Test-ObjectProperty -Value $receipt -Name 'audit_scope') -and [string]$receipt.audit_scope -eq 'core_claim_bidirectional'
+        if ($isCoreClaimReceipt) {
+            if ([int]$receipt.schema_version -ne 7 -or $receipt.standard -ne 'RAW_STANDARD_V2') { throw 'Core-claim audit receipt has an unsupported schema.' }
+            $verifiedText = @(& node $script:coreReviewControllerPath verify --root $script:projectRoot --receipt $Path) -join "`n"
+            if ($LASTEXITCODE -ne 0) { throw "Core-claim independent audit did not pass: $verifiedText" }
+            $coreRequest = Read-JsonFile -Path (Get-FullPathInsideProject -Path ([string]$receipt.request_path) -MustExist)
+            if ((Test-ObjectProperty $Run.execution_control 'reviewer_route_version') -and $Run.execution_control.reviewer_route_version -eq 3) {
+                $author = $Run.execution_control.artifact_authors.PSObject.Properties[[string]$receipt.raw_path]
+                if ($null -eq $author -or [string]$coreRequest.producer_context_id -ne [string]$author.Value.agent_id) { throw 'Core review producer does not match the actual Raw writer.' }
+            } elseif ([string]$coreRequest.producer_context_id -ne [string]$Run.producer_context_id) { throw 'Core review producer does not match the run producer.' }
+        } else {
         if ([int]$receipt.schema_version -ne 6 -or $receipt.standard -ne 'RAW_STANDARD_V2') { throw 'New runs cannot use legacy Raw audit receipts.' }
         if (-not (Test-ObjectProperty -Value $Run -Name 'producer_context_id') -or [string]::IsNullOrWhiteSpace([string]$Run.producer_context_id)) { throw 'Schema 8 ingested Raw requires start -ProducerContextId.' }
         $rawRequest = Read-JsonFile -Path (Get-FullPathInsideProject -Path ([string]$receipt.request_path) -MustExist)
@@ -1411,6 +1471,7 @@ function Get-ContentAuditRecord {
         foreach ($key in @('request_path','host_path')) {
             $boundFull = Get-FullPathInsideProject -Path ([string]$receipt.$key) -MustExist
             Assert-RunLocalPath -RunManifestPath $RunManifestPath -CandidatePath $boundFull
+        }
         }
     }
     $compactReceipt = (Test-ObjectProperty -Value $receipt -Name 'review_persistence') -and [string]$receipt.review_persistence -eq 'compiled_in_memory'
@@ -1550,6 +1611,14 @@ function Assert-Stage1AuditSummary {
 }
 
 try {
+    if ($Action -eq 'advance') {
+        $advanceArgs = @('--root',$script:projectRoot,'--run',$RunPath,'--shell',$script:hostExecutable)
+        if ($ApprovedHash) { $advanceArgs += @('--approved',$ApprovedHash) }
+        if ($HostSessionRoot) { $advanceArgs += @('--sessions',$HostSessionRoot) }
+        if ($Reason) { $advanceArgs += @('--retry',$Reason) }
+        & node (Join-Path $PSScriptRoot 'ingest-advance.mjs') @advanceArgs
+        exit $LASTEXITCODE
+    }
     if ($Action -eq 'find-review') {
         $artifactFull = Get-FullPathInsideProject -Path $ArtifactPath
         $artifactRelative = Get-RelativeProjectPath -FullPath $artifactFull
@@ -1593,6 +1662,13 @@ try {
     }
 
     if ($Action -eq 'start') {
+        $resolvedSemanticReviewMode = Resolve-SemanticReviewMode -RequestedMode $SemanticReviewMode
+        if ($ExecutionProfile -eq 'auto') {
+            $ExecutionProfile = if ($ReviewPolicy -eq 'deferred' -and $ReviewChannel -eq 'core' -and [string]::IsNullOrWhiteSpace($ManagedTaskId) -and $resolvedSemanticReviewMode -eq 'disabled') { 'consolidated-v1' } else { 'existing' }
+        }
+        if ($ExecutionProfile -eq 'consolidated-v1' -and ($ReviewChannel -ne 'core' -or $ReviewPolicy -ne 'deferred')) { throw 'consolidated-v1 requires core deferred; historical and interactive routes remain explicit.' }
+        if ($ExecutionProfile -eq 'consolidated-v1' -and (-not [string]::IsNullOrWhiteSpace($ManagedTaskId) -or $resolvedSemanticReviewMode -ne 'disabled')) { throw 'consolidated-v1 does not yet support managed or precision routes. Use the existing profile before creating this run; no policy is silently disabled.' }
+        if ($ReviewChannel -eq 'legacy' -and [string]::IsNullOrWhiteSpace($Reason)) { throw 'Legacy review for a new run requires a concrete unsupported-input reason; core is the default.' }
         if ($BatchId -notmatch '^[a-z0-9][a-z0-9-]{2,79}$') { throw 'BatchId must be a safe lowercase identifier.' }
         $itemList = @(Read-ControlItems)
         if ($itemList.Count -lt 1) { throw 'At least one item is required.' }
@@ -1600,7 +1676,7 @@ try {
             throw 'Items appears to contain comma-joined paths. Use ItemsPath with a JSON string array, or separate simple items with fullwidth vertical bars when calling ingest-control.cmd.'
         }
         Assert-CanonicalClippingItems -Values $itemList -Context 'Start item'
-        if ($BeforeCount -lt 0) { throw 'BeforeCount must be zero or greater.' }
+        if ($BeforeCount -lt 0 -and $ExecutionProfile -ne 'consolidated-v1') { throw 'BeforeCount must be zero or greater.' }
         $runFull = Get-FullPathInsideProject -Path $RunPath
         if (Test-Path -LiteralPath $runFull) { throw "Run manifest already exists: $runFull" }
         $expectedRun = Get-FullPathInsideProject -Path ("system/maintenance/ingest-runs/$BatchId/run.json")
@@ -1637,9 +1713,10 @@ try {
         if ($LASTEXITCODE -ne 0) { throw 'Unable to read Knowledge HEAD.' }
         if ($null -ne $managedContext -and $base -ne $managedContext.base_revision) { throw 'Managed run base differs from its orchestration task.' }
         $physicalBefore = Get-RawCountAtRevision -Revision $base
+        if ($BeforeCount -lt 0 -and $ExecutionProfile -eq 'consolidated-v1') { $BeforeCount = $physicalBefore }
         if ($BeforeCount -ne $physicalBefore) { throw "BeforeCount does not match physical raw baseline: supplied=$BeforeCount, physical=$physicalBefore" }
         $now = [DateTime]::UtcNow.ToString('o')
-        $semanticReviewMode = Resolve-SemanticReviewMode -RequestedMode $SemanticReviewMode
+        $semanticReviewMode = $resolvedSemanticReviewMode
         $semanticReviewEnabled = ($semanticReviewMode -ne 'disabled')
         if ($semanticReviewEnabled -and [string]::IsNullOrWhiteSpace($ProducerContextId)) {
             throw 'ProducerContextId is required while semantic review policy is shadow or enforced.'
@@ -1648,6 +1725,11 @@ try {
         $deterministicPackagesRequested = $true
         $deterministicPackageFallback = $false
         $runSchemaVersion = 8
+        $agentRoutingText = & node (Join-Path $PSScriptRoot 'ingest-agent-routing.mjs') policy --root $script:projectRoot
+        if ($LASTEXITCODE -ne 0) { throw 'Ingest agent routing could not be loaded.' }
+        $agentRouting = ($agentRoutingText -join "`n") | ConvertFrom-Json
+        if ($PostIngestReread -and $ReviewChannel -ne 'core') { throw 'PostIngestReread requires the current core route; historical runs keep their own contract.' }
+        $selectedPostReread = if ($PSBoundParameters.ContainsKey('PostIngestReread')) { [bool]$PostIngestReread } else { [bool]$agentRouting.post_ingest_reread.enabled }
         $run = [pscustomobject][ordered]@{
             raw_standard = 'RAW_STANDARD_V2'
             schema_version = $runSchemaVersion; batch_id = $BatchId; review_policy = $ReviewPolicy; status = 'running_scoring'; items = @($itemList)
@@ -1665,6 +1747,19 @@ try {
         if ($runSchemaVersion -ge 8) {
             $run | Add-Member -NotePropertyName execution_control -NotePropertyValue ([pscustomobject][ordered]@{
                 schema_version = 2
+                execution_profile = $ExecutionProfile
+                workflow_revision = if ($ExecutionProfile -eq 'consolidated-v1') { 2 } else { 1 }
+                writer_config = if ($ReviewChannel -eq 'core') { $agentRouting.writer_config } else { $null }
+                task_session_bindings = if ($ReviewChannel -eq 'core') { $agentRouting.task_session_bindings } else { $null }
+                post_ingest_reread = [pscustomobject][ordered]@{ enabled = ($ReviewChannel -eq 'core' -and $selectedPostReread); model = [string]$agentRouting.post_ingest_reread.model; reasoning_effort = [string]$agentRouting.post_ingest_reread.reasoning_effort }
+                runtime_contract_version = 3
+                mechanical_contract_version = 1
+                reviewer_route_version = if ($ReviewChannel -eq 'legacy') { 2 } else { 3 }
+                page_review_contract_version = if ($ReviewChannel -eq 'legacy') { 1 } else { 3 }
+                page_review_queue_version = if ($ReviewChannel -eq 'legacy') { 0 } else { 1 }
+                wiki_consumption_contract_version = 1
+                preferred_review_channel = $ReviewChannel
+                review_channel_reason = $(if ($ReviewChannel -eq 'legacy') { $Reason } else { $null })
                 child_session_cap = 12
                 fresh_parent_context_recommended = $true
                 agent_sessions = @()
@@ -1674,6 +1769,7 @@ try {
                 raw_review_history = @()
                 writer_stages = [pscustomobject][ordered]@{ stage1 = $null; stage3 = $null }
                 writer_stage_history = @()
+                page_reviews = @()
             })
         }
         if ($semanticReviewEnabled -or $deterministicPackagesRequested) {
@@ -1726,7 +1822,14 @@ try {
     $run = $loaded.Value
     if ($Action -eq 'status') {
         if ($OutputMode -eq 'full') { Write-Output ($run | ConvertTo-Json -Depth 30) }
-        else { Write-Output ([pscustomobject][ordered]@{ status = [string]$run.status; path = Get-RelativeProjectPath -FullPath $loaded.Path; sha256 = Get-Sha256 -Path $loaded.Path; next_action = 'use -OutputMode full only when run fields are required' } | ConvertTo-Json -Depth 10) }
+        else {
+            $summaryText = & node (Join-Path $PSScriptRoot 'ingest-runtime-contract.mjs') summary --run $loaded.Path
+            if ($LASTEXITCODE -ne 0) { throw 'Run summary failed.' }
+            $summary = $summaryText | ConvertFrom-Json
+            $summary | Add-Member -NotePropertyName path -NotePropertyValue (Get-RelativeProjectPath -FullPath $loaded.Path)
+            $summary | Add-Member -NotePropertyName sha256 -NotePropertyValue (Get-Sha256 -Path $loaded.Path)
+            Write-Output ($summary | ConvertTo-Json -Depth 10)
+        }
         exit 0
     }
     if ([int]$run.schema_version -ge 7 -and $run.status -in @('completed','abandoned') -and -not ($run.status -eq 'completed' -and $Action -eq 'prepare-managed-close')) { throw 'Terminal run is read-only; do not rewrite approved or abandoned history.' }
@@ -1745,6 +1848,7 @@ try {
             purpose = $Purpose.Trim(); status = 'reserved'; agent_id = $null
             reserved_at = [DateTime]::UtcNow.ToString('o'); started_at = $null; ended_at = $null
             duration_seconds = $null; usage = $null; close_reason = $null
+            work_outcome = 'unknown'
         }
         $run.execution_control.agent_sessions = @($run.execution_control.agent_sessions) + @($record)
         Save-Run -Path $loaded.Path -Run $run
@@ -1759,7 +1863,7 @@ try {
         $record = $matches[0]
         if ([string]$record.status -ne 'reserved') { throw "Only a reserved agent session can be bound: $SessionKey" }
         $record.agent_id = $AgentId.Trim(); $record.status = 'active'
-        $record.started_at = if ([string]::IsNullOrWhiteSpace($StartedAt)) { [DateTime]::UtcNow.ToString('o') } else { ([DateTime]::Parse($StartedAt).ToUniversalTime().ToString('o')) }
+        $record.started_at = if ([string]::IsNullOrWhiteSpace($StartedAt)) { [DateTime]::UtcNow.ToString('o') } else { (Convert-HostUtc $StartedAt).ToString('o') }
         Save-Run -Path $loaded.Path -Run $run
         Write-Output ($record | ConvertTo-Json -Depth 10)
         exit 0
@@ -1771,9 +1875,12 @@ try {
         if ($matches.Count -ne 1) { throw "Expected exactly one agent session: $SessionKey" }
         $record = $matches[0]
         if ([string]$record.status -notin @('reserved','active')) { throw "Agent session is already terminal: $SessionKey" }
-        $end = if ([string]::IsNullOrWhiteSpace($EndedAt)) { [DateTime]::UtcNow } else { [DateTime]::Parse($EndedAt).ToUniversalTime() }
+        $end = if ([string]::IsNullOrWhiteSpace($EndedAt)) { [DateTime]::UtcNow } else { Convert-HostUtc $EndedAt }
+        if ($record.started_at -and $end -lt (Convert-HostUtc $record.started_at)) { throw 'Session end must not precede start.' }
+        if ($CachedInputTokens -ge 0 -and $InputTokens -ge 0 -and $CachedInputTokens -gt $InputTokens) { throw 'Cached input is a subset of input tokens.' }
         $record.status = $SessionStatus; $record.ended_at = $end.ToString('o'); $record.close_reason = if ([string]::IsNullOrWhiteSpace($Reason)) { $null } else { $Reason.Trim() }
-        if (-not [string]::IsNullOrWhiteSpace([string]$record.started_at)) { $record.duration_seconds = [Math]::Round(($end - [DateTime]::Parse([string]$record.started_at).ToUniversalTime()).TotalSeconds, 3) }
+        $record | Add-Member -NotePropertyName work_outcome -NotePropertyValue $WorkOutcome -Force
+        if ($record.started_at) { $record.duration_seconds = [Math]::Round(($end - (Convert-HostUtc $record.started_at)).TotalSeconds, 3) }
         if ($InputTokens -ge 0 -or $CachedInputTokens -ge 0 -or $OutputTokens -ge 0) {
             $record.usage = [pscustomobject][ordered]@{ input_tokens=$(if($InputTokens -ge 0){$InputTokens}else{$null}); cached_input_tokens=$(if($CachedInputTokens -ge 0){$CachedInputTokens}else{$null}); output_tokens=$(if($OutputTokens -ge 0){$OutputTokens}else{$null}); source='host_supplied' }
         }
@@ -1840,8 +1947,12 @@ try {
             }
             $completeEvent = @($completedEvents | Where-Object { [string]$_.type -eq 'event_msg' -and [string]$_.payload.type -eq 'task_complete' })[-1]
             $end = if ($null -ne $completeEvent.PSObject.Properties['timestamp'] -and -not [string]::IsNullOrWhiteSpace([string]$completeEvent.timestamp)) {
-                [DateTime]::Parse([string]$completeEvent.timestamp).ToUniversalTime()
+                Convert-HostUtc $completeEvent.timestamp
             } else { $completedLog.LastWriteTimeUtc }
+            if ($record.started_at -and $end -lt (Convert-HostUtc $record.started_at)) {
+                [void]$unresolved.Add("$($record.session_key):host-log-clock-before-start")
+                continue
+            }
             [void]$updates.Add([pscustomobject]@{ record=$record; ended_at=$end; usage=$usage; log=$completedLog.FullName })
         }
         if ($unresolved.Count -gt 0) { throw ('Agent sessions are not host-complete: ' + ($unresolved -join ', ')) }
@@ -1850,7 +1961,7 @@ try {
             $record.status = 'completed'
             $record.ended_at = $update.ended_at.ToString('o')
             $record.close_reason = 'synced from completed host session log'
-            if (-not [string]::IsNullOrWhiteSpace([string]$record.started_at)) { $record.duration_seconds = [Math]::Round(($update.ended_at - [DateTime]::Parse([string]$record.started_at).ToUniversalTime()).TotalSeconds, 3) }
+            if ($record.started_at) { $record.duration_seconds = [Math]::Round(($update.ended_at - (Convert-HostUtc $record.started_at)).TotalSeconds, 3) }
             if ($null -ne $update.usage) { $record.usage = $update.usage }
         }
         if ($updates.Count -gt 0) { Save-Run -Path $loaded.Path -Run $run }
@@ -1873,7 +1984,68 @@ try {
         Write-Output $text
         exit 0
     }
+    if ($Action -eq 'recover-reviewer-drift') {
+        if (-not (Test-ObjectProperty -Value $run -Name 'execution_control')) { throw 'recover-reviewer-drift requires a new schema8 run with execution_control.' }
+        if ([string]::IsNullOrWhiteSpace($Reason)) { throw 'recover-reviewer-drift requires a concrete Reason.' }
+        if ([string]::IsNullOrWhiteSpace($EvidencePath)) { throw 'recover-reviewer-drift requires EvidencePath.' }
+        $evidenceFull = Get-FullPathInsideProject -Path $EvidencePath -MustExist
+        Assert-RunLocalPath -RunManifestPath $loaded.Path -CandidatePath $evidenceFull
+        $arguments = @(
+            $script:rawReviewControllerPath, 'recover-drift',
+            '--root', $script:projectRoot,
+            '--run', (Get-RelativeProjectPath -FullPath $loaded.Path),
+            '--evidence', (Get-RelativeProjectPath -FullPath $evidenceFull),
+            '--reason', $Reason
+        )
+        $text = @(& node @arguments 2>&1) -join [Environment]::NewLine
+        if ($LASTEXITCODE -ne 0) { throw "Reviewer-drift recovery failed: $text" }
+        Write-Output $text
+        exit 0
+    }
+    if ($Action -eq 'discard-raw-review') {
+        if (-not (Test-ObjectProperty -Value $run -Name 'execution_control')) { throw 'discard-raw-review requires a new schema8 run with execution_control.' }
+        if ([string]::IsNullOrWhiteSpace($Reason)) { throw 'discard-raw-review requires a concrete Reason.' }
+        $rawFull = Get-FullPathInsideProject -Path $ArtifactPath -MustExist
+        $arguments = @($script:rawReviewControllerPath, 'discard', '--root', $script:projectRoot, '--run', (Get-RelativeProjectPath -FullPath $loaded.Path), '--raw', (Get-RelativeProjectPath -FullPath $rawFull), '--reason', $Reason)
+        $text = @(& node @arguments 2>&1) -join [Environment]::NewLine
+        if ($LASTEXITCODE -ne 0) { throw "Raw review discard failed: $text" }
+        Write-Output $text
+        exit 0
+    }
+    if ($Action -eq 'prepare-core-review') {
+        if (-not (Test-ObjectProperty -Value $run -Name 'execution_control')) { throw 'prepare-core-review requires a new schema8 run with execution_control.' }
+        $rawFull = Get-FullPathInsideProject -Path $ArtifactPath -MustExist
+        $ledgerFull = Get-FullPathInsideProject -Path $EvidencePath -MustExist
+        Assert-RunLocalPath -RunManifestPath $loaded.Path -CandidatePath $ledgerFull
+        $arguments = @($script:coreReviewControllerPath, 'prepare', '--root', $script:projectRoot, '--run', (Get-RelativeProjectPath -FullPath $loaded.Path), '--raw', (Get-RelativeProjectPath -FullPath $rawFull), '--ledger', (Get-RelativeProjectPath -FullPath $ledgerFull))
+        $text = @(& node @arguments 2>&1) -join [Environment]::NewLine
+        if ($LASTEXITCODE -ne 0) { throw "Core review preparation failed: $text" }
+        Write-Output $text
+        exit 0
+    }
+    if ($Action -eq 'preflight-core-review') {
+        if (-not (Test-ObjectProperty -Value $run -Name 'execution_control')) { throw 'preflight-core-review requires a new schema8 run with execution_control.' }
+        $rawFull = Get-FullPathInsideProject -Path $ArtifactPath -MustExist
+        $arguments = @($script:coreReviewControllerPath, 'preflight', '--root', $script:projectRoot, '--run', (Get-RelativeProjectPath -FullPath $loaded.Path), '--raw', (Get-RelativeProjectPath -FullPath $rawFull))
+        $text = @(& node @arguments 2>&1) -join [Environment]::NewLine
+        if ($LASTEXITCODE -ne 0) { throw "Core review preflight failed: $text" }
+        Write-Output $text
+        exit 0
+    }
+    if ($Action -eq 'complete-core-review') {
+        if (-not (Test-ObjectProperty -Value $run -Name 'execution_control')) { throw 'complete-core-review requires a new schema8 run with execution_control.' }
+        if ([string]::IsNullOrWhiteSpace($AgentId)) { throw 'complete-core-review requires the actual reviewer AgentId.' }
+        $rawFull = Get-FullPathInsideProject -Path $ArtifactPath -MustExist
+        $arguments = @($script:coreReviewControllerPath, 'complete', '--root', $script:projectRoot, '--run', (Get-RelativeProjectPath -FullPath $loaded.Path), '--raw', (Get-RelativeProjectPath -FullPath $rawFull), '--agent', $AgentId)
+        if ($HostSessionRoot) { $arguments += @('--sessions', $HostSessionRoot) }
+        $text = @(& node @arguments 2>&1) -join [Environment]::NewLine
+        $code = $LASTEXITCODE
+        if ($code -notin @(0, 2)) { throw "Core review completion failed: $text" }
+        Write-Output $text
+        exit $code
+    }
     if ($Action -eq 'prepare-raw-review') {
+        if ($run.execution_control.PSObject.Properties['preferred_review_channel'] -and $run.execution_control.preferred_review_channel -eq 'core') { throw 'New batches use prepare-core-review with a complete claim ledger and full section coverage. Legacy raw review is only for runs already using that channel.' }
         if (-not (Test-ObjectProperty -Value $run -Name 'execution_control')) { throw 'prepare-raw-review requires a new schema8 run with execution_control.' }
         $rawFull = Get-FullPathInsideProject -Path $ArtifactPath -MustExist
         $manifestFull = Get-FullPathInsideProject -Path $EvidencePath -MustExist
@@ -1902,6 +2074,7 @@ try {
             '--raw', (Get-RelativeProjectPath -FullPath $rawFull),
             '--agent', $AgentId
         )
+        if ($HostSessionRoot) { $arguments += @('--sessions', $HostSessionRoot) }
         $text = @(& node @arguments 2>&1) -join [Environment]::NewLine
         $code = $LASTEXITCODE
         if ($code -notin @(0, 2)) { throw "Raw review completion failed: $text" }
@@ -1984,6 +2157,9 @@ try {
         if (-not (Test-ObjectProperty -Value $run -Name 'execution_control')) { throw 'record-writer-stage requires a new schema8 run with execution_control.' }
         if ($Package -notin @('stage1', 'stage3')) { throw 'record-writer-stage supports only stage1 or stage3.' }
         $agentList = @(Split-ControlList -Value $AgentIds)
+        if ($PrimaryWriter -and $agentList.Count -gt 0) { throw 'PrimaryWriter and AgentIds are mutually exclusive.' }
+        if ($PrimaryWriter -and $Package -ne 'stage3') { throw 'PrimaryWriter is supported only for Stage3.' }
+        if ($PrimaryWriter -and (Test-ObjectProperty $run.execution_control 'reviewer_route_version') -and $run.execution_control.reviewer_route_version -eq 3) { throw 'Parent-review route requires a separate content writer; PrimaryWriter is not supported.' }
         if (@($agentList | Sort-Object -Unique).Count -ne $agentList.Count) { throw 'AgentIds must not contain duplicates.' }
         $outputs = New-Object 'System.Collections.Generic.List[object]'
         $semanticRelative = $null
@@ -2001,6 +2177,8 @@ try {
             Assert-RunLocalPath -RunManifestPath $loaded.Path -CandidatePath $semanticFull
             $semantic = Read-JsonFile -Path $semanticFull
             Assert-PackageSemanticShape -Semantic $semantic
+            $contractResult = & node (Join-Path $PSScriptRoot 'ingest-runtime-contract.mjs') stage3 --semantic $semanticFull
+            if ($LASTEXITCODE -ne 0) { throw 'Stage3 row contract failed before writer completion.' }
             $semanticRelative = Get-RelativeProjectPath -FullPath $semanticFull
             $semanticSha = Get-Sha256 -Path $semanticFull
             $artifactPaths = @($semantic.rows | ForEach-Object { [string]$_.artifact } | Sort-Object -Unique)
@@ -2016,17 +2194,32 @@ try {
                 [void]$outputs.Add([pscustomobject][ordered]@{ path = $artifactPath; sha256 = Get-Sha256 -Path $full })
             }
         }
-        if ($outputs.Count -gt 0 -and $agentList.Count -eq 0) { throw "$Package writer outputs require at least one actual AgentId." }
+        if ($outputs.Count -gt 0 -and $agentList.Count -eq 0 -and -not $PrimaryWriter) { throw "$Package writer outputs require at least one actual AgentId or PrimaryWriter." }
+        if ((Test-ObjectProperty $run.execution_control 'reviewer_route_version') -and $run.execution_control.reviewer_route_version -eq 3) {
+            foreach ($output in $outputs) {
+                $author = $run.execution_control.artifact_authors.PSObject.Properties[[string]$output.path]
+                if ($null -eq $author -or $agentList -notcontains [string]$author.Value.agent_id) { throw "Missing actual writer assignment for $($output.path)." }
+            }
+        }
         [void](Assert-ExecutionAgentBudget -Run $run -AdditionalAgentIds $agentList)
         if ($null -ne $run.execution_control.writer_stages.$Package) {
+            $existing = $run.execution_control.writer_stages.$Package
+            $sameAgents = (@($existing.agent_ids | Sort-Object) -join '|') -ceq (@($agentList | Sort-Object) -join '|')
+            $sameOutputs = (@($existing.outputs | Sort-Object path | ForEach-Object { $_.path + '|' + $_.sha256 }) -join "`n") -ceq (@($outputs.ToArray() | Sort-Object path | ForEach-Object { $_.path + '|' + $_.sha256 }) -join "`n")
+            if ($existing.status -eq 'completed' -and $sameAgents -and $sameOutputs -and $existing.semantic_path -eq $semanticRelative -and $existing.semantic_sha256 -eq $semanticSha) {
+                $existing | Add-Member -NotePropertyName reused -NotePropertyValue $true -Force
+                Write-Output ($existing | ConvertTo-Json -Depth 20)
+                exit 0
+            }
             Move-WriterStageToHistory -Run $run -Stage $Package -Reason 'writer completion replaced before package seal'
         }
         $record = [pscustomobject][ordered]@{
             stage = $Package
             status = 'completed'
-            model = 'gpt-5.6-luna'
-            reasoning_effort = 'max'
+            model = if ($PrimaryWriter) { 'primary_session' } elseif ($run.execution_control.PSObject.Properties['writer_config'] -and $run.execution_control.writer_config) { [string]$run.execution_control.writer_config.model } else { 'gpt-5.6-luna' }
+            reasoning_effort = if ($PrimaryWriter) { 'context_owned' } elseif ($run.execution_control.PSObject.Properties['writer_config'] -and $run.execution_control.writer_config) { [string]$run.execution_control.writer_config.reasoning_effort } else { 'max' }
             agent_ids = @($agentList)
+            writer_mode = if ($PrimaryWriter) { 'primary_session' } else { 'child_agent' }
             output_count = $outputs.Count
             outputs = @($outputs.ToArray())
             semantic_path = $semanticRelative
@@ -2065,6 +2258,18 @@ try {
         if ([string]$section.status -eq 'sealed') { throw "Package section is already sealed: $Package" }
         $semantic = Read-JsonFile -Path $semanticFull
         Assert-PackageSemanticShape -Semantic $semantic
+        if ($Package -eq 'scoring' -and (Test-ObjectProperty $run 'execution_control') -and (Test-ObjectProperty $run.execution_control 'mechanical_contract_version')) {
+            & node (Join-Path $PSScriptRoot 'ingest-score-check.mjs') --root $script:projectRoot --semantic $semanticFull | Out-Null
+            if ($LASTEXITCODE -ne 0) { throw 'Deterministic scoring arithmetic failed.' }
+        }
+        if ($Package -in @('stage2','stage3')) {
+            & node (Join-Path $PSScriptRoot 'wiki-consumption.mjs') check --root $script:projectRoot --run $loaded.Path --semantic $semanticFull --stage $Package | Out-Null
+            if ($LASTEXITCODE -ne 0) { throw 'Wiki consumption traceability failed before sealing.' }
+        }
+        if ($Package -eq 'stage3') {
+            $contractResult = & node (Join-Path $PSScriptRoot 'ingest-runtime-contract.mjs') stage3 --semantic $semanticFull
+            if ($LASTEXITCODE -ne 0) { throw 'Stage3 row contract failed before sealing.' }
+        }
         if ($Package -in @('stage1', 'stage3')) { Assert-WriterStageCompletion -Run $run -Stage $Package -SemanticDataPath $SemanticDataPath }
         if ($Package -eq 'gate_audit') { Assert-GateAuditSemanticBoundary -Semantic $semantic }
         $derived = [pscustomobject][ordered]@{
@@ -2112,6 +2317,7 @@ try {
 
     if ($Action -eq 'prepare-semantic-review') {
         if (-not (Test-SemanticReviewRun -Run $run)) { throw 'prepare-semantic-review requires a schema v5 automatic run.' }
+        if ((Get-SemanticReviewRunMode -Run $run) -eq 'disabled') { throw 'Optional semantic review is disabled; do not dispatch a reviewer.' }
         Assert-SemanticReviewStage -Stage $SemanticReviewStage
         $slot = Get-SemanticReviewSlot -Run $run -Stage $SemanticReviewStage
         if ($null -ne $slot.pending) { throw "Semantic review already awaits a receipt: $SemanticReviewStage" }
@@ -2549,14 +2755,20 @@ try {
         if (-not $lateContentAuditRefresh -and @('running_scoring', 'scoring_approved', 'stage2_planned') -notcontains [string]$run.status) { throw "Content-audit recording is only valid before Stage 1 closes, while Stage 2 is planned, or during a late Stage 1 repair, found $($run.status)" }
         $record = Get-ContentAuditRecord -Run $run -RunManifestPath $loaded.Path -Path $AuditReceiptPath
         if (Test-ObjectProperty -Value $run -Name 'execution_control') {
-            $attemptMatches = @($run.execution_control.raw_review_attempts | Where-Object {
+            $legacyAttemptMatches = @($run.execution_control.raw_review_attempts | Where-Object {
                 [string]$_.raw_path -eq [string]$record.raw_path -and
                 [string]$_.status -eq 'passed' -and
                 [string]$_.receipt_path -eq [string]$record.path -and
                 [string]$_.receipt_sha256 -eq [string]$record.sha256
             })
-            if ($attemptMatches.Count -ne 1) {
-                throw 'Schema8 content audit must come from exactly one passed prepare-raw-review/complete-raw-review attempt.'
+            $coreAttemptMatches = if (Test-ObjectProperty -Value $run.execution_control -Name 'core_review_attempts') { @($run.execution_control.core_review_attempts | Where-Object {
+                [string]$_.raw_path -eq [string]$record.raw_path -and
+                [string]$_.status -eq 'passed' -and
+                [string]$_.receipt_path -eq [string]$record.path -and
+                [string]$_.receipt_sha256 -eq [string]$record.sha256
+            }) } else { @() }
+            if ((@($legacyAttemptMatches).Count + @($coreAttemptMatches).Count) -ne 1) {
+                throw 'Schema8 content audit must come from exactly one passed prepare-raw-review/complete-raw-review attempt or complete-core-review attempt.'
             }
         }
         $remaining = @($run.content_audits | Where-Object {
@@ -2675,7 +2887,7 @@ try {
         $receipt = Read-JsonFile -Path $full
         if ([int]$receipt.anchor -ne $Anchor) { throw 'Backtest receipt anchor does not match -Anchor.' }
         $candidateRecord = [pscustomobject][ordered]@{ anchor = $Anchor; path = Get-RelativeProjectPath -FullPath $full; sha256 = Get-Sha256 -Path $full }
-        Assert-Backtests -Run ([pscustomobject][ordered]@{ backtests = @($candidateRecord) }) -Required @($Anchor)
+        Assert-Backtests -Run ([pscustomobject][ordered]@{ schema_version = [int]$run.schema_version; backtests = @($candidateRecord) }) -Required @($Anchor)
         $remaining = @($run.backtests | Where-Object { [int]$_.anchor -ne $Anchor })
         $run.backtests = @($remaining + $candidateRecord)
         Save-Run -Path $loaded.Path -Run $run
@@ -2760,6 +2972,10 @@ try {
         Assert-WriterStageCompletion -Run $run -Stage 'stage3'
         foreach ($kind in @('stage3', 'gate_audit', 'maintenance')) { [void](Assert-RecordedPackage -Run $run -Kind $kind) }
         Assert-GitRevision -Revision $Stage3Revision
+        if ((Test-ObjectProperty $run 'execution_control') -and (Test-ObjectProperty $run.execution_control 'mechanical_contract_version')) {
+            & node (Join-Path $PSScriptRoot 'ingest-maintenance-scope.mjs') --root $script:projectRoot --receipt ([string]$run.packages.maintenance.path) --revision $Stage3Revision | Out-Null
+            if ($LASTEXITCODE -ne 0) { throw 'Final commit does not match maintenance coverage.' }
+        }
         if ([int]$run.schema_version -ge 7) {
             foreach ($priorKind in @('scoring','stage1','stage2')) { [void](Assert-RecordedPackage -Run $run -Kind $priorKind) }
             & git -C $script:projectRoot merge-base --is-ancestor ([string]$run.commits.stage1) $Stage3Revision
@@ -2843,6 +3059,7 @@ try {
     }
 
     if (@('verify-final-review', 'finish') -contains $Action) {
+        if ($Action -eq 'finish' -and (Test-ObjectProperty -Value $run -Name 'execution_control') -and (Test-ObjectProperty -Value $run.execution_control -Name 'execution_profile') -and $run.execution_control.execution_profile -eq 'consolidated-v1' -and -not $ViaFinalizer) { throw 'Consolidated finish must use advance or finalize-ingest-stage3 -Phase Finish so timing and cost are recorded.' }
         if ([int]$run.schema_version -lt 7 -and (Get-ReviewPolicy -Run $run) -ne 'deferred') { throw "$Action is only valid for review_policy=deferred on historical runs." }
         if ($run.status -ne 'awaiting_final_review') { throw "$Action requires awaiting_final_review, found $($run.status)" }
         foreach ($kind in @('scoring', 'stage1', 'stage2', 'stage3', 'gate_audit', 'maintenance')) { [void](Assert-RecordedPackage -Run $run -Kind $kind) }

@@ -1,6 +1,6 @@
 # Skills
 
-这是一份可选择安装的方法库。安装本 package 只把库放进 modules/skills，不会自动启用其中全部 Skill。包含开发方法、研究与决策、中文润色、工作流及游戏支持共 24 项；按实际任务选择，普通任务无需为了展示流程调用 Skill。
+这是一份可选择安装的方法库。安装本 package 只把库放进 modules/skills，不会自动启用其中全部 Skill。包含开发方法、研究与决策、中文润色、工作流及游戏支持共 30 项；按实际任务选择，普通任务无需为了展示流程调用 Skill。
 
 Python 3.10+，无第三方依赖。先列出目录，再选择安装到用户工作区（默认 Codex 的 .agents/skills）：
 
@@ -47,3 +47,5 @@ python scripts/skills.py rollback --target <workspace> --transaction <transactio
 `source-fidelity`可独立用于原材料转写或来源保真复核，保留原作者归属、数字条件、必要反例和案例链；它不证明外部事实真实，也不附带作者知识库的审核流水线。盲评新增按需重复与稳定性细则，工作流方法补齐跨入口覆盖、反例与剩余范围说明；不自动运行评测、调用模型或启动其他Agent。
 
 本版增加`human-research-expression`与`anti-defensive-writing`，共24项。前者整理已有研究的人读表达，附完整渲染与核验脚本；HTML只用Python标准库，PDF按需配置ReportLab、Pillow与合法字体，不自动安装。推荐配合humanizer-zh、source-fidelity、evidence-audit；不可用时执行正文检查并如实注明。后者保留固定版本MIT原文、许可与宿主适配，普通润色无需额外调用。研究审查和Agent分工方法补齐查漏、返修复核与有界分工判据。所有方法可单独选择，安装不启动服务、模型或其他Agent。
+
+1.28.0补齐四项开发方法、已有评测分析与Finesse UI三专项入口，共30项。按问题选择，不强制串跑或自动派生Agent；Finesse只含已锁定的三专项，完整上游其他部分不算已安装。六项均无需其他业务包；原件、许可和来源随方法保留。

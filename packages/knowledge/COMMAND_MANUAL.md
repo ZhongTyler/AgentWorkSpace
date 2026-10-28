@@ -12,3 +12,5 @@
 | 初始化知识库 | setup-wizard.ps1展示dry-run后按明确参数Apply。 |
 
 完整协议：system/protocols/QUERY_PROTOCOL.md、INGEST_PROTOCOL.md、system/maintenance/checklists/knowledge-health-check.md。普通提问不启动Ingest或状态维护。
+
+本版的合并执行、主审核者、精确版本收尾与可选研究/知识复利接线见 [便携执行说明](system/protocols/PORTABLE_EXECUTION.md)。模型、会话、资料绑定和外部发布均由接收方配置与授权；安装不启动这些行为。
