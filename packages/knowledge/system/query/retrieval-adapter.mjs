@@ -4,6 +4,18 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {spawnSync} from 'node:child_process';
 const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
+// Classify only known, path-free backend messages; never return raw stderr/config.
+function backendFailure(run) {
+ let reason='backend_unavailable_or_stale',recovery='inspect_local_backend';
+ if(run.error){reason=run.error.code==='ETIMEDOUT'?'backend_timeout':'backend_runtime_unavailable';recovery='repair_local_runtime';}
+ else {
+  let message;try{const out=JSON.parse(run.stdout);if(out.status==='unavailable')message=out.reason;}catch{}
+  if(['source changed/missing; rebuild or fall back to Query','source inventory changed; rebuild a reviewed version or use original Query'].includes(message)){reason='backend_source_stale';recovery='refresh_reviewed_index';}
+  else if(message==='pack changed; activate a complete verified version'){reason='backend_pack_changed';recovery='restore_or_rebuild_verified_index';}
+  else if(['hybrid runtime unavailable','hybrid unavailable; select bm25 explicitly','pack has no vectors'].includes(message)){reason='backend_hybrid_unavailable';recovery='use_bm25_or_restore_hybrid';}
+ }
+ return Object.assign(new Error(reason),{backend_exit_code:run.status??null,recovery});
+}
 export function discoverWithRetrieval(input,root,{legacy,normalize}) {
  if(input.retrieval!==undefined&&(!input.retrieval||typeof input.retrieval!=='object'||Array.isArray(input.retrieval)))throw new Error('invalid retrieval options');
  const req=normalize(input),mode=input.retrieval?.mode??'bm25';
@@ -19,10 +31,13 @@ export function discoverWithRetrieval(input,root,{legacy,normalize}) {
   const tools=resolve(binding.tools_root),runtime=resolve(mode==='hybrid'?(binding.hybrid_runtime_config??binding.runtime_config):binding.runtime_config),cfg=JSON.parse(fs.readFileSync(runtime,'utf8'));
   if(!cfg.source_root||fs.realpathSync(path.resolve(path.dirname(runtime),cfg.source_root))!==fs.realpathSync(root))throw new Error('source_root_mismatch');
   const program=path.join(tools,'integrations/retrieval/cli.py');
-  const request={question:req.need.question,terms:[...req.terms,...req.reformulations].slice(0,40),limit:Math.min(100,Math.max(0,req.budget.max_candidates*4))};
+  // Agent-selected search expressions keep task instructions out of lexical scoring.
+  // The original need remains unchanged for reading, reuse and answer review.
+  const focus=[...req.terms,...req.reformulations].filter(t=>t.trim()).slice(0,40),focused=focus.join(' '),useFocus=focused.length>0&&focused.length<=2000;
+  const request={question:useFocus?focused:req.need.question,terms:[],limit:Math.min(100,Math.max(0,req.budget.max_candidates*4))};
   const run=spawnSync(mode==='hybrid'?(binding.hybrid_python??binding.python):binding.python,['-X','utf8','-B',program,'search','--config',runtime,'--mode',mode],{input:JSON.stringify(request),encoding:'utf8',timeout:30000,maxBuffer:4*1024*1024,windowsHide:true});
-  if(run.error||run.status!==0)throw new Error('backend_unavailable_or_stale');
-  const found=JSON.parse(run.stdout);
+  if(run.error||run.status!==0)throw backendFailure(run);
+  let found;try{found=JSON.parse(run.stdout);}catch{throw new Error('invalid_backend_output');}
   if(!Array.isArray(found.candidates)||found.used_mode!==mode)throw new Error('invalid_backend_output');
   const seen=new Set(),ranked=[];let returnedBytes=0,reads=0;
   // Explicit navigation retains precedence. Non-Wiki principle candidates remain eligible.
@@ -40,9 +55,9 @@ export function discoverWithRetrieval(input,root,{legacy,normalize}) {
    push({...previous,ref:c.source_id,path:c.path,title:previous?.title??path.basename(c.path,'.md'),headings:previous?.headings??[],matched_terms:previous?.matched_terms??[],discovery_signals:[...(previous?.discovery_signals??[]),'retrieval:'+mode],source_sha256:c.source_sha256,status:'candidate_found',content_read:false,claim_support:'not_verified'});
   }
   base.candidates.forEach(push);const candidates=ranked.slice(0,req.budget.max_candidates);
-  return {...base,status:candidates.length?'candidates_found':base.status,candidates,gaps:candidates.length?[]:base.gaps,stop_reason:candidates.length?'awaiting_semantic_selection':base.stop_reason,metrics:{...base.metrics,file_reads:base.metrics.file_reads+reads,bytes_read:base.metrics.bytes_read+returnedBytes,source_content_returns:0},retrieval:{requested_mode:mode,used_mode:mode,core:'tools/retrieval-core-v1',snapshot_id:found.snapshot_id,source_commit:found.source_commit,index_documents:found.scope_documents,candidate_units:found.candidates.length,agent_content_read:false,model_loaded:mode==='hybrid',validation_note:'Backend validates allowed snapshot sources; candidate verification adds the recorded Node file reads. Neither is Agent full reading.'}};
+  return {...base,status:candidates.length?'candidates_found':base.status,candidates,gaps:candidates.length?[]:base.gaps,stop_reason:candidates.length?'awaiting_semantic_selection':base.stop_reason,metrics:{...base.metrics,file_reads:base.metrics.file_reads+reads,bytes_read:base.metrics.bytes_read+returnedBytes,source_content_returns:0},retrieval:{requested_mode:mode,used_mode:mode,query_strategy:useFocus?'agent_terms':'question',core:'tools/retrieval-core-v1',snapshot_id:found.snapshot_id,source_commit:found.source_commit,index_documents:found.scope_documents,candidate_units:found.candidates.length,agent_content_read:false,model_loaded:mode==='hybrid',validation_note:'Backend validates allowed snapshot sources; candidate verification adds the recorded Node file reads. Neither is Agent full reading.'}};
  } catch(e) {
   // An index/model/config failure cannot remove the original navigation or widen source access.
-  return {...base,retrieval:{requested_mode:mode,used_mode:'legacy',reason:String(e.code??e.message),model_loaded:'unknown_after_failed_backend',fallback:'original Query; no automatic rebuild or external provider'}};
+  return {...base,retrieval:{requested_mode:mode,used_mode:'legacy',reason:String(e.code??e.message),model_loaded:mode==='bm25'?false:'unknown_after_failed_backend',...(e.recovery?{backend_exit_code:e.backend_exit_code,recovery:e.recovery}:{}),fallback:'original Query; no automatic rebuild or external provider'}};
  }
 }

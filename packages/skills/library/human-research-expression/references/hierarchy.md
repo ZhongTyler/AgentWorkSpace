@@ -24,6 +24,6 @@
 
 ## 制作与复核
 
-先检查每章的主问题、分项归属、总览与小结的实际含义，再生成载体。核对：细节有无漏归或重复归属，目录／书签目标和页码是否正确，章总览是否先于本章所有分项，小结是否在最后；整篇也有对应开头与结尾。新增综合继续按source-fidelity核条件和归因，并在可用时用humanizer-zh润色。层级和链接通过不证明读者已经形成整体认识。
+先检查每章的主问题、分项归属、总览与小结的实际含义，再生成载体。核对：细节有无漏归或重复归属，目录／书签目标和页码是否正确，章总览是否先于本章所有分项，小结是否在最后；整篇也有对应开头与结尾。新增综合继续按source-fidelity核条件和归因，并用humanizer-zh润色。层级和链接通过不证明读者已经形成整体认识。
 
 可选render_visual.py接受chapters和scene.role：book-overview、chapter-overview、detail、chapter-summary、book-conclusion。每章写id、number、title、question、overview_id、detail_ids、summary_id；scene保留稳定id，detail另有section_number。制作器核成员和顺序，并生成分层目录／PDF书签；原无chapters的独立图解分支仍可使用。不要把结构字段存在当成讲解已连贯。

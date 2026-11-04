@@ -1,5 +1,14 @@
 # Releases
 
+## 1.29.0 — 2026-11-04
+
+- meta: proportionate progress review, stopping conditions and outcome learning.
+- Skills: five new optional methods and current research/game/interaction/debugging/closure resources; 35 methods in total, with fixed upstream notices.
+- Research: v1.5 decomposition, batching, study compiler, stage control and package-local rendering; standalone use and explicit optional Knowledge handoff.
+- Knowledge: research relations, completion-state checks, reviewed Group thresholds and exact safe-source projections; no online query service or private corpus.
+- GameAnalysisDecision: candidate state/input/feedback/recovery audit procedure.
+- Other seven component inventories unchanged. Real predecessor upgrade, two-client selection, conflict refusal and reverse recovery verified; see upgrades/1.29.0.md and docs/releases/1.29.0-validation.md.
+
 ## 1.28.0 — 2026-10-28
 
 - Skills: six selected engineering, evaluation and UI methods; 30 optional methods in total.

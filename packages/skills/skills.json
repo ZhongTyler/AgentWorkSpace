@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "version": "1.28.0",
+  "version": "1.29.0",
   "skills": [
     {
       "id": "game-presentation",
@@ -185,6 +185,36 @@
     {
       "id": "finesse-ui",
       "description": "按实际缺口使用组件、配置流程与产品界面专项参考",
+      "optional_modules": [],
+      "install_requires": []
+    },
+    {
+      "id": "game-runtime-patterns",
+      "description": "当游戏资源/场景生命周期、时间输入、坐标碰撞、规则视图、联机会话或性能复用存在具体缺口，或浏览器游戏缺少可核验操作回放时，选择宿主适配配方并验证；不用于引擎选型、纯美术或无缺口全量架构重建。",
+      "optional_modules": [],
+      "install_requires": []
+    },
+    {
+      "id": "pixel-asset-production",
+      "description": "制作或扩展游戏像素角色、动作或物件时，按文字、参考图、分层素材或已有骨骼选路线并验证交付；不用于普通网页设计或单次图片缩放。",
+      "optional_modules": [],
+      "install_requires": []
+    },
+    {
+      "id": "session-handoff",
+      "description": "\"在换会话、上下文重置或长任务暂停时准备可恢复交接，或从指定交接入口续接已授权工作；复用项目记录并核对当前产物和owner，普通进度询问不创建交接文件。\"",
+      "optional_modules": [],
+      "install_requires": []
+    },
+    {
+      "id": "game-feel",
+      "description": "\"为机制已正确的命中、落地、拾取等事件选择震屏、顿帧、缓动与音画反馈配方，按重要性分档并保持恢复；不替代控制器、镜头跟随或玩法规则设计。\"",
+      "optional_modules": [],
+      "install_requires": []
+    },
+    {
+      "id": "game-ui-ux",
+      "description": "\"实现或修复游戏HUD与菜单的布局缩放、安全区、键鼠/手柄焦点、返回路径和状态更新；按当前引擎与宿主结构采用，不用于普通网页视觉风格或纯玩法规则。\"",
       "optional_modules": [],
       "install_requires": []
     }

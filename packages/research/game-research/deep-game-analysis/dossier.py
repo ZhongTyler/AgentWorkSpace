@@ -73,6 +73,21 @@ def sha(path):
 def load(path):
     return json.loads(Path(path).read_text(encoding='utf-8-sig'))
 
+def reader_domains(manifest):
+    """Authored reader selection, independent of the full research baseline."""
+    version=manifest.get('reader_selection_version')
+    if version not in (None,1):raise ValueError('Unsupported reader selection version')
+    selected=[]
+    for domain in manifest['domains']:
+        if version==1 and 'reader_visible' not in domain:
+            raise ValueError('Explicit reader selection missing: '+domain['name'])
+        visible=domain.get('reader_visible',True)
+        if type(visible) is not bool:raise ValueError('reader_visible must be boolean: '+domain['name'])
+        if not visible and not domain.get('reader_reason','').strip():
+            raise ValueError('Hidden reader domain requires a reason: '+domain['name'])
+        if visible:selected.append(domain)
+    return selected
+
 def bounded(base, relative, allowed):
     if Path(relative).is_absolute():
         raise ValueError('Absolute paths are not portable contract paths')
@@ -83,6 +98,8 @@ def bounded(base, relative, allowed):
 
 def checks(manifest, base):
     errors=[]
+    try:reader_domains(manifest)
+    except ValueError as e:errors.append(str(e))
     allowed=(base/manifest['allowed_root']).resolve()
     sources={x['id']:x for x in manifest['sources']}
     assets={x['id']:x for x in manifest['assets']}

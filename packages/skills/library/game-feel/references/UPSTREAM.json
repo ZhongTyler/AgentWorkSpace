@@ -1,0 +1,24 @@
+{
+  "repository": "https://github.com/gamedev-skills/awesome-gamedev-agent-skills",
+  "revision": "184b72be02884f782a0058f2eeae2ce4277453e4",
+  "license": "Apache-2.0",
+  "license_sha256": "6f82dcfeb95a1c0a0452180a3b16f21bf82111780018fed59d95a052b5b75f6c",
+  "skills": {
+    "game-feel": {
+      "source_path": "skills/disciplines/game-feel",
+      "files": {
+        "references/feedback-recipes.md": "f8cca962733b0b1f5d1db75fe966f6e13bf11015e39a04a849d6ff5c3e0e835e",
+        "SKILL.md": "48971c7ad1fbb39069cb165f0e45f88c13776585870d69d5de8a04bbe0988e28"
+      }
+    },
+    "game-ui-ux": {
+      "source_path": "skills/disciplines/game-ui-ux",
+      "files": {
+        "references/layout-and-flow.md": "961fc8c8e45a1ee5120e1deef9f6aef932ae3949e6f1ce26548b9d7616775d73",
+        "SKILL.md": "54816447c4d07f9ab65782ebb7138dd0927c9cd84a3647e8806f2a86a3a094ff"
+      }
+    }
+  },
+  "notice_sha256": "2dcb65b1c5be24e5ba11e937f3996100f4e980d8cf8ac5b30ba1d70dae6c40f8",
+  "notice_git_blob": "d4204881c3f79f39151a53a6aae476b188a8c51f"
+}

@@ -52,6 +52,24 @@ function Get-GeneratedMembers([string]$Text) {
     return @([regex]::Matches($match.Groups['body'].Value, '\]\(<?\.\./wiki/(?<name>[^\)>]+)\.md>?\)') | ForEach-Object { [Uri]::UnescapeDataString($_.Groups['name'].Value) } | Sort-Object -Unique)
 }
 
+function Test-ExactHashWithoutResearchNavigation([string]$File, [string]$Expected) {
+    $text = [IO.File]::ReadAllText($File, [Text.Encoding]::UTF8)
+    if ([regex]::Matches($text, '<!-- generated:research-report-links:start -->').Count -ne 1 -or [regex]::Matches($text, '<!-- generated:research-report-links:end -->').Count -ne 1) { return $false }
+    $body = $text.Replace("`r`n", "`n")
+    $body = [regex]::Replace($body, '(?ms)\n?<!-- generated:research-report-links:start -->.*?<!-- generated:research-report-links:end -->\n?', "`n").TrimEnd([char[]]"`r`n")
+    $digest = [Security.Cryptography.SHA256]::Create()
+    try {
+        foreach ($suffix in @('', "`n", "`n`n")) {
+            $candidate = $body + $suffix
+            foreach ($bytes in @([Text.Encoding]::UTF8.GetBytes($candidate), [Text.Encoding]::UTF8.GetBytes($candidate.Replace("`n", "`r`n")))) {
+                $actual = ([BitConverter]::ToString($digest.ComputeHash($bytes))).Replace('-', '').ToLowerInvariant()
+                if ($actual -eq $Expected) { return $true }
+            }
+        }
+        return $false
+    } finally { $digest.Dispose() }
+}
+
 # A count threshold is a review signal, not evidence that an approved Group is
 # wrong. Only an explicit, current, version-bound assessment can acknowledge it.
 function Test-ThresholdAssessment($Group, [string]$Condition, [string[]]$Members) {
@@ -68,6 +86,7 @@ function Test-ThresholdAssessment($Group, [string]$Condition, [string[]]$Members
         if ([DateTimeOffset]::Parse($assessment.review_by) -le [DateTimeOffset]::UtcNow) { return $false }
         $canonical = [regex]::Replace($Group.text.Replace("`r`n", "`n"), '(?ms)\A---\n.*?\n---\n?', '')
         $canonical = [regex]::Replace($canonical, '(?ms)<!-- generated:wiki-group-members:start -->.*?<!-- generated:wiki-group-members:end -->', '').Trim()
+        $canonical = [regex]::Replace($canonical, '(?ms)<!-- generated:research-report-links:start -->.*?<!-- generated:research-report-links:end -->', '').Trim()
         $digest = [Security.Cryptography.SHA256]::Create()
         try { $actual = ([BitConverter]::ToString($digest.ComputeHash([Text.Encoding]::UTF8.GetBytes($canonical)))).Replace('-', '').ToLowerInvariant() } finally { $digest.Dispose() }
         if ($assessment.group_semantic_sha256 -ne $actual) { return $false }
@@ -80,7 +99,7 @@ function Test-ThresholdAssessment($Group, [string]$Condition, [string[]]$Members
             if ($item.Name -notmatch '^wiki/[^/\\]+\.md$' -or $item.Value -notmatch '^[a-f0-9]{64}$') { return $false }
             $file = Join-Path $rootPath $item.Name
             if (-not (Test-Path -LiteralPath $file -PathType Leaf)) { return $false }
-            if ((Get-FileHash -LiteralPath $file -Algorithm SHA256).Hash.ToLowerInvariant() -ne $item.Value) { return $false }
+            if ((Get-FileHash -LiteralPath $file -Algorithm SHA256).Hash.ToLowerInvariant() -ne $item.Value -and -not (Test-ExactHashWithoutResearchNavigation $file $item.Value)) { return $false }
         }
         [void]$script:thresholdReviewDeadlines.Add([DateTimeOffset]::Parse($assessment.review_by).UtcDateTime.ToString('o'))
         return $true

@@ -73,3 +73,7 @@ The writing specialist retains MIT from Kiterlin/anti-defensive-writing revision
 Matt Pocock/skills fixed revision 5beb35b040e3de97e54fa9e386d7e42d15c295c2 (MIT): four complete selected methods and resources. mouse-lin/finesse-skill fixed revision 5050b6c71e27b829d1b3087d2be889d29c60db00 (MIT): three selected reference files and original text/provenance; not the full upstream skill bundle. See each method's LICENSE and references/UPSTREAM.json.
 
 Tools includes a reviewed strict-reader subset of @xzxzzx/bilibili-mcp 1.14.3 (Apache-2.0), DSH fixed helper archive (MIT), and seven fixed MIT npm source archives for offline chart calculation. Original licenses, locks, patch hashes and source archive identities are retained under each integration. No model weights, real captured media or private records are included.
+
+## 1.29.0 selected methods
+
+Session Handoff retains the selected HERO method from wanshuiyin/HERO-Anti-OverDefense at 106cadf9f72d5852bc399b9b5699ad9ec4a36ecb (MIT). Game Feel and Game UI/UX retain gamedev-skills/awesome-gamedev-agent-skills at 184b72be02884f782a0058f2eeae2ce4277453e4 (Apache-2.0). Complete license/NOTICE files, per-method upstream records and recipient adapters are delivered in packages/skills/library. See packages/skills/THIRD_PARTY_NOTICES.md. Importing methods does not install tools, runtimes or services.

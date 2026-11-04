@@ -5,6 +5,8 @@ import {spawnSync} from 'node:child_process';
 import {pathToFileURL} from 'node:url';
 import {canonical,hash,requireValue as ok} from './state.mjs';
 import {safeContentPath,acceptedManifest} from './clients.mjs';
+import {projectPublicSource,SOURCE_URL_POLICY} from './source-url-boundary.mjs';
+import {manualProjectionRecords,applyApprovedSourceProjection} from './approved-source-projections.mjs';
 
 export function gitBytes(repository,args,input){
  const r=spawnSync('git',['-c','safe.directory='+path.resolve(repository),...args],{cwd:repository,input,maxBuffer:256*1024*1024,windowsHide:true});
@@ -37,13 +39,19 @@ export function preparePublication({repository,approval,output,maxBytes=32*1024*
  const all=committedFiles(repository,revision,['wiki','raw-sources','domains','groups','domain-groups','Clippings','assets','attachments']);
  const byPath=new Map(all.map(r=>[r.path,r]));let total=0;const selected=approval.paths.map(r=>{const row=byPath.get(r.path);ok(row&&row.mode==='100644'&&row.type==='blob','approved_content_missing_or_linked');total+=row.size;ok(row.size<=maxObjectBytes&&total<=maxBytes,'publication_capacity');return {...row,approved_sha256:r.sha256};});
  const files=readBlobs(repository,selected);for(const f of files)ok(hash(f.bytes)===f.approved_sha256,'approved_content_changed');
- const entries=files.map(f=>({path:f.path,sha256:f.approved_sha256,size:f.size,kind:kind(f.path),review_status:'accepted'})).sort((a,b)=>a.path<b.path?-1:a.path>b.path?1:0);
+ const manual=manualProjectionRecords(approval.manual_source_url_projections);
+ const projection=[];for(const f of files)if(/\.(md|txt)$/i.test(f.path)){
+  let result;try{result=projectPublicSource(f.bytes);}catch(error){const record=manual.find(r=>r.path===f.path);if(error.code!=='source_url_manual_review_required'||!record)throw error;result=applyApprovedSourceProjection(f.bytes,record);}
+  if(result.changed){projection.push({path:f.path,source_sha256:result.source_sha256,public_sha256:result.public_sha256,body_sha256:result.body_sha256,...(result.manual_authorization_ref?{manual_authorization_ref:result.manual_authorization_ref}:{removed_parameters:result.removed_parameters})});f.bytes=result.bytes;f.size=result.bytes.length;}
+ }
+ const entries=files.map(f=>({path:f.path,sha256:hash(f.bytes),size:f.size,kind:kind(f.path),review_status:'accepted'})).sort((a,b)=>a.path<b.path?-1:a.path>b.path?1:0);
+ const publicTotal=files.reduce((sum,file)=>sum+file.bytes.length,0);
  const base={schema:1,source_revision:revision,base_snapshot:approval.base_snapshot??null,query_contract:approval.query_contract,entries,deletions:[...approval.deletions].sort()};
  ok(base.base_snapshot===null||/^[A-Za-z0-9_.:-]{1,128}$/.test(base.base_snapshot),'invalid_base_snapshot');
  const normalizedApproval={...approval,paths:[...approval.paths].sort((a,b)=>a.path<b.path?-1:a.path>b.path?1:0),evidence:[...evidence].sort((a,b)=>a.path<b.path?-1:a.path>b.path?1:0),deletions:[...approval.deletions].sort()};
  const approvalSha=hash(canonical(normalizedApproval));
  const subject={...base,snapshot_id:'knowledge-'+hash(canonical({base,approval_sha256:approvalSha})).slice(0,32)};
- const receipt={schema:1,decision:'accepted',source_revision:revision,subject_sha256:hash(canonical(subject)),publication_approval_sha256:approvalSha,authorization_ref:approval.authorization_ref,evidence:normalizedApproval.evidence,limitations:approval.limitations,scope:'Query-publication admission only; no new semantic or external-fact certification'};
+ const receipt={schema:1,decision:'accepted',source_revision:revision,subject_sha256:hash(canonical(subject)),publication_approval_sha256:approvalSha,authorization_ref:approval.authorization_ref,evidence:normalizedApproval.evidence,limitations:approval.limitations,scope:'Query-publication admission only; no new semantic or external-fact certification',...(projection.length?{public_source_projection:{policy:SOURCE_URL_POLICY,mapping:projection}}:{})};
  const receiptBytes=Buffer.from(canonical(receipt)+'\n'),manifest={...subject,acceptance:{receipt_sha256:hash(receiptBytes)}};
  ok(path.isAbsolute(output),'absolute_output_required');const parent=path.dirname(path.resolve(output));fs.mkdirSync(parent,{recursive:true});ok(path.resolve(fs.realpathSync(parent)).toLowerCase()===parent.toLowerCase(),'publication_output_linked');
  // New target only; no overwrite, restore, cleanup of user files, or network side effects.
@@ -51,8 +59,8 @@ export function preparePublication({repository,approval,output,maxBytes=32*1024*
  for(const f of files){const target=path.join(sourceRoot,...f.path.split('/'));fs.mkdirSync(path.dirname(target),{recursive:true,mode:0o700});fs.writeFileSync(target,f.bytes,{flag:'wx',mode:0o600});}
  const manifestPath=path.join(output,'manifest.json'),acceptancePath=path.join(output,'acceptance.json');fs.writeFileSync(acceptancePath,receiptBytes,{flag:'wx',mode:0o600});fs.writeFileSync(manifestPath,canonical(manifest)+'\n',{flag:'wx',mode:0o600});
  const config={sourceRoot,manifestPath,acceptancePath,allowedPrefixes:[...new Set(entries.map(e=>e.path.split('/')[0]+'/'))],maxContentBytes:maxBytes,maxObjectBytes};
- const checked=acceptedManifest(config);ok(checked.scannedBytes===total,'publication_readback_mismatch');
- return {config,snapshot_id:subject.snapshot_id,source_revision:revision,files:entries.length,bytes:total,manifest_sha256:checked.manifestSha,approval_sha256:receipt.publication_approval_sha256,limitations:approval.limitations};
+ const checked=acceptedManifest(config);ok(checked.scannedBytes===publicTotal,'publication_readback_mismatch');
+ return {config,snapshot_id:subject.snapshot_id,source_revision:revision,files:entries.length,bytes:publicTotal,manifest_sha256:checked.manifestSha,approval_sha256:receipt.publication_approval_sha256,limitations:approval.limitations};
 }
 
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){

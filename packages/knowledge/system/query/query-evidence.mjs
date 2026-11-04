@@ -1,5 +1,6 @@
 /** Read-only Knowledge discovery and evidence transport. Semantic judgments belong to the caller. */
 import fs from 'node:fs';
+import {queryStopReasons,incompleteGapStopReasons} from './query-completion.mjs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import {pathToFileURL} from 'node:url';
@@ -159,14 +160,15 @@ function reviewAnswerImpl(input,root=defaultRoot,services={}){
 }
 function assembleResultImpl(input,root=defaultRoot,services={}){
  const req=normalizeRequest(input.request);const receipts=input.receipts??[],claims=input.claims??[],gaps=input.gaps??[],stop=input.stop_reason;
- if(!['needs_answered','bounded_discovery_exhausted','budget_exhausted','sources_unavailable','user_scope_reached'].includes(stop))throw contractError('query_stop_reason_required','$.stop_reason','Choose a declared stop reason.','explicit stop_reason is required');
+ if(!queryStopReasons.includes(stop))throw contractError('query_stop_reason_required','$.stop_reason','Choose a declared stop reason.','explicit stop_reason is required');
  if(!Array.isArray(claims)||!Array.isArray(gaps))throw contractError('query_claims_gaps_required','$','Provide claims and gaps arrays.','claims and gaps must be arrays');
  const citations=claims.flatMap(c=>c.evidence??[]);const verification=(services.verifyEvidence??verifyEvidence)({request:req,receipts,citations},root);
  if(verification.status==='invalid')return failure('invalid_evidence','Cannot assemble changed or out-of-scope evidence',{verification});
  if(new Set(receipts.map(r=>r.ref)).size>req.budget.max_sources||receipts.reduce((n,r)=>n+r.content.length,0)>req.budget.max_content_chars)return failure('budget_exhausted','Read receipts exceed declared task budget; explicitly re-scope before delivery');
  for(const [index,c] of claims.entries()){const at='$.claims['+index+']';if(!c.text||!c.applicability||!['source_statement','agent_inference'].includes(c.kind))throw contractError('query_claim_shape_invalid',at,'Provide text, kind and applicability.','Each claim requires text, kind and applicability');if(c.kind==='source_statement'&&!c.evidence?.length)throw contractError('query_claim_evidence_required',at+'.evidence','Source statements need actual quoted read evidence.','Source statements require actual quoted read evidence');}
  if(stop==='needs_answered'&&gaps.some(g=>g.critical!==false))throw contractError('critical_gaps_cannot_be_answered','$.stop_reason','Keep critical gaps explicit and choose an incomplete stop; do not mark them answered.','Critical gaps cannot be marked answered');
- if(['budget_exhausted','sources_unavailable','bounded_discovery_exhausted'].includes(stop)&&!gaps.length)throw contractError('incomplete_stop_requires_gaps','$.gaps','Describe the unresolved scope for an incomplete stop.','Incomplete stops require explicit gaps');
+ if(incompleteGapStopReasons.includes(stop)&&!gaps.length)throw contractError('incomplete_stop_requires_gaps','$.gaps','Describe the unresolved scope for an incomplete stop.','Incomplete stops require explicit gaps');
+ if(stop==='critical_gaps_remaining'&&!gaps.some(g=>g.critical!==false))throw contractError('critical_gap_stop_requires_critical_gap','$.gaps','Retain a real declared critical gap for this neutral incomplete state.','Critical-gap stop requires an explicit critical gap');
  let answerReview;
  if(input.answer!==undefined||input.answer_checks!==undefined){
   answerReview=(services.reviewAnswer??reviewAnswer)({...input,request:req},root);

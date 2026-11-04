@@ -1,0 +1,6 @@
+interface:
+  display_name: "Session Handoff"
+  short_description: "Prepare and resume grounded task handoffs"
+  default_prompt: "Use $session-handoff to prepare or continue this task from its existing recovery entrypoint."
+policy:
+  allow_implicit_invocation: true

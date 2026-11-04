@@ -6,9 +6,39 @@ It does not summarize, retokenize, fetch sources, or generate a PDF.
 import argparse,base64,hashlib,html,json,mimetypes,re
 from pathlib import Path
 from urllib.parse import unquote
+from html.parser import HTMLParser
 
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def esc(s):return html.escape(str(s),quote=True)
+class IdInventory(HTMLParser):
+ def __init__(self):
+  super().__init__();self.ids=set()
+ def handle_starttag(self,tag,attrs):
+  ids=[v for k,v in attrs if k=='id']
+  if len(ids)>1:raise ValueError('Repeated id attribute on '+tag)
+  if ids:
+   if ids[0] in self.ids:raise ValueError('Duplicate HTML id: '+str(ids[0]))
+   self.ids.add(ids[0])
+
+def bind_zoom_targets(document):
+ """Reuse image identity; reserve generated IDs across the entire document."""
+ inventory=IdInventory();inventory.feed(document);serial=iter(range(1,10000))
+ def bind(m):
+  attrs,img=m[1],m[2]
+  classes=re.search(r'class="([^"]*)"',attrs)
+  if not classes or 'zoom' not in classes[1].split():return m[0]
+  existing=re.search(r'\bid="([^"]+)"',img)
+  if existing:key=existing[1]
+  else:
+   key='report-image-'+str(next(serial))
+   while key in inventory.ids:key='report-image-'+str(next(serial))
+   inventory.ids.add(key);img=img.replace('<img','<img id="'+key+'"',1)
+  attrs=re.sub(r'href="[^"]*"','href="#'+key+'"',attrs)
+  return '<a'+attrs+'>'+img+'</a>'
+ result=re.sub(r'<a([^>]*)>(<img\b[^>]*>)</a>',bind,document)
+ checked=IdInventory();checked.feed(result)
+ return result
+
 def assemble(spec,out):
  for p,h in spec['inputs'].items():
   if sha(Path(p))!=h:raise ValueError('Changed reviewed input: '+p)
@@ -79,11 +109,7 @@ addEventListener('popstate',e=>requestAnimationFrame(()=>{if(typeof e.state?.res
   return 'src="data:'+mimetypes.guess_type(p.name)[0]+';base64,'+base64.b64encode(raw).decode()+'"'
  result=re.sub(r'src="([^"]+)"',image_src,result)
  # Zoom links use the same embedded image rather than a dependency on old folders.
- serial=iter(range(1,10000))
- def zoom_link(m):
-  key='report-image-'+str(next(serial))
-  return '<a'+re.sub(r'href="[^"]*"','href="#'+key+'"',m[1])+'>'+m[2].replace('<img','<img id="'+key+'"',1)+'</a>'
- result=re.sub(r'<a([^>]*class="zoom"[^>]*)>(<img[^>]*src="([^"]+)"[^>]*>)</a>',zoom_link,result)
+ result=bind_zoom_targets(result)
  out.mkdir(parents=True,exist_ok=True);target=out/'index.html';target.write_text(result,encoding='utf8',newline='\n')
  receipt={'input_sha256':spec['inputs'],'builder_sha256':sha(Path(__file__)),'output_sha256':sha(target),'format':'html-only','self_contained_images':True,'embedded_visual_assets':assets,'detailed_documents':coverage,'scenes':len(story['scenes']),'facts':'Existing reviewed inputs, no new game evidence','reader_effect':'unverified'}
  (out/'build-receipt.json').write_text(json.dumps(receipt,ensure_ascii=False,indent=2)+'\n',encoding='utf8',newline='\n')

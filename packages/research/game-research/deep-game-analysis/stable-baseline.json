@@ -1,0 +1,8 @@
+{
+  "version": "1.5",
+  "status": "portable_method_candidate",
+  "receiver_acceptance": "not_run",
+  "private_cases_included": false,
+  "prior_published_method": "1.3",
+  "semantic_verdicts": "external_current_owner"
+}

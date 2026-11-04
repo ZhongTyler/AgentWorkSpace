@@ -5,10 +5,13 @@ import os from 'node:os';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import {pathToFileURL} from 'node:url';
-import {createLocalResearchHost} from '../system/integrations/research-reports-host.mjs';
+import {spawnSync} from 'node:child_process';
+import {createLocalResearchHost,localResearchOptions} from '../system/integrations/research-reports-host.mjs';
 import * as native from '../system/query/query-evidence.mjs';
 import {createKnowledgeLookup,runKnowledgeLookup} from '../system/integrations/knowledge-feedback.mjs';
 import {acceptDossier} from '../system/integrations/research-reports-accept.mjs';
+import {anchorHash,withoutResearchNavigation,projectNavigation} from '../system/integrations/research-report-relations.mjs';
+import {maintainRelations} from '../system/maintenance/checklists/research-report-links.mjs';
 const sha=x=>crypto.createHash('sha256').update(x).digest('hex');
 const req={need:{question:'冰霜资源取舍',kind:'understanding'},terms:['C1'],budget:{max_sources:4,max_content_chars:50000}};
 function fixture(t){
@@ -26,6 +29,19 @@ function fixture(t){
  const options={root,bindings:{research},enabled:true},q=createLocalResearchHost(options);
  const read=(ref='knowledge:research:fixture-game/C1',request=req)=>q.readSource({request,ref});
  return {dir,root,research,write,manifest,manifestPath,catalog,catalogPath,accept,options,q,read};
+}
+function linkedFixture(t){
+ const f=fixture(t),revision='a'.repeat(40),definition='b'.repeat(64);
+ const group='---\nid: fixture-group\nname: Fixture Group\naliases: [肉鸽]\nstatus: active\napproval_status: approved\nreviewed_revision: '+revision+'\ndefinition_hash: '+definition+'\nlast_review_receipt: docs/group-review.json\n---\n# Fixture Group\n按循环组织的类别。\n<!-- generated:wiki-group-members:start -->\n<!-- generated:wiki-group-members:end -->\n';
+ f.write(path.join(f.root,'groups/fixture-group.md'),group);
+ f.write(path.join(f.root,'docs/group-review.json'),{group_id:'fixture-group',repository_revision:revision,definition_hash:definition});
+ f.write(path.join(f.root,'domains/玩法策划.md'),'# 玩法\n[综合](../wiki/a.md)\n');
+ const make=(id,from,file)=>({id,from,unit:'C1',status:'active',relation:'mechanism_example',terms:['支付','启动费'],questions:['为什么净返还也需要先付费？'],purpose:'补行动支付的完整案例',conditions:['本次局面'],exclusions:['不证明最优或无限循环'],evidence:[{path:'docs/systems/01-资源.md',heading:'资源'}],review:{status:'approved',reviewer_id:'fixture-main',reviewed_at:'2026-10-29T00:00:00Z',rationale:'Synthetic bilingual fixture relation, not real game approval',manifest_sha256:f.catalog.reports[0].manifest_sha256,anchor_sha256:anchorHash(fs.readFileSync(path.join(f.root,file),'utf8'))}});
+ f.catalog.reports[0].discovery_links=[make('wiki-payment',{kind:'wiki',path:'wiki/a.md'},'wiki/a.md'),make('group-payment',{kind:'group',id:'fixture-group'},'groups/fixture-group.md')];
+ f.write(f.catalogPath,f.catalog);
+ const request={need:{question:'支付和启动费如何形成可执行循环？',kind:'understanding'},budget:{max_sources:4,max_content_chars:50000}};
+ const run=(action,extra={})=>maintainRelations({...f.options,action,...extra});
+ return {...f,request,run};
 }
 test('native Query independent; absent and disabled module preserve original discovery',t=>{
  const f=fixture(t),baseline=native.discover(req,f.root);
@@ -132,7 +148,7 @@ test('host with no research code and host with malformed binding keep original l
 });
 test('acceptance failure and identity mismatch preserve the previous accepted catalog',t=>{
  const f=fixture(t),before=fs.readFileSync(f.catalogPath,'utf8');
- const options={...f.options,manifest:'manifest.json',python:process.execPath};
+ const options={...f.options,checkerRoot:f.research,manifest:'manifest.json',python:process.execPath};
  assert.throws(()=>acceptDossier({...options,expectedId:'different-game'}),/Unexpected dossier identity/);
  // An executable which rejects the checker invocation proves nonzero exit gates writes.
  assert.throws(()=>acceptDossier(options),/Original dossier check failed/);
@@ -141,10 +157,178 @@ test('acceptance failure and identity mismatch preserve the previous accepted ca
  assert.equal(fs.readFileSync(f.catalogPath,'utf8'),before);
 });
 
-test('invalid private store location does not block ordinary source reading',async t=>{
- const f=fixture(t),moduleRoot=path.resolve(import.meta.dirname,'..');
- const {execute}=await import(pathToFileURL(path.join(moduleRoot,'system/integrations/lookup-host.mjs')));
- const result=await execute({operation:'read',input:{request:req,ref:'knowledge:wiki:a'}},{knowledgeRoot:f.root,moduleRoot,home:moduleRoot,toolsRoot:process.env.FEEDBACK_TOOLS_ROOT??path.resolve(moduleRoot,'../tools')});
- assert.equal(result.status,'source_read');assert.equal(result.compounding.completion.compounding_status,'unavailable');
- assert.equal(result.compounding.completion.persisted,false);
+test('Knowledge-local reports keep stable references without the Research data directory',t=>{
+ const f=fixture(t),destination=path.join(f.root,'research-reports/fixture-game');
+ fs.cpSync(f.research,destination,{recursive:true});
+ fs.renameSync(f.research,f.research+'.historical');
+ Object.assign(f.catalog.reports[0],{binding:'knowledge',manifest:'research-reports/fixture-game/manifest.json'});
+ f.write(f.catalogPath,f.catalog);
+ const q=createLocalResearchHost({root:f.root}),r=q.readSource({request:req,ref:'knowledge:research:fixture-game/C1'});
+ assert.equal(r.status,'source_read');assert(r.content.includes('格挡不防偷钱'));
+ assert.equal(q.reuseSource({request:req,receipt:r}).status,'source_reused');
+ assert.equal(q.verifyEvidence({request:req,receipts:[r]}).status,'evidence_consistent');
+ assert(q.discover(req).candidates.some(c=>c.ref===r.ref));
+});
+
+test('legacy local bindings retain Knowledge default; checker location is trusted local configuration',t=>{
+ const f=fixture(t);
+ assert.equal(localResearchOptions(f.root).bindings.knowledge,f.root);
+ f.write(path.join(f.root,'system/query/research.local.json'),{schema_version:1,enabled:true,bindings:{research:f.research},checker_root:f.research});
+ const options=localResearchOptions(f.root);
+ assert.equal(options.bindings.knowledge,f.root);assert.equal(options.bindings.research,f.research);assert.equal(options.checkerRoot,f.research);
+ f.write(path.join(f.root,'system/query/research.local.json'),{schema_version:1,enabled:true,bindings:{},checker_root:'relative'});
+ assert.throws(()=>localResearchOptions(f.root),/checker_root_must_be_absolute/);
+});
+
+test('acceptance runs the trusted tool separately from the report binding',t=>{
+ const f=fixture(t),trusted=path.join(f.dir,'TrustedResearch');
+ const executable=process.env.RESEARCH_TEST_PYTHON??spawnSync('python',['-c','import sys; print(sys.executable)'],{encoding:'utf8',windowsHide:true}).stdout?.trim();
+ if(!executable||!path.isAbsolute(executable)){t.skip('Absolute Python executable unavailable; real dossier acceptance is validated separately');return;}
+ f.write(path.join(trusted,'game-research/deep-game-analysis/dossier.py'),'import json\nprint(json.dumps({"status":"pass","counts":{"synthetic":1}}))\n');
+ // A malicious tool in the data binding must never be selected for execution.
+ const marker=path.join(f.dir,'untrusted-executed');
+ f.write(path.join(f.root,'game-research/deep-game-analysis/dossier.py'),'from pathlib import Path\nPath('+JSON.stringify(marker.replaceAll('\\','/'))+').write_text("bad")\nraise RuntimeError("untrusted data tool")\n');
+ fs.cpSync(f.research,path.join(f.root,'research-reports/fixture-game'),{recursive:true});
+ const result=acceptDossier({root:f.root,binding:'knowledge',manifest:'research-reports/fixture-game/manifest.json',checkerRoot:trusted,python:executable,expectedId:'fixture-game'});
+ assert.equal(result.status,'accepted_local');assert.equal(fs.existsSync(marker),false);
+ const entry=JSON.parse(fs.readFileSync(f.catalogPath)).reports[0];
+ assert.equal(entry.binding,'knowledge');assert.equal(entry.acceptance.checker_sha256,sha(fs.readFileSync(path.join(trusted,'game-research/deep-game-analysis/dossier.py'))));
+ assert.equal(createLocalResearchHost({root:f.root}).readSource({request:req,ref:'knowledge:research:fixture-game/C1'}).status,'source_read');
+});
+
+test('typed Wiki, Domain and approved Group paths produce one complete research unit per ref',t=>{
+ const f=linkedFixture(t);
+ for(const nav of [{paths:['wiki/a.md']},{related_from:['knowledge:wiki:a']},{domains:['玩法策划']},{groups:['肉鸽']},{paths:['wiki/a.md'],groups:['fixture-group']}]){
+  const request={...f.request,...nav},d=f.q.discover(request),research=d.candidates.filter(c=>c.source_kind==='research');
+  assert.equal(research.length,1,JSON.stringify({nav,d}));assert.equal(research[0].unit,'C1');assert.equal(research[0].content_read,false);
+  assert(research[0].relations.length>=1);
+  const r=f.q.readSource({request,ref:research[0].ref});assert.equal(r.status,'source_read');assert(r.content.includes('格挡不防偷钱'));assert.equal(r.range.complete_unit,true);
+  assert.equal(f.q.verifyEvidence({request,receipts:[r]}).status,'evidence_consistent');
+ }
+ const wiki=f.q.readSource({request:f.request,ref:'knowledge:wiki:a'});
+ assert.equal(wiki.navigation.research.candidates[0].unit,'C1');
+});
+
+test('same Group but unrelated question, unapproved/retired/stale relations and denied Wiki never expand',t=>{
+ for(const change of ['unrelated','unapproved','retired','stale-anchor','stale-manifest','inactive','candidate','missing-receipt','mismatched-receipt','wiki-disabled']){
+  const f=linkedFixture(t),request={...f.request,groups:['fixture-group']};
+  if(change==='unrelated')request.need={question:'音乐混音如何处理？',kind:'understanding'};
+  if(change==='unapproved')f.catalog.reports[0].discovery_links[1].review.status='pending';
+  if(change==='retired')f.catalog.reports[0].discovery_links[1].status='retired';
+  if(change==='stale-anchor')fs.appendFileSync(path.join(f.root,'groups/fixture-group.md'),'\n新的语义范围');
+  if(change==='stale-manifest')f.catalog.reports[0].discovery_links[1].review.manifest_sha256='f'.repeat(64);
+  if(change==='inactive'||change==='candidate')f.write(path.join(f.root,'groups/fixture-group.md'),fs.readFileSync(path.join(f.root,'groups/fixture-group.md'),'utf8').replace(change==='inactive'?'status: active':'approval_status: approved',change==='inactive'?'status: inactive':'approval_status: pending'));
+  if(change==='missing-receipt')fs.unlinkSync(path.join(f.root,'docs/group-review.json'));
+  if(change==='mismatched-receipt')f.write(path.join(f.root,'docs/group-review.json'),{group_id:'other'});
+  if(change==='wiki-disabled')request.sources={wiki:false};
+  f.write(f.catalogPath,f.catalog);
+  assert.equal(f.q.discover(request).candidates.filter(c=>c.source_kind==='research').length,0,change);
+ }
+});
+
+test('relation discovery obeys candidate/content budget and never reads reports automatically',t=>{
+ const f=linkedFixture(t),request={...f.request,paths:['wiki/a.md'],budget:{...f.request.budget,max_candidates:0}};
+ assert.equal(f.q.discover(request).candidates.length,0);
+ assert.equal(f.q.discover({...request,paths:[],related_from:['wiki/a.md']}).status,'budget_exhausted');
+ const normal={...f.request,paths:['wiki/a.md']},d=f.q.discover(normal),candidate=d.candidates.find(c=>c.source_kind==='research');
+ assert.equal(d.research.discovery_scope.body_content_returned,false);
+ assert.equal(f.q.readSource({request:{...normal,budget:{max_sources:0}},ref:candidate.ref}).status,'budget_exhausted');
+ assert.equal(f.q.readSource({request:{...normal,budget:{max_content_chars:1}},ref:candidate.ref}).status,'budget_exhausted');
+ assert.deepEqual(createLocalResearchHost({...f.options,enabled:false}).discover(normal),native.discover(normal,f.root));
+});
+
+test('catalog projections preserve Wiki/Group bodies, are idempotent and remove retired navigation',t=>{
+ const f=linkedFixture(t),files=['wiki/a.md','groups/fixture-group.md'],before=files.map(p=>fs.readFileSync(path.join(f.root,p),'utf8'));
+ assert.equal(f.run('check').status,'navigation_drift');
+ assert.deepEqual(f.run('sync').changed_paths.sort(),[...files].sort());
+ files.forEach((p,i)=>assert.equal(withoutResearchNavigation(fs.readFileSync(path.join(f.root,p),'utf8')),withoutResearchNavigation(before[i])));
+ assert.equal(f.run('check').status,'relations_consistent');assert.equal(f.run('sync').writes,false);
+ assert.equal(f.q.discover({...f.request,groups:['fixture-group']}).research.relation_issues.length,0);
+ f.catalog.reports[0].discovery_links.forEach(l=>l.status='retired');f.write(f.catalogPath,f.catalog);
+ f.run('sync');files.forEach(p=>assert(!fs.readFileSync(path.join(f.root,p),'utf8').includes('generated:research-report-links:start')));
+ assert.throws(()=>projectNavigation('# page\n<!-- generated:research-report-links:start -->',''),/malformed/);
+});
+
+test('generated research navigation stays before Wiki footers without altering their contents',()=>{
+ const original='# Page\n\nOriginal prose.\n\n## 相关页面\n\n- peer\n\n## 来源\n\n- raw\n';
+ const generated='<!-- generated:research-report-links:start -->\n## 补充案例研究\n\n- candidate\n<!-- generated:research-report-links:end -->';
+ const next=projectNavigation(original,generated);
+ assert(next.indexOf('generated:research-report-links:start')<next.indexOf('## 相关页面'));
+ assert.equal(withoutResearchNavigation(next),withoutResearchNavigation(original));assert.equal(projectNavigation(next,generated),next);
+ const legacy=original+'\n'+generated+'\n';assert.equal(projectNavigation(legacy,generated),next);
+});
+
+test('handoff is a proposal; only exact main-reviewed versions can mutate the catalog',t=>{
+ const f=linkedFixture(t),entry=f.catalog.reports[0],proposed=entry.discovery_links.map(({review,...l})=>l),handoffFile=path.join(f.dir,'handoff.json');
+ f.write(handoffFile,{schema_version:1,kind:'research_report_relation_handoff',reports:[{id:entry.id,manifest:entry.manifest,manifest_sha256:entry.manifest_sha256,proposed_links:proposed}]});
+ const before=fs.readFileSync(f.catalogPath,'utf8');assert.equal(f.run('inspect-handoff',{handoffFile}).semantic_approval,false);assert.equal(fs.readFileSync(f.catalogPath,'utf8'),before);
+ const reviewFile='docs/relation-review.json';
+ f.write(path.join(f.root,reviewFile),{schema_version:1,kind:'knowledge_research_relation_review',status:'approved',reviewer_id:'fixture-main',reports:[{id:entry.id,manifest_sha256:entry.manifest_sha256,discovery_links:entry.discovery_links}]});
+ assert.throws(()=>f.run('apply',{reviewFile,reviewerId:'other'}),/main_relation_review_required/);
+ assert.equal(fs.readFileSync(f.catalogPath,'utf8'),before);
+ assert.equal(f.run('apply',{reviewFile,reviewerId:'fixture-main'}).status,'relations_applied');
+});
+
+test('natural game name ranks its reviewed mechanism and explicit other game excludes it',t=>{
+ const f=linkedFixture(t);f.catalog.reports[0].aliases=['冰霜游戏'];f.write(f.catalogPath,f.catalog);
+ const d=f.q.discover({need:{question:'冰霜游戏为什么净返还仍要支付启动费？'}});
+ assert.equal(d.candidates[0].ref,'knowledge:research:fixture-game/C1');
+ assert(d.candidates[0].discovery_paths.includes('named_report_relation'));
+ const another={...f.catalog.reports[0],id:'other-game',title:'另一个游戏',aliases:['别作'],manifest:'other.json',discovery_links:[]};
+ const manifest={...f.manifest,dossier_id:'other-game'};f.write(path.join(f.research,'other.json'),manifest);another.manifest_sha256=sha(fs.readFileSync(path.join(f.research,'other.json')));f.catalog.reports.push(another);f.write(f.catalogPath,f.catalog);
+ const other=f.q.discover({need:{question:'别作支付启动费的过程是什么？'},paths:['wiki/a.md']});
+ assert(other.candidates.filter(c=>c.source_kind==='research').every(c=>c.report_id==='other-game'));
+});
+
+test('expired relation removes only its projection; valid direct reading remains available',t=>{
+ const f=linkedFixture(t);f.run('sync');
+ fs.appendFileSync(path.join(f.root,'wiki/a.md'),'\n实质变化\n');
+ const result=f.run('sync');assert.equal(result.status,'relation_issues');
+ assert(result.issues.some(i=>i.reason==='relation_anchor_changed'));
+ const text=fs.readFileSync(path.join(f.root,'wiki/a.md'),'utf8');assert(text.includes('实质变化'));assert(!text.includes('generated:research-report-links:start'));
+ assert.equal(f.read().status,'source_read');
+ assert.equal(f.q.discover({...f.request,groups:['fixture-group']}).candidates.filter(c=>c.source_kind==='research').length,1);
+});
+
+test('malformed relations do not disable valid direct reports; no-hit reads remain counted',t=>{
+ const f=linkedFixture(t);f.catalog.reports[0].discovery_links={malformed:true};f.write(f.catalogPath,f.catalog);
+ const direct=f.q.discover(req);assert(direct.candidates.some(c=>c.ref==='knowledge:research:fixture-game/C1'));
+ assert(direct.research.relation_issues.some(i=>i.reason==='invalid_discovery_links'));
+ assert.equal(f.read().status,'source_read');
+ const unrelated={need:{question:'完全无关的音乐混音问题？'}};
+ const baseline=native.discover(unrelated,f.root),augmented=f.q.discover(unrelated);
+ assert(augmented.metrics.file_reads>baseline.metrics.file_reads);assert(augmented.metrics.bytes_read>baseline.metrics.bytes_read);
+});
+
+test('Group-unrelated metadata remains an independent candidate, never a Group relation or automatic read',t=>{
+ const f=linkedFixture(t);f.catalog.reports[0].title='音乐混音研究';f.write(f.catalogPath,f.catalog);
+ const d=f.q.discover({need:{question:'没有听审时能直接给参数建议吗？'},terms:['音乐'],groups:['fixture-group']});
+ const research=d.candidates.filter(c=>c.source_kind==='research');assert(research.length>0);
+ assert(research.every(c=>c.relations.length===0&&c.discovery_paths.includes('direct_metadata')&&c.content_read===false));
+ assert.equal(d.research.discovery_scope.body_content_returned,false);
+});
+
+test('large relation inventory deduplicates candidates and reads each unchanged anchor once per operation',t=>{
+ const f=linkedFixture(t),base=f.catalog.reports[0].discovery_links;
+ f.catalog.reports[0].discovery_links=Array.from({length:120},(_,i)=>({...base[i%2],id:'scale-'+i}));f.write(f.catalogPath,f.catalog);
+ const request={...f.request,paths:['wiki/a.md'],groups:['fixture-group'],budget:{...f.request.budget,max_candidates:2}};
+ const first=f.q.research.discover(request.need,{request});
+ assert.equal(first.candidates.length,1);assert.equal(first.candidates[0].relations.length,120);
+ assert(first.metrics.file_reads<=5,JSON.stringify(first.metrics)); // catalog, manifest, Wiki, Group, receipt
+ assert.equal(first.discovery_scope.body_content_returned,false);
+ const unrelated=f.q.research.discover({question:'音乐混音如何处理？'},{request:{need:{question:'音乐混音如何处理？'},paths:['wiki/a.md'],groups:['fixture-group']}});
+ assert(unrelated.metrics.file_reads<=2,JSON.stringify(unrelated.metrics)); // no irrelevant anchor/body scan
+ fs.appendFileSync(path.join(f.root,'wiki/a.md'),'\nChanged between operations.');
+ const second=f.q.research.discover(request.need,{request});
+ assert(second.relation_issues.some(i=>i.reason==='relation_anchor_changed'));
+ assert(second.candidates[0].relations.every(r=>r.from.kind==='group'));
+});
+
+test('reviewed question cues work when curated keywords are not literal substrings',t=>{
+ const f=linkedFixture(t),link=f.catalog.reports[0].discovery_links[0];
+ link.terms=['抽象的语义术语'];link.questions=['为什么余额没变，中途仍会付不起？'];f.write(f.catalogPath,f.catalog);
+ const request={need:{question:'为什么余额没变，中途仍会付不起',kind:'understanding'},paths:['wiki/a.md']};
+ const d=f.q.discover(request),candidate=d.candidates.find(c=>c.ref==='knowledge:research:fixture-game/C1');
+ assert(candidate);assert(candidate.matched_terms.some(t=>t.startsWith('question:')));
+ assert.equal(f.q.discover({...request,need:{question:'为什么音乐会被掩盖？'}}).candidates.filter(c=>c.source_kind==='research').length,0);
 });

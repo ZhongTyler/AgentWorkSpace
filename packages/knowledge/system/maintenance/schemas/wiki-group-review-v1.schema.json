@@ -7,6 +7,22 @@
     { "$ref": "#/$defs/receipt" }
   ],
   "$defs": {
+    "threshold_assessment": {
+      "type": "object",
+      "required": ["conditions", "reason", "review_by", "review_when", "members", "group_semantic_sha256", "input_hashes", "evidence", "not_a_permanent_waiver"],
+      "properties": {
+        "conditions": { "type": "array", "minItems": 1, "items": { "enum": ["seed", "breadth"] }, "uniqueItems": true },
+        "reason": { "type": "string", "minLength": 1 },
+        "review_by": { "type": "string", "format": "date-time" },
+        "review_when": { "type": "string", "minLength": 1 },
+        "members": { "type": "array", "items": { "type": "string", "pattern": "^wiki/[^/\\\\]+\\.md$" }, "uniqueItems": true },
+        "group_semantic_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "input_hashes": { "type": "object", "propertyNames": { "pattern": "^wiki/[^/\\\\]+\\.md$" }, "additionalProperties": { "type": "string", "pattern": "^[a-f0-9]{64}$" } },
+        "evidence": { "type": "string", "minLength": 1 },
+        "not_a_permanent_waiver": { "const": true }
+      },
+      "additionalProperties": false
+    },
     "decision": {
       "type": "object",
       "required": ["path", "decision", "reason"],
@@ -55,7 +71,8 @@
         "exclusion_signals": { "type": "array", "items": { "type": "string", "minLength": 1 } },
         "shortlisted": { "type": "array", "items": { "type": "object" } },
         "decisions": { "type": "array", "items": { "$ref": "#/$defs/decision" } },
-        "review_when": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+        "review_when": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "threshold_assessment": { "$ref": "#/$defs/threshold_assessment" }
       },
       "additionalProperties": false
     }

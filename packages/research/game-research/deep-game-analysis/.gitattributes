@@ -1,0 +1,2 @@
+# Preserve the prior baseline identity when copying it into historical storage.
+stable-baseline-v1.3.1.json -text -whitespace

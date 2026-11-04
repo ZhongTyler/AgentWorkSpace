@@ -4,12 +4,14 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {normalizeRequest,createEvidenceQuery,defaultRoot} from '../query/query-evidence.mjs';
 import {observeLookup} from '../query/lookup-context.mjs';
+import {checkRelation,matchingTerms,relationSelected} from './research-report-relations.mjs';
 
 const sha=x=>crypto.createHash('sha256').update(x).digest('hex');
 const slash=x=>x.replaceAll('\\','/');
 const json=bytes=>JSON.parse(bytes.toString('utf8').replace(/^\uFEFF/,''));
 const failed=(status,reason,extra={})=>({schema_version:1,status,reason,writes:false,claim_support:'not_verified',...extra});
 const refFor=(id,unit)=>`knowledge:research:${id}/${encodeURIComponent(unit)}`;
+export const defaultResearchBindings=root=>({knowledge:path.resolve(root)});
 function bounded(root,base,relative){
  if(typeof relative!=='string'||!relative||path.isAbsolute(relative)||/^[a-z]:/i.test(relative)||relative.includes('\0'))throw Error('invalid_source_path');
  const realRoot=fs.realpathSync(root),full=fs.realpathSync(path.resolve(base,relative)),rel=path.relative(realRoot,full);
@@ -17,7 +19,7 @@ function bounded(root,base,relative){
  if(!fs.statSync(full).isFile())throw Error('source_not_file');
  return full;
 }
-function units(manifest){
+export function researchUnits(manifest){
  const result=new Map([['overview',{paths:[manifest.dossier_ref],seeds:[]}]]),docRoot=path.posix.dirname(slash(manifest.dossier_ref));
  const documentFor=relative=>path.posix.normalize(path.posix.join(docRoot,slash(relative)));
  for(const rel of manifest.documents??[]){
@@ -55,13 +57,16 @@ function closure(manifest,seeds){
  seeds.forEach(visit);return [...used.values()];
 }
 
-export function createResearchLibrary({root=defaultRoot,catalogPath=path.join(root,'research-reports/catalog.json'),bindings={},enabled=true,allowedVersionGroups=null}={}){
- let activeMetrics=null;
- const readBytes=file=>{const bytes=fs.readFileSync(file);if(activeMetrics){activeMetrics.file_reads++;activeMetrics.bytes_read+=bytes.length;}return bytes;};
+export function createResearchLibrary({root=defaultRoot,catalogPath=path.join(root,'research-reports/catalog.json'),bindings=defaultResearchBindings(root),enabled=true,allowedVersionGroups=null}={}){
+ let activeMetrics=null,activeReads=null;
+ const readBytes=file=>{
+  if(activeReads?.has(file))return activeReads.get(file);
+  const bytes=fs.readFileSync(file);if(activeMetrics){activeMetrics.file_reads++;activeMetrics.bytes_read+=bytes.length;}activeReads?.set(file,bytes);return bytes;
+ };
  const wrap=(operation,fn)=>{
-  const previous=activeMetrics;activeMetrics={file_reads:0,bytes_read:0};let result;
+  const previous=activeMetrics,previousReads=activeReads;activeMetrics={file_reads:0,bytes_read:0};activeReads=new Map();let result;
   try{result=fn();}catch(e){result=failed('unavailable',e.code??e.message);}
-  result={...result,metrics:{...result.metrics,...activeMetrics}};activeMetrics=previous;
+  result={...result,metrics:{...result.metrics,...activeMetrics}};activeMetrics=previous;activeReads=previousReads;
   return observeLookup(operation,result,{entry:'research'});
  };
  function catalog(){
@@ -80,7 +85,7 @@ export function createResearchLibrary({root=defaultRoot,catalogPath=path.join(ro
   if(sha(bytes)!==entry.manifest_sha256)throw Error('accepted_manifest_changed');
   const manifest=json(bytes);
   if(manifest.schema_version!==1||manifest.dossier_id!==id)throw Error('dossier_identity_mismatch');
-  return {entry,manifest,base:path.dirname(manifestFile),binding,unitMap:units(manifest)};
+  return {entry,manifest,base:path.dirname(manifestFile),binding,unitMap:researchUnits(manifest)};
  }
  function permitted(context){
   const request=normalizeRequest(context.request??context);
@@ -90,22 +95,54 @@ export function createResearchLibrary({root=defaultRoot,catalogPath=path.join(ro
  function discover(need,context={}){return wrap('discover',()=>{
   const {request,error}=permitted({...context,request:context.request??{need}});if(error)return {...error,candidates:[]};
   const tokens=[need.question,...(request.terms??[]),...(request.reformulations??[])].flatMap(s=>s.toLowerCase().split(/[\s，。？！?！,;；、:：]+/u)).filter(x=>x.length>1);
-  const candidates=[],unavailable=[];let count=0;
-  for(const entry of catalog())try{
+  const entries=catalog(),namingText=[need.question,request.need.object,...request.terms],namedReports=entries.filter(r=>[r.title,...(r.aliases??[])].some(n=>n&&namingText.some(t=>t.toLowerCase().includes(n.toLowerCase())))).map(r=>r.id);
+  const candidates=[],unavailable=[],relationIssues=[],anchors=new Map();let count=0;
+  for(const entry of entries)try{
+   if(namedReports.length&&!namedReports.includes(entry.id))continue;
    const data=load(entry.id,entry);count++;
+   const namesInQuestion=[entry.title,...(entry.aliases??[])].filter(n=>n&&namingText.some(t=>t.toLowerCase().includes(n.toLowerCase())));
    const meta=[entry.title,...(entry.aliases??[]),data.manifest.game_title].join(' ').toLowerCase();
-   for(const [unit,selection] of data.unitMap){
+   const byUnit=new Map();
+   const add=(unit,selection,extra={})=>{
+    const claim=data.manifest.claims?.find(c=>c.id===unit),cs=data.manifest.cases?.find(c=>c.id===unit);
+    const title=claim?.text??claim?.statement??cs?.answer_scope??selection.paths.join(' ');
+    const existing=byUnit.get(unit);
+    const candidate=existing??{ref:refFor(entry.id,unit),provider:'research-dossier-v1',source_kind:'research',report_id:entry.id,unit,title:`${entry.title} · ${unit} · ${title}`,matched_terms:[],discovery_score:0,discovery_paths:[],relations:[],content_read:false,status:'candidate_found',claim_support:'not_verified',coverage_status:data.manifest.coverage_status,manifest_sha256:entry.manifest_sha256};
+    candidate.matched_terms=[...new Set([...candidate.matched_terms,...(extra.matched??[])])];
+    candidate.discovery_score=Math.max(candidate.discovery_score,extra.score??0);
+    if(extra.via&&!candidate.discovery_paths.includes(extra.via))candidate.discovery_paths.push(extra.via);
+    if(extra.relation)candidate.relations.push(extra.relation);
+    byUnit.set(unit,candidate);
+   };
+   if(!context.relations_only)for(const [unit,selection] of data.unitMap){
     if(unit.startsWith('document:')&&(data.manifest.cases??[]).some(c=>data.unitMap.get(c.id)?.paths[0]===selection.paths[0]))continue;
     const claim=data.manifest.claims?.find(c=>c.id===unit),cs=data.manifest.cases?.find(c=>c.id===unit);
-    const title=claim?.text??cs?.answer_scope??selection.paths.join(' ');
+    const title=claim?.text??claim?.statement??cs?.answer_scope??selection.paths.join(' ');
     const text=[meta,unit,title].join(' ').toLowerCase();
-    const matched=tokens.filter(t=>text.includes(t)||t.includes(unit.toLowerCase())&&/^[CE]\d+$/.test(unit));
+    const matched=[...new Set([...tokens.filter(t=>text.includes(t)||t.includes(unit.toLowerCase())&&/^[CE]\d+$/.test(unit)),...namesInQuestion])];
     if(!matched.length)continue;
-    candidates.push({ref:refFor(entry.id,unit),provider:'research-dossier-v1',source_kind:'research',report_id:entry.id,unit,title:`${entry.title} · ${unit} · ${title}`,matched_terms:matched,discovery_score:matched.length+(tokens.some(t=>t.includes(unit.toLowerCase()))&&/^[CE]\d+$/.test(unit)?10:0),content_read:false,status:'candidate_found',claim_support:'not_verified',coverage_status:data.manifest.coverage_status,manifest_sha256:entry.manifest_sha256});
+    // An explicit different game is a scope, not a reason to attach unrelated same-number cases.
+    add(unit,selection,{matched,score:matched.length+(tokens.some(t=>t.includes(unit.toLowerCase()))&&/^[CE]\d+$/.test(unit)?10:0),via:'direct_metadata'});
    }
+   const rawLinks=entry.discovery_links??[],links=Array.isArray(rawLinks)?rawLinks:[];
+   if(!Array.isArray(rawLinks))relationIssues.push({report_id:entry.id,reason:'invalid_discovery_links'});
+   const idCounts=new Map();for(const l of links)idCounts.set(l?.id,(idCounts.get(l?.id)??0)+1);
+   for(const link of links)try{
+    if(link?.status==='retired')continue;
+    if(idCounts.get(link?.id)!==1)throw Error('duplicate_relation_id');
+    const matched=matchingTerms(link,request);if(!matched.length)continue;
+    const anchor=checkRelation(root,entry,link,{read:file=>readBytes(file).toString('utf8'),anchors});
+    const viaAnchor=relationSelected(link,anchor,request,context.wiki_candidates??[]);
+    if(!viaAnchor&&!(namesInQuestion.length&&!context.relations_only))continue;
+    if(!data.unitMap.has(link.unit))throw Error('relation_unit_missing');
+    const selectedClaims=closure(data.manifest,data.unitMap.get(link.unit).seeds).filter(x=>x.kind==='claims').map(x=>x.row);
+    if([allowedVersionGroups,context.allowed_version_groups].some(versions=>versions&&selectedClaims.some(c=>!c.version_groups?.every(v=>versions.includes(v)))))throw Error('research_version_scope_mismatch');
+    add(link.unit,data.unitMap.get(link.unit),{matched,score:20+matched.length+(matched.some(t=>t.startsWith('question:'))?20:0),via:viaAnchor?link.from.kind+':'+anchor.path:'named_report_relation',relation:{id:link.id,from:link.from,relation:link.relation,purpose:link.purpose,conditions:link.conditions,exclusions:link.exclusions,reviewed_manifest_sha256:link.review.manifest_sha256}});
+   }catch(e){relationIssues.push({report_id:entry.id,relation_id:link?.id,reason:e.message});}
+   candidates.push(...byUnit.values());
   }catch(e){unavailable.push({report_id:entry.id,reason:e.message});}
   candidates.sort((a,b)=>b.discovery_score-a.discovery_score||a.ref.localeCompare(b.ref));
-  return {schema_version:1,status:candidates.length?(request.budget.max_candidates?'candidates_found':'budget_exhausted'):!count&&unavailable.length?'unavailable':'no_relevant_source',candidates:candidates.slice(0,request.budget.max_candidates),unavailable,discovery_scope:{accepted_manifests:count,body_content_returned:false},metrics:{accepted_manifests:count},writes:false,claim_support:'not_verified'};
+  return {schema_version:1,status:candidates.length?(request.budget.max_candidates?'candidates_found':'budget_exhausted'):!count&&unavailable.length?'unavailable':'no_relevant_source',candidates:candidates.slice(0,request.budget.max_candidates),unavailable,relation_issues:relationIssues,discovery_scope:{accepted_manifests:count,body_content_returned:false,relations_one_hop:true,candidates_not_returned:Math.max(0,candidates.length-request.budget.max_candidates)},metrics:{accepted_manifests:count},writes:false,claim_support:'not_verified'};
  });}
  function read(selection,context={}){return wrap('read',()=>{
   const {request,error}=permitted(context);if(error)return error;

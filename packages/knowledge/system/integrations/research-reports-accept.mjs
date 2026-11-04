@@ -6,14 +6,17 @@ import {spawnSync} from 'node:child_process';
 import {pathToFileURL} from 'node:url';
 import {defaultRoot} from '../query/query-evidence.mjs';
 import {localResearchOptions} from './research-reports-host.mjs';
+import {defaultResearchBindings} from './research-reports.mjs';
 const sha=x=>crypto.createHash('sha256').update(x).digest('hex');
-export function acceptDossier({root=defaultRoot,bindings={},binding='research',manifest,python,title,aliases,expectedId}={}){
+export function acceptDossier({root=defaultRoot,bindings=defaultResearchBindings(root),checkerRoot,binding='research',manifest,python,title,aliases,expectedId}={}){
  if(!python||!path.isAbsolute(python))throw Error('Explicit absolute Python executable required');
+ if(typeof checkerRoot!=='string'||!path.isAbsolute(checkerRoot))throw Error('Explicit absolute trusted checker root required');
  const bindingRoot=fs.realpathSync(bindings[binding]),manifestFile=fs.realpathSync(path.resolve(bindingRoot,manifest)),relative=path.relative(bindingRoot,manifestFile);
  if(path.isAbsolute(relative)||relative==='..'||relative.startsWith('..'+path.sep))throw Error('Manifest outside binding');
  const bytes=fs.readFileSync(manifestFile),m=JSON.parse(bytes.toString('utf8').replace(/^\uFEFF/,''));
  if(!/^[a-z0-9-]+$/.test(m.dossier_id)||expectedId&&m.dossier_id!==expectedId)throw Error('Unexpected dossier identity');
- const tool=path.join(bindingRoot,'game-research/deep-game-analysis/dossier.py');
+ // Content bindings select data only; execution authority stays with the trusted tool owner.
+ const tool=path.join(checkerRoot,'game-research/deep-game-analysis/dossier.py');
  const check=spawnSync(python,['-B',tool,'check','--manifest',manifestFile],{encoding:'utf8',timeout:120000,maxBuffer:4*1024*1024,windowsHide:true});
  if(check.error||check.status!==0)throw Error('Original dossier check failed: '+(check.error?.message??check.stdout??check.stderr));
  const result=JSON.parse(check.stdout);
@@ -38,7 +41,7 @@ export function acceptDossier({root=defaultRoot,bindings={},binding='research',m
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
  try{
   const options={};
-  for(let i=2;i<process.argv.length;i+=2){const key={'--root':'root','--manifest':'manifest','--binding':'binding','--python':'python','--id':'expectedId'}[process.argv[i]];if(!key||!process.argv[i+1])throw Error('Usage: --manifest <binding-relative path> --python <absolute executable> [--root ...] [--binding research] [--id ...]');options[key]=process.argv[i+1];}
+  for(let i=2;i<process.argv.length;i+=2){const key={'--root':'root','--manifest':'manifest','--binding':'binding','--python':'python','--id':'expectedId'}[process.argv[i]];if(!key||!process.argv[i+1])throw Error('Usage: --manifest <binding-relative path> --python <absolute executable> [--root ...] [--binding knowledge|research] [--id ...]; trusted checker_root is configured locally, never by a lookup request');options[key]=process.argv[i+1];}
   if(!options.manifest)throw Error('--manifest is required');
   console.log(JSON.stringify(acceptDossier({...localResearchOptions(options.root),...options})));
  }catch(e){console.error(JSON.stringify({status:'not_accepted',reason:e.message}));process.exitCode=2;}

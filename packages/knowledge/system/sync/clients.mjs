@@ -3,6 +3,7 @@ import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {canonical,hash,readJson,atomicJson,scopedFile,namespaceKey,requireValue,SyncError} from './state.mjs';
 import {assertMinimalMetadata} from './private-metadata.mjs';
+import {assertPublicSourceText} from './source-url-boundary.mjs';
 const id=v=>typeof v==='string'&&/^[A-Za-z0-9_.:-]{1,128}$/.test(v);
 const digest=v=>typeof v==='string'&&/^[a-f0-9]{64}$/.test(v);
 export const safeContentPath=v=>typeof v==='string'&&v.length<=512&&v.normalize('NFC')===v&&!/[\\:\x00-\x1f]/.test(v)&&!/%[a-f0-9]{2}/i.test(v)&&!v.startsWith('/')&&!v.split('/').some(p=>!p||p==='.'||p==='..')&&/^(wiki|raw-sources|domains|groups|domain-groups|Clippings|assets|attachments)\//.test(v)&&/\.(md|txt|png|jpe?g|webp|gif|pdf)$/i.test(v);
@@ -41,6 +42,7 @@ export function acceptedManifest(config){
   const file=scopedFile(config.sourceRoot,row.path);const size=fs.statSync(file).size;
   requireValue(size===row.size&&size<=(config.maxObjectBytes??8*1024*1024),'content_size_mismatch');
   const bytes=fs.readFileSync(file);requireValue(hash(bytes)===row.sha256,'accepted_content_changed');
+  if(/\.(md|txt)$/i.test(row.path))assertPublicSourceText(bytes.toString('utf8'));
   scannedBytes+=bytes.length;requireValue(scannedBytes<=(config.maxContentBytes??32*1024*1024),'content_capacity');objects.set(row.sha256,bytes);
  }
  for(const relative of manifest.deletions)requireValue(safeContentPath(relative)&&config.allowedPrefixes.some(p=>relative.startsWith(p))&&!manifest.entries.some(e=>e.path.toLowerCase()===relative.toLowerCase()),'deletion_not_accepted');

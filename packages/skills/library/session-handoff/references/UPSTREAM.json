@@ -1,0 +1,16 @@
+{
+  "repository": "https://github.com/wanshuiyin/HERO-Anti-OverDefense",
+  "revision": "106cadf9f72d5852bc399b9b5699ad9ec4a36ecb",
+  "license": "MIT",
+  "skills": [
+    "session-handoff"
+  ],
+  "files": {
+    "LICENSE": "d18a96c9defcaf4a2ea150fc364f4141bdfad8a8438b6f5a6ad5a5117b7e78d5",
+    "RULES.md": "c61d8259db9bbe5ee47e0081535e4d296ce7655e431989a4fbaa8d1ff88e4038",
+    "session-handoff/README.md": "4b35868938012837fac3765c49bcae69ca5990c6bb71b1d5d67df5103c850254",
+    "session-handoff/SKILL.md": "64700fa5c6e9c6082e3a68c3fcefb8215a7338fa6f6234b3e3cc152df7328811"
+  },
+  "goal_pulse_installed": false,
+  "source_scope": "selected RULES/LICENSE and complete Session Handoff directory"
+}

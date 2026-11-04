@@ -33,3 +33,7 @@ Follow the host repository's ownership, data-preservation, integration, and rele
 
 ## Source
 Adapted from the MIT-licensed upstream commit in metadata; see [LICENSE](references/LICENSE). Upstream workflow mandates and empirical performance claims were not adopted. Update by reviewing upstream changes against this scoped entrypoint, not by overwriting it.
+
+## 本版补充
+
+修复涉及状态、交互或异步行为时，按[行为回归](references/behavioral-regressions.md)验证正常路径、原失败、恢复与必要反例。保留失败签名与输入版本，避免同输入重复重试。

@@ -30,7 +30,7 @@ class ActualReleaseUpgrade(unittest.TestCase):
     original=(host/'AGENTS.md').read_bytes();self.assertEqual(w.catalog(ROOT)['previous_version'],w.state(host)['version'])
     preview=w.install(ROOT,host,'upgrade',[]);self.assertFalse(preview['applied']);self.assertFalse(preview['conflicts'])
     if mode=='compatible':self.assertTrue(preview['audit']['package_review'])
-    upgraded=w.install(ROOT,host,'upgrade',[],True);self.assertTrue(upgraded['applied']);self.assertEqual(w.catalog(ROOT)['version'],w.state(host)['version']);self.assertEqual(original,(host/'AGENTS.md').read_bytes())
+    upgraded=w.install(ROOT,host,'upgrade',[],True);self.assertTrue(upgraded['applied']);self.assertEqual(w.catalog(ROOT)['version'],w.state(host)['version']);self.assertEqual(original if mode=='compatible' else (ROOT/'meta/workspace/AGENTS.md').read_bytes(),(host/'AGENTS.md').read_bytes())
     self.assertTrue(w.rollback(host,upgraded['transaction'],True)['applied']);self.assertEqual(w.catalog(ROOT)['previous_version'],w.state(host)['version']);self.assertEqual(original,(host/'AGENTS.md').read_bytes());self.assertEqual(b'User data must remain.\n',user.read_bytes())
  def test_skill_upgrade_only_selected_and_local_changes(self):
   with tempfile.TemporaryDirectory(prefix='aws-skill-upgrade-') as t:

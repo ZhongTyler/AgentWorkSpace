@@ -1,0 +1,6 @@
+interface:
+  display_name: "game-ui-ux"
+  short_description: "Build resilient game menus, HUD and focus paths"
+  default_prompt: "Use $game-ui-ux on the current game task while preserving host rules and state."
+policy:
+  allow_implicit_invocation: true
