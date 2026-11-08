@@ -1,12 +1,14 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
+import {gzipSync} from 'node:zlib';
 import {canonical,hash,readJson,atomicJson,scopedFile,namespaceKey,requireValue,SyncError} from './state.mjs';
 import {assertMinimalMetadata} from './private-metadata.mjs';
 import {assertPublicSourceText} from './source-url-boundary.mjs';
+import {safeContentPath,validContentAccess} from './content-policy.mjs';
+export {safeContentPath,validContentAccess} from './content-policy.mjs';
 const id=v=>typeof v==='string'&&/^[A-Za-z0-9_.:-]{1,128}$/.test(v);
 const digest=v=>typeof v==='string'&&/^[a-f0-9]{64}$/.test(v);
-export const safeContentPath=v=>typeof v==='string'&&v.length<=512&&v.normalize('NFC')===v&&!/[\\:\x00-\x1f]/.test(v)&&!/%[a-f0-9]{2}/i.test(v)&&!v.startsWith('/')&&!v.split('/').some(p=>!p||p==='.'||p==='..')&&/^(wiki|raw-sources|domains|groups|domain-groups|Clippings|assets|attachments)\//.test(v)&&/\.(md|txt|png|jpe?g|webp|gif|pdf)$/i.test(v);
 function publicationPath(home,file,directory=false){
  requireValue(typeof home==='string'&&path.isAbsolute(home)&&typeof file==='string'&&path.isAbsolute(file),'unsafe_publication_pointer');
  const root=path.resolve(home),target=path.resolve(file),relative=path.relative(root,target);
@@ -36,18 +38,29 @@ export function acceptedManifest(config){
  requireValue(Array.isArray(config.allowedPrefixes)&&config.allowedPrefixes.length>0,'content_scope_unconfigured');
  requireValue(new Set(manifest.entries.map(r=>r.path?.toLowerCase())).size===manifest.entries.length&&manifest.entries.length<=(config.maxFiles??20000),'duplicate_content_path');
  requireValue(typeof manifest.query_contract==='string'&&manifest.query_contract.length>0&&manifest.query_contract.length<=256,'index_contract_missing');
- const objects=new Map();let scannedBytes=0;
+ const descriptors=new Map();let scannedBytes=0;
  for(const row of manifest.entries){
-  requireValue(safeContentPath(row.path)&&row.review_status==='accepted'&&digest(row.sha256)&&config.allowedPrefixes.some(p=>row.path.startsWith(p)),'content_not_accepted');
+  requireValue(safeContentPath(row.path)&&validContentAccess(row)&&row.review_status==='accepted'&&digest(row.sha256)&&config.allowedPrefixes.some(p=>row.path.startsWith(p)),'content_not_accepted');
   const file=scopedFile(config.sourceRoot,row.path);const size=fs.statSync(file).size;
   requireValue(size===row.size&&size<=(config.maxObjectBytes??8*1024*1024),'content_size_mismatch');
   const bytes=fs.readFileSync(file);requireValue(hash(bytes)===row.sha256,'accepted_content_changed');
-  if(/\.(md|txt)$/i.test(row.path))assertPublicSourceText(bytes.toString('utf8'));
-  scannedBytes+=bytes.length;requireValue(scannedBytes<=(config.maxContentBytes??32*1024*1024),'content_capacity');objects.set(row.sha256,bytes);
+  if(row.access!=='private_evidence'&&/\.(md|txt|json|svg)$/i.test(row.path))assertPublicSourceText(bytes.toString('utf8'));
+  scannedBytes+=bytes.length;requireValue(scannedBytes<=(config.maxContentBytes??32*1024*1024),'content_capacity');descriptors.set(row.sha256,{path:row.path,size:row.size});
  }
  for(const relative of manifest.deletions)requireValue(safeContentPath(relative)&&config.allowedPrefixes.some(p=>relative.startsWith(p))&&!manifest.entries.some(e=>e.path.toLowerCase()===relative.toLowerCase()),'deletion_not_accepted');
  const manifestSha=hash(canonical(manifest));
  if(selected.pointer)requireValue(manifest.snapshot_id===selected.pointer.snapshot_id&&manifest.source_revision===selected.pointer.source_revision&&manifestSha===selected.pointer.manifest_sha256&&manifest.base_snapshot===selected.pointer.base_snapshot,'publication_pointer_changed');
+ // Keep identities, never the complete snapshot's bytes. Recheck every lazy read
+ // so a changed local object cannot be uploaded under an earlier approval.
+ const objects=Object.freeze({
+  size:descriptors.size,has:sha=>descriptors.has(sha),keys:()=>descriptors.keys(),info:sha=>{const row=descriptors.get(sha);return row?{...row}:undefined;},
+  get(sha){
+   const row=descriptors.get(sha);if(!row)return undefined;
+   const file=scopedFile(config.sourceRoot,row.path);
+   requireValue(fs.statSync(file).size===row.size,'accepted_content_changed');
+   const bytes=fs.readFileSync(file);requireValue(hash(bytes)===sha,'accepted_content_changed');return bytes;
+  }
+ });
  return {manifest,manifestSha,objects,scannedBytes};
 }
 export async function publishContent(config,request,{home}={}){
@@ -58,23 +71,40 @@ export async function publishContent(config,request,{home}={}){
  if(matched(active)){atomicJson(file,{...identity,source_revision:manifest.source_revision,publishedAt:new Date().toISOString()});return {status:'unchanged',scannedBytes,objectsUploaded:0,activeSnapshot:manifest.snapshot_id,indexVerified:true};}
  const missing=await request('content-plan',{manifest});
  requireValue(['planned','unchanged'].includes(missing?.status)&&missing.manifest_sha256===manifestSha&&Array.isArray(missing.missing)&&new Set(missing.missing).size===missing.missing.length&&missing.missing.every(sha=>objects.has(sha)),'invalid_missing_objects');
- const upload=missing.missing.map(sha=>({sha256:sha,data_base64:objects.get(sha).toString('base64')}));
- const limit=Math.min(config.maxStageBytes??10*1024*1024,11*1024*1024),batches=[];let batch=[];
- requireValue(Buffer.byteLength(canonical({manifest,objects:[]}))<=limit,'content_batch_too_large');
- for(const item of upload){if(Buffer.byteLength(canonical({manifest,objects:[...batch,item]}))>limit){requireValue(batch.length>0,'content_object_too_large');batches.push(batch);batch=[];}requireValue(Buffer.byteLength(canonical({manifest,objects:[item]}))<=limit,'content_object_too_large');batch.push(item);}batches.push(batch);
- let checked;
- for(let i=0;i<batches.length;i++)try{checked=await request('content-stage',{manifest,objects:batches[i]});}catch(e){if(e.code!=='missing_objects'||i===batches.length-1)throw e;}
+ const limit=Math.min(config.maxStageBytes??10*1024*1024,64*1024*1024-1),chunked=config.chunkedStage===true;
+ const decodedLimit=config.maxStageDecodedBytes??64*1024*1024;
+ const envelope=chunked?{manifest,objects:[],finalize:false}:{manifest,objects:[]};
+ const overhead=Buffer.byteLength(canonical(envelope));
+ requireValue(overhead<=limit,'content_batch_too_large');
+ let batch=[],batchBytes=overhead,batchDecoded=0,checked;
+ const stage=async(final=false)=>{
+  const payload={manifest,objects:batch,...(chunked?{finalize:final}:{})};
+  try{checked=await request('content-stage',payload);}catch(e){if(chunked||e.code!=='missing_objects'||final)throw e;}
+  batch=[];batchBytes=overhead;batchDecoded=0;
+ };
+ for(const sha of missing.missing){
+  const bytes=objects.get(sha),decodedSize=bytes.length;
+  const compress=config.gzipObjects===true&&bytes.length>8*1024*1024&&/\.(html|md|txt|json|svg)$/i.test(objects.info(sha).path);
+  const encoded=compress?gzipSync(bytes):bytes;
+  const item={sha256:sha,data_base64:encoded.toString('base64'),...(compress?{encoding:'gzip'}:{})},itemBytes=Buffer.byteLength(canonical(item));
+  requireValue(overhead+itemBytes<=limit,'content_object_too_large');
+  requireValue(decodedSize<=decodedLimit,'content_object_too_large');
+  if(batchBytes+itemBytes+(batch.length?1:0)>limit||batchDecoded+decodedSize>decodedLimit)await stage();
+  batchBytes+=itemBytes+(batch.length?1:0);batchDecoded+=decodedSize;batch.push(item);
+ }
+ if(chunked){if(batch.length)await stage();await stage(true);}else await stage(true);
  requireValue(checked?.status==='staged'&&checked.snapshot_id===manifest.snapshot_id&&checked.manifest_sha256===manifestSha&&digest(checked.index_sha256),'staging_not_verified');
  try{await request('content-activate',identity,{attempts:1});}
  catch(e){if(!e.retryable)throw e;/* Actual activation readback before any resend. */}
  const readback=await request('content-status',{snapshot_id:identity.snapshot_id});requireValue(matched(readback),'activation_unconfirmed');
  atomicJson(file,{...identity,source_revision:manifest.source_revision,publishedAt:new Date().toISOString()});
- return {status:'published',scannedBytes,objectsUploaded:upload.length,activeSnapshot:manifest.snapshot_id,indexVerified:true};
+ return {status:'published',scannedBytes,objectsUploaded:missing.missing.length,activeSnapshot:manifest.snapshot_id,indexVerified:true};
 }
 export async function coreStoreFactory(toolsRoot){
- const files={'core.mjs':'3551205247bd31a212be19d855b64db14255278cdbe9edda653a82d9ba05678b','store.mjs':'39f71a53c71327d5b214ec0f3a347bdcc8aeb96a00bc20011bbaff8efb68caad'};
+ const profiles=[{"core.mjs":"3551205247bd31a212be19d855b64db14255278cdbe9edda653a82d9ba05678b","store.mjs":"39f71a53c71327d5b214ec0f3a347bdcc8aeb96a00bc20011bbaff8efb68caad"},{"core.mjs":"f6898010b9b031bfa3f14f9acb889d8460ec8b7c752166fb43f0b78b346e079b","store.mjs":"b7b3625d4e3f02311ef6048ba220107d1c51fbd0efc303774238d3438d707285"}];
  const base=path.join(toolsRoot,'integrations/knowledge-feedback');
- for(const [name,sha] of Object.entries(files))requireValue(hash(fs.readFileSync(path.join(base,name)))===sha,'feedback_core_drift');
+ const observed=Object.fromEntries(Object.keys(profiles[0]).map(name=>[name,hash(fs.readFileSync(path.join(base,name)))]));
+ requireValue(profiles.some(profile=>Object.entries(profile).every(([name,sha])=>observed[name]===sha)),'feedback_core_drift');
  const {FileStore}=await import(pathToFileURL(path.join(base,'store.mjs')));
  return (home,namespace)=>new FileStore({home,namespace});
 }

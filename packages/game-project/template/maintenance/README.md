@@ -35,6 +35,8 @@
 2. 选择 [workflows/](workflows/README.md) 中的流程。
 3. 实施后运行 [scripts/](scripts/README.md) 中与影响面相符的检查，更新受影响的 SSOT、NOW 或 CHANGELOG。
 
+工作台自身的页面、导航、表单、接口及数据结构增删改，进入[工作台维护](workflows/workbench.md)。
+
 资源增删改先进入 [资源操作](workflows/assets.md)，清单与来源在 [工作台](../assets/README.md)。
 
 状态变化先按[状态维护](workflows/status.md)复核权威与消费者，摘要不追加多套“当前”。重要判断和反例按可达宿主的支持与学习约定识别缺口；没有该入口时沿本项目事实、决定与验证记录继续。资源和分析各自的权威归属不变。

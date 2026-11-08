@@ -1,0 +1,25 @@
+{
+  "source": "Research/.agents/skills/human-research-expression",
+  "source_files_sha256": {
+    "SKILL.md": "d39d953a74282a5e2243a098e84e328bb6c65530f6cabe23d6acbf84d9959a8a",
+    "references/argument-quality.md": "5564fc01b201c9e91e65156fdf3145e1fe9097220202236a3ba14f995630e5b5",
+    "references/carriers.md": "e1f74602a4cf3867fd4f7eb60c960ebab66d3a153c1aa670aebddf44e12194b0",
+    "references/full-report.md": "d54054ebe5021d77f6c46530216ec0c3dc2f06b6f6056e1fcd2dadf8d1cded81",
+    "references/hierarchy.md": "d2ff67d291e2be23a72821c88ae9645b3559373573dc44f830ec321e29388402",
+    "references/interaction.md": "be55dec9203005dd05f4b1d29efc72e4d8c068e8ebc37f2892af3c1af4939859",
+    "references/methods.md": "abf6e60964547140b1b7cc4f7068836cf11ed471c5d521ad9e080431ebe9d74f",
+    "references/rendering.md": "a3d4b2fe0dec18e4f4e9daa2c0e2a6e8c062f0a85a04a450e2dac4a53b6e91e0",
+    "references/reuse-and-cost.md": "8958b1b1257aedec5b827e0be574b6f775bce6b0718439a02b4ed4f3432dc2ae",
+    "references/visual-explanation.md": "407f843610ada51a734ab1fa04d49b20912425b43ca83bdcb5a062e894e9be66",
+    "scripts/assemble_html.py": "2d310ef75653c37eb2bf0e42b60109f5742113c547a5c8649bb957ff49c92352",
+    "scripts/parse_markdown.mjs": "51f31b739454c67e3ad5e5531e9feac8e1ef2df3b4a7447c3583f87d7bb7e348",
+    "scripts/render_book.py": "53087d1b058bb431cd4f8dc3013400d2b819e3d0b20f2e2b57aef3cd8df5b2ba",
+    "scripts/render_report.py": "ca2bcc500c41226cd43f8db049607ca03f8f60ca3479f64960e6fd303412c085",
+    "scripts/render_visual.py": "c232be352703177c74fb377819171d0bd82cefa8bad8b8ed587fa7dc1bc73841",
+    "scripts/render_visual_html.py": "a26aedc28c6ebd4b6df71a61792d449c105a6beea085c8043d36df372587b74e",
+    "scripts/test_diagram_layout.py": "d2e8fe2e37f04b4836ebd6713f53d6e7ded0e46ccc6236bdf446bb231510b0c1",
+    "scripts/test_render_visual_html.py": "42419f97d65a4eb8f4cdbec11f48d116ed8d03f9ff303fabfdaf004e03408fd6",
+    "scripts/verify_git_snapshot.py": "3f1fb154cbf7a630e291614c9c3c0ce9192e1d0d1d58c131d742e1e8d39d19a7"
+  },
+  "adaptation": "Portable fallback for optional editorial Skills; original research/reader/production distinctions retained. No private case or font bundled."
+}

@@ -15,3 +15,15 @@
 - 网页：沿宿主静态资源目录与许可记录保存；只有确需时转换WOFF2/子集化，留原版及加工命令/输出哈希。真实浏览器确认指定字体加载、断网/失败回退、长文换行与布局变化；动态中文输入不能只截取当前页面文案。系统可用不等于访问者可用，避免把第三方字体CDN变成必需依赖。
 - 游戏：沿GamePresentation项目资源工作台和原引擎导入合同保存；进入PrototypeAssets共享精选须遵循其来源准入，猫啃不是自动下载白名单。实际目标窗口核对缺字、数字区分、字重、描边、基线、缩放/过滤；动态名字和多语言须有覆盖或明确fallback。检查实际导出包字体与许可，不能只靠编辑器中的系统字体。
 - 技术加载、许可、视觉采用、真实使用效果分别记录。无当前使用任务时只登记发现入口，不预装一批字体或声称已验证渲染。来源说明不是每次重新选字的强制清单，验证按改动风险裁剪。
+
+## frontend-design的本机薄入口
+
+以下标记块可合并到宿主已有frontend-design；只维护这段路由，不复制上文。未提供本文时沿宿主资源与许可规范继续，不自动安装。升级外部Skill时保留其原文与许可，只恢复本机路由；不要修改第三方视觉准则。
+
+```text
+<!-- tyler-font-selection:v1 -->
+## Host font selection
+
+When adding or replacing Chinese typefaces, addressing missing glyphs or numeral readability, or embedding font files for delivery, use the host font-selection guidance when available. In 接收方工作区 read `shared-skills/game-presentation/references/font-selection.md` under the workspace root; it covers optional Maoken discovery, original-author licenses, exact versions and target-render checks without loading the full game workflow. Reuse suitable existing fonts; ordinary copy or color edits do not require a font search. If unavailable, follow the host asset/license rules without inventing installation or publication permission.
+<!-- /tyler-font-selection:v1 -->
+```

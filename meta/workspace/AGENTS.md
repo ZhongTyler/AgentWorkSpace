@@ -10,3 +10,7 @@
 6. 完成必要实现、引用更新、验证和授权范围内提交。只更新因本次改变而失真的权威入口；不机械更新所有状态、日志或记忆。纯问答不启动写入流程。
 
 风险、收尾和恢复见 COMMAND_MANUAL.md；材料定位见 AI_INDEX.md。项目只补领域合同，Skill 不扩张权限。模型名称不决定权限。assisted 仅在用户明确选择时读 collaboration/assisted.md。
+
+## 最终回复
+
+最终交付给用户的文字在发送前合并使用humanizer-zh与anti-defensive-writing及其HOST-ADAPTER审校一次。先交付结果和必要依据，保留术语、条件、未知、命令与结构化字段。两项方法随本模板提供，输出只保留审校后的成稿。

@@ -13,7 +13,7 @@ description: 当游戏资源/场景生命周期、时间输入、坐标碰撞、
 - 快速切场景、旧加载完成覆盖新状态或重复进入：读[场景与清理](references/runtime-recipes.md#场景与清理)。
 - 暂停恢复、补算卡顿、刷新率改变速度或循环叠加：读[时间与循环](references/runtime-recipes.md#时间与循环)。
 - 多来源同绑动作、失焦后仍移动、按键边沿重复消费：读[动作输入](references/runtime-recipes.md#动作输入)。
-- CSS/DPR/相机缩放导致点位偏差，或高速跨格漏碰撞：读[坐标与碰撞](references/runtime-recipes.md#坐标与碰撞)。
+- CSS/DPR/相机缩放导致点位偏差、高速漏碰撞、翻面假命中或接触锚点漂移：读[坐标与碰撞](references/runtime-recipes.md#坐标与碰撞)。
 
 - 规则重放不一致、非法客户端动作或隐藏信息发送边界有缺口：读[规则与玩家视图](references/rule-boundaries.md)。
 

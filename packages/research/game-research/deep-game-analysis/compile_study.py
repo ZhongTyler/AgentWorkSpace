@@ -121,9 +121,57 @@ def section_markdown(section, study, assets):
         text += [f'[{caption}]({assets[video]["path"]})', '']
     return '\n'.join(text).strip() + '\n'
 
+def text_report(study, routes, assets):
+    """One text master: opening, domain/system navigation, then full chapters.
+
+    Reuse authored route order and section identities; do not invent domain prose.
+    """
+    sections = study['sections']
+    by_id = {s['id']: s for s in sections}
+    def link(sid):
+        if sid not in by_id:
+            raise ValueError('Text navigation has unknown section: ' + sid)
+        return '[' + by_id[sid]['title'] + '](units/' + sid + '.md)'
+    lines = ['## 阅读导航', '', '[图解阅读版](reader/index.html)；本页保留完整文字研究，可按领域选读，也可沿章节顺读。', '',
+             '### 按领域查阅', '', '选择一个领域，按箭头顺序阅读。共享章节在多个领域引用，正文只维护一份。', '',
+             ]
+    guided = routes.get('guidance_version') == 1
+    if not guided:
+        lines += ['| 领域 | 建议阅读顺序 |', '| --- | --- |']
+    for route in routes['routes']:
+        targets = [s['target'] for s in route['steps']]
+        if not targets or len(targets) != len(set(targets)):
+            raise ValueError('Text domain route is empty or repeats a section: ' + route['name'])
+        if guided:
+            lines += ['#### ' + route['name'], '', route['intro'], '']
+            for step in route['steps']:
+                lines += ['- **' + link(step['target']) + '**。' + step['focus']]
+            lines.append('')
+        else:
+            lines.append('| ' + route['name'] + ' | ' + ' → '.join(link(sid) for sid in targets) + ' |')
+    lines += ['', '### 按系统与章节顺读', '']
+    layout = study.get('text_toc', study.get('toc_layout'))
+    if layout:
+        if layout.get('type') != 'grouped':
+            raise ValueError('Text TOC requires grouped layout')
+        order = list(layout.get('leading', []))
+        for sid in layout.get('leading', []): lines.append('- ' + link(sid))
+        for group in layout['groups']:
+            order += group['sections']
+            lines.append('- **' + group['title'] + '**：' + ' → '.join(link(sid) for sid in group['sections']))
+        order += layout.get('trailing', [])
+        for sid in layout.get('trailing', []): lines.append('- ' + link(sid))
+        if order != [s['id'] for s in sections]:
+            raise ValueError('Text TOC must cover every section exactly in authored order')
+    else:
+        lines += ['- ' + link(s['id']) for s in sections]
+    bodies = [section_markdown(s, study, assets) for s in sections]
+    return '# ' + study['title'] + '\n\n> ' + study['edition'] + '\n\n' + bodies[0] + '\n' + '\n'.join(lines) + '\n\n' + '\n'.join(bodies[1:])
+
+
 def verify_compiled(report, study, assets):
     bodies = {s['id']: section_markdown(s, study, assets) for s in study['sections']}
-    expected = '# ' + study['title'] + '\n\n> ' + study['edition'] + '\n\n' + '\n'.join(bodies.values())
+    expected = text_report(study, read(report / 'reader/navigation.json'), assets)
     if (report / 'README.md').read_bytes() != expected.encode('utf-8'):
         raise ValueError('Source study and generated README differ; build the current draft first')
     projection = read(report / 'evidence/unit-projections.json')
@@ -134,11 +182,60 @@ def verify_compiled(report, study, assets):
     for unit in projection['units']:
         if unit['source_section_sha256'] != hashlib.sha256(bodies[unit['section_id']].encode()).hexdigest() or digest(local(report, unit['path'])) != unit['sha256']:
             raise ValueError('Generated unit differs from the current source: ' + unit['section_id'])
+    verify_explanation_bindings(report, study, bodies)
+
+
+def verify_explanation_bindings(report, study, bodies):
+    """Bind reviewed human explanations to the text master; not a semantic PASS."""
+    selected = {s['id']: s['explanation_targets'] for s in study['sections'] if s.get('explanation_targets')}
+    ref = study.get('explanation_bindings')
+    if not selected and not ref:
+        if (report / 'evidence/explanation-bindings.json').exists():
+            raise ValueError('Existing explanation bindings cannot be dropped from the text master')
+        return
+    if not selected or not ref: raise ValueError('Explanation mappings require both text sections and binding file')
+    binding = read(local(report, ref))
+    if binding.get('source_study_sha256') != digest(report / 'study.json') or binding.get('source_readme_sha256') != digest(report / 'README.md'):
+        raise ValueError('Text/reader explanation binding is stale')
+    entries = binding.get('sections', [])
+    if len(entries) != len(selected) or {e['section_id'] for e in entries} != set(selected):
+        raise ValueError('Explanation mapping does not cover the selected text sections')
+    reader = (report / 'reader/index.html').read_text(encoding='utf-8')
+    for entry in entries:
+        sid = entry['section_id']
+        if entry['source_section_sha256'] != hashlib.sha256(bodies[sid].encode()).hexdigest() or entry['reader_targets'] != selected[sid]:
+            raise ValueError('Explanation source or target mapping changed: ' + sid)
+        start = reader.index('<section data-scene="' + sid + '" id="' + sid + '"')
+        section = reader[start:reader.index('</section>', start)]
+        if any(section.count('id="' + target + '"') != 1 for target in entry['reader_targets']):
+            raise ValueError('Mapped reader explanation missing: ' + sid)
+
+def grouped_toc(study, source):
+    """Reuse accepted light groups in the common path when explicitly selected."""
+    layout = study.get('toc_layout')
+    if layout is None: return source
+    sections = {s['id']: s for s in study['sections']}
+    order = layout['leading'] + [sid for g in layout['groups'] for sid in g['sections']] + layout['trailing']
+    if layout['type'] != 'grouped' or order != [s['id'] for s in study['sections']]:
+        raise ValueError('TOC grouping must cover each current section once, in reading order')
+    if len({g['id'] for g in layout['groups']}) != len(layout['groups']) or any(not g['title'].strip() or not g['sections'] for g in layout['groups']):
+        raise ValueError('TOC groups need unique identities, readable titles and members')
+    esc = html.escape
+    link = lambda sid: '<a href="#' + esc(sid) + '">' + esc(sections[sid]['title']) + '</a>'
+    toc = '<nav id="contents" aria-label="章节目录">' + ''.join(link(sid) for sid in layout['leading'])
+    for group in layout['groups']:
+        toc += '<div class="toc-group" data-toc-group="' + esc(group['id']) + '"><h3>' + esc(group['title']) + '</h3>' + ''.join(link(sid) for sid in group['sections']) + '</div>'
+    toc += ''.join(link(sid) for sid in layout['trailing']) + '</nav>'
+    source, count = re.subn(r'<nav id="contents" aria-label="章节目录">.*?</nav>', lambda _: toc, source, count=1, flags=re.S)
+    if count != 1: raise ValueError('Expected exactly one native TOC to group')
+    css = '#contents{display:block}#contents>a{display:block;margin:10px 0}.toc-group{border:1px solid #b7c8ce;background:#f8fbfb;border-radius:10px;padding:14px;margin:14px 0}.toc-group h3{font-size:18px;margin:0 0 10px}.toc-group a{display:block;margin:6px 0;padding:6px 10px;background:transparent;border:0}.toc-group a:focus-visible{outline:3px solid #bd6b00}'
+    return source.replace('</style>', css + '</style>', 1)
+
 
 def compile_report(report, presentation=None):
     study, manifest, routes, assets = inputs(report)
     bodies = {s['id']: section_markdown(s, study, assets) for s in study['sections']}
-    full = '# ' + study['title'] + '\n\n> ' + study['edition'] + '\n\n' + '\n'.join(bodies.values())
+    full = text_report(study, routes, assets)
     (report / 'README.md').write_text(full, encoding='utf-8', newline='\n')
     projection = []
     for section in study['sections']:
@@ -176,10 +273,12 @@ def compile_report(report, presentation=None):
     source = source.replace('同稿PDF适合打印与转交；本页图片已内嵌，可离线阅读。原研究链接需要保留原文件夹。', '图片和所列视频已内嵌，可离线阅读；公开出处需联网。')
     source = source.replace('</style>', 'video{display:block;width:100%;max-height:560px}table{display:block;overflow-x:auto}figure img{object-fit:contain}</style>', 1)
     if presentation is not None: source = presentation(study, source)
+    elif study.get('toc_layout') is not None: source = grouped_toc(study, source)
     hp.write_text(source, encoding='utf-8', newline='\n')
     documents = set(manifest['documents']) | {'README.md'} | {u['path'] for u in projection}
     manifest['documents'] = sorted(documents)
     manifest['document_hashes'] = {p: digest(local(report, p)) for p in manifest['documents']}
+    if study.get('toc_layout') is not None: manifest['reader_study_sha256'] = digest(report / 'study.json')
     for asset in manifest['assets']:
         if asset['path'] == 'evidence/unit-projections.json': asset['sha256'] = digest(projected)
     write_json(report / 'manifest.json', manifest)

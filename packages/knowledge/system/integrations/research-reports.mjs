@@ -10,7 +10,52 @@ const sha=x=>crypto.createHash('sha256').update(x).digest('hex');
 const slash=x=>x.replaceAll('\\','/');
 const json=bytes=>JSON.parse(bytes.toString('utf8').replace(/^\uFEFF/,''));
 const failed=(status,reason,extra={})=>({schema_version:1,status,reason,writes:false,claim_support:'not_verified',...extra});
-const refFor=(id,unit)=>`knowledge:research:${id}/${encodeURIComponent(unit)}`;
+export const researchRef=(id,unit)=>`knowledge:research:${id}/${encodeURIComponent(unit)}`;
+const refFor=researchRef;
+export const researchSourceVersion=(manifest,documents)=>sha(JSON.stringify({manifest,documents:documents.map(document=>({path:document.path,sha256:document.sha256,bytes:document.bytes}))}));
+/** Metadata only. Sizes must come from the accepted file inventory. */
+export function researchUnitMetadata({reportId,title,manifest,manifestSha,documentSizes}){
+ return [...researchUnits(manifest)].map(([unit,selection])=>{
+  const documents=[...new Set(selection.paths)].map(relative=>{
+   const bytes=documentSizes[relative],sha256=manifest.document_hashes?.[relative];
+   if(!Number.isSafeInteger(bytes)||bytes<0||typeof sha256!=='string'||!/^[a-f0-9]{64}$/.test(sha256))throw Error('research_unit_inventory_missing:'+relative);
+   return {path:relative,sha256,bytes};
+  });
+  const claim=manifest.claims?.find(row=>row.id===unit),example=manifest.cases?.find(row=>row.id===unit);
+  return {ref:researchRef(reportId,unit),report_id:reportId,unit,title:`${title} · ${unit} · ${claim?.text??claim?.statement??example?.answer_scope??selection.paths.join(' ')}`,source_kind:'research',path:`research-reports/${reportId}/${encodeURIComponent(unit)}`,source_sha256:researchSourceVersion(manifestSha,documents),manifest_sha256:manifestSha,documents,coverage_status:manifest.coverage_status};
+ });
+}
+/** Snapshot consumers share the same complete-unit identity without reading bodies. */
+export function researchSnapshotSources({manifest,readObject}){
+ const entries=new Map(manifest.entries.map(row=>[row.path,row]));
+ const profileEntry=entries.get('research-reports/public-view.json');if(!profileEntry)return [];
+ const fail=reason=>{throw Error(reason);};
+ if(profileEntry.access!=='private_evidence')fail('research_profile_access_invalid');
+ const bytes=readObject(profileEntry.sha256);
+ if(sha(bytes)!==profileEntry.sha256||bytes.length!==profileEntry.size)fail('research_profile_changed');
+ const profile=json(bytes),catalogEntry=entries.get('research-reports/catalog.json');
+ if(profile.schema_version!==1||profile.kind!=='research-public-view-v1'||!profile.authorization_ref||!Array.isArray(profile.reports)||catalogEntry?.sha256!==profile.catalog_sha256||catalogEntry.access!=='private_evidence')fail('invalid_research_public_profile');
+ const result=[],seen=new Set();
+ for(const report of [...profile.reports,...(profile.draft_reports??[])]){
+  const source=entries.get(report.manifest_path);
+  if(!source||source.sha256!==report.manifest_sha256||source.sha256!==report.source_manifest_sha256||source.access!=='private_evidence'||!Array.isArray(report.units)||!Array.isArray(report.unit_ids))fail('research_public_identity_mismatch');
+  const base=path.posix.dirname(report.manifest_path);
+  for(const unit of report.units){
+   if(!report.unit_ids.includes(unit.unit)||unit.report_id!==report.id||unit.ref!==researchRef(report.id,unit.unit)||unit.manifest_sha256!==source.sha256||seen.has(unit.ref)||!Array.isArray(unit.documents)||!unit.documents.length)fail('research_unit_identity_mismatch');
+   const documentPaths=[];
+   for(const document of unit.documents){
+    const relative=document.path;
+    if(typeof relative!=='string'||path.posix.isAbsolute(relative)||relative.includes('\\')||relative.split('/').some(part=>!part||part==='.'||part==='..'))fail('research_unit_document_path');
+    const physical=base+'/'+relative,row=entries.get(physical),allowed=report.files?.find(file=>file.path===physical&&file.disposition==='public');
+    if(!row||row.sha256!==document.sha256||row.size!==document.bytes||row.access!=='query'||allowed?.sha256!==row.sha256)fail('research_unit_document_changed');
+    documentPaths.push(physical);
+   }
+   if(unit.source_sha256!==researchSourceVersion(source.sha256,unit.documents))fail('research_unit_version_mismatch');
+   seen.add(unit.ref);result.push({...unit,manifest_path:report.manifest_path,document_paths:documentPaths,access:'query',...(report.accepted===false?{accepted:false,research_status:'draft',draft_scope:report.scope}:{})});
+  }
+ }
+ return result;
+}
 export const defaultResearchBindings=root=>({knowledge:path.resolve(root)});
 function bounded(root,base,relative){
  if(typeof relative!=='string'||!relative||path.isAbsolute(relative)||/^[a-z]:/i.test(relative)||relative.includes('\0'))throw Error('invalid_source_path');
@@ -57,7 +102,7 @@ function closure(manifest,seeds){
  seeds.forEach(visit);return [...used.values()];
 }
 
-export function createResearchLibrary({root=defaultRoot,catalogPath=path.join(root,'research-reports/catalog.json'),bindings=defaultResearchBindings(root),enabled=true,allowedVersionGroups=null}={}){
+export function createResearchLibrary({root=defaultRoot,catalogPath=path.join(root,'research-reports/catalog.json'),bindings=defaultResearchBindings(root),enabled=true,allowedVersionGroups=null,publicProfilePath=null,privateEvidence=false}={}){
  let activeMetrics=null,activeReads=null;
  const readBytes=file=>{
   if(activeReads?.has(file))return activeReads.get(file);
@@ -73,19 +118,41 @@ export function createResearchLibrary({root=defaultRoot,catalogPath=path.join(ro
   if(!enabled)throw Error('research_disabled');
   const c=json(readBytes(catalogPath));
   if(c.schema_version!==1||!Array.isArray(c.reports)||new Set(c.reports.map(r=>r.id)).size!==c.reports.length)throw Error('invalid_research_catalog');
-  return c.reports;
+  if(!publicProfilePath)return c.reports;
+  const profile=publicProfile();if(profile.catalog_sha256!==sha(readBytes(catalogPath)))throw Error('research_public_catalog_changed');
+  const drafts=(profile.draft_reports??[]).map(row=>({id:row.id,title:row.title,aliases:row.aliases,format:'research-draft-v1',status:'draft',visibility:'local-owner',binding:'knowledge',manifest:row.manifest_path,manifest_sha256:row.manifest_sha256}));
+  return [...c.reports.filter(r=>profile.reports.some(p=>p.id===r.id)),...drafts];
+ }
+ function publicProfile(){
+  const profile=json(readBytes(bounded(root,root,path.relative(root,publicProfilePath))));
+  if(profile.schema_version!==1||profile.kind!=='research-public-view-v1'||typeof profile.authorization_ref!=='string'||!profile.authorization_ref.trim()||!Array.isArray(profile.reports)||new Set(profile.reports.map(r=>r.id)).size!==profile.reports.length)throw Error('invalid_research_public_profile');
+  return profile;
  }
  function load(id,knownEntry){
-  const entry=knownEntry??catalog().find(r=>r.id===id);
-  if(!entry||entry.status!=='active')throw Error('research_not_active');
-  if(entry.format!=='research-dossier-v1'||entry.visibility!=='local-owner')throw Error('unsupported_research_view');
-  if(entry.acceptance?.status!=='pass'||entry.acceptance?.kind!=='original_dossier_check')throw Error('unaccepted_dossier');
-  const binding=bindings[entry.binding];if(!binding)throw Error('binding_unavailable');
-  const manifestFile=bounded(binding,binding,entry.manifest),bytes=readBytes(manifestFile);
+  const entry=knownEntry??catalog().find(r=>r.id===id),draft=entry?.format==='research-draft-v1';
+  if(!entry||!(entry.status==='active'||draft&&entry.status==='draft'))throw Error('research_not_active');
+  if(!['research-dossier-v1','research-draft-v1'].includes(entry.format)||entry.visibility!=='local-owner')throw Error('unsupported_research_view');
+  const profile=publicProfilePath?publicProfile():null;
+  const publication=profile?[...profile.reports,...(profile.draft_reports??[])].find(r=>r.id===id):null;
+  if(draft){if(!publication||publication.accepted!==false||publication.status!=='draft')throw Error('unaccepted_draft_view');}
+  else if(entry.acceptance?.status!=='pass'||entry.acceptance?.kind!=='original_dossier_check')throw Error('unaccepted_dossier');
+  if(publicProfilePath&&(!publication||publication.source_manifest_sha256!==entry.manifest_sha256||publication.manifest_sha256!==entry.manifest_sha256||!Array.isArray(publication.files)||!Array.isArray(publication.unit_ids)))throw Error('research_public_identity_mismatch');
+  const binding=publication?root:bindings[entry.binding];if(!binding)throw Error('binding_unavailable');
+  const manifestFile=bounded(binding,binding,publication?.manifest_path??entry.manifest),bytes=readBytes(manifestFile);
   if(sha(bytes)!==entry.manifest_sha256)throw Error('accepted_manifest_changed');
   const manifest=json(bytes);
   if(manifest.schema_version!==1||manifest.dossier_id!==id)throw Error('dossier_identity_mismatch');
-  return {entry,manifest,base:path.dirname(manifestFile),binding,unitMap:researchUnits(manifest)};
+  const unitMap=researchUnits(manifest);
+  if(publication)for(const unit of unitMap.keys())if(!publication.unit_ids.includes(unit))unitMap.delete(unit);
+  return {entry,manifest,base:path.dirname(manifestFile),binding,unitMap,publication,draft};
+ }
+ function publicFile(data,relative,expected){
+  if(!data.publication)return null;
+  const target=slash(path.relative(root,path.resolve(data.base,relative)));
+  const row=data.publication.files.find(f=>f.path===target);
+  if(!row||row.sha256!==expected)throw Error('research_public_dependency_missing:'+relative);
+  if(!['public','private_evidence'].includes(row.disposition))throw Error('research_public_dependency_unclassified:'+relative);
+  return row;
  }
  function permitted(context){
   const request=normalizeRequest(context.request??context);
@@ -107,7 +174,7 @@ export function createResearchLibrary({root=defaultRoot,catalogPath=path.join(ro
     const claim=data.manifest.claims?.find(c=>c.id===unit),cs=data.manifest.cases?.find(c=>c.id===unit);
     const title=claim?.text??claim?.statement??cs?.answer_scope??selection.paths.join(' ');
     const existing=byUnit.get(unit);
-    const candidate=existing??{ref:refFor(entry.id,unit),provider:'research-dossier-v1',source_kind:'research',report_id:entry.id,unit,title:`${entry.title} · ${unit} · ${title}`,matched_terms:[],discovery_score:0,discovery_paths:[],relations:[],content_read:false,status:'candidate_found',claim_support:'not_verified',coverage_status:data.manifest.coverage_status,manifest_sha256:entry.manifest_sha256};
+    const candidate=existing??{ref:refFor(entry.id,unit),provider:entry.format,source_kind:'research',report_id:entry.id,unit,title:`${entry.title} · ${unit} · ${title}`,matched_terms:[],discovery_score:0,discovery_paths:[],relations:[],content_read:false,status:'candidate_found',claim_support:'not_verified',coverage_status:data.manifest.coverage_status,manifest_sha256:entry.manifest_sha256,...(data.draft?{accepted:false,research_status:'draft',scope:data.publication.scope}:{})};
     candidate.matched_terms=[...new Set([...candidate.matched_terms,...(extra.matched??[])])];
     candidate.discovery_score=Math.max(candidate.discovery_score,extra.score??0);
     if(extra.via&&!candidate.discovery_paths.includes(extra.via))candidate.discovery_paths.push(extra.via);
@@ -156,6 +223,8 @@ export function createResearchLibrary({root=defaultRoot,catalogPath=path.join(ro
   const documents=[],contents=[];
   for(const relative of [...new Set(chosen.paths)]){
    if(!data.manifest.documents.includes(relative))throw Error('undeclared_document');
+   const published=publicFile(data,relative,data.manifest.document_hashes?.[relative]);
+   if(published&&published.disposition!=='public')throw Error('research_public_document_unavailable:'+relative);
    const bytes=readBytes(bounded(data.binding,data.base,relative));
    if(sha(bytes)!==data.manifest.document_hashes?.[relative])throw Error('accepted_document_changed:'+relative);
    if(!/\.(md|txt)$/i.test(relative))throw Error('unsupported_document_media');
@@ -163,19 +232,36 @@ export function createResearchLibrary({root=defaultRoot,catalogPath=path.join(ro
   }
   const content=contents.join('\n\n<!-- complete related research unit -->\n\n');
   if(content.length>request.budget.max_content_chars)return failed('budget_exhausted','Complete research unit exceeds remaining budget; nothing truncated',{ref,required_chars:content.length});
+  if(data.draft&&privateEvidence)for(const material of data.publication.files){
+   if(material.disposition!=='private_evidence')continue;
+   const bytes=readBytes(bounded(root,root,material.path));
+   if(sha(bytes)!==material.sha256)throw Error('draft_evidence_changed:'+material.path);
+  }
   const evidence=[];
   for(const {kind,row} of dependencies){
+   const published=kind==='assets'?publicFile(data,row.path,row.sha256):null;
    if(kind==='assets'){
-    const bytes=readBytes(bounded(data.binding,data.base,row.path));
-    if(sha(bytes)!==row.sha256)throw Error('accepted_asset_changed:'+row.id);
+    if(!published||published.disposition==='public'||privateEvidence){
+     const bytes=readBytes(bounded(data.binding,data.base,row.path));
+     if(sha(bytes)!==row.sha256)throw Error('accepted_asset_changed:'+row.id);
+    }
    }
    const detail=Object.fromEntries(['id','role','source_id','path','sha256','url','read_status','read_scope','version_group','accepted','media_time_seconds','status','answer_scope','continuity','gaps','kind','conditions','limits','version_groups','support_status'].filter(k=>row[k]!==undefined).map(k=>[k,row[k]]));
-   evidence.push({...detail,node_kind:kind,content_read:false,observation_scope:'original_research_record_not_current_agent_media_review'});
+   evidence.push({...detail,node_kind:kind,content_read:false,observation_scope:'original_research_record_not_current_agent_media_review',...(published?{availability:published.disposition==='public'?'available_in_public_view':privateEvidence?'private_evidence_verified':'not_available_in_public_view',availability_reason:published.reason}: {})});
   }
-  const research={provider:'research-dossier-v1',report_id:match[1],unit,manifest_sha256:data.entry.manifest_sha256,view:'local-owner',complete_dossier:false,whole_content_exhaustively_tested:data.manifest.whole_content_exhaustively_tested===true,coverage_status:data.manifest.coverage_status,unresolved:data.manifest.unresolved??[],documents,claims,evidence,media_review:'not_performed_by_this_read',semantic_support:'requires_current_agent_review'};
-  return {schema_version:1,status:'source_read',ref,source_kind:'research',source_identity:ref,path:`research-reports/${match[1]}/${encodeURIComponent(unit)}`,source_sha256:sha(JSON.stringify({manifest:data.entry.manifest_sha256,documents})),content,content_sha256:sha(content),context_sha256:request.context_sha256,need:request.need,selection:{mode:'full'},range:{mode:'full',heading:unit,complete_unit:true,complete_source:unit==='overview',start_line:1,end_line:content.split('\n').length},research,read_event:'fresh_content_return',claim_support:'not_verified',applicability:'requires_task_review',metrics:{content_chars_returned:content.length},writes:false};
+  const research={provider:data.draft?'research-draft-v1':'research-dossier-v1',...(data.draft?{accepted:false,status:'draft',draft_source_sha256:data.publication.draft_source_sha256,draft_scope:data.publication.scope,materials:data.publication.files.map(row=>({path:row.path,sha256:row.sha256,role:row.role,availability:row.disposition==='public'?'available_in_public_view':'private_evidence'}))}:{}),report_id:match[1],unit,manifest_sha256:data.entry.manifest_sha256,view:data.publication?'public':'local-owner',complete_dossier:false,whole_content_exhaustively_tested:data.manifest.whole_content_exhaustively_tested===true,coverage_status:data.manifest.coverage_status,unresolved:data.manifest.unresolved??[],documents,claims,evidence,media_review:'not_performed_by_this_read',semantic_support:'requires_current_agent_review'};
+  return {schema_version:1,status:'source_read',ref,source_kind:'research',source_identity:ref,path:`research-reports/${match[1]}/${encodeURIComponent(unit)}`,source_sha256:researchSourceVersion(data.entry.manifest_sha256,documents),content,content_sha256:sha(content),context_sha256:request.context_sha256,need:request.need,selection:{mode:'full'},range:{mode:'full',heading:unit,complete_unit:true,complete_source:unit==='overview',start_line:1,end_line:content.split('\n').length},research,read_event:'fresh_content_return',claim_support:'not_verified',applicability:'requires_task_review',metrics:{content_chars_returned:content.length},writes:false};
  });}
  const resolverFor=(context={})=>({handles:ref=>typeof ref==='string'&&ref.startsWith('knowledge:research:'),read:input=>read({...input.selection,ref:input.ref},{...context,request:input.request})});
  const resolver=resolverFor();
- return Object.freeze({discover,read,verify:(receipts,context)=>createEvidenceQuery({root,resolveSource:resolverFor(context)}).verifyEvidence({request:context.request??context,receipts}),resolver});
+ const readDirectFile=(relative,context={})=>wrap('direct_read',()=>{
+  const {error}=permitted(context);if(error)return error;
+  const target=bounded(root,root,relative);
+  for(const entry of catalog()){
+   const data=load(entry.id,entry);
+   for(const [unit,selection] of data.unitMap)if(selection.paths.some(file=>path.resolve(data.base,file)===target))return read({ref:researchRef(entry.id,unit),mode:'full'},context);
+  }
+  return failed('denied','Direct file is not a declared complete research text');
+ });
+ return Object.freeze({discover,read,readDirectFile,verify:(receipts,context)=>createEvidenceQuery({root,resolveSource:resolverFor(context)}).verifyEvidence({request:context.request??context,receipts}),resolver});
 }

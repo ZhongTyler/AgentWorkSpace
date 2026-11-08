@@ -1,10 +1,10 @@
 {
   "component_id": "game-presentation",
-  "file_count": 26,
-  "generated_at": "2026-10-20T23:27:43+08:00",
+  "file_count": 36,
+  "generated_at": "2026-11-08T12:16:48+08:00",
   "generator_version": "3.0.0",
-  "manifest_sha256": "492dfee19a2bba9b093adc846c15b11173efb6d64de7f2dc2acccd0c5520e834",
+  "manifest_sha256": "5d1dc0d6845d3a2d6bcf0d77b5dab1b43f2109e8ead982fb7ef5bb5e4070c257",
   "preview": false,
   "release_schema": 1,
-  "source_revision": "9233c69ae3e441afd954b2c12b4256bbbbe83502"
+  "source_revision": "e02cabe7296b6c9b24f66295186c8057740b7463"
 }

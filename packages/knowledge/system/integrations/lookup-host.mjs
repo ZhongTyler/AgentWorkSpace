@@ -13,7 +13,18 @@ export async function execute(packet,options={}){
  if(!Object.hasOwn(options,'home')&&binding.home)home=binding.home;
  if(!Object.hasOwn(options,'toolsRoot')&&binding.scope==='configured_host_task'&&binding.toolsRoot)toolsRoot=binding.toolsRoot;
  const lookup=await adapter.createKnowledgeLookup({context,home,toolsRoot});
- if(operation==='pending')return {status:'selected',issues:lookup.pending({terms:packet.terms??[],limit:packet.limit??5}),compounding:lookup.finish({defer:true}),writes:false};
+ const packageModule=path.join(moduleRoot,'system/integrations/query-package-owner.mjs');
+ const {runOwnerQueryPackages}=fs.existsSync(packageModule)?await import(pathToFileURL(packageModule)):{runOwnerQueryPackages:async()=>null};
+ const packageOptions={context,home,toolsRoot};
+ if(operation==='pending'){
+  let inventory=null;
+  if(packet.purpose==='maintenance'){
+   const {maintenanceIssues}=await import(pathToFileURL(path.join(moduleRoot,'system/integrations/compounding-maintenance.mjs')));
+   inventory=await maintenanceIssues({...packageOptions,limit:packet.limit??5});
+  }
+  return {status:inventory?.status??'selected',issues:inventory?.issues??lookup.pending({terms:packet.terms??[],limit:packet.limit??5}),...(inventory?{issue_inventory:inventory}:{}),query_packages:await runOwnerQueryPackages({...packageOptions,terms:packet.terms??[],limit:Math.min(packet.limit??3,5)}),compounding:lookup.finish({defer:true}),writes:false};
+ }
+ if(operation==='query_package_read'||operation==='query_package_assess')return await runOwnerQueryPackages({...packageOptions,action:operation==='query_package_read'?'read':'assess',input})??{status:'disabled',reason:'local_owner_package_permission_required'};
  if(operation==='finish'){
   const qualified=lookup.finish({defer:true});
   if(['excluded','disabled','unavailable'].includes(qualified.compounding_status))return qualified;
@@ -22,9 +33,20 @@ export async function execute(packet,options={}){
   if(packet.finding){const {recordsForFinding}=await import(pathToFileURL(path.join(toolsRoot,'integrations/knowledge-feedback/host.mjs')));records=recordsForFinding(context,packet.observations??[],packet.finding);}
   return lookup.finish({...records,outcome:packet.outcome??'completed',usage:packet.usage??null});
  }
+ const queryPackages=await runOwnerQueryPackages({...packageOptions,terms:packet.terms??input.request?.terms??[],limit:3});
  if(context?.knowledge_allowed===false)return {status:'disabled',reason:'Knowledge disabled by task',compounding:lookup.finish({outcome:'disabled'}),writes:false};
  let result;
- if(operation==='confirm_read')result=adapter.observeDirectRead(lookup,{root:knowledgeRoot,relative:packet.relative,entry:context.entry,stage:packet.stage??'read'});
+ if(operation==='confirm_read'&&packet.relative?.startsWith('research-reports/')){
+  const stage=packet.stage??'read';if(!['read','used','technical'].includes(stage))throw Error('Direct consumption stage required');
+  const provider=await import(pathToFileURL(path.join(moduleRoot,'system/integrations/research-reports-host.mjs')));
+  const query=provider.createLocalResearchHost({...provider.localResearchOptions(knowledgeRoot),...(options.researchOptions??{})});
+  const read=adapter.runKnowledgeLookup(lookup,()=>query.research.readDirectFile(packet.relative,{request:input.request??{need:{question:packet.relative}}}));
+  if(read.status==='source_read'){
+   lookup.observe({entry:context.entry,operation:'direct_read_confirmed',status:'caller_asserted_consumption',source:{ref:read.ref,version:read.source_sha256,stage,ranges:[read.range]}});
+   result={status:'observed_direct_read',source_ref:read.ref,source_sha256:read.source_sha256,stage,claim_support:'not_verified',research:read.research,writes:false};
+  }else result=read;
+ }
+ else if(operation==='confirm_read')result=adapter.observeDirectRead(lookup,{root:knowledgeRoot,relative:packet.relative,entry:context.entry,stage:packet.stage??'read'});
  else if(operation==='observe_cache'){
   if(typeof input.ref!=='string'||typeof input.version!=='string')throw Error('Actual cache source and version required');
   lookup.observe({entry:'rag_cache',operation:'cache_return',status:'cached_version',source:{ref:input.ref,version:input.version,stage:'returned'}});
@@ -36,7 +58,7 @@ export async function execute(packet,options={}){
   let query=await import(pathToFileURL(path.join(moduleRoot,'system/query/query-evidence.mjs')));
   const researchRef=ref=>typeof ref==='string'&&ref.startsWith('knowledge:research:');
   const hasResearchEvidence=researchRef(input.ref)||researchRef(input.receipt?.ref)||(Array.isArray(input.receipts)&&input.receipts.some(r=>researchRef(r?.ref)));
-  const needsResearch=packet.research===true||hasResearchEvidence;
+  const needsResearch=packet.research!==false||hasResearchEvidence;
   if(needsResearch){
    try{
     const provider=await import(pathToFileURL(path.join(moduleRoot,'system/integrations/research-reports-host.mjs')));
@@ -46,20 +68,20 @@ export async function execute(packet,options={}){
      const nativeActions={discover:query.discover,read:query.readSource,reuse:query.reuseSource,verify:query.verifyEvidence,review:query.reviewAnswer,assemble:query.assembleResult};
      if(!nativeActions[operation])throw Error('Unknown host operation');
      const ordinary=adapter.runKnowledgeLookup(lookup,()=>nativeActions[operation](input,knowledgeRoot));
-     return {...ordinary,research:{status:'unavailable',reason:e.code??e.message},compounding:{...(ordinary.compounding??{}),completion:lookup.finish({defer:true})}};
+     return {...ordinary,research:{status:'unavailable',reason:e.code??e.message},compounding:{...(ordinary.compounding??{}),completion:lookup.finish({defer:true}),...(queryPackages?{query_packages:queryPackages}:{})}};
     }
-    return {status:'unavailable',reason:'research_provider_unavailable',detail:e.code??e.message,writes:false,compounding:{completion:lookup.finish({defer:true})}};
+    return {status:'unavailable',reason:'research_provider_unavailable',detail:e.code??e.message,writes:false,compounding:{completion:lookup.finish({defer:true}),...(queryPackages?{query_packages:queryPackages}:{})}};
    }
   }
   const actions={discover:query.discover,read:query.readSource,reuse:query.reuseSource,verify:query.verifyEvidence,review:query.reviewAnswer,assemble:query.assembleResult};
   if(!Object.hasOwn(actions,operation))throw Error('Unknown host operation');
   result=adapter.runKnowledgeLookup(lookup,()=>actions[operation](input,knowledgeRoot));
  }
- return {...result,compounding:{...(result.compounding??{}),completion:lookup.finish({outcome:result.status??'completed',defer:true})}};
+ return {...result,compounding:{...(result.compounding??{}),completion:lookup.finish({outcome:result.status??'completed',defer:true}),...(queryPackages?{query_packages:queryPackages}:{})}};
 }
 export async function main(argv=process.argv.slice(2)){
  if(!argv.length||argv[0]==='--help'){
-  const help={usage:'node system/integrations/lookup-host.mjs <host-packet.json|-> [--knowledge-root ...] [--tools-root ...] [--home ...]',operations:['discover','read','reuse','verify','review','assemble','principles','confirm_read','observe_cache','pending','finish'],read_packet:{operation:'read',entry:'research',purpose:'research',input:{request:'original Query request',ref:'actual Knowledge ref',selection:{mode:'full'}}},finish_packet:{operation:'finish',continuation:'copy actual producer completion.continuation',observations:'copy actual producer observations',finding:{id:'stable finding name',kind:'answer_omission',summary:'actual bounded observation; not a fabricated source claim',consumption:[{ref:'actually observed ref',stage:'read'}],issue:'optional original owner/handoff/action/evidence',increment:'optional condition/basis/consumer fields'}},no_increment:'No new record or per-query report required; explicit finish without finding returns no_increment.',side_effects:'Reads remain read-only. Only eligible host finish/control persists private state. No model/network/scheduler.'};console.log(JSON.stringify(help,null,2));return help;
+  const help={usage:'node collaboration/knowledge-compounding.mjs <host-packet.json|-> [--knowledge-root ...] [--tools-root ...] [--home ...]',operations:['discover','read','reuse','verify','review','assemble','principles','confirm_read','observe_cache','pending','query_package_read','query_package_assess','finish'],read_packet:{operation:'read',entry:'research',purpose:'research',input:{request:'original Query request',ref:'actual Knowledge ref',selection:{mode:'full'}}},finish_packet:{operation:'finish',continuation:'copy actual producer completion.continuation',observations:'copy actual producer observations',finding:{id:'stable finding name',kind:'answer_omission',summary:'actual bounded observation; not a fabricated source claim',consumption:[{ref:'actually observed ref',stage:'read'}],issue:'optional original owner/handoff/action/evidence',increment:'optional condition/basis/consumer fields'}},no_increment:'No new record or per-query report required; explicit finish without finding returns no_increment.',side_effects:'Reads remain read-only. Eligible host finish/control and explicit local-owner query_package_assess persist private state. No model/network/scheduler.'};console.log(JSON.stringify(help,null,2));return help;
  }
  const [file,...args]=argv;const options={};
  for(let i=0;i<args.length;i++){

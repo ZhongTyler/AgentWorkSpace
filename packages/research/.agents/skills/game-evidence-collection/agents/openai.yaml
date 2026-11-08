@@ -1,0 +1,4 @@
+interface:
+  display_name: "游戏研究取证搜集"
+  short_description: "为单款游戏研究定位并核对版本、发行包、规则、原片及可复用证据"
+  default_prompt: "使用$game-evidence-collection为当前游戏研究选择必要的取证路径，返回原件、版本和实际观察范围。"

@@ -196,8 +196,15 @@ export async function main(argv=process.argv.slice(2)){
  const [action,jsonPath,...rest]=argv;const pos=rest.indexOf('--root');const root=pos>=0?path.resolve(rest[pos+1]):defaultRoot;
  if(!jsonPath||!['discover','read','reuse','verify','review','assemble'].includes(action))throw new Error('Usage: node system/query/query-evidence.mjs discover|read|reuse|verify|review|assemble <request.json|-> [--root <Knowledge>]');
  const input=JSON.parse(fs.readFileSync(jsonPath==='-'?0:jsonPath,'utf8').replace(/^\uFEFF/,''));
- const result=await runCliLookup(()=>({discover,read:readSource,reuse:reuseSource,verify:verifyEvidence,review:reviewAnswer,assemble:assembleResult})[action](input,root),{root,entry:'query_cli',terms:(input.request??input).terms??[]});
+ let query={discover,readSource,reuseSource,verifyEvidence,reviewAnswer,assembleResult};
+ const researchRef=ref=>typeof ref==='string'&&ref.startsWith('knowledge:research:');
+ const hasResearchEvidence=researchRef(input.ref)||researchRef(input.receipt?.ref)||(Array.isArray(input.receipts)&&input.receipts.some(receipt=>researchRef(receipt?.ref)));
+ if((input.research!==false||hasResearchEvidence)&&fs.existsSync(path.join(root,'research-reports/catalog.json'))){
+  const provider=await import('../integrations/research-reports-host.mjs');
+  query=provider.createLocalResearchHost(provider.localResearchOptions(root));
+ }
+ const result=await runCliLookup(()=>({discover:query.discover,read:query.readSource,reuse:query.reuseSource,verify:query.verifyEvidence,review:query.reviewAnswer,assemble:query.assembleResult})[action](input,root),{root,entry:'query_cli',terms:(input.request??input).terms??[]});
  console.log(renderCliResult(result));
  if(['invalid','invalid_evidence','answer_revision_required','denied','permission_denied'].includes(result.status))process.exitCode=2;
 }
-if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){try{await main();}catch(e){console.error(JSON.stringify(failure('invalid_request',e.message)));process.exitCode=2;}}
+if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href)main().catch(e=>{console.error(JSON.stringify(failure('invalid_request',e.message)));process.exitCode=2;});

@@ -77,3 +77,7 @@ Tools includes a reviewed strict-reader subset of @xzxzzx/bilibili-mcp 1.14.3 (A
 ## 1.29.0 selected methods
 
 Session Handoff retains the selected HERO method from wanshuiyin/HERO-Anti-OverDefense at 106cadf9f72d5852bc399b9b5699ad9ec4a36ecb (MIT). Game Feel and Game UI/UX retain gamedev-skills/awesome-gamedev-agent-skills at 184b72be02884f782a0058f2eeae2ce4277453e4 (Apache-2.0). Complete license/NOTICE files, per-method upstream records and recipient adapters are delivered in packages/skills/library. See packages/skills/THIRD_PARTY_NOTICES.md. Importing methods does not install tools, runtimes or services.
+
+## 1.30.0 method updates
+
+The updated Humanizer resources retain their original license. The knowledge-consistency method includes the MIT notice from KKKKhazix/khazix-skills at 35bd05b466ceb83a727b28afb54b45b69a6c3b0a. The complete khazix-LICENSE is retained in the method directory. Anti-Defensive Writing's original MIT method, provenance and host adapter are also bundled with meta. See packages/skills/THIRD_PARTY_NOTICES.md and the per-method upstream records.

@@ -5,8 +5,12 @@ description: 当开发或实验任务因状态难观察、参数反复调整、�
 
 # 观察、调参与复现入口
 
-先从宿主维护或实验入口确认当前任务、owner、授权和实际运行对象。按宿主已有支持入口定位 `collaboration/support-and-learning.md` 的“运行反馈：按需观察、调参与复现”；full安装位于该位置；compatible局部安装可在 `modules/meta/collaboration/support-and-learning.md` 定位，宿主已有支持入口优先。它是唯一方法正文，本Skill只负责发现与路由，不另维护参数、预设、面板或测试流程。
+先识别当前问题、owner、授权与运行对象，按[方法正文](references/feedback-method.md)复用或补齐最小观察、调整、比较与恢复入口。接收方已有同等维护方法时复用其位置与当前合同。包内参考提供可独立阅读的方法，实际运行工具按宿主可用能力选择。
 
-没有安装meta时，可读取[本版公开反馈方法](https://github.com/ZhongTyler/AgentWorkSpace/blob/v1.14.1/meta/workspace/collaboration/support-and-learning.md#运行反馈按需观察调参与复现)；不要求为此安装整个框架。宿主有经核对的等效方法时复用它。实际试验复用或补足哪些能力、调整与恢复是否生效、覆盖与未知，写回宿主原记录；方法适用于玩法、数值、AI、输入、生成、性能、表现/音频及其他开发实验，不强制图形面板。
+已接入 meta 时，完整版入口为 `collaboration/support-and-learning.md`，兼容模式入口为 `modules/meta/collaboration/support-and-learning.md`。沿宿主已登记的入口读取同版本方法，再按实际任务选择反馈工具。
 
-方法不可达时说明具体缺口，继续不依赖它的已授权工作；不要复制或猜测第二套方法。安装Skill不附带运行工具、模型/MCP、项目实现或任何额外权限；不改正式决定、冻结项目、存档或其他owner数据。结构通过和面板存在不代表运行效果或长期节时。
+需要选用、适配或制作新工具时，按需使用可发现的task-tooling。已有Inspector、CLI、日志、固定场景或测试可以回答问题时直接使用。验证实际消费者读取到配置，比较相关输出，并核对重复运行与恢复。
+
+沿原任务记录触发、消费、结果及适用范围，实际采用和产品决定由原owner维护。
+
+历史便携入口可供对照。[原入口](https://github.com/ZhongTyler/AgentWorkSpace/blob/v1.14.1/meta/workspace/collaboration/support-and-learning.md#运行反馈按需观察调参与复现)

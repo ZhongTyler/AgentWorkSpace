@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>资源审阅图册</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#edf0e1;color:#284e41;font:16px/1.6 "Microsoft YaHei",sans-serif}header{background:#284f41;color:#fff9e8;padding:26px 32px}h1{margin:0;font-size:26px}header p{margin:8px 0 0}nav{position:sticky;top:0;z-index:2;background:#fff9e9;padding:12px 20px;display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid #bbc4ab}button,a{color:inherit}button{font:inherit;padding:7px 14px;border:1px solid #98aa8b;border-radius:6px;background:#fffdf1;cursor:pointer}button[aria-pressed="true"]{background:#32624f;color:white}main{max-width:1600px;margin:24px auto;padding:0 24px}section[hidden]{display:none}article{background:#fffdf3;border:1px solid #c7cfb8;border-radius:10px;padding:20px;margin-bottom:22px}h2{margin:0 0 12px;font-size:22px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}.asset{border:1px solid #bbc8ad;border-radius:8px;padding:16px 10px;text-align:center;background:var(--mat,#d3ddbc);overflow:hidden}.asset img{display:block;margin:12px auto;object-fit:contain;image-rendering:auto}.asset b{display:block}.asset small{display:block;overflow-wrap:anywhere;font:12px/1.5 monospace}.asset a{display:block;margin-top:5px}.scene{display:block;width:100%;height:auto;max-width:1920px;background:var(--mat,#d3ddbc)}.scene-list{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.note{color:#875723}body[data-bg="dark"]{--mat:#253c37}body[data-bg="dark"] .asset{color:#fff5db}body[data-bg="light"]{--mat:#fffdf4}body[data-bg="scene"]{--mat:#d3ddbc}table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:9px;border:1px solid #c7cfb8;text-align:left}.status{margin-left:auto}.size-controls{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:15px}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.6 monospace}
+</style>
+<body data-bg="scene">
+<header><h1 id="title"></h1><p id="subtitle"></p><p>选择图标尺寸与底色，查看控件组合及各个完整画面。</p></header>
+<nav><button data-tab="assets" aria-pressed="true">独立资源</button><button data-tab="controls">控件状态组合</button><button data-tab="scenes">完整状态画面</button><button data-tab="audit">裁框与检查</button><button data-bg="light">浅底</button><button data-bg="dark">深底</button><button data-bg="scene" aria-pressed="true">场景底</button><button id="export-reviews">导出审阅意见</button><span id="status" class="status">加载中</span></nav>
+<main><section id="assets"></section><section id="controls" hidden></section><section id="scenes" hidden></section><section id="audit" hidden></section></main>
+<dialog id="review-export" style="width:min(900px,90vw);border:1px solid #8aa17b;border-radius:10px;background:#fff9e9;color:#284e41"><h2>审阅意见</h2><p>复制以下内容，可直接粘贴回对话或另存为JSON文件。资源ID和输入版本已包含在内。</p><textarea id="review-export-text" readonly style="width:100%;height:45vh;font:14px/1.5 monospace"></textarea><p><button id="select-review-text">选中全文</button> <button id="close-review-export">关闭</button></p></dialog>
+<script>
+/*__RENDERER__*/
+const DATA=/*__DATA__*/{};
+const renderer=createResourceRenderer();
+const esc=value=>String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+let iconSize='normal';
+const reviewKey='resource-review:'+DATA.review_version;
+let reviews={};
+try{reviews=JSON.parse(localStorage.getItem(reviewKey)||'{}')}catch{}
+
+function reviewControls(id,kind){
+  const container=document.createElement('div');container.dataset.review=id;container.style.marginTop='12px';
+  const select=document.createElement('select');select.setAttribute('aria-label','审阅结论 '+id);select.style.cssText='font:inherit;max-width:100%;padding:5px';
+  for(const [value,label] of [['pending','待审'],['adopted','采用'],['revise','需修改'],['rejected','否决']]){const option=document.createElement('option');option.value=value;option.textContent=label;select.append(option)}
+  select.value=reviews[id]?.status||'pending';
+  const note=document.createElement('textarea');note.setAttribute('aria-label','审阅备注 '+id);note.placeholder='修改意见或采用范围';note.rows=2;note.style.cssText='display:block;width:100%;margin:6px 0;font:14px sans-serif';note.value=reviews[id]?.note||'';
+  const save=()=>{reviews[id]={id,kind,status:select.value,note:note.value};try{localStorage.setItem(reviewKey,JSON.stringify(reviews))}catch{}};
+  select.onchange=save;note.oninput=save;container.append(select,note);return container;
+}
+
+function exportReviews(){
+  const report={schema:1,title:DATA.title,manifest_sha256:DATA.review_version,entries:Object.values(reviews),source_hashes:DATA.sources.map(source=>({id:source.id,sha256:source.sha256}))};
+  document.querySelector('#review-export-text').value=JSON.stringify(report,null,2);
+  document.querySelector('#review-export').showModal();
+}
+
+function showAssets(){
+  const root=document.querySelector('#assets');
+  root.innerHTML='<article><h2>尺寸对照</h2><div class="size-controls"></div><p>每张图使用独立裁框输出。尺寸文件经过透明通道高质量采样，可在浅底和深底检查轮廓。</p></article>';
+  for(const size of ['normal',24,32,48,64,112,128]){
+    const button=document.createElement('button');button.textContent=size==='normal'?'用途默认尺寸':size+'px';button.dataset.size=size;button.setAttribute('aria-pressed',String(size===iconSize));button.onclick=()=>{iconSize=size;showAssets()};root.querySelector('.size-controls').append(button);
+  }
+  for(const [group,label] of Object.entries(DATA.groups)){
+    const assets=DATA.assets.filter(asset=>asset.group===group);if(!assets.length)continue;
+    const article=document.createElement('article');article.dataset.group=group;article.innerHTML=`<h2>${esc(label)} · ${assets.length}</h2><div class="grid"></div>`;
+    for(const asset of assets){
+      const size=asset.sizes.length?(iconSize==='normal'?asset.normal_px:Number(iconSize)):'native';
+      const uri=asset.versions[size]||asset.versions.native;
+      const width=size==='native'?Math.min(210,asset.width):size;
+      const height=size==='native'?Math.min(210,asset.height*width/asset.width):size;
+      const item=document.createElement('div');item.className='asset';item.dataset.asset=asset.id;
+      item.innerHTML=`<img src="${uri}" alt="${esc(asset.name)}" width="${width}" height="${height}"><b>${esc(asset.name)}</b><small>${esc(asset.id)}</small><small>${size==='native'?'原比例':size+'px'}</small><a href="${uri}" download="${esc(asset.id)}.png">保存PNG</a>`;item.append(reviewControls(asset.id,'asset'));article.querySelector('.grid').append(item);
+    }
+    root.append(article);
+  }
+}
+
+function showSceneGroup(target,kind){
+  const scenes=DATA.scenes.filter(scene=>scene.group===kind);
+  const article=document.createElement('article');article.innerHTML='<div class="scene-list"></div><h2></h2><p class="note"></p><div class="scene-host"></div>';
+  const choose=scene=>{
+    article.querySelector('h2').textContent=scene.name;
+    article.querySelector('.note').textContent=scene.note||'';
+    const canvas=renderer.renderScene(scene);canvas.className='scene';canvas.dataset.scene=scene.id;article.querySelector('.scene-host').replaceChildren(canvas,reviewControls(scene.id,'scene'));
+    article.querySelectorAll('[data-scene-id]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.sceneId===scene.id)));
+  };
+  for(const scene of scenes){const button=document.createElement('button');button.textContent=scene.name;button.dataset.sceneId=scene.id;button.onclick=()=>choose(scene);article.querySelector('.scene-list').append(button)}
+  document.querySelector('#'+target).append(article);if(scenes.length)choose(scenes[0]);
+}
+
+function showAudit(){
+  const rows=DATA.assets.filter(asset=>asset.audit).map(asset=>`<tr><td>${esc(asset.name)}</td><td>${esc(asset.region.join(', '))}</td><td>${esc(asset.audit.edge_clear?'通过':'需检查')}</td><td>${esc(asset.audit.thresholds)}</td></tr>`).join('');
+  document.querySelector('#audit').innerHTML=`<article><h2>裁框、边界与检查</h2><p>${esc(DATA.audit_summary)}</p><table><thead><tr><th>资源</th><th>裁框 left, top, right, bottom</th><th>主体边界完整</th><th>Alpha核对</th></tr></thead><tbody>${rows}</tbody></table></article>`;
+}
+
+window.reviewReady=(async()=>{
+  document.title=DATA.title;document.querySelector('#title').textContent=DATA.title;document.querySelector('#subtitle').textContent=DATA.subtitle;
+  await renderer.loadPrepared(DATA.assets);showAssets();showSceneGroup('controls','controls');showSceneGroup('scenes','battle');showAudit();
+  document.querySelector('#status').textContent=`资源 ${DATA.assets.length} · 状态 ${DATA.scenes.filter(scene=>scene.group==='battle').length}`;
+  document.querySelectorAll('[data-tab]').forEach(button=>button.onclick=()=>{document.querySelectorAll('main>section').forEach(section=>section.hidden=section.id!==button.dataset.tab);document.querySelectorAll('[data-tab]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)))});
+  document.querySelectorAll('button[data-bg]').forEach(button=>button.onclick=()=>{document.body.dataset.bg=button.dataset.bg;document.querySelectorAll('button[data-bg]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)))});
+  document.querySelector('#export-reviews').onclick=exportReviews;
+  document.querySelector('#select-review-text').onclick=()=>document.querySelector('#review-export-text').select();
+  document.querySelector('#close-review-export').onclick=()=>document.querySelector('#review-export').close();
+  window.reviewRenderer=renderer;window.reviewData=DATA;return true;
+})().catch(error=>{document.querySelector('#status').textContent='加载失败 '+error.message;throw error});
+</script>
+</body>
+</html>

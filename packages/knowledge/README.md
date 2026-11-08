@@ -25,3 +25,9 @@ Clippings保留原材料身份；raw保留作者完整重要论证；Wiki综合�
 本版的合并执行、主审核者、精确版本收尾与可选研究/知识复利接线见 [便携执行说明](system/protocols/PORTABLE_EXECUTION.md)。模型、会话、资料绑定和外部发布均由接收方配置与授权；安装不启动这些行为。
 
 本版更新研究关系导航、查询完成状态、Group 阈值评估及安全来源投影。研究/Tools 接线仍可选；缺少配置不推断作者目录，不包含在线查询服务或真实研究数据。手工来源发布须有绑定精确源/公开哈希及授权引用的记录；URL 安全投影不会联网访问或改写服务商请求。
+
+本版提供查阅包校验、幂等接收、撤回和本地裁决入口，以及明确授权的研究公开视图、同步内容准入和安装恢复。报告目录仍从空状态开始。通过本地配置绑定库、私有home、命名空间和精确快照，安装包本身不建立这些绑定。Tools为按需配置的可选核心，未配置时保留普通Wiki/Raw查阅。
+
+本地owner查阅包绑定online-inbox.json需显式configRoot、configPath及哈希、namespace、coreHashes。configRoot由接收方维护且包含配置与私有home，输入材料不能指定该根。Windows同步安装器使用随包runtime-source-inventory.json核验源字节，通过PowerShell的-ToolsRoot参数或PreviousConfig指定实际Tools目录。先用-VerifyOnly检查依赖，再按接收方任务授权安装与注册。
+
+查阅包的bug_fixed结案需要实际反馈Core提供FileStore.resolveIssue。当前分发中的Tools固定Core可接收、读取、交接和处理普通裁决；结案时返回feedback_resolution_unavailable并保留待处理包。接收方已配置兼容的新Core时可执行完整结案。本包记录两套精确Core/Store哈希以核验版本；Tools分发内容沿其独立发布维护。owner绑定另需ownerNamespace，与本地任务的host、library_id和view一致。

@@ -1,0 +1,35 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import {createHash} from 'node:crypto';
+import {discoverWithRetrieval} from './retrieval-adapter.mjs';
+import {normalizeRequest} from './query-evidence.mjs';
+const hash=s=>createHash('sha256').update(s).digest('hex');
+const bundled='C:/Users/Admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe';
+const python=process.env.KNOWLEDGE_INDEX_PYTHON??(process.platform==='win32'&&fs.existsSync(bundled)?bundled:'python3');
+
+test('broad Domain and Group suggestions do not crowd verified lexical hits out of a bounded result',t=>{
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'query-rank-regression-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
+ const tools=path.join(root,'tools');fs.mkdirSync(path.join(tools,'integrations/retrieval'),{recursive:true});fs.mkdirSync(path.join(root,'wiki'));
+ const row=(name,signals=[])=>{const text='# '+name+'\nActual approved content.\n';const file='wiki/'+name+'.md';fs.writeFileSync(path.join(root,file),text);return {ref:'knowledge:wiki:'+name,path:file,source_sha256:hash(text),discovery_signals:signals,title:name};};
+ const broad=[row('BroadA',['domain:Design']),row('BroadB',['group:genre']),row('BroadC',['domain:Design'])];
+ const relevant=row('PreciseMechanism'),second=row('SecondMechanism');
+ const output={used_mode:'bm25',snapshot_id:'synthetic-rank-fixture',source_commit:'a'.repeat(40),scope_documents:5,candidates:[relevant,second].map(x=>({path:x.path,source_id:x.ref,source_sha256:x.source_sha256}))};
+ fs.writeFileSync(path.join(tools,'integrations/retrieval/cli.py'),'print('+JSON.stringify(JSON.stringify(output))+')\n');
+ const runtime=path.join(root,'runtime.json');fs.writeFileSync(runtime,JSON.stringify({source_root:root}));
+ const binding=path.join(root,'binding.json');fs.writeFileSync(binding,JSON.stringify({schema_version:1,python,tools_root:tools,runtime_config:runtime}));
+ const old=process.env.KNOWLEDGE_RETRIEVAL_CONFIG;process.env.KNOWLEDGE_RETRIEVAL_CONFIG=binding;t.after(()=>{if(old===undefined)delete process.env.KNOWLEDGE_RETRIEVAL_CONFIG;else process.env.KNOWLEDGE_RETRIEVAL_CONFIG=old;});
+ const input={need:{kind:'understanding',question:'A precise mechanism'},budget:{max_candidates:3},retrieval:{mode:'bm25'}};
+ const legacy=candidates=>()=>({status:'candidates_found',candidates,gaps:[],metrics:{file_reads:0,bytes_read:0},stop_reason:'awaiting_semantic_selection'});
+ const found=discoverWithRetrieval(input,root,{normalize:normalizeRequest,legacy:legacy(broad)});
+ assert.equal(found.retrieval.used_mode,'bm25');assert.deepEqual(found.candidates.map(x=>x.ref),[relevant.ref,second.ref,broad[0].ref]);
+ assert.ok(found.candidates.every(x=>x.content_read!==true&&x.claim_support!=='verified'));
+ const explicit=row('Explicit',['explicit_path']);
+ const chosen=discoverWithRetrieval(input,root,{normalize:normalizeRequest,legacy:legacy([explicit,...broad])});
+ assert.deepEqual(chosen.candidates.map(x=>x.ref),[explicit.ref,relevant.ref,second.ref]);
+ const principle={ref:'knowledge:principle:DPR-GP-001',path:'domains/Design.md',source_sha256:'b'.repeat(64),discovery_signals:[]};
+ const withPrinciple=discoverWithRetrieval(input,root,{normalize:normalizeRequest,legacy:legacy([principle,...broad])});
+ assert.equal(withPrinciple.candidates[0].ref,principle.ref);assert.equal(withPrinciple.candidates[1].ref,relevant.ref);
+ fs.appendFileSync(path.join(root,relevant.path),'Changed after indexing.');
+ const changed=discoverWithRetrieval(input,root,{normalize:normalizeRequest,legacy:legacy(broad)});
+ assert.equal(changed.retrieval.used_mode,'legacy');assert.equal(changed.retrieval.reason,'source_changed');
+});

@@ -91,7 +91,8 @@ def stage(source, destination):
             name, target = relative(item['source']), relative(item['target'])
             valid = ((target in public_roots and name == 'release-input/curated/' + target)
                      or (target.startswith('template/') and name == target and
-                         (target.endswith(('.md', '.json', '.mjs')) or target.endswith(('/.gitignore', '/.gitattributes'))))
+                         (target.endswith(('.md', '.json', '.mjs')) or target.endswith(('/.gitignore', '/.gitattributes'))
+                          or target in {'template/assets/index.html', 'template/maintenance/previews/open-asset-atlas.cmd'}))
                      or (target in {'scripts/create-project.py', 'tests/test_create.py'} and name == target))
             if not valid or any(part in {'.git', '.godot', '.import', 'node_modules', '__pycache__', 'private', 'runtime', 'plans', 'demo'} for part in target.split('/')) or not re.fullmatch(r'[0-9a-f]{64}', item.get('sha256', '')):
                 raise ContractError('GameProject input is outside the pinned template whitelist')

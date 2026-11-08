@@ -1,0 +1,13 @@
+{
+  "title": "资源审阅",
+  "subtitle": "将示例输入替换为项目实际资源、裁框和尺寸",
+  "groups": {"system": "界面图标"},
+  "sources": [
+    {"id": "source", "path": "assets/work/source.png", "sha256": "0000000000000000000000000000000000000000000000000000000000000000"}
+  ],
+  "assets": [
+    {"id": "icon-example", "name": "示例图标", "group": "system", "source": "source", "region": [0, 0, 32, 32], "require_edge_clear": true, "square": true, "master_size": 64, "sizes": [24, 32, 48, 64, 112, 128]}
+  ],
+  "scenes": [],
+  "audit_summary": "按实际输入检查完整裁框、透明边和使用尺寸"
+}

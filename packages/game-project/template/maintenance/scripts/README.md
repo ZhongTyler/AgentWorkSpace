@@ -22,3 +22,9 @@
 
 - [check-releases.mjs](check-releases.mjs)：交付版/采用门哈希与实际安装收据差异；回退后提示漂移，不自动改写。
 状态来源与消费者复核：health-check调用check-status.mjs；权威hash变动或引用缺失会失败。模板与现有项目保持该检查实现一致，更新须同时复验；检查不能代替人工语义判断。
+
+[asset-atlas.mjs](asset-atlas.mjs)启动固定图册，传项目根和可选--open；--check仅检查。数据读取、版本哈希和原子保存由[asset-atlas-store.mjs](asset-atlas-store.mjs)提供。浏览器与保存回归由[test-asset-atlas.mjs](test-asset-atlas.mjs)执行，参数为项目根、--evidence新目录及--browser路径；全程headless，写入仅发生在隔离夹具，真实项目只读。
+
+[archive-atlas-media.mjs](archive-atlas-media.mjs)预览未归属媒体归档范围，显式--archive才追加索引。保留原件和catalog，按输入版本拒绝并发覆盖。
+
+[audit-asset-atlas.mjs](audit-asset-atlas.mjs)只读核对登记语义、来源、复用、状态和消费者覆盖，支持--output，health-check调用同一函数。[test-atlas-audit.mjs](test-atlas-audit.mjs)使用隔离夹具验证错误能被发现，运行node maintenance/scripts/test-atlas-audit.mjs。

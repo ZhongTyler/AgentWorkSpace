@@ -10,3 +10,5 @@ description: 围绕具体问题开展有来源、有适用边界的研究并交�
 在接收方指定的包外目录维护原报告、证据、下一动作及恢复条件。定稿编辑保留事实、数值、条件、引用和不确定性。可选Knowledge、Skill或工具不可用时沿包内标准继续独立部分，说明缺失；安装包不自动启用外部服务、模型、采集、调度或其他会话。
 
 模型选择及真实调用观测见[接收方决策策略](../../../templates/decision-model-policy.md)；不存在的工具、模型或授权不作可用前提。
+
+搜集缺口按可发现的research-collection及包内game-evidence-collection选择路径。研究新增解释先维护正文与同源底稿，再生成HTML和导读。投入判断沿包内game-research/cost-evaluation/README.md，当前授权和接收方质量标准决定实际执行范围。

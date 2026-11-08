@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "version": "1.29.0",
+  "version": "1.30.0",
   "skills": [
     {
       "id": "game-presentation",
@@ -215,6 +215,30 @@
     {
       "id": "game-ui-ux",
       "description": "\"实现或修复游戏HUD与菜单的布局缩放、安全区、键鼠/手柄焦点、返回路径和状态更新；按当前引擎与宿主结构采用，不用于普通网页视觉风格或纯玩法规则。\"",
+      "optional_modules": [],
+      "install_requires": []
+    },
+    {
+      "id": "task-tooling",
+      "description": "当任务因反复人工转译、批量校对、领域编辑或重复操作而低效，且缺少合适入口时，判断是否值得选用、适配或制作小工具；按需自主完成可供人和Agent使用的操作与真实消费验证。一次明确修改或现有命令已足够时直接完成。",
+      "optional_modules": [],
+      "install_requires": []
+    },
+    {
+      "id": "research-collection",
+      "description": "为研究问题规划并执行多来源材料搜集，或围绕已有研究的关键缺口补证，控制重复、版本、读取范围和阶段投入；不用于普通单条事实查询、仅改写已给文本或自动订阅采集。",
+      "optional_modules": [],
+      "install_requires": []
+    },
+    {
+      "id": "opportunity-flow",
+      "description": "当用户希望从已有经历或能力系统探索副业、服务产品或职业转型机会，并形成优先级与行动计划，或要运行经历到机会的七步提示词时使用；普通简历润色、单项薪酬查询和仅研究提示词本身不自动启动本流程。",
+      "optional_modules": [],
+      "install_requires": []
+    },
+    {
+      "id": "game-evidence-collection",
+      "description": "为单款游戏研究搜集并核对具体规则、版本、发行包、截图与操作过程，选择源码、发行物或多模态取证路径；由通用研究搜集按需调用，不用于一般游戏新闻或直接生成整作研究结论。",
       "optional_modules": [],
       "install_requires": []
     }

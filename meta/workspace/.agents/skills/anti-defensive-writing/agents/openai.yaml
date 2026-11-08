@@ -1,0 +1,6 @@
+interface:
+  display_name: "Anti-defensive writing"
+  short_description: "Clarify technical prose without losing evidence"
+  default_prompt: "Use $anti-defensive-writing to revise this draft while preserving its evidence and necessary qualifications."
+policy:
+  allow_implicit_invocation: true

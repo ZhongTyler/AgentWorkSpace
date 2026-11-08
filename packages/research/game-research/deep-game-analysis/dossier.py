@@ -17,6 +17,11 @@ LINK = re.compile(r'!?\[[^\]]*\]\((<[^>]+>|[^)]+)\)')
 
 def evidence_graph(manifest, errors):
     """Use the same dependency traversal for domains, claims, cases and assets."""
+    # Knowledge's actual researchUnits reader requires chapter; path is for cases.
+    # Validate here so compiler preflight catches the mismatch before publication.
+    for claim in manifest['claims']:
+        if not isinstance(claim.get('chapter'), str) or not claim['chapter'].strip():
+            errors.append('claim requires chapter for Knowledge reader: ' + str(claim.get('id')))
     nodes={}
     for key,kind in [('sources','source'),('assets','asset'),('cases','case'),('claims','claim')]:
         for row in manifest[key]:

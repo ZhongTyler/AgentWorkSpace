@@ -4,8 +4,8 @@ import path from 'node:path';
 import {createEvidenceQuery,defaultRoot,normalizeRequest} from '../query/query-evidence.mjs';
 import {createResearchLibrary,defaultResearchBindings} from './research-reports.mjs';
 
-export function createLocalResearchHost({root=defaultRoot,bindings=defaultResearchBindings(root),catalogPath,enabled=true,allowedVersionGroups=null}={}){
- const library=createResearchLibrary({root,bindings,catalogPath,enabled,allowedVersionGroups});
+export function createLocalResearchHost({root=defaultRoot,bindings=defaultResearchBindings(root),catalogPath,enabled=true,allowedVersionGroups=null,publicProfilePath=null,privateEvidence=false}={}){
+ const library=createResearchLibrary({root,bindings,catalogPath,enabled,allowedVersionGroups,publicProfilePath,privateEvidence});
  const query=createEvidenceQuery({root,resolveSource:library.resolver});
  return Object.freeze({...query,research:library,
   discover(input){
@@ -31,9 +31,18 @@ export function createLocalResearchHost({root=defaultRoot,bindings=defaultResear
  });
 }
 
+/** The published profile is part of the host's accepted snapshot, never browser input. */
+export function publicResearchOptions(root=defaultRoot,{privateEvidence=false}={}){
+ const publicProfilePath=path.join(root,'research-reports/public-view.json');
+ return {root,bindings:{knowledge:root},publicProfilePath,privateEvidence,enabled:fs.existsSync(publicProfilePath)};
+}
+
 export function localResearchOptions(root=defaultRoot){
  const config=path.join(root,'system/query/research.local.json');
- if(!fs.existsSync(config))return {root,bindings:defaultResearchBindings(root),enabled:false};
+ if(!fs.existsSync(config)){
+  const published=publicResearchOptions(root,{privateEvidence:true});
+  return published.enabled?published:{root,bindings:defaultResearchBindings(root)};
+ }
  const value=JSON.parse(fs.readFileSync(config,'utf8').replace(/^\uFEFF/,''));
  if(value.schema_version!==1||typeof value.enabled!=='boolean'||!value.bindings||typeof value.bindings!=='object')throw Error('invalid_research_binding');
  for(const binding of Object.values(value.bindings))if(typeof binding!=='string'||!path.isAbsolute(binding))throw Error('research_binding_must_be_absolute');

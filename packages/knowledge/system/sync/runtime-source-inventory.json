@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "source_revision": "c5b56fe3becb97ae95229f3337b709012f0ec74e",
+  "files": {
+    "system/sync/analysis.mjs": "f868ae9a795ffb3a2aa5a514bcd499432348dd51fb06be9dbdf776cfe80fd79a",
+    "system/sync/analytics-snapshot.mjs": "dce681325a82f9f221266ea0c213bd06b1bcdc8efc1fb54778e09dbd9d6f46ff",
+    "system/sync/clients.mjs": "4232081e0fc26e709c2ac79e8ad3d03e1df27ae17e8afa1c2ae86b5d76c20b80",
+    "system/sync/content-policy.mjs": "7df5ac6ee0003fbc0f1038bd30b696ab2993745933c3c75ca4307fbd9d90274f",
+    "system/sync/data-health.mjs": "95ba856caed950c4d6697435c4315965745e63053a4bffcba1158374337fc4ff",
+    "system/sync/health.mjs": "a8ee48027d54844959f31a7e6986f00403f6882c4e5b9ca3f16ab76afd44dbc9",
+    "system/sync/metric-boundary.mjs": "e6ee024e8d92cc85b5d29059bb12a88881bf37af899f0e868ff4f3a863acefea",
+    "system/sync/private-metadata.mjs": "5c7222f354f0dfc86b383ea1f7bfe817ffc56870bc73fbb45a677d945d9d05f9",
+    "system/sync/publication-maintenance.mjs": "ea88e41ed951964933ab424d3e59aa1b263ef3841be13983af0005864aa38905",
+    "system/sync/snapshot-admission.mjs": "f610b30297c41aae4ab2b7ac98cbbd5c6366fc144da7f3017be0e5d04af9bdf0",
+    "system/sync/approved-source-projections.mjs": "f0fb0b2d4c651b5734063bc7ed04cdadd7b051df787d4a146679290a0653db21",
+    "system/sync/source-url-boundary.mjs": "09cecfab368468ccd0f6cdb96518f92eabac66ab941e1ea6fb8aa297d5a06f65",
+    "system/sync/schema-check.mjs": "2ee582a148ebc7651d559d37420a05d7b1a414a02341c55429fb5cc1436d8e72",
+    "system/sync/recovery.mjs": "316db1d8af74fc5e1dad29c407155993eed990805b364f736aa7a800d82884c3",
+    "system/sync/resources.mjs": "ca8ca2b05066bac84906f934558876ef681991bc5be91565334071d9cb7b0fcf",
+    "system/sync/runner.mjs": "1253fcda059ff398b98e3854a2312c40743e9ad7a72d9262a9065dd7c257eba3",
+    "system/sync/runtime-closure.mjs": "fe17ad8a21f79b89bbb26c8be8772ff48dfc92819dc47c67efc9932c50bffc1e",
+    "system/sync/state.mjs": "a40831a293a1c56171ed13a4f1fa53d5b3da7d408dea941465d69a8c71f6b926",
+    "system/sync/transport.mjs": "209d3285c57685fcb2c175701f2e11f59b4fae27edc6b94dbfb41933504b9021",
+    "system/sync/query-package-sync.mjs": "3cd9138bb22d80c04332367fb874ac51969f545a088e91085a34b365d74dd11b",
+    "system/sync/install-local.ps1": "f5975d2a6631f548faa1ed975ff96c67903fa536b7e77c04274a1d2f3186b9d1",
+    "system/sync/task-control.ps1": "ff7a467ebe6d70aecdd38cc6da97b664522eb1d473983c03959f0aefa8dc1a3a",
+    "system/sync/task-runner.ps1": "c806b3872958deefd9201155c6d11e1aed5b6dfe8dfdedaa5955a946b4d1506e",
+    "system/integrations/query-package.mjs": "349769e8a388d971d5d395a94b525bd57007066e1074c5bf335556692ebce1d3",
+    "system/integrations/query-package-local.mjs": "bf7848c6da7d3ae17c18c4873dd64c9ca22db707966345fdfaa9f982108d267d"
+  }
+}

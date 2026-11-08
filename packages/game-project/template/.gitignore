@@ -13,3 +13,7 @@ node_modules/
 /builds/windows/**/*.exe
 /builds/windows/**/*.dll
 /builds/windows/**/*.zip
+
+# Local resource atlas session
+/maintenance/.asset-atlas.lock
+/assets/catalog.json.*.tmp

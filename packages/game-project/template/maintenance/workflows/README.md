@@ -18,6 +18,8 @@
 - [delivery.md](delivery.md)：里程碑交付与版本收尾。
 - [upgrade.md](upgrade.md)：Godot 或模板升级。
 
+工作台自身的页面、导航、表单、接口及数据结构增删改，进入[工作台维护](workbench.md)。
+
 - [assets.md](assets.md)：资源新增、修改、归档与发布边界。
 
 [状态维护](status.md)：权威状态、消费者复核和历史保全。

@@ -40,8 +40,9 @@ export function discoverWithRetrieval(input,root,{legacy,normalize}) {
   let found;try{found=JSON.parse(run.stdout);}catch{throw new Error('invalid_backend_output');}
   if(!Array.isArray(found.candidates)||found.used_mode!==mode)throw new Error('invalid_backend_output');
   const seen=new Set(),ranked=[];let returnedBytes=0,reads=0;
-  // Explicit navigation retains precedence. Non-Wiki principle candidates remain eligible.
-  const priority=base.candidates.filter(c=>c.discovery_signals?.some(s=>s==='explicit_path'||s.startsWith('group:')||s.startsWith('domain:'))||c.ref.startsWith('knowledge:principle:'));
+  // Exact source requests retain precedence. Broad Domain/Group suggestions
+  // supplement lexical hits; they must not fill the bounded list before BM25.
+  const priority=base.candidates.filter(c=>c.discovery_signals?.includes('explicit_path')||c.ref.startsWith('knowledge:principle:'));
   const push=c=>{if(!seen.has(c.ref)){seen.add(c.ref);ranked.push(c);}};priority.forEach(push);
   const wiki=fs.realpathSync(path.join(root,'wiki'));
   for(const c of found.candidates){

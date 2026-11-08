@@ -23,3 +23,9 @@ Windows 目录落盘遇到 EPERM/EACCES/EBUSY 时，最多追加 6 次短暂重�
 界面交互问题沿[workflow的UI状态反馈](workflow.md#ui状态反馈)按需引用interaction-design。共用方法由Skill拥有，本包保留游戏表现、规则边界与实际引擎验证；不新增必装依赖。
 
 中文字体选型、缺字或嵌入交付时，可沿[字体参考](https://github.com/ZhongTyler/AgentWorkSpace/blob/v1.19.0/packages/skills/library/game-presentation/references/font-selection.md)或宿主等价规范，按需从猫啃发现，再核对作者许可与具体版本。方法由Skill单独维护，不新增必装依赖，也不随包提供字体文件；实际显示与项目采用仍须验证。
+
+## 资源审阅与项目图册
+
+已有位图的裁框、尺寸预览、状态组合和独立离线HTML沿[资源审阅](resource-review.md)。执行器位于adapters/resource-review，接收显式项目目录、输入manifest、新输出目录和浏览器位置。需要接收方已有Node、Playwright与Chrome，缺少时仍可做规格和人工审阅。
+
+需要持续维护全资源、需求、候选版本及审阅时，沿[项目图册](project-atlas.md)使用GameProject模板中的独立实现或宿主等效入口。它们是可选接线。安装本包后再按真实任务和配置判断生成器、动画或引擎能力。

@@ -1,5 +1,15 @@
 # Releases
 
+## 1.30.0 — 2026-11-08
+
+- meta adds the paired final-reply editing method, recipient-owned feedback routing and current common method resources.
+- Skills now offers 39 selectable methods. New methods cover task tooling, research collection, game evidence collection and the seven-step opportunity flow. Existing game, interaction, research expression and workflow methods are updated.
+- Knowledge adds recipient-owned query-package catalog/receipt workflows, compounding inventory, reviewed public research views and package-local sync/runtime source verification. Advanced verified bug-fix closure requires an explicitly configured compatible Core. The distributed older Core retains unsupported closure requests pending.
+- Research updates the study compiler, workflow stages, reader navigation and package-local collection, rendering and cost methods. Real reports and experiments stay with their owners.
+- GamePresentation adds hash-pinned resource-review galleries, explicit crops/groups/sizes, offline review and guarded new output directories.
+- GameProject ships template 0.2.11 with resource atlases and maintenance workflows. Existing generated project copies are preserved.
+- Tools and the other five component inventories are unchanged. See upgrades/1.30.0.md and docs/releases/1.30.0-validation.md for compatibility, recovery and verification coverage.
+
 ## 1.29.0 — 2026-11-04
 
 - meta: proportionate progress review, stopping conditions and outcome learning.

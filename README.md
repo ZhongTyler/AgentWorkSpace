@@ -139,10 +139,10 @@ Agent 按审计返回的 criteria 审阅现有规则与接口，记录理由、�
 | [Brainstorm](packages/brainstorm/README.md) | “一起脑暴这个问题……”；会话随任务创建 | `modules/brainstorm` | 无需其他业务包；Knowledge、GameAnalysisDecision 可选 |
 | [FromDemoToSpec](packages/fromdemotospec/README.md) | “制作一个可玩原型……”；在独立项目目录开发 | `modules/fromdemotospec` | 无需其他业务包；知识、分析、表现与素材包按需接入 |
 | [Knowledge](packages/knowledge/README.md) | “查询知识库”或“消化这些材料”；空库也可查询 | `modules/knowledge` | 无需其他业务包；首次 Ingest 前配置知识范围与本地 Git |
-| [Skills](packages/skills/README.md) | 35 项开发、研究、表达、交互与工作流方法，按名字选择安装 | `modules/skills` | 不需要其他模块；安装库不会自动启用全部 Skill |
+| [Skills](packages/skills/README.md) | 39 项开发、研究、表达、交互与工作流方法，按名字选择安装 | `modules/skills` | 不需要其他模块；安装库不会自动启用全部 Skill |
 | [GameAnalysisDecision](packages/game-analysis-decision/README.md) | 有事实依据的游戏问题分析、条件建议与方法校正 | `modules/game-analysis-decision` | 可单独使用；Knowledge 与其他宿主包可选 |
-| [GameProject](packages/game-project/README.md) | 创建或选择性接入 Godot 项目工作区：维护、决定、资源与构建骨架 | `modules/game-project` | 可单独使用；新建包外副本，已有项目先审阅，不预装游戏或引擎 |
-| [GamePresentation](packages/game-presentation/README.md) | 表现规格、资源制作与 Godot 交付、恢复 | `modules/game-presentation` | 可使用手工或生成来源；PrototypeAssets 可选 |
+| [GameProject](packages/game-project/README.md) | 创建或选择性接入 Godot 项目工作区，维护决定、资源图册、审阅与构建骨架 | `modules/game-project` | 可单独使用；新建包外副本，已有项目先审阅，不预装游戏或引擎 |
+| [GamePresentation](packages/game-presentation/README.md) | 表现规格、资源制作、离线审阅图册与 Godot 交付、恢复 | `modules/game-presentation` | 可使用手工或生成来源；PrototypeAssets 可选 |
 | [Travel](packages/travel/README.md) | “帮我研究并规划这趟旅行……”；生成私人离线网站 | `modules/travel` | 可单独使用；无必装包，采集服务、浏览器验收和服务器可选 |
 | [PrototypeAssets](packages/prototype-assets/README.md) | 119 项有来源和许可记录的精选，以及校验导出工具 | `modules/prototype-assets` | 素材和许可复制后，游戏不依赖来源包 |
 | [Research](packages/research/README.md) | MD/网址/问题研究、游戏设计与源码参考、可选主动探索 | `modules/research` | 可单独使用；Knowledge、MCP、媒体工具和宿主调度按需授权 |
@@ -154,7 +154,7 @@ Agent 按审计返回的 criteria 审阅现有规则与接口，记录理由、�
 
 项目可以放在 `projects/` 或你指定的目录。会话、知识正文和用户配置留在目标工作区，不写回本发布仓。`.agent-workspace/state.json` 只记录已装版本和框架文件基线，不拥有业务事实。
 
-meta 还包含 [Humanizer-zh](meta/workspace/.agents/skills/humanizer-zh/SKILL.md)。需要润色中文时，可让 Agent 使用它减少空话、重复和模板化表达，同时保留事实、确定程度和作者声音。它是编辑指导，不是作者身份检测工具；英文说明也应保持同样的准确性。
+meta 内置 humanizer-zh 与 anti-defensive-writing，最终答复合并审校一次，保留事实、确定程度与作者声音。英文说明保持同样的准确性。[Humanizer-zh](meta/workspace/.agents/skills/humanizer-zh/SKILL.md) · [Anti-Defensive Writing](meta/workspace/.agents/skills/anti-defensive-writing/SKILL.md)
 
 ## 按需选择 Skill
 

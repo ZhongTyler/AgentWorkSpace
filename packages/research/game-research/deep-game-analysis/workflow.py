@@ -14,6 +14,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import subprocess
 import tempfile
 import time
 
@@ -36,6 +37,58 @@ def tool_identity():
              HERE / 'reader-navigation/build.py', HERE / 'reader-navigation/check.py',
              HERE / 'reader-navigation/navigation.css', HERE / 'reader-navigation/navigation.js']
     return {str(p.relative_to(HERE.parents[1])): digest(p) for p in paths}
+
+def prepare_reader_review(report, run):
+    """Expose actual reader units to one author edit; never invent a review verdict."""
+    study = read(report / 'study.json')
+    projection = read(report / 'evidence/unit-projections.json')
+    units = {u['section_id']: u for u in projection['units']}
+    packet = {'schema_version': 1, 'report_snapshot': snapshot(report)['id'],
+              'source_study_sha256': digest(report / 'study.json'),
+              'kind': 'author_reader_value_review_input', 'semantic_verdict': 'not_judged',
+              'skills': ['humanizer-zh', 'anti-defensive-writing'],
+              'questions': ['本节帮助读者理解什么，完整正文和图注是否回答它？',
+                            '过程自述、重复免责及无增量段落是否应移回后台或删去？',
+                            '精简后，规则、数字、条件、反例和来源是否完整保留？'],
+              'instruction': 'Read the actual complete units and relevant figures, edit once before independent audit. This packet is not author approval or a new external gate.',
+              'sections': [{'id': s['id'], 'title': s['title'], 'reader_goals': s['reader_goals'],
+                            'document': str(local(report, units[s['id']]['path'])),
+                            'sha256': digest(local(report, units[s['id']]['path']))} for s in study['sections']]}
+    path = run / 'reader-review-input.json'; write_json(path, packet)
+    return {'path': str(path), 'sections': len(packet['sections']), 'semantic_verdict': 'not_judged'}
+
+def compare_delivery_tools(repository, revision, current, planned=()):
+    import re
+    if not re.fullmatch(r'[0-9a-fA-F]{40}', revision): raise ValueError('Use an exact 40-character Git commit SHA')
+    current = {p.replace('\\', '/'): h for p, h in current.items()}
+    planned = {p.replace('\\', '/') for p in planned}
+    if not planned <= current.keys(): raise ValueError('Planned tool is outside the known tool set')
+    command = ['git', '-c', 'safe.directory=' + repository.as_posix(), '-C', str(repository)]
+    checked = subprocess.run([*command, 'cat-file', '-t', revision], capture_output=True)
+    if checked.returncode or checked.stdout.strip() != b'commit': raise ValueError('Cannot read the specified Git commit')
+    rows = []
+    for path, expected in current.items():
+        result = subprocess.run([*command, 'show', revision + ':' + path], capture_output=True)
+        actual = hashlib.sha256(result.stdout).hexdigest() if result.returncode == 0 else None
+        rows.append({'path': path, 'working_sha256': expected, 'revision_sha256': actual,
+                     'status': 'match' if actual == expected else 'planned_change' if path in planned else 'unplanned_change'})
+    return {'revision': revision, 'tools': rows,
+            'committed_tools_verified': all(r['status'] == 'match' for r in rows),
+            'unplanned_changes': [r['path'] for r in rows if r['status'] == 'unplanned_change']}
+
+def delivery_preflight(args):
+    boundary = read(args.cost_boundary)
+    fields = ('measurement_end', 'bookkeeping_tail', 'token_scope', 'parallel_accounting')
+    if boundary.get('schema_version') != 1 or any(not isinstance(boundary.get(k), str) or not boundary[k].strip() for k in fields):
+        raise ValueError('Cost boundary needs schema_version=1 and ' + ', '.join(fields))
+    result = compare_delivery_tools(HERE.parents[1], args.revision, tool_identity(), args.planned_tool)
+    result['cost_boundary'] = {k: boundary[k] for k in fields}
+    result['cost_boundary_source_sha256'] = digest(args.cost_boundary)
+    result['cost_measurement'] = 'declaration_only; actual phases and finish remain with the existing cost tool'
+    write_json(args.run / 'delivery-preflight-inputs.json', result)
+    if result['unplanned_changes']:
+        raise ValueError('Unplanned tool differences; preserve other owners and resolve before delivery: ' + ', '.join(result['unplanned_changes']))
+    return result
 
 @contextmanager
 def writer_lock(run, filename='writer.lock'):
@@ -123,6 +176,9 @@ def build_transaction(report, run):
     # All checking finished in isolation. Publish only compiler-owned outputs.
     products = ['README.md', 'manifest.json', 'reader/index.html', 'reader/navigation.json', 'evidence/unit-projections.json']
     products += [u['path'] for u in read(stage / 'evidence/unit-projections.json')['units']]
+    binding = read(stage / 'study.json').get('explanation_bindings')
+    if binding and binding not in products:
+        products.append(binding)
     backups = {}
     for relative in products:
         destination = local(report, relative)
@@ -134,6 +190,8 @@ def build_transaction(report, run):
             destination = local(report, relative); destination.parent.mkdir(parents=True, exist_ok=True)
             pending = destination.with_name(destination.name + '.pipeline-new')
             shutil.copyfile(local(stage, relative), pending); pending.replace(destination)
+        if snapshot(report)['id'] != snapshot(stage)['id']:
+            raise ValueError('Published report differs from the checked stage')
     except Exception:
         for relative, previous in backups.items():
             destination = local(report, relative)
@@ -186,6 +244,10 @@ def execute(args, state, current):
         return {'sections': len(study['sections']), 'domains': len(manifest['domains']), 'routes': len(routes['routes']), 'content_quality': 'not_judged'}
     if args.action == 'build': return build_transaction(args.report, args.run)
     if args.action == 'check': return structural_check(args.report)
+    if args.action == 'prepare-review':
+        require_check(state, current)
+        return prepare_reader_review(args.report, args.run)
+    if args.action == 'delivery-preflight': return delivery_preflight(args)
     if args.action == 'record': return record_verdict(args, state, current)
     if args.action in ('freeze', 'handoff'):
         require_check(state, current)
@@ -215,13 +277,16 @@ def run(args):
             return {'report_snapshot': current['id'], 'mechanically_checked': checked, 'gates': gates, 'frozen': state.get('frozen_snapshot') == current['id'] and checked and gates['content'] and gates['page'], 'automatic_model_or_billing_tokens': 'unknown'}
         if args.action in ('preflight', 'build', 'check'):
             if fresh_step(state, args.action, current):
-                return {'reused': args.action, 'report_snapshot': current['id']}
+                result = {'reused': args.action, 'report_snapshot': current['id']}
+                if args.action == 'build': result['reader_review_input'] = prepare_reader_review(args.report, args.run)
+                return result
             failure = state.get('last_failure', {})
             if failure.get('action') == args.action and failure.get('snapshot') == current['id'] and failure.get('tools') == tool_identity() and not args.retry_reason:
                 raise ValueError('Same failed input already recorded; change the input/tool or provide --retry-reason')
         started = now(); clock = time.monotonic(); before = current['id']
         try:
             result = execute(args, state, current)
+            if args.action == 'build': result['reader_review_input'] = prepare_reader_review(args.report, args.run)
             after = snapshot(args.report)
             if args.action in ('preflight', 'build', 'check'):
                 state['steps'][args.action] = {'status': 'pass', 'snapshot': after['id'], 'tools': tool_identity()}
@@ -230,7 +295,10 @@ def run(args):
             state.pop('last_failure', None)
             write_json(args.run / (args.action + '-result.json'), result)
             write_json(args.run / 'current-snapshot.json', after)
-            return {'action': args.action, 'status': 'pass', 'report_snapshot': after['id'], 'result_file': str(args.run / (args.action + '-result.json'))}
+            summary = {'action': args.action, 'status': 'pass', 'report_snapshot': after['id'], 'result_file': str(args.run / (args.action + '-result.json'))}
+            if args.action == 'build': summary['reader_review_input'] = result['reader_review_input']
+            if args.action == 'delivery-preflight': summary['committed_tools_verified'] = result['committed_tools_verified']
+            return summary
         except Exception as error:
             state['last_failure'] = {'action': args.action, 'snapshot': before, 'tools': tool_identity(), 'error': str(error)}
             raise
@@ -242,16 +310,20 @@ def run(args):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=['preflight', 'build', 'check', 'record', 'freeze', 'handoff', 'status'])
+    parser.add_argument('action', choices=['preflight', 'build', 'check', 'prepare-review', 'delivery-preflight', 'record', 'freeze', 'handoff', 'status'])
     parser.add_argument('--report', type=Path, required=True)
     parser.add_argument('--run', type=Path, required=True)
     parser.add_argument('--gate', choices=GATES)
     parser.add_argument('--receipt', type=Path)
     parser.add_argument('--relations', type=Path)
     parser.add_argument('--retry-reason', default='')
+    parser.add_argument('--revision', help='Exact Git commit to compare, never fetched or checked out')
+    parser.add_argument('--planned-tool', action='append', default=[], help='Owned tool path expected to differ before its commit')
+    parser.add_argument('--cost-boundary', type=Path, help='Original batch cost boundary declaration, schema_version=1')
     args = parser.parse_args()
     if args.action == 'record' and (not args.gate or not args.receipt): parser.error('record requires --gate and --receipt')
     if args.action == 'handoff' and not args.relations: parser.error('handoff requires --relations')
+    if args.action == 'delivery-preflight' and (not args.revision or not args.cost_boundary): parser.error('delivery-preflight requires --revision and --cost-boundary')
     try: print(json.dumps(run(args), ensure_ascii=False))
     except (ValueError, KeyError, TypeError, OSError) as error:
         print(json.dumps({'status': 'fail', 'error': str(error)}, ensure_ascii=False)); return 1

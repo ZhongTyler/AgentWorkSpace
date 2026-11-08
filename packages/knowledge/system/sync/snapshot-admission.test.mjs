@@ -8,6 +8,39 @@ test('committed-byte oracle, ordered scope invariance, dirty and private exclusi
 test('missing approval, forged evidence/content, traversal, case collision and capacity fail before output',()=>{const f=fixture();try{const variants=[{decision:'pending'},{evidence:[]},{evidence:[{path:'docs/review.json',sha256:'0'.repeat(64)}]},{paths:[{...f.approval.paths[0],sha256:'0'.repeat(64)}]},{paths:[{path:'wiki/../secret.txt',sha256:'0'.repeat(64)}]},{paths:[{path:'wiki/x.md',sha256:'0'.repeat(64)},{path:'wiki/X.md',sha256:'0'.repeat(64)}]},{paths:[{path:'wiki/missing.md',sha256:'0'.repeat(64)}]},{deletions:[f.approval.paths[0].path]},{query_contract:'guessed'}];for(const [i,v]of variants.entries()){const output=f.output('bad'+i);assert.throws(()=>preparePublication({repository:f.repo,approval:{...f.approval,...v},output}));assert.equal(fs.existsSync(output),false);}assert.throws(()=>preparePublication({repository:f.repo,approval:f.approval,output:f.output('large'),maxBytes:1}),/capacity/);assert.equal(fs.existsSync(f.output('large')),false);}finally{fs.rmSync(f.home,{recursive:true,force:true});}});
 test('base/deletion changes produce distinct snapshot identities without editing prior receipts',()=>{const f=fixture();try{const a=preparePublication({repository:f.repo,approval:f.approval,output:f.output('a')});const old=fs.readFileSync(a.config.acceptancePath);const b=preparePublication({repository:f.repo,approval:{...f.approval,base_snapshot:a.snapshot_id,deletions:['wiki/retired.md']},output:f.output('b')});assert.notEqual(a.snapshot_id,b.snapshot_id);assert.deepEqual(fs.readFileSync(a.config.acceptancePath),old);}finally{fs.rmSync(f.home,{recursive:true,force:true});}});
 
+test('typed Group review receipts are admitted only as explicit private evidence',()=>{
+ const f=fixture();try{
+  const relative='docs/audits/raw-fidelity-20261013/full-b257-group-fixture.adjudication.json';
+  const bytes=Buffer.from('{"group_id":"fixture","definition_hash":"synthetic"}');
+  fs.mkdirSync(path.dirname(path.join(f.repo,relative)),{recursive:true});fs.writeFileSync(path.join(f.repo,relative),bytes);
+  gitBytes(f.repo,['add','--',relative]);gitBytes(f.repo,['commit','-qm','synthetic approved Group receipt']);
+  const approval={...f.approval,source_revision:gitBytes(f.repo,['rev-parse','HEAD']).toString().trim(),paths:[...f.approval.paths,{path:relative,sha256:hash(bytes),access:'private_evidence'}]};
+  const result=preparePublication({repository:f.repo,approval,output:f.output('group-receipt')});
+  assert.deepEqual(fs.readFileSync(path.join(result.config.sourceRoot,relative)),bytes);
+  assert.equal(acceptedManifest(result.config).manifest.entries.find(row=>row.path===relative).access,'private_evidence');
+  const publicPaths=approval.paths.map(row=>row.path===relative?{...row,access:'query'}:row);
+  assert.throws(()=>preparePublication({repository:f.repo,approval:{...approval,paths:publicPaths},output:f.output('public-receipt')}),/invalid_approved_path/);
+ }finally{fs.rmSync(f.home,{recursive:true,force:true});}
+});
+
+test('explicit research artifact inputs reuse frozen Git recovery bytes without tracking them again',()=>{
+ const f=fixture();try{
+  const relative='research-reports/fixture/evidence/frame.png',bytes=Buffer.from('synthetic frozen frame');
+  fs.mkdirSync(path.dirname(path.join(f.repo,relative)),{recursive:true});fs.writeFileSync(path.join(f.repo,relative),bytes);
+  gitBytes(f.repo,['add','--',relative]);gitBytes(f.repo,['commit','-qm','synthetic frozen evidence']);
+  const source=gitBytes(f.repo,['rev-parse','HEAD']).toString().trim(),old=committedFiles(f.repo,source,[relative])[0];
+  gitBytes(f.repo,['rm','--',relative]);fs.mkdirSync(path.join(f.repo,'.git-artifacts'));
+  const anchorPath='.git-artifacts/research-media.json',anchorBytes=Buffer.from(JSON.stringify({schema_version:1,source_revision:source,files:[{path:relative,oid:old.oid,bytes:bytes.length,mode:'100644',sha256:hash(bytes),role:'video_frame'}]}));
+  fs.writeFileSync(path.join(f.repo,anchorPath),anchorBytes);gitBytes(f.repo,['add','--',anchorPath]);gitBytes(f.repo,['commit','-qm','synthetic explicit recovery anchor']);
+  const approval={...f.approval,source_revision:gitBytes(f.repo,['rev-parse','HEAD']).toString().trim(),paths:[...f.approval.paths,{path:relative,sha256:hash(bytes),access:'private_evidence'}],artifact_inputs:[{path:relative,sha256:hash(bytes),anchor:{path:anchorPath,sha256:hash(anchorBytes)}}]};
+  const result=preparePublication({repository:f.repo,approval,output:f.output('artifacts')});
+  assert.deepEqual(fs.readFileSync(path.join(result.config.sourceRoot,relative)),bytes);assert.equal(fs.existsSync(path.join(f.repo,relative)),false);
+  assert.equal(acceptedManifest(result.config).manifest.entries.find(row=>row.path===relative).access,'private_evidence');
+  assert.throws(()=>preparePublication({repository:f.repo,approval:{...approval,artifact_inputs:[]},output:f.output('missing-anchor')}),/approved_content_missing_or_linked/);
+  assert.throws(()=>preparePublication({repository:f.repo,approval:{...approval,artifact_inputs:[{...approval.artifact_inputs[0],anchor:{path:anchorPath,sha256:'0'.repeat(64)}}]},output:f.output('wrong-anchor')}),/artifact_anchor_changed/);
+ }finally{fs.rmSync(f.home,{recursive:true,force:true});}
+});
+
 test('publication projects approved metadata into a new bound hash without modifying source or old review',()=>{
  const f=fixture();try{
   const relative=f.files[0].path,file=path.join(f.repo,relative),unsafe='https://mp.weixin.qq.com/s?mid=1&pass_ticket=SYNTHETIC_ONLY',safe='https://mp.weixin.qq.com/s?mid=1';

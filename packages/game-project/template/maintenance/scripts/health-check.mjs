@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
+import { auditAtlas } from "./audit-asset-atlas.mjs";
+import { checkAtlas } from "./asset-atlas-store.mjs";
 import { checkStatus } from "./check-status.mjs";
 import { checkDecisionReception } from "./check-decision-reception.mjs";
 import { checkBuildLayout } from "./check-build-layout.mjs";
@@ -10,6 +12,12 @@ const configPath = path.join(root, "maintenance", "project-config.json");
 const errors = [];
 const warnings = [];
 errors.push(...checkStatus(root).errors);
+errors.push(...checkAtlas(root).errors);
+try {
+  const audit = auditAtlas(root);
+  errors.push(...audit.errors.map(e => `${e.code}: ${e.asset_id || e.path || "project"} ${e.message}`));
+  warnings.push(...audit.warnings.map(w => `${w.code}: ${w.count || ""} ${w.message}`));
+} catch (error) { errors.push("Asset audit: " + error.message); }
 errors.push(...checkBuildLayout(root));
 const reception = checkDecisionReception(root);
 errors.push(...reception.errors); warnings.push(...reception.warnings);

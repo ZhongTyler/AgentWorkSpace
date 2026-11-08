@@ -1,0 +1,1086 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>项目美术资源工作台</title>
+<style>
+.stage-table{width:100%;border-collapse:collapse}.stage-table th,.stage-table td{text-align:left;padding:8px;border-bottom:1px solid #dce3d4}.stage-table th{white-space:nowrap}.stage-table button{min-width:110px}
+@media(max-width:600px){.stage-table th,.stage-table td{padding:4px}.stage-table button{min-width:0;padding:7px}}
+*{box-sizing:border-box}
+
+
+
+body{margin:0;background:#f0f2ea;color:#263e35;font:15px/1.6 "Microsoft YaHei",sans-serif}
+
+
+
+button,input,select,textarea{font:inherit;color:inherit}
+
+
+
+button{cursor:pointer;padding:8px 14px;border:1px solid #a6b9a7;border-radius:7px;background:#fffef7}
+
+
+
+button:disabled{opacity:.5;cursor:default}
+
+
+
+button[aria-pressed=true],.primary{background:#315d4d;color:#fff}
+
+
+
+header{background:#25493e;color:#fff8e4;padding:20px 28px}
+
+
+
+h1{font-size:25px;margin:0}
+
+
+
+h2{font-size:20px;margin:0 0 12px}
+
+
+
+h3{font-size:17px}
+
+
+
+nav{display:flex;gap:8px;flex-wrap:wrap;padding:12px 24px;background:#fffdf5;border-bottom:1px solid #cbd4c6;position:sticky;top:0;z-index:4}
+
+
+
+main{padding:22px;max-width:1800px;margin:auto}
+
+
+
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+
+
+
+.toolbar input{min-width:210px;flex:1}
+
+
+
+.toolbar input,.toolbar select,input,textarea,select{border:1px solid #b4c1b0;border-radius:5px;padding:7px;background:#fffef8}
+
+
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+
+
+
+.card,.panel{background:#fffdf6;border:1px solid #cad3c2;border-radius:10px;padding:16px;min-width:0}
+
+
+
+.card{display:flex;flex-direction:column;gap:9px;text-align:left}
+
+
+
+.card:hover{border-color:#56816c}
+
+
+
+.thumb{height:180px;width:100%;display:flex;align-items:center;justify-content:center;background:#e4e9d9;border-radius:6px;overflow:auto}
+
+
+
+.thumb img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+
+
+
+.muted{color:#64756a}
+
+
+
+.badge{display:inline-block;border-radius:4px;background:#e4ebdd;padding:2px 7px;margin:2px;font-size:12px}
+
+
+
+.warning{color:#93521a;background:#fff0cf;padding:10px;border-radius:6px}
+
+
+
+.bad{color:#a83d30}
+
+
+
+.good{color:#21664b}
+
+
+
+small,code{overflow-wrap:anywhere}
+
+
+
+code{font-size:12px}
+
+
+
+dialog{width:min(1450px,96vw);max-height:94vh;border:1px solid #819c87;border-radius:12px;background:#f6f7ee;padding:24px;color:inherit}
+
+
+
+dialog::backdrop{background:#102d2480}
+
+
+
+.dialog-head{display:flex;justify-content:space-between;align-items:start;gap:12px;margin-bottom:16px}
+
+
+
+.columns{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(280px,1fr);gap:22px}
+
+
+
+.media-box{height:360px;background-color:var(--back,#dde6d0);background-image:linear-gradient(45deg,#ffffff35 25%,transparent 25%),linear-gradient(-45deg,#ffffff35 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#ffffff35 75%),linear-gradient(-45deg,transparent 75%,#ffffff35 75%);background-size:20px 20px;display:flex;justify-content:center;align-items:center;overflow:auto;border-radius:8px;position:relative}
+
+
+
+.media-box img,.media-box video,.media-box canvas{display:block;max-width:100%;max-height:100%;object-fit:contain;flex-shrink:0}
+
+
+
+.media-box.actual{display:block}
+
+
+
+.media-box.actual img{max-width:none;max-height:none;margin:auto}
+
+
+
+.media-box audio{width:90%}
+
+
+
+.media-box p{padding:20px}
+
+
+
+.form{display:grid;gap:10px}
+
+
+
+.form label{display:grid;gap:4px}
+
+
+
+.form textarea{min-height:85px;resize:vertical;width:100%}
+
+
+
+.form input,.form select{width:100%}
+
+
+
+.row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+
+
+
+.version-select{max-width:100%}
+
+
+
+.file-list{max-height:230px;overflow:auto;overflow-wrap:anywhere}
+
+
+
+table{width:100%;border-collapse:collapse;background:#fffdf6}
+
+
+
+td,th{padding:10px;border-bottom:1px solid #d2dacb;text-align:left;vertical-align:top}
+
+
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:18px}
+
+
+
+.stats b{display:block;font-size:30px}
+
+
+
+a{color:#285e54}
+
+
+
+.comparison{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+
+
+.comparison .media-box{height:290px}
+
+
+
+.notice{position:fixed;right:20px;bottom:20px;background:#203e33;color:white;padding:14px 20px;border-radius:8px;max-width:560px;z-index:10;white-space:pre-wrap}
+
+
+
+details{margin:10px 0}
+
+
+
+summary{cursor:pointer}
+
+
+
+.status-text{font-size:13px;margin-top:5px}
+
+
+
+.spaced{margin:16px 0}
+
+
+
+.change-entry{padding:12px;border-bottom:1px solid #d0d9c9}
+
+
+
+.links{display:flex;flex-wrap:wrap;gap:10px}
+
+
+
+.scene-grid .thumb{height:230px}
+
+
+
+.stage-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+
+
+
+@media(max-width:850px){.columns,.comparison{grid-template-columns:1fr}
+
+
+
+main{padding:12px}
+
+
+
+nav{position:static;padding:10px}
+
+
+
+.media-box{height:300px}
+
+
+
+dialog{padding:14px}
+
+
+
+.toolbar{gap:6px}
+
+
+
+}
+
+
+
+
+
+dialog{position:fixed;inset:0 0 0 auto;margin:0;height:100dvh;max-height:100dvh;width:min(960px,58vw);border-radius:12px 0 0 12px;box-shadow:-10px 0 40px #294d3826;z-index:8;overflow:auto}
+
+
+
+dialog[open]{display:block}
+
+
+dialog::backdrop{display:none}
+
+
+.drawer-open main{max-width:none;margin-right:min(960px,58vw)}
+
+
+.drawer-open .columns{grid-template-columns:minmax(0,1fr)}
+
+
+.dialog-head{position:sticky;top:-24px;background:#f6f7ee;padding:12px 0;z-index:2}
+
+
+.resource-group{margin-bottom:26px}
+
+
+.resource-group h3{border-bottom:1px solid #c3d0bd;padding-bottom:8px}
+
+
+.demand-card p{font-weight:400;margin:0;max-height:8em;overflow:auto}
+
+
+.filter-rows{display:grid;gap:8px;margin:16px 0}
+
+.filter-row{display:flex;align-items:flex-start;gap:16px;margin:0;padding:8px 0;border:0;border-bottom:1px solid #d8dfcf;min-width:0}
+
+.filter-row legend{float:left;width:80px;flex:none;padding:7px 0;font-weight:600}
+
+.filter-choices{display:flex;flex-wrap:wrap;gap:6px;min-width:0}
+
+.filter-choice{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border:1px solid #c7d0be;border-radius:6px;background:#fffdf4;white-space:nowrap;cursor:pointer}
+
+.filter-choice:has(input:checked){background:#dce9de;border-color:#3b6654}
+
+.filter-row input[type=checkbox],.group-heading input[type=checkbox]{width:16px;height:16px;min-width:0;flex:none;margin:0;accent-color:#3b6654}
+
+.filter-row button{padding:7px 10px}
+
+.group-heading{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+
+.group-heading label{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:400}
+
+.resource-subgroup{margin:14px 0 24px;padding-left:12px;border-left:3px solid #ccd8c4}
+
+.resource-subgroup h4{margin:12px 0}
+
+@media(max-width:600px){.filter-row{gap:8px}
+
+.filter-row legend{width:65px}
+
+}
+
+.file-preview{display:inline-flex;flex-direction:column;align-items:center;gap:6px;max-width:100%;background:#e7ecdc}
+
+
+.file-preview img{width:100%;max-width:150px;height:110px;object-fit:contain}
+
+
+.file-preview span{font-size:12px;overflow-wrap:anywhere}
+
+
+.file-link{border:0;background:transparent;text-align:left;padding:4px;color:#285e54;overflow-wrap:anywhere}
+
+
+.version-media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin:10px 0}
+
+
+.version-file{min-width:0}
+
+
+.markdown h1{font-size:24px;color:#25493e}
+
+
+.markdown h2{font-size:20px;margin-top:22px}
+
+
+.markdown p{line-height:1.8}
+
+
+.markdown pre{background:#e4ebdc;padding:12px;border-radius:6px}
+
+
+.markdown blockquote{border-left:3px solid #729a7c;padding-left:14px}
+
+
+.page-requirement{margin:16px 0}
+
+
+.page-context{font-size:14px}
+
+
+@media(max-width:1000px){dialog{width:82vw}
+
+
+.drawer-open main{margin-right:0}
+
+
+}
+
+
+@media(prefers-reduced-motion:no-preference){dialog[open]{animation:drawer-in .14s ease-out}
+
+
+@keyframes drawer-in{from{transform:translateX(18px);opacity:.5}
+
+
+to{transform:none;opacity:1}
+
+
+}
+
+
+}
+
+
+
+
+</style>
+<header><h1>项目美术资源工作台</h1><div id="summary">正在读取项目资料</div></header>
+<nav id="navigation"></nav><main id="main"><p>请通过 maintenance/previews/open-asset-atlas.cmd 打开工作台。</p></main>
+<dialog id="detail"></dialog><dialog id="create"></dialog><div id="notice" class="notice" hidden></div>
+<script>
+const labels = {
+  clarify: '待确认需求',
+  queued: '有需求待制作',
+  working: '制作中',
+  'self-review': '待自审',
+  'producer-review': '待审阅',
+  revise: '需修改',
+  accepted: '已采用',
+  archived: '已归档',
+  installed: '已接入工程',
+  drift: '安装内容漂移',
+  'procedural-reference': '程序引用已登记',
+  'not-installed': '未接入',
+  pending: '待审',
+  adopted: '采用',
+  rejected: '否决'
+};
+const selectedReviews = new Set();
+const tabs = {
+  overview: '项目概览',
+  library: '全部资源',
+  reviews: '审阅清单',
+  demands: '需求管理',
+  history: '变更记录'
+};
+const secondaryGroups = new Set();
+let mediaGeneration = 0;
+let mediaArchive = {schema_version: 1, files: []};
+let refreshingOverview = false;
+let pageRequirements = {
+  schema_version: 1,
+  pages: []
+};
+let data,
+  tab = 'overview',
+  search = '',
+  category = new Set(),
+  stage = new Set(),
+  installation = new Set(),
+  activeAsset,
+  activeVersion,
+  animationTimer;
+const $ = selector => document.querySelector(selector);
+const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;'
+})[c]);
+const url = file => '/file?path=' + encodeURIComponent(file);
+const link = file => isImage(file) ? `<button class="file-preview" data-file="${esc(file)}"><img loading="lazy" src="${url(file)}" alt="${esc(file.split('/').at(-1))}"><span>${esc(file.split('/').at(-1))}</span></button>` : `<button class="file-link" data-file="${esc(file)}">${esc(file)}</button>`;
+function tell(text) {
+  $('#notice').textContent = text;
+  $('#notice').hidden = false;
+  setTimeout(() => $('#notice').hidden = true, 6500);
+}
+async function load() {
+  const response = await fetch('/api/state');
+  if (!response.ok) throw Error('项目资料读取失败');
+  data = await response.json();
+  const pagesResponse = await fetch(url(data.base + '/atlas-pages.json'));
+  if (!pagesResponse.ok) throw Error('页面需求读取失败');
+  pageRequirements = await pagesResponse.json();
+  data.pageCategoryWritable = data.categories.includes('页面');
+  // Derive page identity from the current page contract, including an older running service.
+  if (!data.categories.includes('页面')) data.categories.push('页面');
+  for (const asset of data.assets) {
+    if (pageRequirements.pages.some(p => p.states.some(s => s.asset_id === asset.id))) asset.category = '页面';
+  }
+  const archiveResponse = await fetch(url(data.base + '/atlas-media-archive.json'));
+  if (!archiveResponse.ok) throw Error('媒体归档读取失败');
+  mediaArchive = await archiveResponse.json();
+  const archived = new Set(mediaArchive.files.map(f => f.path));
+  data.unassigned = data.unassigned.filter(file => !archived.has(file));
+  $('h1').textContent = data.project.name + ' · 美术资源工作台';
+  $('#summary').textContent = `${itemsForView('library').length}项资源 · ${itemsForView('demands').length}项需求 · ${data.assets.filter(a => ['source','historical'].includes(a.atlas?.registration_role)).length}项来源/历史 · ${data.warnings.length}项文件警示`;
+  render();
+}
+async function save(action) {
+  const response = await fetch('/api/change', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Atlas-Token': data.token
+    },
+    body: JSON.stringify({
+      revision: data.revision,
+      action
+    })
+  });
+  const result = await response.json();
+  if (!response.ok) throw Error(result.error);
+  await load();
+  tell('已保存到项目清单');
+  return result;
+}
+function current(asset) {
+  return asset.versions.find(v => v.id === asset.current_version) || asset.versions[0];
+}
+function isImage(file) {
+  return /\.(png|jpe?g|gif|webp|svg)$/i.test(file);
+}
+function previewFile(asset, version) {
+  const files = version?.files || [];
+  return files.find(f => isImage(f.path)) || files.find(f => /\.(wav|ogg|mp3|mp4|webm|ttf|otf)$/i.test(f.path));
+}
+function thumbnail(asset) {
+  const file = previewFile(asset, current(asset));
+  const placeholder = asset.source.kind === 'procedural' ? '程序表现 · 查看需求与实现' : '需求待制作';
+  return file && isImage(file.path) ? `<img loading="lazy" src="${url(file.path)}" alt="${esc(asset.name)}">` : `<span>${file ? esc(asset.category) + ' · 可播放／查看' : placeholder}</span>`;
+}
+function hasResource(asset) {
+  return asset.versions.some(v => v.files.length) || asset.consumers.some(c => c.kind === 'procedural-runtime') || (asset.source.kind === 'procedural' && asset.stage === 'ready');
+}
+function progressLabel(asset) {
+  return {source:'来源图板',historical:'历史登记'}[asset.atlas?.registration_role] || labels[asset.demand_stage];
+}
+function needsReview(asset) {
+  const version = current(asset);
+  return ['self-review', 'producer-review', 'revise'].includes(asset.demand_stage) && version?.files.length && version.decision !== 'adopted';
+}
+function itemsForView(view) {
+  const active = data.assets.filter(a => !['source', 'historical'].includes(a.atlas?.registration_role));
+  const items = active.filter(a => view === 'demands' ? !hasResource(a) : hasResource(a));
+  return view === 'reviews' ? items.filter(needsReview) : items;
+}
+function filtered() {
+  return itemsForView(tab).filter(a => (!search || [a.id, a.name, a.object_id, a.purpose, a.atlas?.requirement].join(' ').toLowerCase().includes(search.toLowerCase())) && (!category.size || category.has(a.category)) && (!stage.size || stage.has(a.demand_stage)) && (!installation.size || installation.has(a.installation)));
+}
+function filterChoices(id, title, options, selected) {
+  return `<fieldset class="filter-row" id="${id}"><legend>${title}</legend><div class="filter-choices"><button type="button" data-clear-filter="${id}" aria-pressed="${!selected.size}">全部</button>${options.map(([value, name]) => `<label class="filter-choice"><input type="checkbox" data-filter="${id}" value="${esc(value)}" ${selected.has(value) ? 'checked' : ''}>${esc(name)}</label>`).join('')}</div></fieldset>`;
+}
+function filters() {
+  return `<div class="toolbar"><input id="search" placeholder="搜索名称、对象、用途或ID" value="${esc(search)}">${tab === 'demands' ? '<button id="create-demand">新增需求</button>' : ''}<button id="reload">刷新资料</button></div><div class="filter-rows">${filterChoices('category', '类型', data.categories.map(c => [c, c]), category)}${filterChoices('stage', '制作进度', data.demandStages.map(v => [v, labels[v]]), stage)}${tab === 'demands' ? '' : filterChoices('installation', '工程状态', ['not-installed', 'installed', 'procedural-reference', 'drift'].map(v => [v, labels[v]]), installation)}</div>`;
+}
+function bindFilters() {
+  const sets = {
+    category,
+    stage,
+    installation
+  };
+  document.querySelectorAll('[data-filter]').forEach(box => box.onchange = () => {
+    const selected = sets[box.dataset.filter];
+    if (box.checked) selected.add(box.value);else selected.delete(box.value);
+    document.querySelector('[data-clear-filter="' + box.dataset.filter + '"]').setAttribute('aria-pressed', String(!selected.size));
+    renderCards();
+  });
+  document.querySelectorAll('[data-clear-filter]').forEach(button => button.onclick = () => {
+    const id = button.dataset.clearFilter;
+    sets[id].clear();
+    document.querySelectorAll('[data-filter="' + id + '"]').forEach(box => box.checked = false);
+    button.setAttribute('aria-pressed', 'true');
+    renderCards();
+  });
+  $('#search').oninput = e => {
+    search = e.target.value;
+    renderCards();
+  };
+  if ($('#create-demand')) $('#create-demand').onclick = createDemand;
+  $('#reload').onclick = () => load().catch(e => tell(e.message));
+}
+function cards(items) {
+  return items.map(a => {
+    const demand = tab === 'demands';
+    const selection = tab === 'reviews' ? `<label><input type="checkbox" data-select-review="${esc(a.id)}" ${selectedReviews.has(a.id) ? 'checked' : ''}>选择此版本</label>` : '';
+    return `<div>${selection}<button class="card" data-asset="${esc(a.id)}">${demand ? '' : `<div class="thumb">${thumbnail(a)}</div>`}<strong>${esc(a.name)}</strong><small>${esc(a.id)}</small><div><span class="badge">${esc(a.category)}</span><span class="badge">${progressLabel(a)}</span>${demand ? '' : `<span class="badge">${labels[a.installation]}</span>`}</div>${demand ? `<p>${esc(a.atlas?.requirement || a.purpose)}</p><small>${esc(a.atlas?.required_states || '待细化状态')}</small>` : `<small>${a.versions.length}个版本</small>`}<small>${esc(a.priority)}</small>${!demand && !isImage(previewFile(a, current(a))?.path || '') ? `<p>${esc(a.atlas?.requirement || a.purpose)}</p>` : ''}</button></div>`;
+  }).join('');
+}
+function secondaryCategory(asset) {
+  const page = pageRequirements.pages.find(p => p.states.some(s => s.asset_id === asset.id));
+  if (page) return page.system + ' / ' + page.name;
+  if (asset.atlas?.subcategory) return asset.atlas.subcategory;
+  const identity = [asset.id, asset.purpose].join(' ').toLowerCase();
+  const rules = asset.category === '图标' ? [[/modifier/, '修饰图标'], [/skill/, '技能图标'], [/tactical|endpoint|spawn/, '战术标识'], [/system/, '系统与行动']] : asset.category === 'UI' ? [[/composition.*state-/, '完整页面状态'], [/composition.*controls-/, '控件状态组合'], [/surface|panel/, '面板与承托'], [/control|button|tab/, '按钮与控件'], [/card/, '角色与单位卡片'], [/tip|tooltip/, '提示与浮层'], [/hud|menu|dialog/, '界面与菜单']] : [[/portrait|avatar/, '头像'], [/board|piece/, '棋盘形象'], [/concept/, '概念设计'], [/pose|action|motion|animation/, '动作与动态'], [/contact|hit|impact/, '接触反馈']];
+  return rules.find(([pattern]) => pattern.test(identity))?.[1] || '其他用途';
+}
+function groupedCards(items) {
+  const names = [...new Set(items.map(secondaryCategory))];
+  return names.map(name => `<section class="resource-subgroup" data-subcategory="${esc(name)}"><h4>${esc(name)} <span class="badge">${items.filter(a => secondaryCategory(a) === name).length}</span></h4><div class="grid">${cards(items.filter(a => secondaryCategory(a) === name))}</div></section>`).join('');
+}
+function renderCards() {
+  let items = filtered();
+  $('#results').innerHTML = data.categories.map(type => {
+    const group = items.filter(a => a.category === type);
+    const enabled = secondaryGroups.has(tab + ':' + type);
+    return group.length ? `<section class="resource-group" data-category="${esc(type)}"><h3 class="group-heading">${esc(type)} <span class="badge">${group.length}</span><label><input type="checkbox" data-secondary-group="${esc(type)}" ${enabled ? 'checked' : ''}>按二级分类</label></h3>${enabled ? groupedCards(group) : `<div class="grid">${cards(group)}</div>`}</section>` : '';
+  }).join('') || '<p>没有符合筛选条件的资源。</p>';
+  document.querySelectorAll('[data-secondary-group]').forEach(box => box.onchange = () => {
+    const key = tab + ':' + box.dataset.secondaryGroup;
+    if (box.checked) secondaryGroups.add(key);else secondaryGroups.delete(key);
+    renderCards();
+  });
+  $('#result-count').textContent = items.length + '项';
+  bindCards();
+  document.querySelectorAll('[data-select-review]').forEach(box => box.onchange = () => {
+    if (box.checked) selectedReviews.add(box.dataset.selectReview);else selectedReviews.delete(box.dataset.selectReview);
+  });
+}
+function bindCards() {
+  document.querySelectorAll('[data-asset]').forEach(button => button.onclick = () => openAsset(button.dataset.asset));
+}
+function render() {
+  $('#navigation').innerHTML = Object.entries(tabs).map(([id, name]) => `<button data-tab="${id}" aria-pressed="${tab === id}">${name}</button>`).join('');
+  document.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => {
+    closeDrawers();
+    tab = b.dataset.tab;
+    render();
+  });
+  if (['library', 'demands', 'reviews'].includes(tab)) {
+    $('#main').innerHTML = filters() + `<h2>${tabs[tab]} <small id="result-count"></small></h2><p class="muted">${tab === 'library' ? '查看已有资源、版本、规格和工程使用情况。' : tab === 'demands' ? '管理尚未生成资源的需求、规格与优先级，登记产出后进入资源库。' : '核对具体版本并填写审阅意见与采用范围。'}</p><div id="results"></div>`;
+    bindFilters();
+    renderCards();
+    if (tab === 'reviews') {
+      const batch = document.createElement('button');
+      batch.textContent = '批量审阅所选版本';
+      batch.onclick = bulkReview;
+      document.querySelector('.toolbar').append(batch);
+    }
+    return;
+  }
+  if (tab === 'overview') {
+    const resources = itemsForView('library');
+    const demands = itemsForView('demands');
+    const reviews = itemsForView('reviews');
+    const counts = [
+      ['全部资源', resources.length, 'library', ''],
+      ['未产出需求', demands.length, 'demands', ''],
+      ['候选待审', reviews.length, 'reviews', ''],
+      ['工程安装漂移', resources.filter(a => a.installation === 'drift').length, 'library', 'drift']
+    ];
+    $('#main').innerHTML = `<div class="stats">${counts.map(([name, n, view, installed]) => `<button class="panel" data-overview-view="${view}" data-overview-installation="${installed}"><b>${n}</b>${name}</button>`).join('')}</div><div class="panel spaced"><h2>制作进度</h2><table class="stage-table"><thead><tr><th>进度</th><th>查看清单</th></tr></thead><tbody>${data.demandStages.map(progress => {
+      const view = {clarify:'demands',queued:'demands','self-review':'reviews','producer-review':'reviews',revise:'reviews'}[progress] || 'library';
+      const count = itemsForView(view).filter(a => a.demand_stage === progress).length;
+      return `<tr><th>${labels[progress]}</th><td><button data-filter-stage="${progress}" data-overview-view="${view}" data-count="${count}" aria-label="${labels[progress]} · ${tabs[view]} ${count}项">${tabs[view]} · ${count}</button></td></tr>`;
+    }).join('')}</tbody></table></div><div class="panel spaced"><h2>资料与覆盖核对</h2><p>采用意见按用途和版本保存，工程状态读取实际安装收据。</p><div class="links">${link(data.base + '/resource-plan.md')}${link(data.base + '/specs/ui-icon-standard.md')}${link(data.base + '/catalog.json')}</div><details><summary>文件警示 ${data.warnings.length}</summary><pre>${esc(data.warnings.join('\n') || '当前登记版本文件核对通过')}</pre></details>${data.unassigned.length ? `<details><summary>新发现待归属媒体 ${data.unassigned.length}份</summary><div class="file-list">${data.unassigned.map(p => '<div>' + link(p) + '</div>').join('')}</div></details>` : ''}<p>已归档媒体 ${mediaArchive.files.length}份，可在变更记录中查阅。</p></div>`;
+    document.querySelectorAll('[data-overview-view]').forEach(button => button.onclick = () => {
+      search = '';
+      category.clear();
+      stage.clear();
+      installation.clear();
+      if (button.dataset.filterStage) stage.add(button.dataset.filterStage);
+      if (button.dataset.overviewInstallation) installation.add(button.dataset.overviewInstallation);
+      tab = button.dataset.overviewView;
+      render();
+    });
+    return;
+  }
+  if (tab === 'history') {
+    $('#main').innerHTML = `<div class="panel"><h2>工作台功能版本</h2><div id="tool-changelog" class="markdown">读取中</div></div><div class="panel spaced"><h2>资源操作与审阅记录</h2>${[...data.state.events].reverse().map(e => `<div class="change-entry"><b>${esc(e.asset_id)}</b> · ${esc(e.operation)}<br>${esc(e.actor)} · ${esc(e.at)}${data.state.reviews.filter(r => r.id === e.id).map(r => '<p>' + esc(labels[r.decision] || r.decision) + ' · ' + esc(r.scope) + '<br>' + esc(r.note) + '</p>').join('')}</div>`).join('') || '尚无图册内操作记录'}</div>`;
+    $('#main').insertAdjacentHTML('beforeend', `<section class="panel spaced"><h2>媒体归档 · ${mediaArchive.files.length}份</h2><p>历史候选、尺寸衍生与过程媒体按原路径保留，可按文件名或路径查阅。</p><details id="media-archive"><summary>查阅归档媒体</summary><input id="archive-search" placeholder="搜索归档文件名或路径"><div id="archive-files" class="version-media-grid"></div><button id="archive-more">显示更多</button><div>${link(data.base + '/atlas-media-archive.json')}</div></details></section>`);
+    bindArchive();
+    const historical = data.assets.filter(a => ['source', 'historical'].includes(a.atlas?.registration_role));
+    $('#main').insertAdjacentHTML('beforeend', `<section class="panel spaced"><h2>来源与历史登记 · ${historical.length}项</h2><p>来源图板保留组件关联，历史用途继续按原证据查阅。</p><details id="registration-history"><summary>查阅来源图板与历史登记</summary><div class="grid" id="historical-cards"></div></details></section>`);
+    $('#registration-history').ontoggle = () => {
+      if ($('#registration-history').open) {
+        $('#historical-cards').innerHTML = cards(historical);
+        bindCards();
+      }
+    };
+    fetch(url(data.base + '/atlas-changelog.md')).then(r => r.text()).then(t => {
+      if ($('#tool-changelog')) $('#tool-changelog').innerHTML = markdown(t);
+    });
+  }
+}
+function mediaMarkup(file) {
+  if (!file) return '<p>该版本尚无媒体。可在需求中说明制作要求。</p>';
+  if (isImage(file.path)) return `<img src="${url(file.path)}" alt="资源完整预览">`;
+  if (/\.(mp4|webm)$/i.test(file.path)) return `<video src="${url(file.path)}" controls loop></video>`;
+  if (/\.(wav|ogg|mp3)$/i.test(file.path)) return `<audio src="${url(file.path)}" controls></audio>`;
+  if (/\.(otf|ttf)$/i.test(file.path)) return '<p id="font-sample" style="font-size:28px">项目字体预览<br>回合 1234567890<br>ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>';
+  return '<p>' + link(file.path) + '</p>';
+}
+function bindArchive() {
+  let limit = 48;
+  function showFiles() {
+    const query = $('#archive-search').value.trim().toLowerCase();
+    const files = mediaArchive.files.filter(f => f.path.toLowerCase().includes(query));
+    $('#archive-files').innerHTML = files.slice(0, limit).map(f => `<div>${link(f.path)}<small>归档 ${esc(f.archived_at)}</small><details><summary>归档时文件哈希</summary><code>${esc(f.sha256)}</code></details></div>`).join('') || '<p>没有符合条件的归档媒体。</p>';
+    $('#archive-more').hidden = files.length <= limit;
+  }
+  $('#media-archive').ontoggle = () => { if ($('#media-archive').open) showFiles(); };
+  $('#archive-search').oninput = () => { limit = 48; showFiles(); };
+  $('#archive-more').onclick = () => { limit += 48; showFiles(); };
+}
+async function refreshOverview() {
+  if (tab !== 'overview' || document.hidden || refreshingOverview) return;
+  refreshingOverview = true;
+  try { await load(); } catch (error) { console.warn(error.message); }
+  finally { refreshingOverview = false; }
+}
+window.addEventListener('focus', refreshOverview);
+document.addEventListener('visibilitychange', refreshOverview);
+setInterval(refreshOverview, 15000);
+function attachDraft(form, key) {
+  const storageKey = 'asset-atlas-draft:' + data.project.id + ':' + key;
+  try {
+    const saved = JSON.parse(localStorage.getItem(storageKey) || 'null');
+    if (saved) for (const [name, value] of Object.entries(saved)) {
+      const field = form.elements.namedItem(name);
+      if (field) field.value = value;
+    }
+  } catch {}
+  form.addEventListener('input', () => {
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(Object.fromEntries(new FormData(form))));
+    } catch {}
+  });
+  form.clearDraft = () => {
+    try {
+      localStorage.removeItem(storageKey);
+    } catch {}
+  };
+}
+function versionDecision(asset, version) {
+  return version.kind === 'release' && asset.demand_stage === 'accepted' && asset.atlas?.status_basis?.length ? '原阶段已采用' : labels[version.decision] || version.decision;
+}
+function catalogRelations(asset) {
+  const parents = asset.atlas?.parent_ids || [];
+  const children = data.assets.filter(a => a.atlas?.parent_ids?.includes(asset.id)).map(a => a.id);
+  const reused = asset.atlas?.reuse_with || [];
+  function related(ids) {
+    return ids.map(id => `<button data-related-asset="${esc(id)}">${esc(data.assets.find(a => a.id === id)?.name || id)}</button>`).join('');
+  }
+  return `<section class="panel spaced"><h3>用途与实现</h3><p>${esc(asset.atlas?.requirement || asset.purpose)}</p>${asset.atlas?.dynamic && !asset.atlas?.requirement?.startsWith(asset.atlas.dynamic) ? `<p>${esc(asset.atlas.dynamic)}</p>` : ''}<div class="file-list">${asset.consumers.map(c => '<div>' + link(c.path) + '</div>').join('')}</div>${parents.length ? '<h4>来源图板</h4><div class="row">' + related(parents) + '</div>' : ''}${children.length ? '<h4>对应组件</h4><div class="row">' + related(children) + '</div>' : ''}${reused.length ? '<h4>跨用途复用</h4><p>' + esc(asset.atlas.reuse_note) + '</p><div class="row">' + related(reused) + '</div>' : ''}${asset.atlas?.status_basis?.length ? '<details><summary>原阶段采用依据</summary>' + asset.atlas.status_basis.map(link).join('') + '</details>' : ''}</section>`;
+}
+function options(asset, selected) {
+  return asset.versions.map(v => `<option value="${esc(v.id)}" ${selected === v.id ? 'selected' : ''}>${esc(v.label || v.id)} · ${versionDecision(asset, v)}${v.verified ? '' : ' · 文件异常'}</option>`).join('');
+}
+async function openAsset(id, versionId) {
+  const a = data.assets.find(x => x.id === id);
+  if (tab === 'demands') return openDemand(a);
+  const generation = ++mediaGeneration;
+  clearInterval(animationTimer);
+  activeAsset = id;
+  const v = a.versions.find(x => x.id === (versionId || a.current_version)) || a.versions[0];
+  activeVersion = v?.id;
+  const file = previewFile(a, v);
+  const canReview = tab === 'reviews' && !['source', 'historical'].includes(a.atlas?.registration_role);
+  $('#detail').innerHTML = `<div class="dialog-head"><div><h2>${esc(a.name)}</h2><code>${esc(a.id)}</code><div><span class="badge">${progressLabel(a)}</span><span class="badge">${labels[a.installation]}</span></div></div><button id="close-detail">关闭</button></div>${pageContext(a)}${catalogRelations(a)}<div class="columns"><div><div class="row spaced"><select class="version-select" id="version">${options(a, v?.id)}</select><button id="compare">版本对比</button></div><div class="media-box" id="media">${mediaMarkup(file)}</div><div class="row spaced"><button data-back="#fffdf3">浅底</button><button data-back="#263e35">深底</button><button data-back="#d3ddbc">场景底</button><button id="fit">完整适应</button><button id="actual">原始比例</button><select id="display-size"><option value="fit">使用尺寸检查</option><option>24</option><option>32</option><option>48</option><option>64</option><option>112</option><option>128</option></select></div><div class="row" id="play-controls"></div><div><b>版本文件</b><div class="version-media-grid">${(v?.files || []).map(f => '<div class="version-file">' + link(f.path) + '<details><summary>文件哈希</summary><code>' + esc(f.sha256) + '</code></details></div>').join('')}</div></div><p>${esc(v?.note || '')}</p><div id="comparison"></div><details><summary>来源、规格、门及使用证据</summary><div class="file-list">${[...new Set([...a.evidence, ...(v?.evidence || [])])].map(p => '<div>' + link(p) + '</div>').join('')}</div><pre>${esc(JSON.stringify({
+    source: a.source.kind,
+    gates: a.gates,
+    installed: a.installed,
+    consumers: a.consumers
+  }, null, 2))}</pre></details></div>${canReview ? `<div><h3>本版本审阅</h3><form class="form" id="review-form"><label>结论<select name="decision">${['pending', 'adopted', 'revise', 'rejected'].map(s => `<option value="${s}">${labels[s]}</option>`).join('')}</select></label><label>用途／审阅范围<input name="scope" required value="${esc(a.name)}"></label><label>意见<textarea name="note"></textarea></label><label>记录人<input name="actor" value="制作人" required></label><button class="primary" ${!v || !v.verified ? 'disabled' : ''}>保存本版本审阅</button></form><p class="muted">视觉采用记录保存在清单中。封版、权利、技术门及安装继续按维护流程办理。</p><div class="file-list">${(v?.reviews || []).map(r => `<p>${esc(labels[r.decision])} · ${esc(r.scope)}<br>${esc(r.note)}<br><small>${esc(r.actor)} · ${esc(r.at)}</small></p>`).join('')}</div></div>` : `<div><h3>资源规格</h3><p>${esc(a.atlas?.requirement || a.purpose)}</p><h4>所需状态</h4><p>${esc(a.atlas?.required_states || '未登记')}</p><h4>动态要求</h4><p>${esc(a.atlas?.dynamic || '未登记')}</p><p>优先级 ${esc(a.priority)}</p></div>`}</div>`;
+  openDrawer($('#detail'));
+  if (!file) {
+    $('#media').innerHTML = '<p>程序表现通过上方用途说明、实现入口和原验证记录查阅。</p>';
+    $('#media').style.height = 'auto';
+    $('#media').style.background = 'none';
+    $('#version').closest('.row').style.display = 'none';
+    $('#fit').closest('.row').style.display = 'none';
+    $('#detail .version-media-grid').parentElement.style.display = 'none';
+  }
+  if ($('#review-form')) attachDraft($('#review-form'), id + ':' + (v?.key || 'none') + ':review');
+  $('#close-detail').onclick = () => $('#detail').close();
+  $('#version').onchange = e => openAsset(id, e.target.value);
+  document.querySelectorAll('[data-back]').forEach(b => b.onclick = () => $('#media').style.setProperty('--back', b.dataset.back));
+  $('#fit').onclick = () => $('#media').classList.remove('actual');
+  $('#actual').onclick = () => $('#media').classList.add('actual');
+  $('#display-size').onchange = e => {
+    const image = $('#media img');
+    if (!image) return;
+    $('#media').classList.remove('actual');
+    const size = e.target.value;
+    if (size === 'fit') {
+      image.style.width = '';
+      image.src = url(file.path);
+    } else {
+      const exact = v.files.find(f => f.path.endsWith('@' + size + '.png'));
+      image.src = url((exact || file).path);
+      image.style.width = size + 'px';
+      image.style.height = 'auto';
+    }
+  };
+  $('#compare').onclick = () => showComparison(a, v);
+  if ($('#review-form')) $('#review-form').onsubmit = async e => {
+    e.preventDefault();
+    try {
+      await save({
+        operation: 'review',
+        asset_id: id,
+        version_id: v.id,
+        version_key: v.key,
+        ...Object.fromEntries(new FormData(e.target))
+      });
+      e.target.clearDraft();
+      openAsset(id, v.id);
+    } catch (error) {
+      tell(error.message);
+    }
+  };
+  if (file && /\.(otf|ttf)$/i.test(file.path)) {
+    const font = new FontFace('AtlasPreview', 'url(' + url(file.path) + ')');
+    font.load().then(f => {
+      document.fonts.add(f);
+      if (generation === mediaGeneration && $('#font-sample')) $('#font-sample').style.fontFamily = 'AtlasPreview';
+    });
+  }
+  if (a.atlas?.frames && file && isImage(file.path)) prepareFrames(a.atlas.frames, file, generation);
+}
+function bulkReview() {
+  const targets = data.assets.filter(a => selectedReviews.has(a.id)).map(a => {
+    const v = current(a);
+    return {
+      asset_id: a.id,
+      version_id: v?.id,
+      version_key: v?.key
+    };
+  });
+  if (!targets.length) {
+    tell('请先选择待审资源');
+    return;
+  }
+  $('#create').innerHTML = '<div class="dialog-head"><h2>批量审阅 ' + targets.length + '个版本</h2><button id="close-bulk">关闭</button></div><form id="bulk-form" class="form"><label>结论<select name="decision"><option value="revise">需修改</option><option value="adopted">采用</option><option value="rejected">否决</option></select></label><label>共同审阅范围<input name="scope" required></label><label>意见<textarea name="note"></textarea></label><label>记录人<input name="actor" value="制作人" required></label><button class="primary">保存全部所选版本</button></form>';
+  openDrawer($('#create'));
+  $('#close-bulk').onclick = () => $('#create').close();
+  $('#bulk-form').onsubmit = async e => {
+    e.preventDefault();
+    try {
+      await save({
+        operation: 'review-many',
+        targets,
+        ...Object.fromEntries(new FormData(e.target))
+      });
+      selectedReviews.clear();
+      $('#create').close();
+      render();
+    } catch (error) {
+      tell(error.message);
+    }
+  };
+}
+function demandFields(a = {}) {
+  return `<label>名称<input name="name" required value="${esc(a.name || '')}"></label><label>类型<select name="category">${data.categories.map(c => `<option ${c === a.category ? 'selected' : ''}>${c}</option>`).join('')}</select></label><div class="row"><label>制作进度<select name="demand_stage">${data.demandStages.map(s => `<option value="${s}" ${a.demand_stage === s ? 'selected' : ''}>${labels[s]}</option>`).join('')}</select></label><label>优先级<select name="priority">${['P0', 'P1', 'P2'].map(s => `<option ${s === (a.priority || 'P1') ? 'selected' : ''}>${s}</option>`).join('')}</select></label></div><label>用途、尺寸、风格与验收要求<textarea name="requirement">${esc(a.atlas?.requirement || a.purpose || '')}</textarea></label><label>需要覆盖的表现状态<textarea name="required_states">${esc(a.atlas?.required_states || '')}</textarea></label><label>动态需求，触发／阶段／时长／同步／简化与中断<textarea name="dynamic">${esc(a.atlas?.dynamic || '')}</textarea></label>`;
+}
+function openDemand(a) {
+  const id = a.id;
+  $('#detail').innerHTML = `<div class="dialog-head"><h2>${esc(a.name)}</h2><button id="close-detail">关闭</button></div><code>${esc(id)}</code><form class="form" id="demand-form">${demandFields(a)}<button class="primary">保存需求</button></form>`;
+  openDrawer($('#detail'));
+  attachDraft($('#demand-form'), id + ':demand');
+  $('#close-detail').onclick = () => $('#detail').close();
+  $('#demand-form').onsubmit = async e => {
+    e.preventDefault();
+    try {
+      await save({
+        operation: 'demand',
+        asset_id: id,
+        ...Object.fromEntries(new FormData(e.target))
+      });
+      e.target.clearDraft();
+      openDemand(data.assets.find(a => a.id === id));
+    } catch (error) {
+      tell(error.message);
+    }
+  };
+}
+function createDemand() {
+  $('#create').innerHTML = '<div class="dialog-head"><h2>新增资源需求</h2><button id="close-create">关闭</button></div><form class="form" id="create-form"><label>稳定ID<input name="asset_id" required pattern="[a-z0-9][a-z0-9._:-]*" placeholder="hero.new.action"></label><label>所属对象<input name="object_id" required></label>' + demandFields() + '<button class="primary">保存需求</button></form>';
+  attachDraft($('#create-form'), 'create');
+  openDrawer($('#create'));
+  $('#close-create').onclick = () => $('#create').close();
+  $('#create-form').onsubmit = async e => {
+    e.preventDefault();
+    const fields = Object.fromEntries(new FormData(e.target));
+    try {
+      if (fields.category === '页面' && !data.pageCategoryWritable) throw Error('请关闭原图册服务窗口后重新打开入口，以启用页面类型保存。');
+      await save({
+        operation: 'create',
+        ...fields
+      });
+      e.target.clearDraft();
+      $('#create').close();
+      openAsset(fields.asset_id);
+    } catch (error) {
+      tell(error.message);
+    }
+  };
+}
+function showComparison(a, v) {
+  $('#comparison').innerHTML = '<h3>版本并排对比</h3><div class="comparison">' + ['a', 'b'].map((side, i) => `<div><select id="compare-${side}">${options(a, i === 0 ? v?.id : a.versions.at(-1)?.id)}</select><div class="media-box" id="compare-media-${side}"></div></div>`).join('') + '</div>';
+  for (const side of ['a', 'b']) {
+    const update = () => {
+      const selected = a.versions.find(x => x.id === $('#compare-' + side).value);
+      $('#compare-media-' + side).innerHTML = mediaMarkup(previewFile(a, selected));
+    };
+    $('#compare-' + side).onchange = update;
+    update();
+  }
+}
+function prepareFrames(frames, file, generation) {
+  const image = new Image();
+  image.src = url(file.path);
+  let frame = 0,
+    playing = false;
+  $('#play-controls').innerHTML = '<button id="play-animation">播放</button><button id="step-frame">下一帧</button><button id="reset-frame">重播</button><select id="animation-speed"><option value="1">1×</option><option value="0.5">0.5×</option><option value="2">2×</option></select><span id="frame-status"></span>';
+  function draw() {
+    if (!image.complete || generation !== mediaGeneration || !$('#detail').open || !$('#media')) return;
+    const region = frames[frame];
+    const canvas = document.createElement('canvas');
+    canvas.width = region[2];
+    canvas.height = region[3];
+    canvas.getContext('2d').drawImage(image, ...region, 0, 0, region[2], region[3]);
+    $('#media').replaceChildren(canvas);
+    $('#frame-status').textContent = `${frame + 1} / ${frames.length}`;
+  }
+  image.onload = draw;
+  function stop() {
+    clearInterval(animationTimer);
+    playing = false;
+    $('#play-animation').textContent = '播放';
+  }
+  function play() {
+    stop();
+    playing = true;
+    $('#play-animation').textContent = '暂停';
+    animationTimer = setInterval(() => {
+      frame = (frame + 1) % frames.length;
+      draw();
+    }, 400 / Number($('#animation-speed').value));
+  }
+  $('#play-animation').onclick = () => playing ? stop() : play();
+  $('#step-frame').onclick = () => {
+    stop();
+    frame = (frame + 1) % frames.length;
+    draw();
+  };
+  $('#reset-frame').onclick = () => {
+    frame = 0;
+    draw();
+    play();
+  };
+  $('#animation-speed').onchange = () => {
+    if (playing) play();
+  };
+}
+$('#detail').addEventListener('close', () => {
+  clearInterval(animationTimer);
+  $('#detail').querySelectorAll('audio,video').forEach(x => x.pause());
+});
+function markdown(source) {
+  function inline(text) {
+    return esc(text).replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/\*([^*]+)\*/g, '<em>$1</em>');
+  }
+  const lines = source.replace(/\r/g, '').split('\n');
+  let result = '',
+    list = '',
+    code = false,
+    paragraph = [];
+  const flush = () => {
+    if (paragraph.length) {
+      result += '<p>' + inline(paragraph.join(' ')) + '</p>';
+      paragraph = [];
+    }
+  };
+  const closeList = () => {
+    if (list) {
+      result += '</' + list + '>';
+      list = '';
+    }
+  };
+  for (const line of lines) {
+    if (line.startsWith('```')) {
+      flush();
+      closeList();
+      result += code ? '</code></pre>' : '<pre><code>';
+      code = !code;
+      continue;
+    }
+    if (code) {
+      result += esc(line) + '\n';
+      continue;
+    }
+    const heading = /^(#{1,6})\s+(.+)$/.exec(line),
+      bullet = /^\s*([-*+] |\d+\. )(.+)$/.exec(line);
+    if (heading) {
+      flush();
+      closeList();
+      const level = heading[1].length;
+      result += '<h' + level + '>' + inline(heading[2]) + '</h' + level + '>';
+    } else if (bullet) {
+      flush();
+      const type = /^\d/.test(bullet[1]) ? 'ol' : 'ul';
+      if (list !== type) {
+        closeList();
+        list = type;
+        result += '<' + list + '>';
+      }
+      result += '<li>' + inline(bullet[2]) + '</li>';
+    } else if (!line.trim()) {
+      flush();
+      closeList();
+    } else if (line.startsWith('> ')) {
+      flush();
+      closeList();
+      result += '<blockquote>' + inline(line.slice(2)) + '</blockquote>';
+    } else {
+      closeList();
+      paragraph.push(line);
+    }
+  }
+  flush();
+  closeList();
+  if (code) result += '</code></pre>';
+  return result;
+}
+function pageContext(asset) {
+  const page = pageRequirements.pages.find(p => p.states.some(state => state.asset_id === asset.id) || p.components.some(c => c.asset_id === asset.id));
+  if (!page) return '';
+  const state = page.states.find(s => s.asset_id === asset.id);
+  const component = page.components.find(c => c.asset_id === asset.id);
+  const relatedStates = state?.related || component?.applies_to || [];
+  return `<section class="panel spaced page-context"><b>${esc(page.system)} / ${esc(page.name)}</b><details><summary>页面目标与需求</summary><p>${esc(page.purpose)}</p><div>${page.requirements.map(r => `<span class="badge">${esc(r)}</span>`).join('')}</div></details><p>${esc(state?.description || '该页面的控件状态示例')}</p>${state ? '<p>组合条件 · ' + esc(state.conditions.join(' · ')) + '</p>' : ''}<div class="row">${relatedStates.map(id => {
+    const target = page.states.find(s => s.id === id);
+    return target ? `<button data-related-asset="${esc(target.asset_id)}">${esc(target.name)}</button>` : '';
+  }).join('')}</div>${state ? '<div class="row spaced">' + state.component_ids.map(id => {
+    const c = page.components.find(c => c.id === id);
+    return `<button data-related-asset="${esc(c.asset_id)}">控件 · ${esc(c.name)}</button>`;
+  }).join('') + '</div>' : ''}<details><summary>本页关联资源</summary><div class="row">${page.resources.map(id => {
+    const a = data.assets.find(a => a.id === id);
+    return a ? `<button data-related-asset="${esc(id)}">${esc(a.name)}</button>` : '';
+  }).join('')}</div></details></section>`;
+}
+function openDrawer(drawer) {
+  for (const other of document.querySelectorAll('dialog[open]')) if (other !== drawer) other.close();
+  if (!drawer.open) drawer.show();
+  drawer.setAttribute('aria-modal', 'false');
+  drawer.setAttribute('aria-label', drawer.querySelector('h2')?.textContent || '详情');
+  drawer.scrollTop = 0;
+  document.body.classList.add('drawer-open');
+}
+function closeDrawers() {
+  document.querySelectorAll('dialog[open]').forEach(d => d.close());
+  document.body.classList.remove('drawer-open');
+}
+async function openFile(file) {
+  mediaGeneration++;
+  clearInterval(animationTimer);
+  $('#create').innerHTML = `<div class="dialog-head"><h2>${esc(file.split('/').at(-1))}</h2><button id="close-file">关闭</button></div><div id="file-body"></div>`;
+  openDrawer($('#create'));
+  $('#close-file').onclick = () => $('#create').close();
+  const body = $('#file-body');
+  if (isImage(file) || /\.(wav|mp3|ogg|mp4|webm)$/i.test(file)) {
+    body.innerHTML = '<div class="media-box">' + mediaMarkup({
+      path: file
+    }) + '</div>';
+    return;
+  }
+  const response = await fetch(url(file));
+  const text = await response.text();
+  if (!body.isConnected) return;
+  body.innerHTML = file.endsWith('.md') ? '<article class="markdown">' + markdown(text) + '</article>' : '<pre>' + esc(text) + '</pre>';
+}
+for (const drawer of document.querySelectorAll('dialog')) drawer.addEventListener('close', () => {
+  if (!document.querySelector('dialog[open]')) document.body.classList.remove('drawer-open');
+});
+document.addEventListener('click', event => {
+  const related = event.target.closest('[data-related-asset]');
+  if (related) {
+    openAsset(related.dataset.relatedAsset);
+    return;
+  }
+  const file = event.target.closest('[data-file]');
+  if (file) {
+    openFile(file.dataset.file).catch(e => tell(e.message));
+    return;
+  }
+  if (!event.target.closest('dialog,button,a,input,select,textarea,label,summary')) closeDrawers();
+});
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') closeDrawers();
+});
+load().catch(e => {
+  if (location.protocol === 'file:') $('#main').textContent = '请打开 maintenance/previews/open-asset-atlas.cmd。需求与审阅通过本机服务保存到项目。';else tell(e.message);
+});
+</script>
+</html>

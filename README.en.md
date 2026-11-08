@@ -139,10 +139,10 @@ The distribution contains **one meta foundation and eleven peer packages**. Meta
 | [Brainstorm](packages/brainstorm/README.md) | “Help me explore this problem…”; create sessions as needed | `modules/brainstorm` | No other business package required; Knowledge and GameAnalysisDecision are optional |
 | [FromDemoToSpec](packages/fromdemotospec/README.md) | “Build a playable prototype…”; develop in a separate project directory | `modules/fromdemotospec` | No other business package required; add knowledge, analysis, presentation and assets as needed |
 | [Knowledge](packages/knowledge/README.md) | “Query the knowledge base” or “Ingest these sources”; an empty library can be queried | `modules/knowledge` | No other business package required; configure its scope and local Git before the first Ingest |
-| [Skills](packages/skills/README.md) | 35 development, research, writing, interaction and workflow methods; install chosen names | `modules/skills` | No other module required; adding the library does not activate every skill |
+| [Skills](packages/skills/README.md) | 39 development, research, writing, interaction and workflow methods; install chosen names | `modules/skills` | No other module required; adding the library does not activate every skill |
 | [GameAnalysisDecision](packages/game-analysis-decision/README.md) | Evidence-based game analysis, conditional recommendations and method correction | `modules/game-analysis-decision` | Works alone; Knowledge and other host packages are optional |
-| [GameProject](packages/game-project/README.md) | Create or selectively adapt a Godot project workspace: maintenance, decisions, assets and build scaffolding | `modules/game-project` | Works alone; create an external copy or review an existing project, without a game or engine preinstalled |
-| [GamePresentation](packages/game-presentation/README.md) | Presentation specifications, resource preparation and Godot delivery/recovery | `modules/game-presentation` | Manual/generated sources work; PrototypeAssets is optional |
+| [GameProject](packages/game-project/README.md) | Create or selectively adapt a Godot project workspace: maintenance, decisions, asset atlases, review and build scaffolding | `modules/game-project` | Works alone; create an external copy or review an existing project, without a game or engine preinstalled |
+| [GamePresentation](packages/game-presentation/README.md) | Presentation specifications, resource preparation, offline review galleries and Godot delivery/recovery | `modules/game-presentation` | Manual/generated sources work; PrototypeAssets is optional |
 | [Travel](packages/travel/README.md) | “Research and plan this trip…”; generate a private offline website | `modules/travel` | Works alone; no required package, account service or server; browser verification is optional |
 | [PrototypeAssets](packages/prototype-assets/README.md) | 119 assets with provenance/license records and verification/export tools | `modules/prototype-assets` | Runtime copies and licenses remain usable without their source package |
 | [Research](packages/research/README.md) | Research Markdown, URLs and questions; game/source references and optional proactive exploration | `modules/research` | Works alone; Knowledge, MCP, media tools and host scheduling require separate setup/authority |
@@ -154,7 +154,7 @@ Start tasks once the framework is installed; create business content when the ta
 
 Keep projects under `projects/` or a directory you choose. Sessions, knowledge content and personal configuration belong in your workspace, not in this distribution repository. `.agent-workspace/state.json` records installed versions and framework file baselines; it does not own your business records.
 
-Meta also includes [Humanizer-zh](meta/workspace/.agents/skills/humanizer-zh/SKILL.md). Use it to edit Chinese prose for clarity while preserving facts, uncertainty and the author's voice. It is editing guidance, not an authorship detector. English documentation should preserve the same factual accuracy.
+Meta includes humanizer-zh and anti-defensive-writing for one combined final-reply edit that preserves facts, uncertainty and authorial voice. English documentation follows the same accuracy requirements. [Humanizer-zh](meta/workspace/.agents/skills/humanizer-zh/SKILL.md) · [Anti-Defensive Writing](meta/workspace/.agents/skills/anti-defensive-writing/SKILL.md)
 
 ## Select skills as needed
 

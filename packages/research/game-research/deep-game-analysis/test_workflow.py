@@ -4,11 +4,104 @@ import copy
 from pathlib import Path
 import tempfile
 import unittest
+import subprocess
 
 import workflow as w
-from compile_study import digest, read, write_json
+from compile_study import digest, read, write_json, grouped_toc
 
 class WorkflowTests(unittest.TestCase):
+    def test_transaction_publishes_declared_explanation_binding(self):
+        from unittest.mock import patch
+        self.study['explanation_bindings'] = 'evidence/explanation-bindings.json'
+        write_json(self.report / 'study.json', self.study)
+        binding = self.report / self.study['explanation_bindings']
+        binding.write_text('old binding', encoding='utf-8')
+        self.run.mkdir(exist_ok=True)
+        def compile_fixture(stage):
+            for relative in ['README.md', 'manifest.json', 'reader/index.html', 'reader/navigation.json', 'units/core.md']:
+                path = stage / relative
+                path.parent.mkdir(exist_ok=True)
+                path.write_text('fixture output', encoding='utf-8')
+            write_json(stage / 'evidence/unit-projections.json', {'units': [{'path': 'units/core.md'}]})
+            (stage / self.study['explanation_bindings']).write_text('new binding', encoding='utf-8')
+            return {}
+        with patch.object(w, 'inputs'), patch.object(w, 'compile_report', side_effect=compile_fixture), patch.object(w, 'structural_check', return_value={'synthetic': True}):
+            w.build_transaction(self.report, self.run)
+        self.assertEqual(binding.read_text(encoding='utf-8'), 'new binding')
+
+    def test_domain_guidance_is_available_in_text_master(self):
+        self.navigation['guidance_version'] = 1
+        route = self.navigation['routes'][0]
+        route['intro'] = '沿对象、动作和后态理解这一领域的具体问题。'
+        route['steps'][0]['focus'] = '先核对这一节的可见状态，再对应规则条件。'
+        write_json(self.report / 'reader/navigation.json', self.navigation)
+        self.call('build')
+        body = (self.report / 'README.md').read_text(encoding='utf-8')
+        self.assertIn(route['intro'], body)
+        self.assertIn(route['steps'][0]['focus'], body)
+        self.assertIn('#### 玩法', body)
+
+    def test_guide_is_separate_from_sticky_navigation(self):
+        self.call('build')
+        from lxml import html
+        tree = html.fromstring((self.report / 'reader/index.html').read_bytes())
+        guide = tree.get_element_by_id('rn-guide-core')
+        bar = tree.get_element_by_id('rn-routebar')
+        self.assertNotIn(bar, list(guide.iterancestors()))
+        self.assertEqual(tree.get_element_by_id('rn-route-progress').tag, 'progress')
+        self.assertNotIn('rn-route-detail', tree.xpath('//@id'))
+
+    def test_build_exposes_actual_reader_units_without_approval(self):
+        self.call('build'); before = w.snapshot(self.report)
+        packet = read(self.run / 'reader-review-input.json')
+        self.assertEqual(packet['report_snapshot'], before['id'])
+        self.assertEqual(packet['semantic_verdict'], 'not_judged')
+        self.assertEqual(len(packet['sections']), 1)
+        unit = Path(packet['sections'][0]['document'])
+        self.assertEqual(packet['sections'][0]['sha256'], digest(unit))
+        self.assertIn('合成测试，不是真实游戏研究。', unit.read_text(encoding='utf-8'))
+        self.call('prepare-review')
+        self.assertEqual(w.snapshot(self.report), before)
+        self.assertEqual(read(self.run / 'state.json')['gates'], {})
+
+    def test_delivery_tools_distinguish_planned_and_unplanned_changes(self):
+        repository = self.root / 'git-input'; repository.mkdir()
+        def git(*args):
+            p = subprocess.run(['git', '-c', 'safe.directory=' + repository.as_posix(),
+                '-c', 'core.autocrlf=false', '-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid',
+                '-C', str(repository), *args], capture_output=True)
+            self.assertEqual(p.returncode, 0, p.stderr.decode(errors='replace'))
+            return p.stdout.decode().strip()
+        git('init', '--quiet', '--object-format=sha1')
+        path = repository / 'tool.py'; path.write_bytes(b'original\n')
+        git('add', 'tool.py'); git('commit', '--quiet', '-m', 'fixture'); revision = git('rev-parse', 'HEAD')
+        self.assertTrue(w.compare_delivery_tools(repository, revision, {'tool.py': digest(path)})['committed_tools_verified'])
+        path.write_bytes(b'changed\n'); current = {'tool.py': digest(path)}
+        self.assertEqual(w.compare_delivery_tools(repository, revision, current)['unplanned_changes'], ['tool.py'])
+        planned = w.compare_delivery_tools(repository, revision, current, ['tool.py'])
+        self.assertFalse(planned['committed_tools_verified']); self.assertEqual(planned['unplanned_changes'], [])
+        with self.assertRaises(ValueError): w.compare_delivery_tools(repository, revision, current, ['outside.py'])
+
+    def test_missing_cost_boundary_is_not_silently_completed(self):
+        path = self.root / 'cost-boundary.json'; write_json(path, {'schema_version': 1, 'measurement_end': 'main delivery'})
+        with self.assertRaisesRegex(ValueError, 'bookkeeping_tail'):
+            self.call('delivery-preflight', revision='0' * 40, planned_tool=[], cost_boundary=path)
+        self.assertEqual(read(path), {'schema_version': 1, 'measurement_end': 'main delivery'})
+
+    def test_native_light_groups_reject_loss_and_reordering(self):
+        study = {'sections': [{'id': x, 'title': x} for x in ('start','rule','case','end')],
+                 'toc_layout': {'type': 'grouped', 'leading': ['start'], 'groups': [
+                     {'id': 'rules', 'title': 'Rules & cases', 'sections': ['rule','case']}], 'trailing': ['end']}}
+        page = '<style></style><nav id="contents" aria-label="章节目录">old</nav>'
+        built = grouped_toc(study, page)
+        self.assertIn('Rules &amp; cases', built)
+        self.assertEqual(built.count('href="#'), 4)
+        for members in (['rule'], ['case','rule'], ['rule','rule']):
+            changed = copy.deepcopy(study); changed['toc_layout']['groups'][0]['sections'] = members
+            with self.assertRaisesRegex(ValueError, 'cover each current section once'):
+                grouped_toc(changed, page)
+        self.assertEqual(grouped_toc({'sections': study['sections']}, page), page)
+
     def setUp(self):
         test_root = w.HERE.parents[1] / '.tmp'
         test_root.mkdir(exist_ok=True)

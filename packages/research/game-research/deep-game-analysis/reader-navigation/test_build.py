@@ -16,7 +16,7 @@ class NavigationBuildTests(unittest.TestCase):
         (self.report/'reader/index.html').write_bytes(self.original.encode())
         source='# 原章\n\n## 原分节\n\n前提与反例。\n'
         (self.report/'systems/01.md').write_bytes(source.encode())
-        manifest={'domains':[{'name':'原领域','chapter':'systems/01.md'}],'documents':['systems/01.md']}
+        manifest={'domains':[{'name':'原领域','chapter':'systems/01.md'}],'documents':['systems/01.md'],'sources':[]}
         (self.report/'manifest.json').write_text(json.dumps(manifest),encoding='utf-8')
         self.config={'title':'测试','report_id':'fixture','base_html_sha256':sha(self.original.encode()),'common_links':[{'target':'detail','title':'原分节'}],'routes':[{'id':'one','name':'原领域','intro':'定位','steps':[{'target':'diagram','title':'原图解','focus':'核对前提与反例。','source':{'file':'systems/01.md','heading':'原分节','document_sha256':sha(source.encode()),'section_sha256':sha('## 原分节\n\n前提与反例。'.encode()),'detail_target':'detail','role':'primary'}}]}]}
         self.save()
@@ -45,6 +45,13 @@ class NavigationBuildTests(unittest.TestCase):
             with self.assertRaises(ValueError):validate_routes(self.report,config,self.original)
     def test_broken_layer_is_not_silently_stripped(self):
         with self.assertRaises(ValueError):strip_navigation('<!--rn:controls:start-->broken')
+    def test_guides_are_bound_and_reversible(self):
+        build(self.report)
+        text=(self.report/'reader/index.html').read_text(encoding='utf-8')
+        self.assertIn('data-reader-action="exit"',text)
+        self.assertIn('id="rn-guide-diagram"',text)
+        self.assertIn('data-route="one" data-step="0" data-target="diagram"',text)
+        self.assertEqual(strip_navigation(text),self.original)
     def test_raw_duplicate_id_attributes_are_not_hidden_by_tree_parsing(self):
         invalid='<a href="#generated"><img id="generated" id="scene-photo" src="data:,x"></a>'
         self.assertEqual(AttributeCheck(invalid).repeated,['img'])

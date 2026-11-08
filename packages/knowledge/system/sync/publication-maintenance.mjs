@@ -3,7 +3,7 @@ import fs from 'node:fs';import path from 'node:path';import crypto from 'node:c
 import {gitBytes,committedFiles,readBlobs,preparePublication} from './snapshot-admission.mjs';
 import {safeContentPath,acceptedManifest} from './clients.mjs';
 import {canonical,hash,atomicJson,readJson,ensurePrivateHome,withLock,requireValue as ok} from './state.mjs';
-const scopes=['wiki','raw-sources','domains','groups','domain-groups','Clippings','assets','attachments'];
+const scopes=['wiki','raw-sources','domains','groups','domain-groups','Clippings','assets','attachments','research-reports','docs'];
 const relative=p=>typeof p==='string'&&!path.isAbsolute(p)&&!/[\\:\x00-\x1f]/.test(p)&&!p.split('/').some(x=>!x||x==='.'||x==='..');
 const inside=(root,p)=>path.isAbsolute(p)&&path.resolve(p).startsWith(path.resolve(root)+path.sep);
 const digest=v=>typeof v==='string'&&/^[a-f0-9]{64}$/.test(v);
@@ -30,13 +30,13 @@ export async function recordReviewedPublication(root,event,{bindingPath=bindingF
   refs.push(rr.reference,report.reference,manifestFile.reference);
  }else{
   ok(typeof event.reviewRef==='string'&&event.reviewRef.trim()&&Array.isArray(event.paths)&&event.paths.length,'publication_maintenance_scope_required');const ref=event.reviewRef.split('#')[0];refs.push(evidence(root,revision,ref).reference);
-  for(const p of event.paths){ok(safeContentPath(p),'publication_maintenance_scope_required');accepted.set(p,{path:p});}
+  for(const item of event.paths){const row=typeof item==='string'?{path:item}:item;ok(safeContentPath(row?.path),'publication_maintenance_scope_required');accepted.set(row.path,row);}
  }
  const paths=new Map(prior.input.approval.paths.map(r=>[r.path,r]));const changed=gitBytes(root,['diff','--no-renames','--name-only','-z',prior.input.approval.source_revision,revision,'--',...scopes]).toString('utf8').split('\0').filter(Boolean);
  const relevant=changed.filter(p=>safeContentPath(p)&&(paths.has(p)||accepted.has(p)||/^(wiki|raw-sources|domains|groups|domain-groups)\//.test(p)));if(!relevant.length)return {status:'unchanged',reason:'no_accepted_content_delta'};
  for(const p of relevant)ok(accepted.has(p),'unreviewed_committed_content_delta');
  const rows=new Map(committedFiles(root,revision,relevant).map(r=>[r.path,r]));const bodies=readBlobs(root,[...rows.values()]);const byPath=new Map(bodies.map(r=>[r.path,r]));
- for(const p of relevant){const reviewed=accepted.get(p),file=byPath.get(p);if(!file){ok(reviewed.exists===false||!event.run,'reviewed_content_missing');paths.delete(p);continue;}ok(file.mode==='100644'&&reviewed.exists!==false&&(!reviewed.sha256||hash(file.bytes)===reviewed.sha256),'reviewed_content_changed');paths.set(p,{path:p,sha256:hash(file.bytes)});}
+ for(const p of relevant){const reviewed=accepted.get(p),file=byPath.get(p);if(!file){ok(reviewed.exists===false||!event.run,'reviewed_content_missing');paths.delete(p);continue;}ok(file.mode==='100644'&&reviewed.exists!==false&&(!reviewed.sha256||hash(file.bytes)===reviewed.sha256),'reviewed_content_changed');const access=reviewed.access??paths.get(p)?.access;paths.set(p,{path:p,sha256:hash(file.bytes),...(access?{access}:{})});}
  const approval={...prior.input.approval,authorization_ref:'Explicit accepted commit '+revision+'; '+(event.run??event.reviewRef),source_revision:revision,paths:[...paths.values()].sort((a,b)=>a.path<b.path?-1:a.path>b.path?1:0),evidence:refs,deletions:[],base_snapshot:null,prior_admission_sha256:prior.input_sha256,limitations:[...prior.input.approval.limitations.filter(s=>!s.startsWith('New accepted scope:')),'New accepted scope: '+(event.run??event.reviewRef)+'; prior scoped limits retained; no whole-library recertification.']};
  const input={repository:b.repository,approval},sha=hash(canonical(input)),events=path.join(b.publicationHome,'reviewed-events');ensurePrivateHome(events);const file=path.join(events,revision+'-'+sha.slice(0,16)+'.json');
  if(fs.existsSync(file))ok(hash(canonical(boundedJson(file)))===sha,'review_event_identity_conflict');else atomicJson(file,input);
