@@ -9,6 +9,9 @@ from workspace import ContractError, encoded, load, safe, version
 
 def build(root, release, previous):
     version(release)
+    if (root / '.gitmodules').is_file():
+        from module_lock import build as build_modules
+        return build_modules(root, release, previous)
     guide = safe(root, 'upgrades/' + release + '.md')
     if not guide.is_file():
         raise ContractError('Write the version upgrade guide before sealing')

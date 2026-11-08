@@ -193,6 +193,9 @@ def stage(source, destination):
 
 def export(source: Path, distribution: Path, apply=False):
     distribution = distribution.absolute()
+    catalog_path = safe(distribution, 'catalog.json')
+    if catalog_path.is_file() and json.loads(catalog_path.read_text('utf8')).get('schema_version') == 2:
+        raise ContractError('Publish module content in its independent repository, then update the AWS gitlink. Legacy copies cannot replace a 2.x module.')
     if not safe(distribution, 'AGENTS.md').is_file() or not safe(distribution, 'scripts/workspace.py').is_file():
         raise ContractError('Destination is not an AgentWorkSpace distribution')
     source = source.absolute()

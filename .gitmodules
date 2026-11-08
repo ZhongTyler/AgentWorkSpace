@@ -1,0 +1,36 @@
+[submodule "meta"]
+	path = meta
+	url = https://github.com/ZhongTyler/AWS-Meta.git
+[submodule "brainstorm"]
+	path = packages/brainstorm
+	url = https://github.com/ZhongTyler/AWS-Brainstorm.git
+[submodule "fromdemotospec"]
+	path = packages/fromdemotospec
+	url = https://github.com/ZhongTyler/AWS-FromDemoToSpec.git
+[submodule "knowledge"]
+	path = packages/knowledge
+	url = https://github.com/ZhongTyler/AWS-Knowledge.git
+[submodule "skills"]
+	path = packages/skills
+	url = https://github.com/ZhongTyler/AWS-Skills.git
+[submodule "game-analysis-decision"]
+	path = packages/game-analysis-decision
+	url = https://github.com/ZhongTyler/AWS-GameAnalysisDecision.git
+[submodule "game-presentation"]
+	path = packages/game-presentation
+	url = https://github.com/ZhongTyler/AWS-GamePresentation.git
+[submodule "prototype-assets"]
+	path = packages/prototype-assets
+	url = https://github.com/ZhongTyler/AWS-PrototypeAssets.git
+[submodule "travel"]
+	path = packages/travel
+	url = https://github.com/ZhongTyler/AWS-Travel.git
+[submodule "research"]
+	path = packages/research
+	url = https://github.com/ZhongTyler/AWS-Research.git
+[submodule "tools"]
+	path = packages/tools
+	url = https://github.com/ZhongTyler/AWS-Tools.git
+[submodule "game-project"]
+	path = packages/game-project
+	url = https://github.com/ZhongTyler/AWS-GameProject.git

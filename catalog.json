@@ -107,28 +107,26 @@
         "optional": [
           "knowledge",
           "prototyping",
-          "game-analysis"
+          "game-analysis",
+          "host-governance"
         ],
         "provides": [
           "brainstorming"
         ],
-        "requires": [
-          "host-governance"
-        ]
+        "requires": []
       },
       "fromdemotospec": {
         "optional": [
           "knowledge",
           "game-analysis",
           "game-presentation",
-          "asset-catalog"
+          "asset-catalog",
+          "host-governance"
         ],
         "provides": [
           "prototyping"
         ],
-        "requires": [
-          "host-governance"
-        ]
+        "requires": []
       },
       "game-analysis-decision": {
         "optional": [
@@ -171,13 +169,13 @@
         "requires": []
       },
       "knowledge": {
-        "optional": [],
+        "optional": [
+          "host-governance"
+        ],
         "provides": [
           "knowledge"
         ],
-        "requires": [
-          "host-governance"
-        ]
+        "requires": []
       },
       "meta": {
         "optional": [],
@@ -259,14 +257,19 @@
     "brainstorm": {
       "destination": "modules/brainstorm",
       "files": {
-        ".gitattributes": "5e3d69f1abee1cbf231f791d463b5148da4d4274a005948b7f1ff52b5445639d",
+        ".gitattributes": "f39325fb84c7f2b18de87f19637fb19e5c763a05f64c754e243279c167768b68",
+        ".gitignore": "bec0f4eb2bff101efe51a6a1253c8e18d8d141147e7f714e2fb62f91b8353561",
+        ".module/module_docs.py": "b0d9cf2aaba187d14be679de61f16c3dfc9c8346ff4739d176fa58983ab7ae65",
+        ".module/module_manager.py": "bfa0d8c7ea6efda126b7a8c656409875994b4bd1256e6d90f5d75652a9aca2b0",
         "AGENTS.md": "33385ba4ce23391c207fc78c22c98225ccaecc28fa3f5b658c415d9bec7c4188",
         "AI_INDEX.md": "15dbae649b0eaffe55e2dd069ec866d4eb20d0d74bb42394c33d006b06779b95",
         "BRAINSTORM_PROTOCOL.md": "52e92f72e0add8ed4467e2f43802ee8f63f600b48828ba83b9ab7336032d74a1",
         "CHANGELOG.md": "4c0d24cf4cb834bb73bb1c6506cf359d4b81af0e30276867cc910b6ae8a86abf",
         "COMMAND_MANUAL.md": "4831d4fdb5238dee33820fc3bafb9b90d43fb2ade3f97be998d120f2890b1305",
+        "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
         "NOW.md": "05bdc8b6faee09b8f13c9cb1f97388d3e061bd47b330651934a09ffcee367184",
-        "README.md": "c47fc6552e983b4c17e5359c46e1f70535cf4ff4caa1e92f6e65129f1eb1fd2f",
+        "README.en.md": "d8b2cb1e642a81a884d6a000256a52d4e85e1592239cd2858bb10c7762c232d1",
+        "README.md": "51e62626309f77871108b7daa960526cc499339be7025c6dabd8e43fa99e8879",
         "VALIDATION.md": "3011ea5dbe815d2f7dc3d3d0c17025c0381ca3071f683d045635438c0a02e199",
         "_release.json": "d2f80683b3691a1df4c76a7ec9a4a11fe95b9ff32ac6ff708a7b7b92f831a8c8",
         "adapters/README.md": "f33bcddc4895703beed263f894f595982e07d4f8dcbe61743320415bca8ca06b",
@@ -285,6 +288,7 @@
         "docs/contracts/session-contract.md": "ddf0ce40e1fb21dac6bcddcd1797c7a543d6ba6d83346ae9904b1211910565ab",
         "docs/maintenance/README.md": "48ce2c8881ee010f8ec8037bb32569839351753ad1ba1f5d79a89fab8bf06328",
         "docs/method-learning.md": "3e6cded22975872a7279cf2a15f9249d841e59c96fe0920665726ae02c0e0cc0",
+        "docs/module-cooperation.md": "072713b44fa763adcfd4c49c5cf8d7cffa7de0c9e611c2a191fba0125ef2fbdb",
         "docs/research/public-sources.json": "3caa093cf81677f788c15ecfa8dbcbcd3a0754a7b4f7ad3bc9615aa45603d5e8",
         "docs/research/public-sources.md": "f85feed3d0299359623a31cddf31316d663a6506c5524e48952845bd1ca8c77b",
         "docs/research/source-policy.md": "32f42056735b50fdf6ddfd5899d178414569b1ba2aac5a6ab04620475f276d2d",
@@ -321,6 +325,8 @@
         "methods/placeholders/six-thinking-hats.md": "4ee673923b6bdc9c46094df48acdd281ba8b076925f84bb2405394a6454b7045",
         "methods/synthesis/disney-strategy.md": "5895110679dc3b278b5251b82882accf8206b13816cfc0fffe8de73a6bb0a589",
         "methods/synthesis/kj-affinity.md": "d789a015b18669cb5dbe52ff59c5bcb141fc3bc6ba3f30738967fc85529c2770",
+        "module-files.json": "e832ee7dfbc3c61652c0ed07bfc101b79d8e7776a80af69e8f7ddd946192cef1",
+        "module.json": "0e1a02c3b2a84e38bc1c544ad3a1da02cfaba3b4b3de5f68e3152f0525ec084f",
         "perspectives/README.md": "a4f45d5b51e9145263ec07cc068a6ba7b0799141318d37379d00b876d0e56922",
         "perspectives/catalog.json": "7323ad747e0d4c8cc746a6982e1e53a691d406fc71aed9ddfe371d901565cd7b",
         "perspectives/core/accessibility-inclusion.md": "7a2d859c4684d18c6ec340c6aed8867268f12c6fe7b4080412f567f8e54be36f",
@@ -404,28 +410,113 @@
         "tests/run-release-contract.ps1": "2ae513532cd8cb66361812218ed999c73180fb23d2b3507b60bd091d15a87bd5",
         "tests/workflow-health.contract.ps1": "eb32057c9efc9e3c7b811484110c58d8a454438b96e4699d1e1585c5ecc65a28"
       },
+      "interfaces": {
+        "module-entry": {
+          "contract": "docs/module-cooperation.md",
+          "entry": "README.md",
+          "version": 1
+        }
+      },
+      "module_inventory_sha256": "e832ee7dfbc3c61652c0ed07bfc101b79d8e7776a80af69e8f7ddd946192cef1",
+      "module_manifest_sha256": "0e1a02c3b2a84e38bc1c544ad3a1da02cfaba3b4b3de5f68e3152f0525ec084f",
+      "module_source": "packages/brainstorm",
+      "name": "Brainstorm",
       "optional": [
         "knowledge",
         "prototyping",
-        "game-analysis"
+        "game-analysis",
+        "host-governance"
       ],
       "provides": [
         "brainstorming"
       ],
-      "required": [
-        "host-governance"
+      "related": [
+        {
+          "id": "meta",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Meta",
+          "panorama": false,
+          "purpose": "Optional workspace governance and recoverable collaboration.",
+          "repository": "https://github.com/ZhongTyler/AWS-Meta.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "knowledge",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Knowledge",
+          "panorama": false,
+          "purpose": "Query source-grounded material and maintain an owned knowledge library.",
+          "repository": "https://github.com/ZhongTyler/AWS-Knowledge.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "fromdemotospec",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "FromDemoToSpec",
+          "panorama": true,
+          "purpose": "Develop playable prototypes and evidence-based production handoffs.",
+          "repository": "https://github.com/ZhongTyler/AWS-FromDemoToSpec.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "game-analysis-decision",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "GameAnalysisDecision",
+          "panorama": false,
+          "purpose": "Analyze game evidence and conditional design decisions.",
+          "repository": "https://github.com/ZhongTyler/AWS-GameAnalysisDecision.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "skills",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Skills",
+          "panorama": false,
+          "purpose": "Select individual agent methods without enabling the whole library.",
+          "repository": "https://github.com/ZhongTyler/AWS-Skills.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        }
       ],
+      "repository": "https://github.com/ZhongTyler/AWS-Brainstorm.git",
+      "required": [],
+      "revision": "d5fe94a54ead22b0e0282e827ffc118acfcfcdcc",
+      "runtime": [],
       "source": "packages/brainstorm",
-      "source_revision": "f9459dea4df406a3dab551a01513906175dcbca8",
-      "version": "1.30.0"
+      "version": "2.0.0"
     },
     "fromdemotospec": {
       "destination": "modules/fromdemotospec",
       "files": {
+        ".gitattributes": "f39325fb84c7f2b18de87f19637fb19e5c763a05f64c754e243279c167768b68",
+        ".gitignore": "bec0f4eb2bff101efe51a6a1253c8e18d8d141147e7f714e2fb62f91b8353561",
+        ".module/module_docs.py": "b0d9cf2aaba187d14be679de61f16c3dfc9c8346ff4739d176fa58983ab7ae65",
+        ".module/module_manager.py": "bfa0d8c7ea6efda126b7a8c656409875994b4bd1256e6d90f5d75652a9aca2b0",
         "00-command-manual.md": "14484429f8961e9ed92f8dfe01c723c2fb6039710032f96f9c700df85e8de5fc",
         "04-agent-learning-feedback.md": "74673a31913bd688b1b8b954c8f314cc1cdb15e073c9c814f85e19bb5356d884",
         "AGENTS.md": "935db929e8275efcf849711dc02656aaa5e732f33729de9ead5f78c2d0f4ee8d",
-        "README.md": "dc925971784952898fef680a938644502e314bb8da033ab028bbe8b9edff871b",
+        "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
+        "README.en.md": "16a2335600a4eb53f994353bf868ff513a803d97eee12ca306c3f347dc5147b5",
+        "README.md": "8c93656e5ee81d48b0a01faae31d6b0ac5e733322041439714dc2ae2631365f9",
         "_release.json": "f29b5a118c64cc3335567f07fb5d49d974c55b47dba7ca485b54c72894a66b86",
         "adapters/game-analysis-decision/README.md": "aa9de02acba7c811f1bf3c0b87a3001a77b0c269c2209fd93b56a0ce28d5c9a0",
         "adapters/game-analysis-decision/contract.json": "d637d3460412ea17cfc77c76b132e93880fe906dacca52fc8b7996e311607397",
@@ -436,6 +527,7 @@
         "design-modules/economy-and-progression.md": "9f43fda20aa883a6af46cd3de2eb16c4f70a3a18002e4efe98ac032c5008343f",
         "design-modules/information-and-experience.md": "54a1b838c84d5ee24b87ebe7466abd0988ff8cdfb53dc89966f6aff388cf177b",
         "design-modules/systems-and-boundaries.md": "ca1911725cb2f540f1ba599929a31e83c89d4056e535c5341a196b13802499cb",
+        "docs/module-cooperation.md": "03ebd4fc6cf40e9e2ae64cd999b5ba2104e6c86528dcb59dc5a62e67cdf02fa5",
         "docs/project-tools.md": "3d8b85b9b2f4e1a272224e8cbe4cbf39091f9b20c2b3c991c23731719c54827d",
         "examples/game-analysis-decision/fromdemotospec-request.json": "5f0546c05db2a1bc162fdb13d102bcc7c0bb2aeae5c1979209d328d0dc693ba4",
         "examples/game-analysis-decision/legacy-request.json": "8c8f2cafdfbe70e000b9d9ec0efd542597961df341439bff24b200e7b4060883",
@@ -448,6 +540,8 @@
         "experience-kits/calibration/README.md": "eb656fdef3801ab0391e0b9e2ae2764cc5584ba5e104e82c761c6bf7ba522149",
         "experience-kits/schemas/asset-manifest.schema.json": "72751505640b328e5035f3b5414b3e33b578b9b3d8f612f706fb072ef3ff48a4",
         "experience-kits/schemas/presentation-selection.schema.json": "28c30d608934867e7e85a79057a8dd34a4c83b0b2c078d7ea7abd93463dafc84",
+        "module-files.json": "99272b2848289ced0753829e32e63bf3a10da9b76b371285471db2d208486f31",
+        "module.json": "16ec87a3b1b2ede5beb77b70230c81a5e940040f6646cbaa4d40cead56cceb4b",
         "paths/maintained-project.md": "df2fdaecfd99150d5f7cd8a1d7d8efc08a8aedf5efe9608ddc464a17e4b673d8",
         "paths/single-file.md": "dc53ff4fa7d8eee05d35f2a0a15e8c3ff0f2af07ceac9edcaa5b485a99bcb28b",
         "protocols/handoff-and-production.md": "4f9b9d136fd0f21381833edcbd3d68bc9ce84ffa8909141358e514a213fca692",
@@ -480,28 +574,164 @@
         "tests/presentation-layer.contract.ps1": "5167d989a114093c1006ce9234c065c1e07d6e5a1babc39c542a0c4b882249e9",
         "tests/prototype-project.contract.mjs": "176e82d2df2593515848a9ec565b0d83e38fb1b48fba2c2716bc7a59d4853fb4"
       },
+      "interfaces": {
+        "module-entry": {
+          "contract": "docs/module-cooperation.md",
+          "entry": "README.md",
+          "version": 1
+        }
+      },
+      "module_inventory_sha256": "99272b2848289ced0753829e32e63bf3a10da9b76b371285471db2d208486f31",
+      "module_manifest_sha256": "16ec87a3b1b2ede5beb77b70230c81a5e940040f6646cbaa4d40cead56cceb4b",
+      "module_source": "packages/fromdemotospec",
+      "name": "FromDemoToSpec",
       "optional": [
         "knowledge",
         "game-analysis",
         "game-presentation",
-        "asset-catalog"
+        "asset-catalog",
+        "host-governance"
       ],
       "provides": [
         "prototyping"
       ],
-      "required": [
-        "host-governance"
+      "related": [
+        {
+          "id": "meta",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Meta",
+          "panorama": false,
+          "purpose": "Optional workspace governance and recoverable collaboration.",
+          "repository": "https://github.com/ZhongTyler/AWS-Meta.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "brainstorm",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Brainstorm",
+          "panorama": false,
+          "purpose": "Explore alternatives and retain proposals, decisions and recovery.",
+          "repository": "https://github.com/ZhongTyler/AWS-Brainstorm.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "knowledge",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Knowledge",
+          "panorama": false,
+          "purpose": "Query source-grounded material and maintain an owned knowledge library.",
+          "repository": "https://github.com/ZhongTyler/AWS-Knowledge.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "game-analysis-decision",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "GameAnalysisDecision",
+          "panorama": false,
+          "purpose": "Analyze game evidence and conditional design decisions.",
+          "repository": "https://github.com/ZhongTyler/AWS-GameAnalysisDecision.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "game-presentation",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "GamePresentation",
+          "panorama": false,
+          "purpose": "Prepare, review and integrate game presentation resources.",
+          "repository": "https://github.com/ZhongTyler/AWS-GamePresentation.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "prototype-assets",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "PrototypeAssets",
+          "panorama": false,
+          "purpose": "Find rights-reviewed resources and preserve source and license records.",
+          "repository": "https://github.com/ZhongTyler/AWS-PrototypeAssets.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "game-project",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "GameProject",
+          "panorama": true,
+          "purpose": "Create an owned Godot project with maintenance and resource atlases.",
+          "repository": "https://github.com/ZhongTyler/AWS-GameProject.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "research",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Research",
+          "panorama": false,
+          "purpose": "Collect sources and compile traceable studies and reader navigation.",
+          "repository": "https://github.com/ZhongTyler/AWS-Research.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "skills",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Skills",
+          "panorama": false,
+          "purpose": "Select individual agent methods without enabling the whole library.",
+          "repository": "https://github.com/ZhongTyler/AWS-Skills.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        }
       ],
+      "repository": "https://github.com/ZhongTyler/AWS-FromDemoToSpec.git",
+      "required": [],
+      "revision": "3bf61f2f3988c0cd9bb161ffc2b3b1631fae6be7",
+      "runtime": [],
       "source": "packages/fromdemotospec",
-      "source_revision": "f425395f65077158cc5f2166c768815c9e33103f",
-      "version": "1.30.0"
+      "version": "2.0.0"
     },
     "game-analysis-decision": {
       "destination": "modules/game-analysis-decision",
       "files": {
-        ".gitattributes": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da",
+        ".gitattributes": "f39325fb84c7f2b18de87f19637fb19e5c763a05f64c754e243279c167768b68",
+        ".gitignore": "bec0f4eb2bff101efe51a6a1253c8e18d8d141147e7f714e2fb62f91b8353561",
+        ".module/module_docs.py": "b0d9cf2aaba187d14be679de61f16c3dfc9c8346ff4739d176fa58983ab7ae65",
+        ".module/module_manager.py": "bfa0d8c7ea6efda126b7a8c656409875994b4bd1256e6d90f5d75652a9aca2b0",
         "AGENTS.md": "d5bc95cf4601804c4c1647fc0264872888212b908d56fa7460025b331e273927",
-        "README.md": "94af846af9b01dfb82a06fff7d4addc5ea452e067ab522007d3852db67d7fc2c",
+        "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
+        "README.en.md": "807a3a145f1bda1d41971722411fbd683ff7e4e165be61b5d2f581cad3e8f6ab",
+        "README.md": "c252d9c26f7bb7cc7917abced32955bcb428cbc9cfe26878d474b2fd2a30e5ae",
         "_release.json": "eaef3a270c91adcb895775e0789af05a7c4b65ba6ff41e8b7ad778f245eee0e8",
         "adapters/v2/README.md": "33ba1fc65b2d752dfce96d624d0de28fd514d635478c6784c2e63ffde236329a",
         "adapters/v2/contract.schema.json": "1e31a4cf836a92c73e6b02f0e1991d01b778f4064b639a92238192950d866bdd",
@@ -544,9 +774,12 @@
         "agents/prompts/运营策划-expert.md": "1179c5f14ad74fdbd5ca2dcbdcd5a7f54bd016cb87dca3f1299a933294a1a243",
         "agents/prompts/音频工程-context.md": "c0a5e59464b02ba5d4d466fbadc6c79d3ca2f4d259d7a7e6c44b9fd14661eb2d",
         "agents/prompts/项目管理-expert.md": "2ed4f924800488616374e2c42fd6cbb752a431a3f69847c36f3197768212b8d8",
+        "docs/module-cooperation.md": "24207da787dad5d017d8a703dc1527f705be175ab0e0976d76ff94396583232f",
         "examples/query.json": "3103ac53e236b51314d926624510ac9234b72256560dc430673a8fef5d3569eb",
         "learning/README.md": "4da4bb34543df7e318dae3d0d91d61557638956c91c5af7a07271a8a50ebdf81",
         "learning/state.json": "b20735c556bde3ca6ce8bd17e4c3594a3f1a19fb70f2808d412593dfdd735ffa",
+        "module-files.json": "7689d037a64f3433c1374b5ab23e308817263d67d203948c63c9a549f2f4684d",
+        "module.json": "639aa76859aea34429080a8b1d085205bf14f0877784fb0820e9f2fcf5520200",
         "protocols/analysis.md": "f9a0ce0306fbee8ab2f79e291bb4442206118c3ba1313dc4e8bd61811c55390a",
         "protocols/delivery.md": "c10c2416b450292a76ab0f586ee04539d717a465132a781df04730f15d4ab6a9",
         "protocols/knowledge-boundary.md": "f0d3811a1a8d0b2c9788887e6c95ba94cbe6cb3ef27ee25a5c1e0004dbffba46",
@@ -573,6 +806,17 @@
         "tests/test-learning-v2.mjs": "21cc9e4f6a86c89a54b7a2a15d531d72924b877465ff94d82bc7dbd85fce768a",
         "tests/test-provider-v2.mjs": "1b00f23fe7f58ca290a2b92b2b530626da37e6bfd1893df9e82fe4597418ae85"
       },
+      "interfaces": {
+        "module-entry": {
+          "contract": "docs/module-cooperation.md",
+          "entry": "README.md",
+          "version": 1
+        }
+      },
+      "module_inventory_sha256": "7689d037a64f3433c1374b5ab23e308817263d67d203948c63c9a549f2f4684d",
+      "module_manifest_sha256": "639aa76859aea34429080a8b1d085205bf14f0877784fb0820e9f2fcf5520200",
+      "module_source": "packages/game-analysis-decision",
+      "name": "GameAnalysisDecision",
       "optional": [
         "knowledge",
         "prototyping",
@@ -581,17 +825,104 @@
       "provides": [
         "game-analysis"
       ],
+      "related": [
+        {
+          "id": "brainstorm",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Brainstorm",
+          "panorama": false,
+          "purpose": "Explore alternatives and retain proposals, decisions and recovery.",
+          "repository": "https://github.com/ZhongTyler/AWS-Brainstorm.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "fromdemotospec",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "FromDemoToSpec",
+          "panorama": true,
+          "purpose": "Develop playable prototypes and evidence-based production handoffs.",
+          "repository": "https://github.com/ZhongTyler/AWS-FromDemoToSpec.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "knowledge",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Knowledge",
+          "panorama": false,
+          "purpose": "Query source-grounded material and maintain an owned knowledge library.",
+          "repository": "https://github.com/ZhongTyler/AWS-Knowledge.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "research",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Research",
+          "panorama": false,
+          "purpose": "Collect sources and compile traceable studies and reader navigation.",
+          "repository": "https://github.com/ZhongTyler/AWS-Research.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "game-project",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "GameProject",
+          "panorama": false,
+          "purpose": "Create an owned Godot project with maintenance and resource atlases.",
+          "repository": "https://github.com/ZhongTyler/AWS-GameProject.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "skills",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Skills",
+          "panorama": false,
+          "purpose": "Select individual agent methods without enabling the whole library.",
+          "repository": "https://github.com/ZhongTyler/AWS-Skills.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        }
+      ],
+      "repository": "https://github.com/ZhongTyler/AWS-GameAnalysisDecision.git",
       "required": [],
+      "revision": "1d9f4d468a4def37436cb57bc0c6b48bbcc79658",
+      "runtime": [],
       "source": "packages/game-analysis-decision",
-      "source_revision": "ac58b7ae356e09421907d8ed837fc37c0cd258f1",
-      "version": "1.30.0"
+      "version": "2.0.0"
     },
     "game-presentation": {
       "destination": "modules/game-presentation",
       "files": {
-        ".gitattributes": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da",
+        ".gitattributes": "f39325fb84c7f2b18de87f19637fb19e5c763a05f64c754e243279c167768b68",
+        ".gitignore": "bec0f4eb2bff101efe51a6a1253c8e18d8d141147e7f714e2fb62f91b8353561",
+        ".module/module_docs.py": "b0d9cf2aaba187d14be679de61f16c3dfc9c8346ff4739d176fa58983ab7ae65",
+        ".module/module_manager.py": "bfa0d8c7ea6efda126b7a8c656409875994b4bd1256e6d90f5d75652a9aca2b0",
         "AGENTS.md": "ffe0f3d61d70dd2bf71db37deea226f041ffa4fe6b9843d3e87c0d3f88e8b71e",
-        "README.md": "ebbc0155799d3c65f028f4afe5fe7112e49aed7c0bcc67af9f011a5d5eb32f2d",
+        "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
+        "README.en.md": "2dc6b968bb75a6c90c271edbb029f4f756bdb5b9b63021ed884c0b39b4d6a371",
+        "README.md": "9fbea6bf6b99ce9076ca0191c2437a62c5e69deec784bb6c327bb97deb2d3505",
         "_release.json": "8188248e33993c4c7197a18b0415f8075dfaa4ed05c1bfd117aadd640b466e78",
         "adapters/README.md": "d66f7c53d3b19bf6d3f5efb3d8f29b4017ca8403a038cedb8b2dd595f8ba5397",
         "adapters/godot/README.md": "febf8ad6db1d29c510f9b9165198772e540dcf94982a69a1f4222296c7bb9726",
@@ -606,9 +937,12 @@
         "adapters/resource-review/check.cjs": "a59f20cba06c36f168856f36439c5224e66d8079266bbb1bb348d1405ddb8d68",
         "adapters/resource-review/gallery.html": "6e8550c051a61b69ffd3ede195bf6b5cc91aeab160f8451c6f1ce4ccbb551de0",
         "adapters/resource-review/render.cjs": "34b5893ad908ba6a18d3b6ec6d4d6e4fe6af0e010756aa58c6cb3a5838fd7f2b",
+        "docs/module-cooperation.md": "2be54cfe577cb852b21128006ccfddfbf7c4dda45f7f405aa706dc6438cc5af5",
         "generated-art.md": "e3f617c55ea2faecc9053cff84b6bd8f66826bd27c8185afc35bf74cddaf7471",
         "local-image-workflow.md": "e3478a279ccb36ed55144b4050f5c8f3a7a4bae1755456fca3ba745c59ff4d0b",
         "maintenance/capability-status.md": "414da793fae022a64db3059ec4172d3cc5e513119c29cd705dcff64f37a1e30a",
+        "module-files.json": "89b4a6182a99ecbe1e7ca86400da43133d4f382b709de6d5595b8ad07029f76b",
+        "module.json": "7180492d12181f0712bf32bbc87d5462f3175dd65d3f0d0149fad6e84996dfbd",
         "pixel-asset-production.md": "1ba033c25b86e2a068dd01efdcebab54d12ee7c8e179b1d61da4f4af315e7964",
         "project-assets.md": "f43e916549be1e0205879c75b4c5de888898f52cbad1a08d5c43ca198167b9d8",
         "project-atlas.md": "1fae8589ef390c8a5fe40d65559413945cea9785c7860f7be72978e698c010ce",
@@ -627,6 +961,17 @@
         "tests/workbench-delivery.test.mjs": "e9e610a726bbb8b1d66181cc76d926982d2c9d0e0d7da2b3e33ef9a136bf5d99",
         "workflow.md": "4f7c554bd40433770898d578ad2b1b808dcfc5e82dc2eafcb251212239d4904d"
       },
+      "interfaces": {
+        "module-entry": {
+          "contract": "docs/module-cooperation.md",
+          "entry": "README.md",
+          "version": 1
+        }
+      },
+      "module_inventory_sha256": "89b4a6182a99ecbe1e7ca86400da43133d4f382b709de6d5595b8ad07029f76b",
+      "module_manifest_sha256": "7180492d12181f0712bf32bbc87d5462f3175dd65d3f0d0149fad6e84996dfbd",
+      "module_source": "packages/game-presentation",
+      "name": "GamePresentation",
       "optional": [
         "asset-catalog",
         "game-analysis",
@@ -635,18 +980,98 @@
       "provides": [
         "game-presentation"
       ],
+      "related": [
+        {
+          "id": "game-project",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "GameProject",
+          "panorama": true,
+          "purpose": "Create an owned Godot project with maintenance and resource atlases.",
+          "repository": "https://github.com/ZhongTyler/AWS-GameProject.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "fromdemotospec",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "FromDemoToSpec",
+          "panorama": false,
+          "purpose": "Develop playable prototypes and evidence-based production handoffs.",
+          "repository": "https://github.com/ZhongTyler/AWS-FromDemoToSpec.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "prototype-assets",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "PrototypeAssets",
+          "panorama": false,
+          "purpose": "Find rights-reviewed resources and preserve source and license records.",
+          "repository": "https://github.com/ZhongTyler/AWS-PrototypeAssets.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "tools",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Tools",
+          "panorama": false,
+          "purpose": "Configure optional source, processing and local-model tools.",
+          "repository": "https://github.com/ZhongTyler/AWS-Tools.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "skills",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Skills",
+          "panorama": false,
+          "purpose": "Select individual agent methods without enabling the whole library.",
+          "repository": "https://github.com/ZhongTyler/AWS-Skills.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        }
+      ],
+      "repository": "https://github.com/ZhongTyler/AWS-GamePresentation.git",
       "required": [],
+      "revision": "053d2901f4c0fc00814a15e1046a9797388659e9",
+      "runtime": [
+        "Node.js for resource review",
+        "Configured browser/Playwright for browser rendering"
+      ],
       "source": "packages/game-presentation",
-      "source_revision": "e02cabe7296b6c9b24f66295186c8057740b7463",
-      "version": "1.30.0"
+      "version": "2.0.0"
     },
     "game-project": {
       "destination": "modules/game-project",
       "files": {
-        "AGENTS.md": "8b4bd15a1b76069edabfce9437cc149e7ee87d3332aded30931e1114e23b0c11",
+        ".gitattributes": "f39325fb84c7f2b18de87f19637fb19e5c763a05f64c754e243279c167768b68",
+        ".gitignore": "bec0f4eb2bff101efe51a6a1253c8e18d8d141147e7f714e2fb62f91b8353561",
+        ".module/module_docs.py": "b0d9cf2aaba187d14be679de61f16c3dfc9c8346ff4739d176fa58983ab7ae65",
+        ".module/module_manager.py": "bfa0d8c7ea6efda126b7a8c656409875994b4bd1256e6d90f5d75652a9aca2b0",
+        "AGENTS.md": "f2a5916bd30542060b7a55c00ae743244080d31b92559b4f758be296a5556b27",
         "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
-        "README.md": "7fcaa18379e760db6f4b46a517146128da14a13593901f6d1e4fdb927127d8a9",
+        "README.en.md": "a3283855280caf682e1cf1b322ccdd4c5e7a77a3956049e08aab9013b0b0d59a",
+        "README.md": "fb381f5c152b0d360b705168e451808057f7964d2c42b223cf63e81b8ee36a17",
         "_release.json": "7bdd566dcdd555a0c2ac969d560a082c7c8ce94f2868012d67ae7f56d326cc7a",
+        "docs/module-cooperation.md": "bd376fc6b40b9bbab46e29f77ed94ffba265f69a28447e2c7b448f2bdf480672",
+        "module-files.json": "6de436839e8dd548ce1d423807ae9816c5970fdeeb08b98c16a6eae859d877ab",
+        "module.json": "b09c562b21c10f02fa36f3d3fa24fbb35a77a9936a66576f72b268314684dfcb",
         "scripts/create-project.py": "0367a3e1395aef7a8f5939d3e4747c028d2f4351eac730143de4fae9061c3a88",
         "template-inventory.json": "41896c38576e57ce7ea4bb76f3bb7c00e2d08f760f240d6c837e6a5cf94bb514",
         "template/.gitignore": "8b6d17751dea786b82abb2256780b57ae378c90b14a22857d56a651309c43712",
@@ -731,6 +1156,17 @@
         "template/maintenance/workflows/workbench.md": "920642c437a4ef7e2b7d5a6448713cc054db2d0185a141a620039fd4b9fa9d39",
         "tests/test_create.py": "c47d85416e9e816fc559d7e0d4a563ef57599f657cc2817506b4c859f1fc5960"
       },
+      "interfaces": {
+        "module-entry": {
+          "contract": "docs/module-cooperation.md",
+          "entry": "README.md",
+          "version": 1
+        }
+      },
+      "module_inventory_sha256": "6de436839e8dd548ce1d423807ae9816c5970fdeeb08b98c16a6eae859d877ab",
+      "module_manifest_sha256": "b09c562b21c10f02fa36f3d3fa24fbb35a77a9936a66576f72b268314684dfcb",
+      "module_source": "packages/game-project",
+      "name": "GameProject",
       "optional": [
         "host-governance",
         "brainstorming",
@@ -746,26 +1182,172 @@
       "provides": [
         "game-project-workspace"
       ],
+      "related": [
+        {
+          "id": "meta",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Meta",
+          "panorama": false,
+          "purpose": "Optional workspace governance and recoverable collaboration.",
+          "repository": "https://github.com/ZhongTyler/AWS-Meta.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "brainstorm",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Brainstorm",
+          "panorama": false,
+          "purpose": "Explore alternatives and retain proposals, decisions and recovery.",
+          "repository": "https://github.com/ZhongTyler/AWS-Brainstorm.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "fromdemotospec",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "FromDemoToSpec",
+          "panorama": false,
+          "purpose": "Develop playable prototypes and evidence-based production handoffs.",
+          "repository": "https://github.com/ZhongTyler/AWS-FromDemoToSpec.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "game-analysis-decision",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "GameAnalysisDecision",
+          "panorama": false,
+          "purpose": "Analyze game evidence and conditional design decisions.",
+          "repository": "https://github.com/ZhongTyler/AWS-GameAnalysisDecision.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "game-presentation",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "GamePresentation",
+          "panorama": false,
+          "purpose": "Prepare, review and integrate game presentation resources.",
+          "repository": "https://github.com/ZhongTyler/AWS-GamePresentation.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "prototype-assets",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "PrototypeAssets",
+          "panorama": false,
+          "purpose": "Find rights-reviewed resources and preserve source and license records.",
+          "repository": "https://github.com/ZhongTyler/AWS-PrototypeAssets.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "knowledge",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Knowledge",
+          "panorama": false,
+          "purpose": "Query source-grounded material and maintain an owned knowledge library.",
+          "repository": "https://github.com/ZhongTyler/AWS-Knowledge.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "research",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Research",
+          "panorama": false,
+          "purpose": "Collect sources and compile traceable studies and reader navigation.",
+          "repository": "https://github.com/ZhongTyler/AWS-Research.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "skills",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Skills",
+          "panorama": false,
+          "purpose": "Select individual agent methods without enabling the whole library.",
+          "repository": "https://github.com/ZhongTyler/AWS-Skills.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "tools",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Tools",
+          "panorama": false,
+          "purpose": "Configure optional source, processing and local-model tools.",
+          "repository": "https://github.com/ZhongTyler/AWS-Tools.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        }
+      ],
+      "repository": "https://github.com/ZhongTyler/AWS-GameProject.git",
       "required": [],
+      "revision": "98ad9181f3a44da72e7744739e350efaf3645447",
+      "runtime": [
+        "Python 3.10+",
+        "Godot for engine execution",
+        "Node.js for asset atlas"
+      ],
       "source": "packages/game-project",
-      "source_revision": "e02cabe7296b6c9b24f66295186c8057740b7463",
-      "version": "1.30.0"
+      "version": "2.0.0"
     },
     "knowledge": {
       "destination": "modules/knowledge",
       "files": {
-        ".gitignore": "37cc4bd9e2ac9f4fc8166c6bbafe1a13114cdc4ec3e106d39111ed3e6e5a9649",
+        ".gitattributes": "f39325fb84c7f2b18de87f19637fb19e5c763a05f64c754e243279c167768b68",
+        ".gitignore": "0c75f1e1a56b31adda2f8aa676941911b1b04bc20113a314f083ba1ccaf5ba74",
+        ".module/module_docs.py": "b0d9cf2aaba187d14be679de61f16c3dfc9c8346ff4739d176fa58983ab7ae65",
+        ".module/module_manager.py": "bfa0d8c7ea6efda126b7a8c656409875994b4bd1256e6d90f5d75652a9aca2b0",
         "AGENTS.md": "2f7f4e779d6fd9e99b35299c6736c111da2a4112510e81898305713a2267d422",
         "COMMAND_MANUAL.md": "8f0f7f99bca6cc8fa7c93dc122c0e24822a51f471ad7a51403028b763766a5dd",
         "Clippings/README.md": "2c4d9027f0102892ce45e0c0ee4594c4c0bf00cbaa89f3eb0db8540a12297478",
+        "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
         "NOW.md": "c8823065c4b83ffbb505798f5f83d1f04512e9fb613188d6883e3d226ba23d61",
-        "README.md": "ea854b51d543b38f7d916a928e959e631ae2a0600ea1b74c693536195e0854c9",
+        "README.en.md": "a72b9535b132e6c11864e8c9487dfc79cb35801d1b10c615a825e626b6322992",
+        "README.md": "0025c06b978f6eb3f24a9771e2aca6b048fbc2b9d2aa6e9286e57a4393198176",
         "_release.json": "854e6be8342c495030f67e6dbe4618089d0d1b58c1df5b23b9714a09fbb2dda7",
+        "docs/module-cooperation.md": "38114c0f6df5af8ba6343d282b0cbe26d4993b9949ca81804e2c86fe4f44d185",
         "domains/README.md": "f512f40bd6787957c3e6d8bbecb7fc497a70d3c36757e4689a7103140209e9e1",
         "domains/domain-principles.template.md": "9f95ad115b05cb081b11dc9c479a45b7b18f93ebf31d9ee72a04732229ed19a6",
         "domains/domain.template.md": "209462a85148dc05573aab91181ae7a002d63e0b20867688a90c4e64cf173fca",
         "groups/README.md": "aa95e24cc0bc9d647f2c7d0d69adde733a2f23e882f94bc64073341331deed4e",
         "groups/group.template.md": "cee8da72c39225543c77d16dbf5bd262b6293a2bb1c1c5eb15ab69c6af1ccf22",
+        "module-files.json": "15316e59b0965485c6957d1a5fd8050768d42554e71911aac8eff5836d3c144e",
+        "module.json": "9c8837da30ce3f53d98030ddf68f7bba1905cd1ac82c5d3d408f621efee949eb",
         "raw-sources/README.md": "7ee03206db7677eb478754a38869fc7744135642222fc0298b682a31e7a0c703",
         "raw-sources/raw-source.template.md": "a8a07cabb01a321bc3ba9e5f35b8271592a08004c198344338e9147ec48ab6c1",
         "research-reports/README.md": "ce7d604f20b7c032311622988084360ef1ee8721acc7724c988c8853499b0eb5",
@@ -989,16 +1571,112 @@
         "wiki/README.md": "c9c553242525b50a70cd9153a6be7583918f7bcedc52fe1edc30ef234566b24f",
         "wiki/wiki.template.md": "fa9cb8c1b8b3d6e9db64f92a86fc6ae4d5d7da3922c45f59aa098d94e7398eda"
       },
-      "optional": [],
+      "interfaces": {
+        "module-entry": {
+          "contract": "docs/module-cooperation.md",
+          "entry": "README.md",
+          "version": 1
+        }
+      },
+      "module_inventory_sha256": "15316e59b0965485c6957d1a5fd8050768d42554e71911aac8eff5836d3c144e",
+      "module_manifest_sha256": "9c8837da30ce3f53d98030ddf68f7bba1905cd1ac82c5d3d408f621efee949eb",
+      "module_source": "packages/knowledge",
+      "name": "Knowledge",
+      "optional": [
+        "host-governance"
+      ],
       "provides": [
         "knowledge"
       ],
-      "required": [
-        "host-governance"
+      "related": [
+        {
+          "id": "meta",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Meta",
+          "panorama": false,
+          "purpose": "Optional workspace governance and recoverable collaboration.",
+          "repository": "https://github.com/ZhongTyler/AWS-Meta.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "research",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Research",
+          "panorama": false,
+          "purpose": "Collect sources and compile traceable studies and reader navigation.",
+          "repository": "https://github.com/ZhongTyler/AWS-Research.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "tools",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Tools",
+          "panorama": false,
+          "purpose": "Configure optional source, processing and local-model tools.",
+          "repository": "https://github.com/ZhongTyler/AWS-Tools.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "skills",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Skills",
+          "panorama": false,
+          "purpose": "Select individual agent methods without enabling the whole library.",
+          "repository": "https://github.com/ZhongTyler/AWS-Skills.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "travel",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Travel",
+          "panorama": false,
+          "purpose": "Research, plan and render an owned trip as an offline website.",
+          "repository": "https://github.com/ZhongTyler/AWS-Travel.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "game-analysis-decision",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "GameAnalysisDecision",
+          "panorama": true,
+          "purpose": "Analyze game evidence and conditional design decisions.",
+          "repository": "https://github.com/ZhongTyler/AWS-GameAnalysisDecision.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        }
+      ],
+      "repository": "https://github.com/ZhongTyler/AWS-Knowledge.git",
+      "required": [],
+      "revision": "4cf3ac058c2b7456e4f2b2f29a9b103d86551b0f",
+      "runtime": [
+        "Node.js 22+",
+        "PowerShell 7+ for selected maintenance commands"
       ],
       "source": "packages/knowledge",
-      "source_revision": "f408865c989c5f4395617ef94f51469d9246d408",
-      "version": "1.30.0"
+      "version": "2.0.0"
     },
     "meta": {
       "destination": "",
@@ -1043,9 +1721,9 @@
         "AI_INDEX.md": "fd380602d990a0833195cdff8aca5150bde202b88dbbe482cfee4d75bee2d933",
         "AI_SELF_CHECK.md": "fe8311763dc04b999236aedcbb97d6ddf4f13f938bfd7aa107fe2eded9d11440",
         "AI_SOFT_HINTS.md": "32d5f74da438f35042c7d5d2bfa844f189aaf6fd61760c24b00f51d9f0017a0b",
-        "COMMAND_MANUAL.md": "459170f720c53be6d7cf3a79f3e60b1dc9c032228e6040615fceb041f774c4aa",
+        "COMMAND_MANUAL.md": "cdf560417f7352fb05f3a32a68346dab2949a955d672e9fff19f8da1ae7e4b88",
         "NOW.md": "72d2526fb48b535577738a007db28d3e87b8ebb1edd9a26e08db581b5e38af48",
-        "README.md": "f59770f573cf766045c48eb429f78f91bd3e345293fc8d0257a9ddeec3577c32",
+        "README.md": "a0b08d857bddb938e2c81fa33c4424153aa3cd7b98087b11a9cb790fdd11d9ef",
         "USER_PROFILE.md": "b2f19d0836fb18a1ea554a180265bf31f18b197f2f65c3fa2755d90e0a93fe61",
         "collaboration/README.md": "8b51a99816fd3fbe4808472f4c2dd02eab445a1718b3444fa8d9dcc91a13f4cf",
         "collaboration/assisted.md": "d5613f3d12c8fec3565ba752000ba716711f32894a80a890eeaaf09827b718dd",
@@ -1057,27 +1735,191 @@
         "reviews/README.md": "d5401a6e2d382526adadbafee7e0a2e918337590ba62e183a6721ab66c4981fc",
         "reviews/_observations.md": "146f8142cac697dc27aa6624a282294b4010d878bf6b412db4212176389135ff"
       },
+      "interfaces": {
+        "module-entry": {
+          "contract": "docs/module-cooperation.md",
+          "entry": "README.md",
+          "version": 1
+        }
+      },
+      "module_inventory_sha256": "0036790feadba72b3d2a024e1950b2cec298945931053942f8c556b0600ce68d",
+      "module_manifest_sha256": "32d8ccae7356cd962c300e9c0522c65d90f7f2d943381fbb86b840bacf3bafc5",
+      "module_source": "meta",
+      "name": "Meta",
       "optional": [],
       "provides": [
         "host-governance"
       ],
+      "related": [
+        {
+          "id": "skills",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Skills",
+          "panorama": true,
+          "purpose": "Select individual agent methods without enabling the whole library.",
+          "repository": "https://github.com/ZhongTyler/AWS-Skills.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "brainstorm",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Brainstorm",
+          "panorama": false,
+          "purpose": "Explore alternatives and retain proposals, decisions and recovery.",
+          "repository": "https://github.com/ZhongTyler/AWS-Brainstorm.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "fromdemotospec",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "FromDemoToSpec",
+          "panorama": false,
+          "purpose": "Develop playable prototypes and evidence-based production handoffs.",
+          "repository": "https://github.com/ZhongTyler/AWS-FromDemoToSpec.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "knowledge",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Knowledge",
+          "panorama": false,
+          "purpose": "Query source-grounded material and maintain an owned knowledge library.",
+          "repository": "https://github.com/ZhongTyler/AWS-Knowledge.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "game-analysis-decision",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "GameAnalysisDecision",
+          "panorama": false,
+          "purpose": "Analyze game evidence and conditional design decisions.",
+          "repository": "https://github.com/ZhongTyler/AWS-GameAnalysisDecision.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "game-presentation",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "GamePresentation",
+          "panorama": false,
+          "purpose": "Prepare, review and integrate game presentation resources.",
+          "repository": "https://github.com/ZhongTyler/AWS-GamePresentation.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "prototype-assets",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "PrototypeAssets",
+          "panorama": false,
+          "purpose": "Find rights-reviewed resources and preserve source and license records.",
+          "repository": "https://github.com/ZhongTyler/AWS-PrototypeAssets.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "travel",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Travel",
+          "panorama": false,
+          "purpose": "Research, plan and render an owned trip as an offline website.",
+          "repository": "https://github.com/ZhongTyler/AWS-Travel.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "research",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Research",
+          "panorama": false,
+          "purpose": "Collect sources and compile traceable studies and reader navigation.",
+          "repository": "https://github.com/ZhongTyler/AWS-Research.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "tools",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Tools",
+          "panorama": false,
+          "purpose": "Configure optional source, processing and local-model tools.",
+          "repository": "https://github.com/ZhongTyler/AWS-Tools.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "game-project",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "GameProject",
+          "panorama": true,
+          "purpose": "Create an owned Godot project with maintenance and resource atlases.",
+          "repository": "https://github.com/ZhongTyler/AWS-GameProject.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        }
+      ],
+      "repository": "https://github.com/ZhongTyler/AWS-Meta.git",
       "required": [],
+      "revision": "d96321a5762a6454a1fa0249747e3c33d7e05b8b",
+      "runtime": [],
       "source": "meta/workspace",
-      "source_revision": "99135a507825fe7c56bd67607183a0402a720e46",
-      "version": "1.30.0"
+      "version": "2.0.0"
     },
     "prototype-assets": {
       "destination": "modules/prototype-assets",
       "files": {
-        ".gitattributes": "dc5262ccd39f80f7e2789af3f4e5c8a996077b889166b02349b072040e0fae86",
+        ".gitattributes": "f39325fb84c7f2b18de87f19637fb19e5c763a05f64c754e243279c167768b68",
+        ".gitignore": "bec0f4eb2bff101efe51a6a1253c8e18d8d141147e7f714e2fb62f91b8353561",
+        ".module/module_docs.py": "b0d9cf2aaba187d14be679de61f16c3dfc9c8346ff4739d176fa58983ab7ae65",
+        ".module/module_manager.py": "bfa0d8c7ea6efda126b7a8c656409875994b4bd1256e6d90f5d75652a9aca2b0",
         "AGENTS.md": "0d4f010b803f2104fbbbd5c502791709d1c98002c37d4b0b5efef5450022d9d6",
-        "README.md": "0327ad6b2868005f2610e9429a3792e2059ce347f13eb860319573b1391ab341",
+        "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
+        "README.en.md": "a0a127fc18429bde0a1a7a496ae43da8cbfeff312636bb93744e55c202de882c",
+        "README.md": "1624a9e679a536b92a6a0ff10fe0cad53c6c2ae16fc89a8470ee361bf28b5ea2",
         "_release.json": "1173d2631324c894c0550e0c97de4cfdc2ed28cd497cda6c4a7717f01e7446d7",
         "catalog/assets.json": "276bcc674b229f407645c1449def630cdfdbb5b2ff954d1fe89d00ad1cf63441",
         "catalog/formal-assets.json": "e97b8e1bd488b4baff92adb482455a0ffbc14fb2b3e7ffe3e92fa0df2d9f3db4",
         "catalog/formal-sources.json": "1786e6943dac9e751bea0e4f922ac09dc26c8f265e46cda1c9c1f90625fbff94",
         "catalog/p2-audio-decoder-evidence.json": "12d4cc5fc14dd9f811107deebe13a346a9cbecb7613cbb6bb76afb66a809105d",
         "catalog/sources.json": "4f2b647b2235a8ccd223a92a8df52cc083200a4b7de94dc646a34c827c244135",
+        "docs/module-cooperation.md": "acdba7a76d9b95e58b00aa64040d7afd84fb375e705ffd6bd236983dcc9ff6a4",
         "exports/fromdemotospec/kenney-crosshair-pack/crosshair-hazard-lock.png": "98b7848fb54f7113182b8a323fbdad8cdbf16fb45b6726f3b7ef4ebff018eac4",
         "exports/fromdemotospec/kenney-crosshair-pack/crosshair-scan-ring.png": "7c7ee2ecb21f4e50cb5379e3a2d010833f51256bb65a0b935a20aeace37366d3",
         "exports/fromdemotospec/kenney-deep-sea-sounds/deepsea-discovery-low-frequency.wav": "a4a8006d4accde2f0780acf8d40886c85d62ecaf175978f550918c201a88f4f1",
@@ -1219,6 +2061,8 @@
         "licenses/noto-sans-cjk-sc-regular-f8d15753-receipt.json": "5b11b594a637aa5f7d0d689c6bef3f5b0861db928fee4ef2697a51439b7906c8",
         "licenses/oga-submarine-sidescroller-page-evidence.json": "20e6484bda774820edffea5a51f5f03e6160ed30ae3d7a649cbfa1b96286acd6",
         "licenses/oga-submarine-sidescroller-receipt.json": "2f4db386fbdba300197436d6a7741a6f09e8d433bc26ea820f1ab222d755d815",
+        "module-files.json": "bd73a4a8115a5d06669dacac13dee5d0236030b93e8b4271486a332ebb90f6c7",
+        "module.json": "97f64dd724a9ace4998122079221e94b345d8f9e7916b650b6d81753aa76e6f9",
         "packs/attribution/presentation-foundations/noto-sans-cjk-sc-regular.otf": "2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d0365b74b",
         "packs/cc0/audio-refresh/digital-audio-laser5.ogg": "8d7b30b35112bedf4dd6f03796a5f33af85414b02947187e4063819fd80cf3e2",
         "packs/cc0/audio-refresh/digital-audio-lowDown.ogg": "e0215fcfd8b9d7877f74d5c46b239a13d7db0d25998da97b80404931ef9eef5d",
@@ -1348,6 +2192,17 @@
         "tests/assets.test.mjs": "ce3597f9ecd85d952a2342b85c2f0b3f36a79d7bc1926fec5fb1f382f1127ce2",
         "tests/publish-directory.test.mjs": "4ca631c0d1f83939b6dc2a6e969798a8686d864217713f78b2f18ca5b7601ad0"
       },
+      "interfaces": {
+        "module-entry": {
+          "contract": "docs/module-cooperation.md",
+          "entry": "README.md",
+          "version": 1
+        }
+      },
+      "module_inventory_sha256": "bd73a4a8115a5d06669dacac13dee5d0236030b93e8b4271486a332ebb90f6c7",
+      "module_manifest_sha256": "97f64dd724a9ace4998122079221e94b345d8f9e7916b650b6d81753aa76e6f9",
+      "module_source": "packages/prototype-assets",
+      "name": "PrototypeAssets",
       "optional": [
         "game-presentation",
         "prototyping"
@@ -1355,10 +2210,53 @@
       "provides": [
         "asset-catalog"
       ],
+      "related": [
+        {
+          "id": "game-presentation",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "GamePresentation",
+          "panorama": true,
+          "purpose": "Prepare, review and integrate game presentation resources.",
+          "repository": "https://github.com/ZhongTyler/AWS-GamePresentation.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "game-project",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "GameProject",
+          "panorama": false,
+          "purpose": "Create an owned Godot project with maintenance and resource atlases.",
+          "repository": "https://github.com/ZhongTyler/AWS-GameProject.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "fromdemotospec",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "FromDemoToSpec",
+          "panorama": false,
+          "purpose": "Develop playable prototypes and evidence-based production handoffs.",
+          "repository": "https://github.com/ZhongTyler/AWS-FromDemoToSpec.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        }
+      ],
+      "repository": "https://github.com/ZhongTyler/AWS-PrototypeAssets.git",
       "required": [],
+      "revision": "e680bc9ee651139c1abe8a6cdca0f168b8a9165a",
+      "runtime": [],
       "source": "packages/prototype-assets",
-      "source_revision": "5abe108be291076b4e44717d17c740fca230c8e7",
-      "version": "1.30.0"
+      "version": "2.0.0"
     },
     "research": {
       "destination": "modules/research",
@@ -1407,12 +2305,18 @@
         ".agents/skills/workflow-redesign/scripts/test_read_context.py": "46bb6cd75d44cb36b4aaa97c801bc178cd2485e85fc343dbb3f0943a7cd99672",
         ".agents/skills/workflow-redesign/scripts/test_workflow_cost.py": "77300fb0746275916bdf4aa2f777c63ec14b04028c00a73a28db868b3c33c6bf",
         ".agents/skills/workflow-redesign/scripts/workflow_cost.py": "119d23ce3b48862a9262d01a6658dbf440b6ce385665fde284ab81d4c40bef01",
+        ".gitattributes": "f39325fb84c7f2b18de87f19637fb19e5c763a05f64c754e243279c167768b68",
+        ".gitignore": "bec0f4eb2bff101efe51a6a1253c8e18d8d141147e7f714e2fb62f91b8353561",
+        ".module/module_docs.py": "b0d9cf2aaba187d14be679de61f16c3dfc9c8346ff4739d176fa58983ab7ae65",
+        ".module/module_manager.py": "bfa0d8c7ea6efda126b7a8c656409875994b4bd1256e6d90f5d75652a9aca2b0",
         "AGENTS.md": "d95ee9f26a93102cb32d3b3f3d74681fa368286c139e1d62ff4be8651aa6236b",
         "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
         "LICENSE-NOTICE.md": "15cd4ccbc67b328e368766cbbd8a3f69fc490406cfa8df16535f21825add0db8",
-        "README.md": "45e2df00bb9e8f3de5d5cbf876f9535119ad869398ef2c2dcd93597c090a2e7f",
+        "README.en.md": "381fb1ed4bbd34f33bf3f94e6a55fe75a939db22dad765f7fdfa386e7b4d1285",
+        "README.md": "72e175fb2059c86de25e2c519c58895f98d5702891356efa00b717b61670e963",
         "RESEARCH_PROTOCOL.md": "f536632a0fcf1f482418fdf0c38c0d5ca42a02cb16546bebb83cde527175357b",
         "_release.json": "6deefa7f61a5ef412a78659a892592c8721c6115807ec1a61bcf84968fb6ad22",
+        "docs/module-cooperation.md": "1ceb68b9c7fc59077f5e7c92a9d1bac82f7ee007d1ce02a7f276c4eb8ffd85d7",
         "game-research/README.md": "d9fefb7bdc0e922d321cee2de3a78f38fa24c05019cdcc054f50a34354f5b86b",
         "game-research/cost-evaluation/README.md": "e1e0e19c841332481c8528b5a6820ac3c23814b961add58cc82b370edbb5bfed",
         "game-research/deep-game-analysis/.gitattributes": "da0bdebd735e04c8b2dbbdf9715cb76942ac2af2b97e8b8d2d617f5c34090abb",
@@ -1516,6 +2420,8 @@
         "integrations/rea/source-lock.json": "bea12efe8048ba1d414321bed9eb337631b6b463a1945c50abd359d9bae49c8f",
         "integrations/rea/vendor/REA-LICENSE.txt": "798f9e4d18e49b30bf2f12696c8ced73dc4e1413da375a333d01281543a1ea8b",
         "integrations/rea/vendor/rea-agents-6.4.0.tgz": "59eb1604b8db75f522d4a975c36ce6b4a2ad465e43bad165f9a8f728391db9b8",
+        "module-files.json": "368670e6d766f898319ae51e015e06277fab20f049fdf2cc7f87f4b5d770736e",
+        "module.json": "beb982e1332d55d4fbaeec58ce1ec5d6c6b145401ee688bb37d863817c9d9b57",
         "proactive/README.md": "d34de946028f566fee551e1c04bd529a1397c18ce5db26c50322837c99eb8ab8",
         "proactive/cost.py": "50bf3624b3c3907ed83681e3a464882ef04b608ee8691ed878019ee60d1bac51",
         "proactive/reporting.md": "53f4de096ecd93c18a6cf15baad603343d8c211dc1cbe136c658412f62a689b0",
@@ -1553,6 +2459,17 @@
         "templates/validation-candidate.md": "4103ba17a92b6a2b437346f521168cf4f62b58cc66522238f4b1c4e0812dbe54",
         "validation/README.md": "9e5c1d5be06fb4bdea6e14461586efcd8aa40aee56aba2a781c74dc9063263a3"
       },
+      "interfaces": {
+        "module-entry": {
+          "contract": "docs/module-cooperation.md",
+          "entry": "README.md",
+          "version": 1
+        }
+      },
+      "module_inventory_sha256": "368670e6d766f898319ae51e015e06277fab20f049fdf2cc7f87f4b5d770736e",
+      "module_manifest_sha256": "beb982e1332d55d4fbaeec58ce1ec5d6c6b145401ee688bb37d863817c9d9b57",
+      "module_source": "packages/research",
+      "name": "Research",
       "optional": [
         "knowledge",
         "game-analysis",
@@ -1562,20 +2479,111 @@
       "provides": [
         "research"
       ],
+      "related": [
+        {
+          "id": "knowledge",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Knowledge",
+          "panorama": true,
+          "purpose": "Query source-grounded material and maintain an owned knowledge library.",
+          "repository": "https://github.com/ZhongTyler/AWS-Knowledge.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "tools",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Tools",
+          "panorama": false,
+          "purpose": "Configure optional source, processing and local-model tools.",
+          "repository": "https://github.com/ZhongTyler/AWS-Tools.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "skills",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Skills",
+          "panorama": false,
+          "purpose": "Select individual agent methods without enabling the whole library.",
+          "repository": "https://github.com/ZhongTyler/AWS-Skills.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "game-analysis-decision",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "GameAnalysisDecision",
+          "panorama": false,
+          "purpose": "Analyze game evidence and conditional design decisions.",
+          "repository": "https://github.com/ZhongTyler/AWS-GameAnalysisDecision.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "travel",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Travel",
+          "panorama": false,
+          "purpose": "Research, plan and render an owned trip as an offline website.",
+          "repository": "https://github.com/ZhongTyler/AWS-Travel.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "game-project",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "GameProject",
+          "panorama": false,
+          "purpose": "Create an owned Godot project with maintenance and resource atlases.",
+          "repository": "https://github.com/ZhongTyler/AWS-GameProject.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        }
+      ],
+      "repository": "https://github.com/ZhongTyler/AWS-Research.git",
       "required": [],
+      "revision": "9fac0af48119008d0ca9b7234ae0a4421c3ff9c9",
+      "runtime": [
+        "Python 3.10+",
+        "Node.js 22+ for selected integrations"
+      ],
       "source": "packages/research",
-      "source_revision": "e376c2283db9e6653bd97bd426f6f81aeb5c6ab0",
-      "version": "1.30.0"
+      "version": "2.0.0"
     },
     "skills": {
       "destination": "modules/skills",
       "files": {
-        ".gitattributes": "8b7d05e308c8b3f2674f6f7311520f9b2421bccbec7d6abdcd79192d8fd99535",
+        ".gitattributes": "f39325fb84c7f2b18de87f19637fb19e5c763a05f64c754e243279c167768b68",
+        ".gitignore": "bec0f4eb2bff101efe51a6a1253c8e18d8d141147e7f714e2fb62f91b8353561",
+        ".module/module_docs.py": "b0d9cf2aaba187d14be679de61f16c3dfc9c8346ff4739d176fa58983ab7ae65",
+        ".module/module_manager.py": "bfa0d8c7ea6efda126b7a8c656409875994b4bd1256e6d90f5d75652a9aca2b0",
         "AGENTS.md": "c4d351aac39a83e5b0595a1f51f2316b8a581ae6abb70ba7f875c6e7e32db1d1",
-        "README.md": "6f5ac6cf81cd28033a6f8634975bc33a92bd0ce940c459b03e066bb95635d09b",
+        "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
+        "README.en.md": "61591bb3513af13a3236e1b771b8f8454fed43ceec3464471f8a0f9ebb9044da",
+        "README.md": "8badf7b64870676ee3669610839b10274da9e78583e72cb87402ad36b159f9ae",
         "THIRD_PARTY_NOTICES.md": "c92a7cf3428afeb3db6d6bf3bc68f4a5bb7eedf03e974fff4bb956a09f047e09",
         "_release.json": "0f697743e0dd38f2b2531a910fb413dcc3e602c8e429cb2dd95b1021e669ef72",
-        "catalog.json": "6acc6f3b5868ee9a10c4565f29e2567d6ba0fcfdfa6b812b8800cf0998dccb90",
+        "catalog.json": "9e3fb24d1a9067cb408be635150f6eaed76c46baa42358d01408a4d951612549",
+        "docs/module-cooperation.md": "735cf0274782a7838bdf9460a2695772ed80e664618ee3d1b61be3539f8b5726",
         "integrations/frontend-design.md": "2d38446f0e8934c15162e0390997454a375052778d9be884ff624c8b3fecb11e",
         "integrations/prototype.md": "01d28a79b24ad055774913659960377c9f3986e59cf4248aaf1cda15e1cef90e",
         "library/agent-blind-eval/SKILL.md": "774af0eeb4c062db47a40382529fb6eee37279c67c3537ff93e0e023c643b586",
@@ -1791,9 +2799,11 @@
         "library/writing-for-agents/SKILL.md": "17455ca502b84699c9ce8c7be39c71457576b3d11f82d0b88b77c33ddd6bec16",
         "library/writing-for-agents/agents/openai.yaml": "eacb24b2a618cfb81dacb0416f4fdd75ddf3a8060f8ddb99aae1b1e301907e4b",
         "library/writing-for-agents/references/UPSTREAM.json": "81091222b403662e5f42ca74e2a19ce3f88069aa8ecc4e7ad7d8f3560a42049b",
+        "module-files.json": "b255774f5a8539a0cfa13cd3b496c8e752d22c45662bdc08d039719ff18854c9",
+        "module.json": "5e842ffc7928b9540a3ea7b753dc4b727a5947a0ce0f0b567ed4823ed1072176",
         "scripts/_runtime.py": "227ee4d4b9a1f782acf5a6f184fa53516665b193036b90ee04db59376ce87098",
         "scripts/skills.py": "6a5580c901a39762d2406ea8294c48f6b88e967ae89f4eba9671fb06853a42c9",
-        "skills.json": "7bc037afa950f326d97d130e0632417297a9c9788c41cea5d9b6d9639b80e7b7",
+        "skills.json": "423d2618387f978929df189ea52bb9117aedb33ffcf82f5ee152ade74b370972",
         "upgrades/1.12.0.md": "8aa10c1accdacf5831d0039023352f089ff20ef96ea4afddcb8c7b661408f087",
         "upgrades/1.14.0.md": "a031d0b5ee02a57f28e0e23c648c86a537fff72af1065858e496fde4bd88a0d6",
         "upgrades/1.14.1.md": "f654279a97a3e38b1da6b5e950e63ea232d78e89acf7ecce8cda177d4d32a18c",
@@ -1814,8 +2824,20 @@
         "upgrades/1.3.0.md": "927cf0f66766df0d59fd6a34ba2dc3e1b5077e86d9ce9f501e38ba6a3198eab1",
         "upgrades/1.3.1.md": "f1a732b8b2f81b82124cc9bbb03a930e7b16ae24f67758a5acb9ccc798743216",
         "upgrades/1.30.0.md": "574a3cae35d87d076e2419f659d4f87615be20b52b7f4fe4b69a1e5bef4f43a8",
-        "upgrades/1.8.0.md": "2d31b383f84b1871f539c82c142a0e9370d184251509c57d7519a959a42a8894"
+        "upgrades/1.8.0.md": "2d31b383f84b1871f539c82c142a0e9370d184251509c57d7519a959a42a8894",
+        "upgrades/2.0.0.md": "79e33e0613050ea158fa29178f144f3531ded7d7503c65e77fea51d12bc645a4"
       },
+      "interfaces": {
+        "module-entry": {
+          "contract": "docs/module-cooperation.md",
+          "entry": "README.md",
+          "version": 1
+        }
+      },
+      "module_inventory_sha256": "b255774f5a8539a0cfa13cd3b496c8e752d22c45662bdc08d039719ff18854c9",
+      "module_manifest_sha256": "5e842ffc7928b9540a3ea7b753dc4b727a5947a0ce0f0b567ed4823ed1072176",
+      "module_source": "packages/skills",
+      "name": "Skills",
       "optional": [
         "game-analysis",
         "game-presentation",
@@ -1825,21 +2847,137 @@
       "provides": [
         "skill-library"
       ],
+      "related": [
+        {
+          "id": "meta",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Meta",
+          "panorama": false,
+          "purpose": "Optional workspace governance and recoverable collaboration.",
+          "repository": "https://github.com/ZhongTyler/AWS-Meta.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "research",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Research",
+          "panorama": true,
+          "purpose": "Collect sources and compile traceable studies and reader navigation.",
+          "repository": "https://github.com/ZhongTyler/AWS-Research.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "knowledge",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Knowledge",
+          "panorama": false,
+          "purpose": "Query source-grounded material and maintain an owned knowledge library.",
+          "repository": "https://github.com/ZhongTyler/AWS-Knowledge.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "tools",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Tools",
+          "panorama": false,
+          "purpose": "Configure optional source, processing and local-model tools.",
+          "repository": "https://github.com/ZhongTyler/AWS-Tools.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "game-analysis-decision",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "GameAnalysisDecision",
+          "panorama": false,
+          "purpose": "Analyze game evidence and conditional design decisions.",
+          "repository": "https://github.com/ZhongTyler/AWS-GameAnalysisDecision.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "game-presentation",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "GamePresentation",
+          "panorama": false,
+          "purpose": "Prepare, review and integrate game presentation resources.",
+          "repository": "https://github.com/ZhongTyler/AWS-GamePresentation.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "game-project",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "GameProject",
+          "panorama": true,
+          "purpose": "Create an owned Godot project with maintenance and resource atlases.",
+          "repository": "https://github.com/ZhongTyler/AWS-GameProject.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "travel",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Travel",
+          "panorama": true,
+          "purpose": "Research, plan and render an owned trip as an offline website.",
+          "repository": "https://github.com/ZhongTyler/AWS-Travel.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        }
+      ],
+      "repository": "https://github.com/ZhongTyler/AWS-Skills.git",
       "required": [],
+      "revision": "6bfea92ebb1cb0788c8406cbf2f65049c0d69ecd",
+      "runtime": [
+        "Python 3.10+"
+      ],
       "source": "packages/skills",
-      "source_revision": "e02cabe7296b6c9b24f66295186c8057740b7463",
-      "version": "1.30.0"
+      "version": "2.0.0"
     },
     "tools": {
       "destination": "modules/tools",
       "files": {
+        ".gitattributes": "f39325fb84c7f2b18de87f19637fb19e5c763a05f64c754e243279c167768b68",
+        ".gitignore": "bec0f4eb2bff101efe51a6a1253c8e18d8d141147e7f714e2fb62f91b8353561",
+        ".module/module_docs.py": "b0d9cf2aaba187d14be679de61f16c3dfc9c8346ff4739d176fa58983ab7ae65",
+        ".module/module_manager.py": "bfa0d8c7ea6efda126b7a8c656409875994b4bd1256e6d90f5d75652a9aca2b0",
         "AGENTS.md": "7794bfd8100b90f2d8bee57ccb4f7774335c8cd57ff7a5330c8148cd871bfe7d",
         "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
         "LICENSE-NOTICE.md": "6a16a20d94332206769e23d907718291f9b02a0124be75a4d168a23cfc9f8616",
-        "README.md": "331f591b1f4628d85d09480b5043f61c9c308365c25b42bb8ecfeb354d94365b",
+        "README.en.md": "c78d57d533224aaf606f19d31c594ddcc5f1a9415f14e2869faf4dcbe5fd69d4",
+        "README.md": "171ae0ee31a24046ed982ece6389718d99c3259b59d0bfebd801c69c4556f8ba",
         "_release.json": "3a4f2798e0dc612528b2cbc8cf65dfe1347835882741d2ae907c9b202d5d08e7",
         "docs/decision-model-policy.md": "ebee1f65e4db11fc44946ec6ecdb1a5844922a5b5d1ed9bedf036e7a891829a8",
         "docs/local-image-validation.md": "77b63169c6a7ef137115eba0d19d0372ca281ae1477961d7ce532814a90307dc",
+        "docs/module-cooperation.md": "6b7b7417cd99643b5743c4ffe353963f3c58f1b6c010b914db854fae82aac443",
         "integrations/anatomy/README.md": "c729bfaad14f55d42de8beb5993b19277987d28faf4fac1392f4116f1881554a",
         "integrations/anatomy/anatomy.py": "9bf0ef88a274ba40e07229676439109eddf4317c478fe864706132a69a230249",
         "integrations/anatomy/source-lock.json": "4332524f0ce41ca59d1523c37111fbb51b767ddcedaef3acfc8580ada54d4ede",
@@ -2078,6 +3216,8 @@
         "integrations/retrieval/requirements-optional.txt": "3a7230cf72af37c7e3e0ea8ec1d5527c4859cbb900bd9e7d227038106d3344e7",
         "integrations/retrieval/service.py": "865052a7359b8aa056fe4b1ca639adeed5d9f59d891e4551cca85f49f695d23f",
         "integrations/retrieval/test_contract.py": "39bb704ea0eca47bc9ceeb0506444d1094618d5751d5272e5c25a63b34e10756",
+        "module-files.json": "f077be21dbdcc871b528fdf5702e8eabeb397fc3dde292f5f30af073b70291ef",
+        "module.json": "6ea82459102ecccf67df616143d524a3f4b91bbbc7e4373242550e6597d1342e",
         "portable-profile.json": "2e63be7aa2753bf7cc929d7ad0e93219dc2fcf520a86c85ff76c42d768639c19",
         "prepare_home.py": "c292df81660af22ff51c63e678dede6b1b62250ed244568cc9bb5bc037eb80c9",
         "registry.json": "7301f4c295cffc6decc907081bdf93ddd9ec927c9168aadd93af6763d93c58a8",
@@ -2085,6 +3225,17 @@
         "toolbox.py": "ff99f0393dc09ab3b3f048c7447e49ac4b70db47ab516e20bdd2b401ea9cb68e",
         "workflows.json": "38218cd91bb960a07efb4d1434734268999f2f8f1173c426ef39eca6fe0e4502"
       },
+      "interfaces": {
+        "module-entry": {
+          "contract": "docs/module-cooperation.md",
+          "entry": "README.md",
+          "version": 1
+        }
+      },
+      "module_inventory_sha256": "f077be21dbdcc871b528fdf5702e8eabeb397fc3dde292f5f30af073b70291ef",
+      "module_manifest_sha256": "6ea82459102ecccf67df616143d524a3f4b91bbbc7e4373242550e6597d1342e",
+      "module_source": "packages/tools",
+      "name": "Tools",
       "optional": [
         "research",
         "knowledge",
@@ -2093,30 +3244,95 @@
       "provides": [
         "workspace-tools"
       ],
+      "related": [
+        {
+          "id": "research",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Research",
+          "panorama": true,
+          "purpose": "Collect sources and compile traceable studies and reader navigation.",
+          "repository": "https://github.com/ZhongTyler/AWS-Research.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "knowledge",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Knowledge",
+          "panorama": false,
+          "purpose": "Query source-grounded material and maintain an owned knowledge library.",
+          "repository": "https://github.com/ZhongTyler/AWS-Knowledge.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "skills",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Skills",
+          "panorama": false,
+          "purpose": "Select individual agent methods without enabling the whole library.",
+          "repository": "https://github.com/ZhongTyler/AWS-Skills.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "game-presentation",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "GamePresentation",
+          "panorama": true,
+          "purpose": "Prepare, review and integrate game presentation resources.",
+          "repository": "https://github.com/ZhongTyler/AWS-GamePresentation.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        }
+      ],
+      "repository": "https://github.com/ZhongTyler/AWS-Tools.git",
       "required": [],
+      "revision": "181fcab209e5f772d13dd9e6cf284a7034028cfc",
+      "runtime": [
+        "Python 3.10+",
+        "Per-tool prerequisites are checked before execution"
+      ],
       "source": "packages/tools",
-      "source_revision": "a4366ac0bb09123aad1a7cc519a573f5e5c9720c",
-      "version": "1.30.0"
+      "version": "2.0.0"
     },
     "travel": {
       "destination": "modules/travel",
       "files": {
-        ".gitattributes": "6575f35da6df3a981aa913631cd31353fa1ff22cec805a41b5a33bd749f06713",
-        ".gitignore": "230bc10ddc9cae3b00b21a943fcf3ea4089d183ae1e3ba7c848de51e3b3be6f2",
+        ".gitattributes": "f39325fb84c7f2b18de87f19637fb19e5c763a05f64c754e243279c167768b68",
+        ".gitignore": "46305a950c0d9f7ceb3e6d4a70089b1bf013f6b9111034be7bf68e6681585b2b",
+        ".module/module_docs.py": "b0d9cf2aaba187d14be679de61f16c3dfc9c8346ff4739d176fa58983ab7ae65",
+        ".module/module_manager.py": "bfa0d8c7ea6efda126b7a8c656409875994b4bd1256e6d90f5d75652a9aca2b0",
         "00-全流程与事实分工.md": "0726b937667bc7963b086774f671579684056c4f03f44d359194741cc328de69",
-        "AGENTS.md": "ac6bd44db3441b70014e62fae276e199ce69e26a7a6299f7fb0d442994e0d90d",
+        "AGENTS.md": "54693f9872ba57da79c5d2e0009d7a8ade1723b050a27036995b867abc72da73",
         "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
         "LICENSE-NOTICE.md": "1b78fa1fc3499b96484880ab72216b4393c8f8dc6e6d93aa6a50ab664c065c64",
-        "README.md": "cc63e9a74cacf9220289884396d6d12de15cb4dbbb614a2d6ca9b810e1e1c9a4",
+        "README.en.md": "43661ff8c98a008bdbea02d4e6d935c17fd30f607524c89c0524061154bfb49c",
+        "README.md": "397a059c2526afee05b261c55ba36e4018d5fb8c21f36a7c31733db6dc400d3a",
         "SKILL.md": "247e97687ae8f9269aaf0b8f68b6471450e703ead2945003fdf6670ad4f06ed7",
         "THIRD_PARTY.md": "6160fdabdd600008098617776b0fe44ce35846c676a2ed85d67217e0eef9e254",
         "_release.json": "1835e62597c96214b4d9e87dbf00c119dfd14b156a5d5e64d355d947cf002479",
+        "docs/module-cooperation.md": "d07776bb47f6ccc05238d0ad42eefa65727ae478aefb8acac305ae843e87dd7c",
         "examples/acceptance-brief.json": "abef0b04b0b14b58255ac0e0eb2dcfb75db662edd3e54b92714cb36eb6fdb790",
         "examples/claims.json": "5baea97e8405394754c043c61ed319003bc592b20cb0c7cd80b35c411174141b",
         "examples/frontend/fixtures.json": "405ca109403791d81ffefeefe797f24b1e0fcf253a4f4aabdc241fe702d2364d",
         "examples/frontend/template.html": "b0c61580f2995551ae0f719a193c2d53a0fec3716d7ecf90bb7d8af1008aa3a3",
         "examples/intake.json": "ee291509bda9f41c509c0731424ff5e439f4fd42965fbe30d558035ebf57c3a1",
         "examples/source.json": "041d5a7b933bb71834b22d5208e49eac16a26bb1e7ec99d0518315966574fc0f",
+        "module-files.json": "d6ed32eb7a7eea1f87c4edcf12c41b55aad5338b830f4c026fc36a04ac11b0b1",
+        "module.json": "7a513d5305e341fc11e4acd6a700079f68189eec58bc199e4d047e8fe35a814b",
         "package.json": "102558736e56763ead44207929daa616bc3c0aec36c47a4a1ed99a033391011f",
         "schemas/trip.schema.json": "1c9bf7941f3ec529391c47580045f78c6bbcd6cde01f7f05d65adf410ba1acd8",
         "scripts/acceptance.mjs": "ef44ad9f456ac37c399052c74c7c53f550ce2ca07ff94f2d793031ebf188cc0a",
@@ -2212,7 +3428,7 @@
         "运行/人工采集与导入.md": "c043650f0e8f4e767b30a399ce80c9f704212e0920d837f5a2b301123e4b2c41",
         "运行/体验指南与项目共用.md": "2141aaafc5559ad9d0fcc961f0252aac3bade98c3224cd385d11a4d6fdf2c10e",
         "运行/前端设计与内容分工.md": "e582619df082bf5d5570628d6f9d232d0792f501ab0145cfbc1753f87ac8d73c",
-        "运行/发布与隐私.md": "bf9cec4f4ec57d1548bb33524d205efeac97857793b76afecef56a86c21772fd",
+        "运行/发布与隐私.md": "398823c85abc379a66fbf9cc11b35b8f42cfdd27c31e5807b730bbbf4324ce6b",
         "运行/命令参考.md": "ebbd5d0b9f9f8bd85c4f3ee4e8cbfaacc7bca16b24a71a0e03f37009d90fed07",
         "运行/品质复现与验收.md": "237b82dd8bc4ee9b1f60a270e8507f9316837265b766751483dbeace498b27b7",
         "运行/地图维护.md": "c21e9b41d5b9eafe08e359c9454d1cace1ef83922c2ee644b0b62b6a21af9331",
@@ -2234,17 +3450,86 @@
         "运行/陌生工作区验收.md": "0de48027910d4099e02138a506ffa9f26b767786f63443d5893a9bff753aa475",
         "运行/验证记录/SingleFile-2026-10-10.md": "a271065eed8a643f965be342bc0044a174a5cf88ca7659d4a5a4f0df47b06fe6"
       },
+      "interfaces": {
+        "module-entry": {
+          "contract": "docs/module-cooperation.md",
+          "entry": "README.md",
+          "version": 1
+        }
+      },
+      "module_inventory_sha256": "d6ed32eb7a7eea1f87c4edcf12c41b55aad5338b830f4c026fc36a04ac11b0b1",
+      "module_manifest_sha256": "7a513d5305e341fc11e4acd6a700079f68189eec58bc199e4d047e8fe35a814b",
+      "module_source": "packages/travel",
+      "name": "Travel",
       "optional": [],
       "provides": [
         "travel-planning"
       ],
+      "related": [
+        {
+          "id": "research",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Research",
+          "panorama": true,
+          "purpose": "Collect sources and compile traceable studies and reader navigation.",
+          "repository": "https://github.com/ZhongTyler/AWS-Research.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "knowledge",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Knowledge",
+          "panorama": true,
+          "purpose": "Query source-grounded material and maintain an owned knowledge library.",
+          "repository": "https://github.com/ZhongTyler/AWS-Knowledge.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "skills",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Skills",
+          "panorama": false,
+          "purpose": "Select individual agent methods without enabling the whole library.",
+          "repository": "https://github.com/ZhongTyler/AWS-Skills.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        },
+        {
+          "id": "meta",
+          "integration": "Review existing workflows and the peer entry before choosing an adapter.",
+          "interfaces": [
+            "module-entry@1"
+          ],
+          "name": "Meta",
+          "panorama": false,
+          "purpose": "Optional workspace governance and recoverable collaboration.",
+          "repository": "https://github.com/ZhongTyler/AWS-Meta.git",
+          "schema_version": 1,
+          "version": "2.0.0"
+        }
+      ],
+      "repository": "https://github.com/ZhongTyler/AWS-Travel.git",
       "required": [],
+      "revision": "c56a53121e01613c1df8a9d86f541393137bdbe4",
+      "runtime": [
+        "Node.js 22+"
+      ],
       "source": "packages/travel",
-      "source_revision": "e4b445be6a072af7bb99af8ae6d562b57a5a085f",
-      "version": "1.30.0"
+      "version": "2.0.0"
     }
   },
-  "previous_version": "1.29.0",
-  "schema_version": 1,
-  "version": "1.30.0"
+  "previous_version": "1.30.0",
+  "schema_version": 2,
+  "version": "2.0.0"
 }

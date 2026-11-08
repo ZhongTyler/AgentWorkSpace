@@ -1,211 +1,140 @@
 # AgentWorkSpace
 
-**简体中文** | [English](README.en.md)
+[English](README.en.md)
 
-本版新增研究表达与技术写作方法，并更新游戏研究档案、审查和便携交付工具。详见 [1.27.0 更新与恢复](upgrades/1.27.0.md)；按需选择，不自动启动模型、服务或知识入库。
+**按当前任务选择独立 Agent 模块，让研究、知识、旅行与游戏开发按需协作。**
 
-**为 AI Agent 搭建可持续使用的工作区，也能接入你已有的项目：保留现有规则，按需补上协作方法、Skills 和业务模块。**
+AWS 2.0 将 meta 和 11 个功能模块放在各自独立仓库，通过 Git submodule 固定版本。每个模块具有自己的使用入口、规则、许可和发布周期。AWS 提供全景、选择、兼容审阅、安装升级和组合验证。meta 是可选的完整协作框架。
 
-当一个项目要持续推进，你可能需要反复交代规则、整理上下文、选择方法，再把产物留给下一次任务。AgentWorkSpace 把这些做法整理成可安装、可升级的文件和工具，由 Agent 按当前任务读取和使用。
+- 只需要一个功能，可以直接从相应模块开始。
+- 已有工作区，先审阅当前框架与同类工作流，再补充所需模块。
+- 需要统一管理，使用 AWS 获取选定模块，也能明确选择全部获取。
 
-- **已有工作区**：先审计当前需要，复用经过审阅的现有能力，只安装所选模块和缺失的依赖。
-- **新建工作区**：安装完整协作框架，再选择脑暴、知识管理、旅行规划或游戏开发模块。
-- **只想用几项 Skill**：单独接入 Skills 包，再按名字安装，不必采用整套框架。
+2.0.0 改变了分发结构和安装合同。[1.30.0 迁移与恢复](upgrades/2.0.0.md) · [设计与执行方案](docs/design/2.0.0.md) · [发布流程](docs/release-process.md)
 
-目前已发布可试用版本，正在积累公开案例；**还没有可展示的完整端到端案例或演示视频**。下文列的是可用能力与操作示例，工程检查不能证明长期收益、创意质量或游戏体验。游戏开发是目前模块覆盖较多的应用方向，基础协作与 Skills 也可用于其他任务。
+## 全模块协作全景
 
-[新建工作区](#从这里开始) · [接入已有工作区](#已有工作区先审计再按需接入) · [选择模块](#接入后怎样使用) · [复用许可](#许可与内容边界)
+下图展示模块的主要可选协作方向。研究可提供材料，知识库保存经授权采用的内容，设计与开发模块接收事实、建议和资源。具体输入输出、数据 owner 和接线条件由相关模块维护。
 
-把本仓路径和目标工作区路径交给有文件读写与命令执行能力的 Agent，例如：
-
-> 阅读发布仓的 README 和相关包说明。我的目标工作区是……，这次需要脑暴和原型开发。若已有规则就先审计并复用，否则搭建新工作区；给出安装计划，再应用没有冲突的变更。
-
-meta 只有一个完整版，无需选择功能组合。新建工作区默认安装它；已有工作区可以使用兼容模式，复用现有框架，只补当前需要的包与缺失能力。规则和方法随任务读取，不代表每次任务都要跑完整套流程。
-
-## 包如何相互辅助
-
-同一个任务可以按缺口借用其他包：研究补来源，知识库提供已有材料，分析支持取舍，表现与素材进入具体工程。下面以游戏开发为例，展示主要的可选协作关系。
-
+<!-- module-panorama:start -->
 ```mermaid
-flowchart TB
-    Tools["Tools<br/>工具与来源连接"]:::support
-    Research["Research<br/>查证与研究"]:::evidence
-    Knowledge["Knowledge<br/>可追溯知识"]:::evidence
-    Brainstorm["Brainstorm<br/>概念与取舍"]:::work
-    Analysis["GameAnalysisDecision<br/>问题分析与条件建议"]:::work
-    Prototype["FromDemoToSpec<br/>原型、迭代与开发接续"]:::delivery
-    Project["GameProject<br/>正式项目工作区"]:::delivery
-    Assets["PrototypeAssets<br/>素材、来源与许可"]:::assets
-    Presentation["GamePresentation<br/>表现与引擎接入"]:::assets
-
-    Tools -. "配置并验证后选用" .-> Research
-    Tools -. "本地生成/加工候选" .-> Presentation
-    Research -. "授权后消化材料" .-> Knowledge
-    Research -. "按问题补查" .-> Analysis
-    Knowledge -. "知识上下文" .-> Brainstorm
-    Knowledge -. "分析依据" .-> Analysis
-    Brainstorm -. "已接受的概念交接" .-> Prototype
-    Analysis -. "分析建议" .-> Prototype
-    Assets -. "审核后选用" .-> Presentation
-    Presentation -. "资源交付" .-> Prototype
-    Prototype -. "选择 Godot 正式开发时" .-> Project
-
-    linkStyle default stroke:#64748b,stroke-width:1.5px
-    classDef support fill:#f1f5f9,stroke:#64748b,color:#0f172a
-    classDef evidence fill:#ede9fe,stroke:#7c3aed,color:#2e1065
-    classDef work fill:#dbeafe,stroke:#2563eb,color:#172554
-    classDef assets fill:#ffedd5,stroke:#ea580c,color:#7c2d12
-    classDef delivery fill:#dcfce7,stroke:#16a34a,color:#14532d
+flowchart LR
+    brainstorm["Brainstorm"]
+    fromdemotospec["FromDemoToSpec"]
+    game_analysis_decision["GameAnalysisDecision"]
+    game_presentation["GamePresentation"]
+    game_project["GameProject"]
+    knowledge["Knowledge"]
+    meta["Meta"]
+    prototype_assets["PrototypeAssets"]
+    research["Research"]
+    skills["Skills"]
+    tools["Tools"]
+    travel["Travel"]
+    brainstorm -.-> fromdemotospec
+    fromdemotospec -.-> game_project
+    game_analysis_decision -.-> fromdemotospec
+    game_presentation -.-> game_project
+    knowledge -.-> game_analysis_decision
+    meta -.-> game_project
+    meta -.-> skills
+    prototype_assets -.-> game_presentation
+    research -.-> knowledge
+    skills -.-> game_project
+    skills -.-> research
+    skills -.-> travel
+    tools -.-> game_presentation
+    tools -.-> research
+    travel -.-> knowledge
+    travel -.-> research
 ```
 
-**虚线表示可选协作，不是安装依赖或自动流水线。** Agent 根据当前问题读取相关入口，核对接口、工具与授权，再把结果交回所属项目。Tools 登记了可选调用入口，具体业务接线仍需在使用者环境验证；分析建议和工程检查也不能代替真实试玩。
+虚线表示可选协作。具体用途与接口见 module.json 和协作说明。 / Dashed edges indicate optional cooperation. See module.json and the cooperation guide.
+<!-- module-panorama:end -->
 
-meta 或经过审阅的现有框架提供协作约束；**Skills 提供按需选择的方法**，可辅助排错、测试、研究与表达。**Travel 提供独立的旅行研究、逐日规划与私人离线网站流程**，无需接入上图的游戏开发组合。
-
-| 你现在想做什么 | 可以怎样配合 | 留下什么 |
+| 独立模块 | 用途 | 接入方式 |
 |---|---|---|
-| 把一个游戏想法做成原型 | Brainstorm 探索与收敛，FromDemoToSpec 接续开发；有判断缺口时借用 Knowledge 或 GameAnalysisDecision，试玩问题再交回分析或脑暴 | 概念与范围、可玩原型、验证与试玩反馈 |
-| 调查参考机制或开发工具 | Research 查证；确需发行产物证据时，选用 Tools 中的 REA；有用材料获准后交 Knowledge | 来源、适用条件，以及对项目判断的实际影响 |
-| 给游戏补表现与素材 | GamePresentation 定义用途与审图；可选 Tools 本地生成/加工，或 PrototypeAssets 提供有来源与许可记录的素材 | 审核采用后的工程资源与许可，以及交付、恢复记录 |
-| 规划一趟旅行 | 单独使用 Travel，按需要配置采集或浏览器验收能力 | 包外的行程、研究材料与私人离线网站 |
+| [Meta](https://github.com/ZhongTyler/AWS-Meta) | 可选的工作区治理、协作与恢复框架 | 完整框架，独立或局部接入 |
+| [Brainstorm](https://github.com/ZhongTyler/AWS-Brainstorm) | 探索方案，记录候选、决定与讨论恢复 | 独立使用，可选接线 |
+| [FromDemoToSpec](https://github.com/ZhongTyler/AWS-FromDemoToSpec) | 从可玩原型推进开发与正式交付 | 独立使用，可选接线 |
+| [Knowledge](https://github.com/ZhongTyler/AWS-Knowledge) | 查询有来源的材料，维护自己的知识库 | 独立使用，可选接线 |
+| [Skills](https://github.com/ZhongTyler/AWS-Skills) | 按任务选择开发、研究和表达方法 | 独立使用，可选接线 |
+| [GameAnalysisDecision](https://github.com/ZhongTyler/AWS-GameAnalysisDecision) | 依据游戏证据分析问题、提出条件化建议 | 独立使用，可选接线 |
+| [GamePresentation](https://github.com/ZhongTyler/AWS-GamePresentation) | 制作、审阅表现资源并接入游戏工程 | 独立使用，可选接线 |
+| [PrototypeAssets](https://github.com/ZhongTyler/AWS-PrototypeAssets) | 选择原型素材，保留来源与许可记录 | 独立使用，可选接线 |
+| [Travel](https://github.com/ZhongTyler/AWS-Travel) | 研究和规划旅行，生成私人离线网站 | 独立使用，可选接线 |
+| [Research](https://github.com/ZhongTyler/AWS-Research) | 搜集材料，编译可追溯研究与阅读页面 | 独立使用，可选接线 |
+| [Tools](https://github.com/ZhongTyler/AWS-Tools) | 按需配置来源、处理与本地模型工具 | 独立使用，可选接线 |
+| [GameProject](https://github.com/ZhongTyler/AWS-GameProject) | 创建 Godot 项目工作区、维护流程与资源图册 | 独立使用，可选接线 |
 
-这些是用法示例，不是已完成的公开案例，也不要求每次按固定顺序运行所有包。
+所有模块的基础规则由本模块提供。外部工具与运行环境按实际功能检查。接入同类模块时，审阅职责、输入输出、权威、数据归属与恢复边界。模块目录可读或依赖满足，只说明发现与准备状态，具体业务接线仍需核对。
 
-<details>
-<summary>展开：从接入到升级、恢复</summary>
+## 从 AWS 按需开始
 
-```mermaid
-flowchart TB
-    New["新工作区<br/>完整 meta"]:::foundation
-    Existing["已有工作区<br/>审计规则与同类工作流"]:::existing
-    Existing --> Reuse["审阅可替代能力<br/>确定复用方式与缺失依赖"]:::existing
-    New --> Select["按需选择 package"]:::choice
-    Reuse --> Select
-    Select --> Preview["预览计划<br/>核对依赖与文件冲突"]:::review
-    Preview --> Apply["解决冲突后<br/>显式应用 --apply"]:::action
-    Apply --> Task["Agent 按任务读取<br/>业务产物留在用户工作区"]:::action
-    Task -. "版本更新时" .-> Upgrade["预览升级 · 检查本地改动<br/>需要时检查并回滚事务"]:::review
-
-    linkStyle default stroke:#64748b,stroke-width:1.5px
-    classDef foundation fill:#dbeafe,stroke:#2563eb,color:#172554
-    classDef existing fill:#ede9fe,stroke:#7c3aed,color:#2e1065
-    classDef choice fill:#cffafe,stroke:#0891b2,color:#164e63
-    classDef review fill:#f1f5f9,stroke:#64748b,color:#0f172a
-    classDef action fill:#dcfce7,stroke:#16a34a,color:#14532d
-```
-
-能力审阅和任务执行由 Agent 在授权范围内完成。安装器负责候选发现、差异计划与文件变更，不自动合并业务流程，也不启用账号或周期任务。包回滚只覆盖其管理的文件，外部工具运行依赖与客户端配置按各包说明单独恢复。
-
-</details>
-
-## 从这里开始
-
-把本仓克隆或下载到一个独立目录，用户工作区放在另一个目录。统一工具和 Skills 选择安装器需要 Python 3.10+；GameAnalysisDecision、GamePresentation、PrototypeAssets、Travel 的工具需要 Node.js 22+。Brainstorm、FromDemoToSpec 及部分 Knowledge 工具另需 PowerShell 7，Knowledge 首次 Ingest 还需 Git。本次运行验证在 Windows 完成，其他平台按包内说明检查环境。
-
-在发布仓目录运行，先预览，再应用：
+轻量发布 ZIP 或下面的浅克隆先取得聚合入口。审计只读取目录和相关宿主材料。fetch 获取选择的模块，安装继续采用预览、冲突检测和事务恢复。完整历史克隆仍可能下载保留在 1.x 历史中的大文件。
 
 ```text
-python scripts/workspace.py doctor
-python scripts/workspace.py init --target <workspace-path> --packages brainstorm fromdemotospec knowledge
-python scripts/workspace.py init --target <workspace-path> --packages brainstorm fromdemotospec knowledge --apply
-python scripts/workspace.py status --target <workspace-path>
+git clone --depth 1 https://github.com/ZhongTyler/AgentWorkSpace.git
+cd AgentWorkSpace
+python scripts/workspace.py audit --target <workspace> --packages travel research
+python scripts/workspace.py fetch --packages travel research --apply
+python scripts/workspace.py init --target <workspace> --mode compatible --packages travel research
+python scripts/workspace.py init --target <workspace> --mode compatible --packages travel research --apply
 ```
 
-上述默认 full 模式中，`--packages` 可以为空，也可以只写需要的包；meta 始终安装。以后加包用 `add`，升级用 `upgrade`。命令默认只预览，加 `--apply` 才写入；出现 `conflicts` 时先解决具体差异。
+目标工作区与发布仓使用不同目录。示例安装 Travel 与 Research，未选择的模块无需下载。init --apply 可以在需要时获取选中模块，然后重新核对目标计划。
 
-## 已有工作区：先审计，再按需接入
+新建完整根工作区可选择 full 模式，默认接入完整版 meta。兼容模式只安装所选内容，宿主根规则保持权威。meta 保持一个完整版，兼容接入时作为 modules/meta 中的局部补充。详见[已有工作区审阅](docs/compatible-workspace.md)。
 
-如果已有协作规则、知识库或其他模块，先告诉 Agent 当前需要，例如“我现在只需要脑暴，审计现有框架并推荐接入方案”。兼容模式会列出已有能力、推荐的可选项，以及所选包确实缺少的依赖。现有模块经过审阅能够替代依赖时直接复用，不要求安装 meta；候选文件的名称本身不能证明兼容。
+## 从一个模块开始
 
-审计也覆盖 package 与现有同类模块、工作流的重叠和接入边界。按需安装、后续加包或实际接线时，Agent 根据 `package_review` 检查职责、输入输出、调用入口、权威和数据归属，说明是否需要兼容，再结合实际工作区提出方案。复用现有模块而不安装、并存或适配均可考虑，具体方式不预先定死；依赖满足和文件无冲突不代表业务兼容已通过。未定方案不触发自动合并或迁移。
+例如直接使用 Travel 创建虚构样例。核心工作流需要 Node.js 22+，无 npm 运行依赖。
 
 ```text
-python scripts/workspace.py audit --target <workspace-path> --needs brainstorm
-python scripts/workspace.py audit --target <workspace-path> --packages brainstorm --profile <reviewed-profile.json>
-python scripts/workspace.py init --target <workspace-path> --mode compatible --packages brainstorm --profile <reviewed-profile.json>
-python scripts/workspace.py init --target <workspace-path> --mode compatible --packages brainstorm --profile <reviewed-profile.json> --apply
+git clone --depth 1 https://github.com/ZhongTyler/AWS-Travel.git
+cd AWS-Travel
+node scripts/make-demo.mjs --project ../my-trip
+node scripts/travel.mjs build --project ../my-trip
+node scripts/travel.mjs validate --project ../my-trip
 ```
 
-Agent 按审计返回的 criteria 审阅现有规则与接口，记录理由、证据路径和哈希，生成 profile；证据变化时重新审阅。缺少必需能力时，可以选择完整 meta，或确认现有替代模块。兼容模式不自动增加包：业务包放 `modules/<id>`，选装 meta 放 `modules/meta`，根规则与首页保持原样。首次使用让 Agent 读取新建的 `agent-workspace-compatibility.md`；自动导航与 Skill 发现仍按实际平台核对。详见[兼容模式说明](docs/compatible-workspace.md)。
+打开 my-trip/build/index.html。真实旅行的事实、价格、路线、订单和天气需要单独研究与核对。自己的项目放在模块外，按模块 README 继续。
 
-## 接入后怎样使用
-
-本仓由 **meta 底座和 11 个并列的 package** 组成。meta 提供协作规则与工作区框架；full 模式安装在根目录，兼容模式选装到 `modules/meta`，可直接交代目标、约束和完成标准。其余 package 都按需要选择，表中顺序不表示层级或安装优先级。Brainstorm、FromDemoToSpec、Knowledge 所需的宿主治理能力，可由 meta 或经过审阅的现有框架提供。已有工作区可以复用审阅过的能力，无需为了可选集成安装其他包。
-
-[meta 使用说明](meta/README.md) · [各包依赖与工具环境](docs/package-dependencies.md)
-
-| package | 用途与任务示例 | 安装位置 | 独立使用与可选集成 |
-|---|---|---|---|
-| [Brainstorm](packages/brainstorm/README.md) | “一起脑暴这个问题……”；会话随任务创建 | `modules/brainstorm` | 无需其他业务包；Knowledge、GameAnalysisDecision 可选 |
-| [FromDemoToSpec](packages/fromdemotospec/README.md) | “制作一个可玩原型……”；在独立项目目录开发 | `modules/fromdemotospec` | 无需其他业务包；知识、分析、表现与素材包按需接入 |
-| [Knowledge](packages/knowledge/README.md) | “查询知识库”或“消化这些材料”；空库也可查询 | `modules/knowledge` | 无需其他业务包；首次 Ingest 前配置知识范围与本地 Git |
-| [Skills](packages/skills/README.md) | 39 项开发、研究、表达、交互与工作流方法，按名字选择安装 | `modules/skills` | 不需要其他模块；安装库不会自动启用全部 Skill |
-| [GameAnalysisDecision](packages/game-analysis-decision/README.md) | 有事实依据的游戏问题分析、条件建议与方法校正 | `modules/game-analysis-decision` | 可单独使用；Knowledge 与其他宿主包可选 |
-| [GameProject](packages/game-project/README.md) | 创建或选择性接入 Godot 项目工作区，维护决定、资源图册、审阅与构建骨架 | `modules/game-project` | 可单独使用；新建包外副本，已有项目先审阅，不预装游戏或引擎 |
-| [GamePresentation](packages/game-presentation/README.md) | 表现规格、资源制作、离线审阅图册与 Godot 交付、恢复 | `modules/game-presentation` | 可使用手工或生成来源；PrototypeAssets 可选 |
-| [Travel](packages/travel/README.md) | “帮我研究并规划这趟旅行……”；生成私人离线网站 | `modules/travel` | 可单独使用；无必装包，采集服务、浏览器验收和服务器可选 |
-| [PrototypeAssets](packages/prototype-assets/README.md) | 119 项有来源和许可记录的精选，以及校验导出工具 | `modules/prototype-assets` | 素材和许可复制后，游戏不依赖来源包 |
-| [Research](packages/research/README.md) | MD/网址/问题研究、游戏设计与源码参考、可选主动探索 | `modules/research` | 可单独使用；Knowledge、MCP、媒体工具和宿主调度按需授权 |
-| [Tools](packages/tools/README.md) | 图像/媒体、来源与检索、B站采集、知识复利、离线排盘及协作检查等可选工具 | `modules/tools` | 可独立使用；运行环境另行准备，跨包接线按需验证 |
-
-点击表中的包名，查看该包的快速开始、任务流程、环境要求与使用边界。安装统一使用上文的 `init`；已有安装通过 `add --packages <package-id>` 预览，加 `--apply` 应用。
-
-框架接入后即可开始任务，业务内容按实际需要产生。FromDemoToSpec 的包内文档是开发工作流，游戏工程在具体任务中创建。Knowledge 首次 Ingest 前，Agent 要根据真实用途补充知识范围，并在模块内建立独立本地 Git 基线；已有库保留历史，不借用外层仓库，不自动创建远端或推送。原向导保留供独立定制，安装后无需重复问答，也不要改动已登记的模块目录名。
-
-项目可以放在 `projects/` 或你指定的目录。会话、知识正文和用户配置留在目标工作区，不写回本发布仓。`.agent-workspace/state.json` 只记录已装版本和框架文件基线，不拥有业务事实。
-
-meta 内置 humanizer-zh 与 anti-defensive-writing，最终答复合并审校一次，保留事实、确定程度与作者声音。英文说明保持同样的准确性。[Humanizer-zh](meta/workspace/.agents/skills/humanizer-zh/SKILL.md) · [Anti-Defensive Writing](meta/workspace/.agents/skills/anti-defensive-writing/SKILL.md)
-
-## 按需选择 Skill
-
-Skills 也是上表中的一个 package。安装它之后，再选择要启用的方法；其他 package 同样通过 `add --packages` 按需增加。以下命令只是示例，请替换为当前需要的包和 Skill。
+从当前独立仓扩展相关模块时，先审阅，再获取到指定工作区的平级目录。
 
 ```text
-python scripts/workspace.py audit --target <workspace-path> --needs skills
-python scripts/workspace.py add --target <workspace-path> --packages skills
-python scripts/workspace.py add --target <workspace-path> --packages skills --apply
-python <workspace-path>/modules/skills/scripts/skills.py list
-python <workspace-path>/modules/skills/scripts/skills.py install --target <workspace-path> --names systematic-debugging property-based-testing
-python <workspace-path>/modules/skills/scripts/skills.py install --target <workspace-path> --names systematic-debugging property-based-testing --apply
+python .module/module_manager.py audit --target <workspace> --modules research
+python .module/module_manager.py fetch --target <workspace> --modules research --apply
 ```
 
-CodeBuddy 选择安装时加 --platform codebuddy。Skill 的更新和回退单独管理，不会覆盖同名的用户改动；游戏路由方法在没有可选包时仍可按项目事实与可用工具工作。当前工程检查不代表方法长期收益或表现效果已通过用户验收。
+管理入口随模块交付，运行时读取本模块声明。已有同版本模块按身份和库存核对后复用，用户修改或版本差异进入单独审阅。已有独立实例加入 AWS 时登记其真实位置，保留原 Git 和文件所有权。
 
-## 兼容、升级与恢复
-
-当前版本和组件库存见 [catalog.json](catalog.json)。每版声明直接前一版，并在 `upgrades/` 提供兼容范围、操作步骤和恢复方法。不要改写已发布 tag，也不要跳过未声明的版本。
+## 明确选择全部模块
 
 ```text
-python scripts/workspace.py upgrade --target <workspace-path>
-python scripts/workspace.py upgrade --target <workspace-path> --apply
-python scripts/workspace.py rollback --target <workspace-path> --transaction <transaction-id>
-python scripts/workspace.py rollback --target <workspace-path> --transaction <transaction-id> --apply
+python scripts/workspace.py fetch --all --apply
+python scripts/workspace.py init --target <workspace> --mode compatible --all
+python scripts/workspace.py init --target <workspace> --mode compatible --all --apply
 ```
 
-升级比较原基线、本地文件和新版内容。双方都改过的文件会报告冲突；上游未变的文件保留本地编辑或删除。用户数据保留，每次应用都有事务备份；回滚也会检查事务后的改动。
+全部获取会下载各模块的工具和资源。只取需要的模块即可保留相应基础能力。Skills 安装后，再用其 scripts/skills.py 选择具体方法，不自动启用整个库。工具下载、模型、服务、账号连接和调度沿各模块条件与当前授权执行。
 
-目前尚无用户使用，本次统一全称不保留旧名称别名，也不自动迁移旧会话字段、工件或用户数据。通用版本升级、冲突检查与回退继续保留；历史 tag 不改写。新接入使用当前全称入口，详见 [1.4.0 说明](upgrades/1.4.0.md)。
+## 升级与恢复
 
-异常终止若留下 `install.lock`，先核对 PID 和实际进程；确认没有安装操作后，保全证据并移除锁，再预览事务恢复。不要自动清除另一进程的锁。
+模块独立使用语义版本，AWS 固定经过组合验证的模块提交。相同版本的模块身份与库存保持固定。更新 AWS 推荐组合后，预览目标升级与本地冲突，保留事务 ID。
 
-## 维护与发布
+```text
+python scripts/workspace.py upgrade --target <workspace>
+python scripts/workspace.py upgrade --target <workspace> --apply
+python scripts/workspace.py rollback --target <workspace> --transaction <id>
+```
 
-正文和业务行为在来源仓维护，再直接发布到本仓所属的 `meta/` 或 `packages/<id>/`。各来源不再为这些公开包生成另一份 released 副本。来源提交后运行 `scripts/publish.py --source <source-path> --apply`；默认只预览，未提交的来源不能正式发布。
+回退预览确认后加 --apply。客户端 Skill 的更新和回退使用其单独事务。项目副本、知识正文、旅行事实、账号与运行环境由用户拥有。具体边界见[2.0.0 升级说明](upgrades/2.0.0.md)。
 
-发布前验证受影响的来源合同、包内运行和上一版升级，运行 `python -B -m unittest discover -s tests -v`。写好升级说明后，用 `scripts/build_catalog.py --version <version> --previous <previous-version>` 固定库存，再运行 `workspace.py verify`。tag 对应已验证提交，公开后从远端新克隆复核。
+## 许可与维护
 
-GitHub Release 标题统一为 `vMAJOR.MINOR.PATCH — 简短英文更新主题`，版本号在前，不加仓库名前缀。通过 `scripts/release_metadata.py` 生成并校验远端读回结果；tag、附件和历史标题整理的规则见[发布流程](docs/release-process.md)。
+AWS 原创内容采用 [MIT](LICENSE)。每个独立模块携带自身许可及第三方通知，素材、字体、工具和上游方法按各自条款使用。[第三方内容说明](THIRD_PARTY_NOTICES.md)
 
-中文首页和 [English](README.en.md) 用相对链接切换。更新时同时核对两页的功能、命令、版本、限制和许可；不要只翻译开头，也不要让两种语言描述不同的行为。包内详细文档目前以中文为主。
+模块内容在对应独立仓维护和发布，AWS 更新 gitlink、全景与组合验证。旧来源导出入口保留历史用途，2.x 聚合仓拒绝用旧副本覆盖子仓。维护者与 Agent 从 [AGENTS](AGENTS.md) 和发布流程定位当前合同。
 
-## 许可与内容边界
-
-作者原创代码与文档采用 [MIT 许可](LICENSE)，可以按该许可使用、修改和再分发，包括商业使用，并保留版权与许可声明。**这不表示整个仓库只有一种许可**：第三方 Skill、素材、字体及受来源限制的内容保留各自条款，详见[第三方许可与例外](THIRD_PARTY_NOTICES.md)。其中 property-based-testing 为 CC BY-SA 4.0；Brainstorm 的 How Might We 方法来源登记有非商业限制，相关卡片不纳入根 MIT 授权。复制或再分发时，请同时携带适用的许可和来源记录。
-
-Knowledge 公开包维护独立便携 framework 2.0 实现，不等同于私有宿主最新 consolidated 控制器。仓库不含私人知识、会话、画像、运行收据或凭据。工程检查不能代替创意质量、真实游戏体验、用户内容审核或长期效果验证。
-
-## 试用与反馈
-
-可以先在一个可丢弃的目录试装，或从已有工作区的一项具体需要开始。欢迎通过 [Issues](https://github.com/ZhongTyler/AgentWorkSpace/issues) 告诉我：你想完成什么、选了哪些模块、卡在哪一步，以及预期与实际结果。提交日志前请移除私人内容和凭据。
-
-如果这个方向对你有用，欢迎 Star 收藏。当前最需要的是实际试用、接入问题和改进建议；完整案例会在有可公开、可复核的结果后补充。
+工程与合成输入检查说明相应行为的已验证范围。公开的完整端到端使用案例仍在积累，研究质量、艺术质量、真人体验和长期收益由实际任务验证。

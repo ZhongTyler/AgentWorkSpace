@@ -1,6 +1,0 @@
-node_modules/
-.runtime/
-.test-output/
-dist/
-*.log
-.tmp/

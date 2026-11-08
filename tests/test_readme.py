@@ -16,7 +16,10 @@ class ReadmeLanguages(unittest.TestCase):
             for link in re.findall(r'\]\(([^)]+)\)', text):
                 if '://' not in link and not link.startswith('#'):
                     self.assertTrue((ROOT / link.split('#')[0]).exists(), link)
-            self.assertIn('fromdemotospec knowledge', text)
+            self.assertIn('fetch --packages travel research --apply', text)
+            self.assertIn('fetch --all --apply', text)
+            self.assertIn('AWS-Travel', text)
+            self.assertIn('AWS-Knowledge', text)
 
 
 if __name__ == '__main__':

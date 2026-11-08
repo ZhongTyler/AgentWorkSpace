@@ -1,8 +1,8 @@
 # 接入已有工作区 / Integrate an existing workspace
 
-兼容模式先理解当前需求与现有框架，按所选包真正缺少的能力补齐，不把“采用这个仓库”等同于“替换根工作区”。新建工作区仍用 full 模式；meta 仍只有一个完整版，没有恢复零件组合。
+兼容模式先理解当前需求与现有框架，按所选包真正缺少的能力补齐，不把“采用这个仓库”等同于“替换根工作区”。新建工作区可选择 full 模式，接入完整 meta；兼容模式可以只接入独立业务模块。meta 保持一个完整版。
 
-Compatible mode adds selected capabilities to an existing workspace. It keeps the host's rules and structure. Full mode remains the default for a new workspace; meta still has one complete edition.
+Compatible mode adds selected capabilities to an existing workspace. It keeps the host's rules and structure. Full mode supplies complete meta for a new workspace. Compatible mode can install standalone business modules only. Meta retains one complete edition.
 
 ## 审计和选择 / Audit and select
 
@@ -29,9 +29,9 @@ python scripts/workspace.py init --target <existing-workspace> --mode compatible
 | `required` | 已选包真正缺少的能力及可安装选项；可通过现有替代模块消除 / Missing dependencies of selected packages, satisfiable by reviewed existing substitutes |
 | `optional` | 选定包的可选跨包接线，不成为必选 / Optional cross-package integrations, never mandatory |
 
-三个业务包需要宿主具备目标与授权、范围与数据、事实与验证、交付与恢复四方面的协作约束，能力 ID 为 `host-governance`。meta 可以提供；其他框架经审阅也可以提供。Knowledge 与 FromDemoToSpec 都不是 Brainstorm 的默认必需依赖；只有实际启用对应接线时才核对协议、工具和授权。安装器不执行现有模块，也不把相同名称视为接口兼容。
+2.x 模块提供自身的领域规则。`host-governance` 是可选的增强协作能力，由 meta 或经过审阅的既有框架提供。1.x 的安装和迁移记录继续按原合同解释。Knowledge 与 FromDemoToSpec 都不是 Brainstorm 的默认必需依赖；只有实际启用对应接线时才核对协议、工具和授权。安装器不执行现有模块，也不把相同名称视为接口兼容。
 
-Business packages require host governance covering goals and authority, scope and data, facts and verification, and delivery and recovery. Meta or a reviewed existing framework can provide it. Cross-package links remain optional. The installer never executes existing modules or treats a matching name as interface compatibility.
+In 2.x, each module supplies its domain rules. Host governance is an optional enhancement supplied by meta or a reviewed existing framework. Existing 1.x installation and migration records keep their original contract. Cross-package links remain optional. The installer never executes existing modules or treats a matching name as interface compatibility.
 
 审计材料以 [能力合同](../compatibility.json) 为依据，并随版本封入 catalog。Agent 对照每项 criteria 审阅，记录理由和实际证据路径、SHA-256，形成 profile。摘要可以取自审计结果，但 `assurance`、理由和 checks 只能在审阅后填写；不为消除必选项虚构符合性。
 
@@ -107,3 +107,14 @@ Check tools for selected components: Python 3.10+ for installation, PowerShell 7
 兼容模式和已审阅 provider 保存在同一个 state 中。后续 add/upgrade 自动沿用模式并重新校验证据；可传新版 profile 重新审阅。框架冲突、事务备份、失败恢复与回滚沿用统一工具。无关用户内容不进入基线。两种模式不能就地互换；已有 full 安装不搬家、不重新安装 meta。更早独立 released 包仍走其原迁移链，不冒充兼容安装。
 
 Mode and reviewed providers are persisted in state. Add and upgrade retain the mode and recheck evidence; supply a new profile after re-review when needed. Existing transaction, conflict and rollback protections still apply. Unrelated host data is not owned. Modes cannot be switched in place; existing full installations retain their layout. Legacy standalone releases follow their original migration chain.
+
+
+## 2.x 独立模块与获取 / Independent modules and retrieval
+
+catalog schema 2 固定每个模块的公开仓、独立版本、实际提交、module.json 与库存摘要。审计读取这些元数据，选中模块才需要取得并校验正文。fetch --packages <ids> --apply 获取选定模块，fetch --all --apply 明确获取全部。轻量 ZIP 和浅克隆适合按需开始。
+
+Catalog schema 2 fixes repository, independent version, commit, module.json and inventory digests. Audit uses this metadata. Selected payloads are retrieved and verified separately. fetch --packages <ids> --apply retrieves selected modules; fetch --all --apply is the explicit all-module path. Use the lightweight ZIP or shallow clone for selective access.
+
+已有独立模块通过 module.json 发现。相同公开身份、版本和完整库存可以登记为 external_modules，并记录实际位置。安装器保留其 Git 与文件所有权。用户修改、多实例和版本差异进入独立审阅。外部实例的升级沿该模块仓库，AWS 注册回退只撤回注册与本轮受管文件。普通同类模块仍使用上面的工作流兼容审查，不凭文件名视为等价。
+
+Existing module.json files identify candidates. Matching publication identity, version and full inventory allow external_modules registration at the actual location, preserving Git and file ownership. Edits, duplicate instances and version differences need separate review. Upgrade external instances through their own repository. Reversing AWS registration preserves the instance. Similar workflows still require the semantic compatibility review above.

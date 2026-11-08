@@ -114,37 +114,35 @@
       "provides": [
         "brainstorming"
       ],
-      "requires": [
-        "host-governance"
-      ],
+      "requires": [],
       "optional": [
         "knowledge",
         "prototyping",
-        "game-analysis"
+        "game-analysis",
+        "host-governance"
       ]
     },
     "fromdemotospec": {
       "provides": [
         "prototyping"
       ],
-      "requires": [
-        "host-governance"
-      ],
+      "requires": [],
       "optional": [
         "knowledge",
         "game-analysis",
         "game-presentation",
-        "asset-catalog"
+        "asset-catalog",
+        "host-governance"
       ]
     },
     "knowledge": {
       "provides": [
         "knowledge"
       ],
-      "requires": [
+      "requires": [],
+      "optional": [
         "host-governance"
-      ],
-      "optional": []
+      ]
     },
     "skills": {
       "provides": [

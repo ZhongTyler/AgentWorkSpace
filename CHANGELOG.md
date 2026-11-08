@@ -1,5 +1,18 @@
 # Releases
 
+## 2.0.0 — Independent modules and optional collaboration
+
+- Move meta and all eleven functional modules into independent AWS-<ModuleName> repositories, fixed as Git submodules.
+- Add standalone module identity, byte inventory, optional peer retrieval and module-local cooperation panoramas.
+- Separate metadata audit from selected-payload retrieval and verification. Add explicit all-module fetching.
+- Reuse matching independent instances at their actual locations, preserving Git/file ownership.
+- Let modules supply their own baseline domain rules, with optional meta or existing host governance.
+- Keep module versions independent while AWS fixes a tested combination. Retain actual 1.30.0 upgrade, client transactions, owner-edit refusal and reverse recovery.
+- Replace legacy copy-export maintenance with independent repository publication and aggregate gitlink updates.
+- Provide lightweight aggregate and explicit full-offline archive building from clean commits. Full-history clones can still transfer old 1.x blobs.
+
+See upgrades/2.0.0.md, docs/design/2.0.0.md and docs/releases/2.0.0-validation.md.
+
 ## 1.30.0 — 2026-11-08
 
 - meta adds the paired final-reply editing method, recipient-owned feedback routing and current common method resources.

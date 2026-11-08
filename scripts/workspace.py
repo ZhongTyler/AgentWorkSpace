@@ -82,6 +82,9 @@ def version(value: str):
 
 def catalog(bundle: Path):
     result = load(safe(bundle, 'catalog.json'))
+    if result.get('schema_version') == 2:
+        from federation import read_catalog
+        return read_catalog(bundle)
     if result.get('schema_version') != SCHEMA:
         raise ContractError('Unsupported catalog schema')
     version(result.get('version'))
@@ -147,9 +150,10 @@ def package_name(name, incoming):
 
 def plan(bundle: Path, target: Path, operation: str, packages: list[str], mode=None, profile=None, needs=()):
     incoming = catalog(bundle)
+    federated = incoming['schema_version'] == 2
     old = state(target)
     installed_mode = (old or {}).get('mode', 'full')
-    mode = mode or installed_mode
+    mode = mode or ('compatible' if federated and old is None and (target / 'AGENTS.md').is_file() else installed_mode)
     if mode not in ('full', 'compatible') or old and mode != installed_mode:
         raise ContractError('Installation modes cannot be switched in place; preserve the current host')
     if mode == 'full' and (profile is not None or needs):
@@ -163,9 +167,9 @@ def plan(bundle: Path, target: Path, operation: str, packages: list[str], mode=N
     for name in packages:
         if name not in incoming['components'] or name == 'meta' and mode == 'full':
             raise ContractError(f'Unknown package: {name}')
-    if old and old['version'] == incoming['version'] and old.get('catalog_sha256') != digest(encoded(incoming)):
+    if not federated and old and old['version'] == incoming['version'] and old.get('catalog_sha256') != digest(encoded(incoming)):
         raise ContractError('Published version changed in place; use a new version')
-    if old and old['version'] != incoming['version']:
+    if old and old['version'] != incoming['version'] and (not federated or old.get('module_format') != 2):
         if operation != 'upgrade':
             raise ContractError('Use upgrade before adding packages from another release')
         if version(old['version']) >= version(incoming['version']) or old['version'] != incoming.get('previous_version'):
@@ -180,12 +184,42 @@ def plan(bundle: Path, target: Path, operation: str, packages: list[str], mode=N
         if audit_result['required'] or not audit_result['selected']:
             return {**audit_result, 'operation': operation, 'components': audit_result['selected'], 'changes': [], 'conflicts': [], 'applied': False}, {}
     selected = set((old or {}).get('components', {})) | ({'meta'} if mode == 'full' else set()) | set(packages)
+    external = {}
+    if federated:
+        from federation import missing, reusable, verify_module
+        if not selected <= set(incoming['components']):
+            raise ContractError('Selected module is absent from this registry')
+        external, external_conflicts = reusable(target, incoming, selected, old)
+        if external_conflicts:
+            return {'operation': operation, 'components': sorted(selected), 'changes': [], 'conflicts': external_conflicts, 'ready': False, 'applied': False}, {}
+        pending = missing(bundle, incoming, selected - set(external))
+        if pending:
+            return {'operation': operation, 'version': incoming['version'], 'components': sorted(selected),
+                    'download': pending, 'changes': [], 'conflicts': [], 'ready': False, 'applied': False,
+                    'next': 'Fetch selected modules or apply this selected installation to retrieve them.'}, {}
+        for component in sorted(selected - set(external)):
+            verify_module(bundle, incoming['components'][component], component)
     next_state = {'schema_version': SCHEMA, 'version': incoming['version'], 'catalog_sha256': digest(encoded(incoming)), 'components': {}, 'files': {}}
+    if federated:
+        next_state.update(module_format=2, component_manifests={})
+        if external:
+            next_state['external_modules'] = external
     if mode == 'compatible':
         next_state.update(mode=mode, profile=audit_result['profile'])
     desired = {}
     for component in sorted(selected):
         item = incoming['components'][component]
+        if federated:
+            previous = (old or {}).get('components', {}).get(component)
+            if previous and version(previous) > version(item['version']):
+                raise ContractError('Module downgrade requires its recorded recovery transaction')
+            known_manifest = (old or {}).get('component_manifests', {}).get(component)
+            if previous == item['version'] and known_manifest and known_manifest != item['module_manifest_sha256']:
+                raise ContractError('Published module version changed in place')
+            next_state['component_manifests'][component] = item['module_manifest_sha256']
+        if component in external:
+            next_state['components'][component] = item['version']
+            continue
         location = 'modules/meta' if component == 'meta' and mode == 'compatible' else item['destination']
         component_root = target / location
         if mode == 'compatible' and (component_root.is_relative_to(bundle) or bundle.is_relative_to(component_root)):
@@ -197,7 +231,7 @@ def plan(bundle: Path, target: Path, operation: str, packages: list[str], mode=N
             next_state['files'][destination] = {'sha256': sha, 'component': component}
     if mode == 'compatible':
         from compatibility import BRIDGE, bridge
-        desired[BRIDGE] = bridge(selected, audit_result['profile']['providers'])
+        desired[BRIDGE] = bridge(selected, audit_result['profile']['providers'], external)
         next_state['files'][BRIDGE] = {'sha256': digest(desired[BRIDGE]), 'component': sorted(selected)[0]}
     changes, conflicts = [], []
     old_files = (old or {}).get('files', {})
@@ -291,6 +325,11 @@ def rollback(target: Path, transaction: str, apply=False):
 
 def install(bundle: Path, target: Path, operation: str, packages: list[str], apply=False, fail_after=None, mode=None, profile=None, needs=()):
     report, desired = plan(bundle, target, operation, packages, mode, profile, needs)
+    if apply and report.get('download') and not report['conflicts']:
+        from federation import prepare
+        incoming = catalog(bundle)
+        prepare(bundle, incoming, report['download'], apply=True)
+        report, desired = plan(bundle, target, operation, packages, mode, profile, needs)
     if not apply or report['conflicts'] or not report['changes']:
         return report
     with lock(target):
@@ -387,10 +426,12 @@ def doctor():
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('operation', choices=['audit', 'init', 'add', 'upgrade', 'adopt', 'status', 'rollback', 'verify', 'doctor'])
+    parser.add_argument('operation', choices=['audit', 'fetch', 'init', 'add', 'upgrade', 'adopt', 'status', 'rollback', 'verify', 'doctor'])
     parser.add_argument('--bundle', type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument('--target', type=Path)
     parser.add_argument('--packages', nargs='*', default=[])
+    parser.add_argument('--all', action='store_true', help='Explicitly select every registered module')
+    parser.add_argument('--source-root', type=Path, help='Explicit local module mirror for offline fetch')
     parser.add_argument('--transaction')
     parser.add_argument('--mode', choices=['full', 'compatible'])
     parser.add_argument('--profile', type=Path, help='Reviewed existing capability providers with local evidence hashes')
@@ -399,11 +440,35 @@ def main():
     args = parser.parse_args()
     try:
         bundle = args.bundle.absolute()
+        if args.all:
+            names = list(catalog(bundle)['components'])
+            selection_mode = args.mode
+            if selection_mode is None and args.target is not None:
+                existing = state(args.target.absolute())
+                selection_mode = existing.get('mode', 'full') if existing else ('compatible' if (args.target / 'AGENTS.md').is_file() else 'full')
+            if args.operation in ('init', 'add', 'upgrade') and selection_mode != 'compatible':
+                names.remove('meta')
+            args.packages = names
         if args.operation == 'doctor':
             result = doctor()
+        elif args.operation == 'fetch':
+            from federation import prepare
+            result = prepare(bundle, catalog(bundle), args.packages, args.apply, args.source_root.absolute() if args.source_root else None)
         elif args.operation == 'verify':
             incoming = catalog(bundle)
-            result = {'verified': True, 'version': incoming['version']}
+            if incoming['schema_version'] == 2:
+                from federation import missing, verify_module
+                selected = set(args.packages) if args.packages else set(incoming['components'])
+                if not selected <= set(incoming['components']):
+                    raise ContractError('Unknown selected module')
+                absent = missing(bundle, incoming, selected)
+                verified = [verify_module(bundle, incoming['components'][name], name) for name in sorted(selected - set(absent))]
+                complete_selection = not args.packages or not absent
+                result = {'verified': complete_selection, 'ready': complete_selection, 'metadata_verified': True,
+                          'verification_scope': 'selected-modules' if args.packages else 'metadata-and-downloaded-modules',
+                          'version': incoming['version'], 'verified_modules': verified, 'not_downloaded': absent}
+            else:
+                result = {'verified': True, 'version': incoming['version']}
         else:
             if args.target is None:
                 raise ContractError('--target is required')

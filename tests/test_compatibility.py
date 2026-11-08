@@ -20,7 +20,7 @@ class CompatibleWorkspace(unittest.TestCase):
         self.base = Path(self.temp.name)
         self.bundle, self.target = self.base / 'bundle', self.base / 'host'
         fixture(self.bundle, '1.2.0', '1.1.0')
-        self.contract = json.loads((ROOT / 'compatibility.json').read_text(encoding='utf-8'))
+        self.contract = json.loads((ROOT / 'tests/fixtures/compatibility-1.30.0.json').read_text(encoding='utf-8'))
         self.seal(self.bundle)
         self.target.mkdir()
         (self.target / 'AGENTS.md').write_bytes(b'Existing host rules. Keep ownership, facts and recovery.\n')

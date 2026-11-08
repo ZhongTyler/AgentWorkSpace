@@ -137,6 +137,11 @@ def audit(incoming, target, packages, needs=(), profile=None):
         owned = [(path, item) for path, item in installed['files'].items() if item['component'] == name and path != BRIDGE]
         if owned and all(digest(read(safe(target, path))) == item['sha256'] for path, item in owned):
             installed_valid.add(name)
+        external = (installed or {}).get('external_modules', {}).get(name)
+        if external:
+            from federation import external_valid
+            if external_valid(target, external):
+                installed_valid.add(name)
     for name in selected:
         # Newly selected components will be installed; modified existing providers need review.
         if name not in (installed or {}).get('components', {}) or name in installed_valid:
@@ -163,14 +168,17 @@ def audit(incoming, target, packages, needs=(), profile=None):
     return {'mode': 'compatible', 'version': incoming['version'], 'selected': sorted(selected), 'required': required, 'recommended': recommended, 'optional': optional, 'reuse': reuse, 'candidates': candidates(target), 'criteria': definition['capabilities'], 'package_review': package_reviews(definition, selected, recommended, providers, installed_valid), 'package_review_criteria': PACKAGE_REVIEW_CRITERIA, 'profile': {'schema_version': 1, 'providers': providers}, 'ready': not required, 'writes': 0}
 
 
-def bridge(selected, providers):
+def bridge(selected, providers, external=None):
     lines = ['# Existing workspace integration / 已有工作区接入', '',
              'Read this entry when using the installed packages. / 使用接入包时读取此入口。', '',
              'Current user instructions and host rules keep authority. Package rules add domain requirements; this entry does not replace root AGENTS.md. / 当前用户指令与宿主规则保持权威；包只补领域要求，不替换根 AGENTS.md。', '',
              'Meta, when selected, is the complete edition under modules/meta. Read modules/meta/AGENTS.md as scoped supplemental guidance; its relative links refer to modules/meta, not the host root. Skills there are loaded explicitly as needed, not automatically registered. / 若选择 meta，完整版位于 modules/meta；其中相对引用以该目录为准，Skill 按需显式读取。', '',
              'Before adding or connecting a package, review similar host modules and workflows for responsibility overlap, inputs/outputs, entrypoints, authority, data ownership and recovery. A dependency profile or installed file baseline is not an integration decision. Reuse, coexistence and adapters are case-specific proposals, not automatic migrations. / 增加或接线业务包前，审阅现有同类模块和工作流的职责、输入输出、调用入口、权威、数据归属与恢复；依赖 profile 或文件基线不等于兼容决定。复用、并存或适配按实际需要提案，不自动迁移。', '',
              '## Installed components / 已装组件', '']
-    lines.extend('- [' + name + '](modules/' + name + '/README.md)' for name in sorted(selected))
+    for name in sorted(selected):
+        location = (external or {}).get(name, {}).get('path', 'modules/' + name)
+        entry = 'README.md' if location == '.' else location + '/README.md'
+        lines.append('- [' + name + '](' + entry + ')')
     lines.extend(['', '## Reused host providers / 复用宿主能力', ''])
     for item in providers:
         # Render only validated identifiers and evidence links, never arbitrary review prose.

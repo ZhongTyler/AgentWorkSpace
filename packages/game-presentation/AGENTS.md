@@ -1,2 +1,0 @@
-# Presentation boundaries
-Follow host authority. Read workflow.md as needed. Technical validity, redistribution rights, style selection and real user acceptance are separate. This package does not own game rules or grant permission to generate/upload/publish. Projects own their asset catalog and decisions. Default to preview, preserve unrelated files, and verify actual engine and exported media before claiming delivery.
