@@ -47,6 +47,14 @@ class ModuleManager(unittest.TestCase):
         self.base = Path(self.temp.name)
         self.root = fixture(self.base / 'travel', 'travel', ['research'])
 
+    def test_seal_preserves_unicode_names_with_git_quoting_enabled(self):
+        (self.root / '中文 名称.md').write_text('# Unicode fixture\n', encoding='utf8')
+        commit_fixture(self.root)
+        subprocess.run(['git', '-c', 'safe.directory=' + str(self.root), '-C', str(self.root),
+                        'config', 'core.quotepath', 'true'], check=True, capture_output=True)
+        self.assertTrue(manager.seal(self.root, apply=True)['applied'])
+        self.assertTrue(manager.verify(self.root)['verified'])
+
     def test_inventory_rejects_changed_missing_extra_and_mismatched_identity(self):
         manager.verify(self.root)
         readme = self.root / 'README.md'

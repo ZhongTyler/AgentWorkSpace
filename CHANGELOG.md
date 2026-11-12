@@ -1,5 +1,16 @@
 # Releases
 
+## 2.1.0 — Portable project and research workflows
+
+- Update five independently versioned modules and preserve the other seven fixed versions.
+- Add Godot maintenance template 0.2.21, independent art workbench and HTML template 0.3.0.
+- Add tiny HTML demo creation and optional maintained-project promotion.
+- Update named skills, add game-change-audit and plain-language-zh, and synchronize report-expression methods.
+- Add HTML dependency audits and optional bounded GAD investigation tasks.
+- Correct Unicode Git-path handling during module inventory sealing.
+- Preserve module, workspace and client-Skill upgrade transactions and recovery.
+
+
 ## 2.0.0 — Independent modules and optional collaboration
 
 - Move meta and all eleven functional modules into independent AWS-<ModuleName> repositories, fixed as Git submodules.

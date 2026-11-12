@@ -1,4 +1,4 @@
-"""Current independent modules and actual 1.30.0 migration; historical fixtures stay real."""
+"""Current independent modules and actual preceding-release migration."""
 import json
 from pathlib import Path
 import shutil
@@ -28,7 +28,7 @@ class IndependentRelease(unittest.TestCase):
     def test_all_twelve_independent_inventories_and_fixed_references(self):
         incoming = w.catalog(ROOT)
         self.assertEqual(2, incoming['schema_version'])
-        self.assertEqual('2.0.0', incoming['version'])
+        self.assertEqual('2.1.0', incoming['version'])
         self.assertEqual(12, len(incoming['components']))
         for name, row in incoming['components'].items():
             with self.subTest(name=name):
@@ -91,15 +91,15 @@ class IndependentRelease(unittest.TestCase):
             self.assertTrue((target / 'AGENTS.md').is_file())
             config = json.loads((target / 'maintenance/project-config.json').read_text('utf8'))
             self.assertEqual('independent-fixture', config['project']['id'])
-            self.assertEqual('0.2.11', config['template']['version'])
+            self.assertEqual('0.2.21', config['template']['version'])
             self.assertTrue((target / 'assets/index.html').is_file())
             self.assertFalse((target / 'modules/meta').exists())
 
-    def test_real_130_full_and_compatible_upgrade_conflict_client_recovery(self):
+    def test_real_previous_full_and_compatible_upgrade_conflict_client_recovery(self):
         with tempfile.TemporaryDirectory() as directory:
             base = Path(directory)
-            previous = published_bundle(ROOT, '1.30.0', base / 'previous')
-            self.assertEqual('1.30.0', w.catalog(previous)['version'])
+            previous = published_bundle(ROOT, '2.0.0', base / 'previous')
+            self.assertEqual('2.0.0', w.catalog(previous)['version'])
             all_modules = [name for name in w.catalog(ROOT)['components'] if name != 'meta']
             for mode in ('full', 'compatible'):
                 with self.subTest(mode=mode):
@@ -129,7 +129,7 @@ class IndependentRelease(unittest.TestCase):
                     edited.write_bytes(original)
                     upgraded = w.install(ROOT, host, 'upgrade', [], apply=True)
                     self.assertTrue(upgraded['applied'])
-                    self.assertEqual('2.0.0', w.state(host)['version'])
+                    self.assertEqual('2.1.0', w.state(host)['version'])
                     if mode == 'compatible':
                         self.assertEqual(authority, (host / 'AGENTS.md').read_bytes())
                     client_transactions = []
@@ -143,7 +143,7 @@ class IndependentRelease(unittest.TestCase):
                         self.command(sys.executable, '-B', host / 'modules/skills/scripts/skills.py', 'rollback', '--target', host,
                                      '--platform', platform, '--transaction', transaction, '--apply')
                     self.assertTrue(w.rollback(host, upgraded['transaction'], apply=True)['applied'])
-                    self.assertEqual('1.30.0', w.state(host)['version'])
+                    self.assertEqual('2.0.0', w.state(host)['version'])
                     self.assertEqual(authority, (host / 'AGENTS.md').read_bytes())
                     self.assertEqual(b'PRIVATE TRIP FACTS', private.read_bytes())
                     self.assertEqual(b'INDEPENDENT PROJECT', project.read_bytes())

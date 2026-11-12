@@ -182,7 +182,7 @@ def plan(root, target, names):
 
 
 def git(root, *arguments):
-    command = ['git', '-c', 'safe.directory=' + str(root), '-c', 'credential.helper=',
+    command = ['git', '-c', 'safe.directory=' + str(root), '-c', 'credential.helper=', '-c', 'core.quotepath=false',
                '-c', 'core.autocrlf=false', '-C', str(root), *arguments]
     result = subprocess.run(command, capture_output=True, text=True, encoding='utf8', errors='replace', timeout=180)
     if result.returncode:
