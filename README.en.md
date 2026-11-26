@@ -10,7 +10,7 @@ AWS 2.0 keeps meta and 11 functional modules in independent repositories, fixed 
 - Extend an existing workspace after reviewing its framework and similar workflows.
 - Use AWS for coordinated management, selected retrieval or an explicit all-module choice.
 
-2.1.0 updates five modules with maintained HTML projects, an independent art workbench, report dependency audits and bounded investigation tasks. See [upgrade and recovery](upgrades/2.1.0.md).
+2.2.0 updates Knowledge with one automatic Ingest default, approved DomainGroup and related-page navigation, Raw/Clippings provenance and meaningful owner-routed feedback. Query delivers the answer directly; independent enhanced review is opt-in. See [upgrade and recovery](upgrades/2.2.0.md).
 
 2.0.0 changes distribution and installation contracts. [Migration from 1.30.0](upgrades/2.0.0.md) · [Design and execution plan](docs/design/2.0.0.md) · [Release process](docs/release-process.md)
 
