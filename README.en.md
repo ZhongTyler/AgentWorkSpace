@@ -10,7 +10,7 @@ AWS 2.0 keeps meta and 11 functional modules in independent repositories, fixed 
 - Extend an existing workspace after reviewing its framework and similar workflows.
 - Use AWS for coordinated management, selected retrieval or an explicit all-module choice.
 
-2.3.0 updates reviewed Skills methods and references, with named selection and separate client upgrades/recovery. See [upgrade notes](upgrades/2.3.0.md) and the [Skills inventory](packages/skills/skills.json).
+2.4.0 updates Research with persistent prototype readers, resource-path fidelity and optional editorial review integration. See [upgrade notes](upgrades/2.4.0.md) and [Research](packages/research/README.md).
 
 2.0.0 changes distribution and installation contracts. [Migration from 1.30.0](upgrades/2.0.0.md) · [Design and execution plan](docs/design/2.0.0.md) · [Release process](docs/release-process.md)
 

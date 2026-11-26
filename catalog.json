@@ -2362,10 +2362,10 @@
     "research": {
       "destination": "modules/research",
       "files": {
-        ".agents/skills/game-evidence-collection/SKILL.md": "af8b4be85d7906cca5a7c3eb7f1a12777c0ddcf7c61cd8e8f128847ee3950342",
+        ".agents/skills/game-evidence-collection/SKILL.md": "935a59b3882cb889effc39e6fd9a99e4f53d89d19c214d1d9d4d3599b662e5bd",
         ".agents/skills/game-evidence-collection/agents/openai.yaml": "8b4d86f5253b2d1bef767c95b7c970b2c1e925727b5ebba4137cdcadda8fb33a",
         ".agents/skills/game-evidence-collection/references/game-evidence-routes.md": "ea8318a7e11dfe4fdf321e910f8dca19027e828b9aa12cc757ca3230dffa7a20",
-        ".agents/skills/human-research-expression/SKILL.md": "171da8c207d4ef2de225f1315b8c38d347fa13920f50bd465b41c0d1d5674ad0",
+        ".agents/skills/human-research-expression/SKILL.md": "5a60424edfb66acd751142d4fd8e511e36241e0ddaea0a2bb014908b5c55381b",
         ".agents/skills/human-research-expression/assets/media-observer/player.css": "deed4a01092259de126e9565bd85b652badcd1cbf291bbdfe79aff923618bdf9",
         ".agents/skills/human-research-expression/assets/media-observer/player.js": "ae1a77651ef28c4a3a43d4efad4f1b56d4590592bf321a6ada057a1a81024f36",
         ".agents/skills/human-research-expression/assets/media-observer/test.cjs": "1f6e7daebfc9f791fdfec57f97c00c2d51302b7d81b82b37ae8c42411cd6168d",
@@ -2375,11 +2375,11 @@
         ".agents/skills/human-research-expression/references/domain-reading.md": "cee36c2c05db6d2811a56a9866f3a4a343a34aa3b06de4f25a39d485fd17d7cf",
         ".agents/skills/human-research-expression/references/expression-selection.md": "e08b913936435ebe2d5ab37fe73cd6e055efae28445e807e6d292a6e96e05041",
         ".agents/skills/human-research-expression/references/full-report.md": "721a2f2073be239351ef0254215d41b47ae99581aae1b8d34bceb7909a973dae",
-        ".agents/skills/human-research-expression/references/hierarchy.md": "b6bf862df52ceaedf40d21dbfe73708e284520643f6b4c9a5a6675e71c3eba2a",
+        ".agents/skills/human-research-expression/references/hierarchy.md": "884e53c110ba34c30596267933b99fdbe64dae1c389d9943dcf3a7eea522d9f7",
         ".agents/skills/human-research-expression/references/interaction.md": "c3ea54651f10a5d1b98872542e0cca66b748d89b443836239d2fa3c82db93358",
         ".agents/skills/human-research-expression/references/media-observer.md": "2e05f85ba193232990b86a2c84ced7a84ec7b85b374aa5ca239dbecfbd22d16f",
         ".agents/skills/human-research-expression/references/methods.md": "abf6e60964547140b1b7cc4f7068836cf11ed471c5d521ad9e080431ebe9d74f",
-        ".agents/skills/human-research-expression/references/reader-maintenance.md": "76383afb0953a1dd381131c6f36eab509f269e35012802d4f7d51d9a69fac70c",
+        ".agents/skills/human-research-expression/references/reader-maintenance.md": "43d1fd643f20394d80d3648c18a8cf48ac3714976922493257fe90388802e438",
         ".agents/skills/human-research-expression/references/rendering.md": "db505be9438d98428c96195024784f290cf39d39c897d0473f40ca4ae23de2b6",
         ".agents/skills/human-research-expression/references/reuse-and-cost.md": "387fb6de9399e656de53e3803173af1972fbc81b28fc7d38d0167ffe4e0a2bc4",
         ".agents/skills/human-research-expression/references/sharing-and-dependencies.md": "3bb5c499ea8c4010126b81654d54a5e172b179489d3b2df2786a6b41b1507d51",
@@ -2399,7 +2399,7 @@
         ".agents/skills/human-research-expression/scripts/test_enhance_reader.py": "9a485428579c0a7deacba704698805d5047c3871aeea5b92c985c3aee2965ac5",
         ".agents/skills/human-research-expression/scripts/test_render_visual_html.py": "970b157e53736b7d245a40ec49acce73f027b0e1e4fab1cfda901c952c34d5c3",
         ".agents/skills/human-research-expression/scripts/verify_git_snapshot.py": "3f1fb154cbf7a630e291614c9c3c0ce9192e1d0d1d58c131d742e1e8d39d19a7",
-        ".agents/skills/research-study/SKILL.md": "fe14704623cd1f410aece7c629290cce1f785589e5ccdecbc30dff10154e3648",
+        ".agents/skills/research-study/SKILL.md": "55b6468051ff3473b6c86f7c02593b50ad7b2380b21f09ce701edd93f2be7b5f",
         ".agents/skills/workflow-redesign/SKILL.md": "608c47a60471cedcd07603863f67de2777032a7581ab9c484bf653f909133e5d",
         ".agents/skills/workflow-redesign/references/agent-boundaries.md": "70b48d243ab49c676ad4db2bdb9c089e0a138ff18015f5a557cc35871582b8a2",
         ".agents/skills/workflow-redesign/references/cost-and-effect.md": "36e0734f8d7cf289fcb2e072cd388e4f92904c616b6807fc046d4d0ebf1d77de",
@@ -2416,15 +2416,17 @@
         "AGENTS.md": "d95ee9f26a93102cb32d3b3f3d74681fa368286c139e1d62ff4be8651aa6236b",
         "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
         "LICENSE-NOTICE.md": "15cd4ccbc67b328e368766cbbd8a3f69fc490406cfa8df16535f21825add0db8",
-        "README.en.md": "1bc42fceac127018cad643ae5a37e2bdd669663a95567178d658ef031cf497ec",
-        "README.md": "220f15d87fb88a784c5f619713be02fdc42dc87648f0bc24707a787a25594557",
-        "RESEARCH_PROTOCOL.md": "f536632a0fcf1f482418fdf0c38c0d5ca42a02cb16546bebb83cde527175357b",
-        "_release.json": "6deefa7f61a5ef412a78659a892592c8721c6115807ec1a61bcf84968fb6ad22",
+        "README.en.md": "b7416f0a5270db5bdad5b5e9c77d3de2ca1e051301f7471a84cb83334cb4bfb6",
+        "README.md": "a59cada067a93b7b4e30a2f17768c1298df313e2d673c49830c6162094688a66",
+        "RESEARCH_PROTOCOL.md": "fe3bdbd866fd65502d2efb05a99631d489034fdf3b5dc84070e97a5a6d0cc622",
+        "_release.json": "965e80d5402043b9e74899071ec0a3183989a3e954a7d9126ae035750717b755",
+        "docs/2.2.0-review.md": "b610f5322518dd268b2d77e981c67a2f7f335fc5b315b11676ca9b127d044d17",
         "docs/module-cooperation.md": "1ceb68b9c7fc59077f5e7c92a9d1bac82f7ee007d1ce02a7f276c4eb8ffd85d7",
-        "game-research/README.md": "d9fefb7bdc0e922d321cee2de3a78f38fa24c05019cdcc054f50a34354f5b86b",
+        "docs/source-review-2.2.0.json": "84f0137af1fa8ea6ea72b575157d143ddb8ccf7326016f9e98d1fd963737e0aa",
+        "game-research/README.md": "3476d1c26597f641a84a2cf8539b98e92efa2275c668c53cf6dd1cf6e21c865b",
         "game-research/cost-evaluation/README.md": "e1e0e19c841332481c8528b5a6820ac3c23814b961add58cc82b370edbb5bfed",
         "game-research/deep-game-analysis/.gitattributes": "da0bdebd735e04c8b2dbbdf9715cb76942ac2af2b97e8b8d2d617f5c34090abb",
-        "game-research/deep-game-analysis/README.md": "6777b7f4277a66fed6924cc6e420b31c2e0cd89e1138a15d4f0ebdf9fcd8458f",
+        "game-research/deep-game-analysis/README.md": "ee44507b92b0a0c9648679f38b208c54d2332f4562de959d47a8f37c27ad73eb",
         "game-research/deep-game-analysis/compile_study.py": "b2ff273ab23e1713ef4b0b0b04064aa6f56abf073564d994b122bd87df849fa8",
         "game-research/deep-game-analysis/decomposition-and-batching.md": "6102755a0a979d2afcb381e8eb036595081abd7d508187b23f4e2c8fdf990e2a",
         "game-research/deep-game-analysis/dossier.py": "4efdf4abc5c0fea54f36432ec2443786ad10d86f275c86475651a5587cdc6030",
@@ -2434,12 +2436,14 @@
         "game-research/deep-game-analysis/output-contract.md": "ec7adf421b0422e7b79e3d7bf18908d114ceeb4436403ea4eb30f72616efce07",
         "game-research/deep-game-analysis/reader-navigation/README.md": "92df562b5a502192e859692104a4efbdbfdd4f7f353b52197ed993ff8cc5f678",
         "game-research/deep-game-analysis/reader-navigation/build.py": "abe947d722ac099a6be83bb3fb8914ba053df0a60da15001ebce5d3258f29cf1",
-        "game-research/deep-game-analysis/reader-navigation/check.py": "30bf74f033124d09658027f2ebaff714faa137b57fca9775e2c284139e5057ac",
+        "game-research/deep-game-analysis/reader-navigation/check.py": "d3ab0b38141a3f871251d2a6d5e973fa22cfe0d4b21bf158178c7cbc06211488",
         "game-research/deep-game-analysis/reader-navigation/compose_existing.py": "690c399f2ce21e138994a3a52c1b6a7c9100d7f209fa6d84e850a61743366b94",
         "game-research/deep-game-analysis/reader-navigation/navigation.css": "1ee006530e034d5f73b8acca2909420abfa31f2cc363d0f337f2b7a7422dec24",
-        "game-research/deep-game-analysis/reader-navigation/navigation.js": "fb41b6e8aa46290c52863343ae1d4a3a2f3cff0ac2f686516f7f0b76e7da7460",
-        "game-research/deep-game-analysis/reader-navigation/test_build.py": "429390b3fc0483a40092e03043c11fe1bc0dea0fbebed4518ae5e1759732c6e3",
-        "game-research/deep-game-analysis/reader-navigation/test_modes.cjs": "418b11232f47695c2f5b0035af9b570ace18b8b0657b1565049c71a3b7dc334f",
+        "game-research/deep-game-analysis/reader-navigation/navigation.js": "a0350dbd984ad6ad016ebea86986a74e42fbc69d0a775f6202180a3e991fc6c5",
+        "game-research/deep-game-analysis/reader-navigation/test_build.py": "e7093b26edfeef347a2866e4db0948b0eb253959d6b5be611d1e51ef51996285",
+        "game-research/deep-game-analysis/reader-navigation/test_modes.cjs": "73392c726ded3eb9db60cdeee52cb8d1515718b79381ae7e13663f235f128272",
+        "game-research/deep-game-analysis/report-polish.md": "31f138dd0be302b986aaf3009e53211a422e28ece22436bac9bcacba31209819",
+        "game-research/deep-game-analysis/report-polish.py": "131e5d1b587195b898c954684cfb83a92d73fe105568999de37d87c56d6fdfe9",
         "game-research/deep-game-analysis/reuse-evaluation.md": "dd4c33960aa8b9e19469e85997636529626be6c93ffadf40f3c96e513ce9e2f7",
         "game-research/deep-game-analysis/stable-baseline.json": "28c50811d800233bd10fb0a34c1adbbb236fbef2625e87c296ce3bf91d5f871a",
         "game-research/deep-game-analysis/synthetic_dossier_fixture.py": "da00bfd9c4b30e4857acf2784b71ef29c9aa3909069d65a91d9c856d5b0fb8b6",
@@ -2457,6 +2461,12 @@
         "game-research/media-capture.md": "3b545556365e6a92c50623ecd59037fe172083e33627a1e9a6aab973b3e07aa6",
         "game-research/selection-lenses.json": "902cce1e90533197fe688287877146759c2989e57a0f7748b96eb441ff2f894e",
         "game-research/sources.json": "c02c2872e635542a18c699648e6c751b99ccca6110390ad8cd8288e91741b7d4",
+        "game-research/system-research/README.md": "e7f9a2d820f5cfa00d4b6d5f8dfeb244401f64d9a9d1164e15d17f450aa92647",
+        "game-research/system-research/build_reader.py": "dcd2217852729cc3d7ab7f0a62dc13b1db05732fbc121476fe4faaa02cedc9d9",
+        "game-research/system-research/reader-assets/prototype.js": "c78266346d12f33814db15df13f596add9937d836830b63a4ae91ef0170a7be3",
+        "game-research/system-research/reader-assets/reader.css": "8082b6b05d8aefc0127c6fbee6a526b2a3797fa9ca0920b033ad747b211ea718",
+        "game-research/system-research/reader-contract.md": "a08b694779a2821995d4ed0950cc55597b9ed9f4cc18aace257f99b5334b0f85",
+        "game-research/system-research/test_reader.py": "56ac020433cf213844e25c8dbf33a252f5a7c99ead806a97a304a9f619871771",
         "game-research/video-text.md": "157d18f200758f07959d6ac91eeb710cdd739f914e084262a17af6303d3f9948",
         "integrations/browser/README.md": "00a5a87ab08d1cc5f2f41c98a2da15710d48e9dca1561bde2f45dfb761959e3c",
         "integrations/browser/extensions.json": "a90271700fea47f9c0a219efe242f088df4635c84459a77e88088d320a982b84",
@@ -2524,8 +2534,8 @@
         "integrations/rea/source-lock.json": "bea12efe8048ba1d414321bed9eb337631b6b463a1945c50abd359d9bae49c8f",
         "integrations/rea/vendor/REA-LICENSE.txt": "798f9e4d18e49b30bf2f12696c8ced73dc4e1413da375a333d01281543a1ea8b",
         "integrations/rea/vendor/rea-agents-6.4.0.tgz": "59eb1604b8db75f522d4a975c36ce6b4a2ad465e43bad165f9a8f728391db9b8",
-        "module-files.json": "fd193202fd1b314608c60230e0ea41ebc70de04824ca093b4ed1d8de43da5647",
-        "module.json": "cfa28947b1f20e753f9e933a1a9f0d40495cd90a96937106daa9530f1a8016fd",
+        "module-files.json": "f54fca125171dccb9c24814e0627d9a848d3caefe10190260316f5ac609e4d25",
+        "module.json": "431d9660571e74ee2debe95df83d0be32ced996fe0e7781ef869428b297abaa8",
         "proactive/README.md": "d34de946028f566fee551e1c04bd529a1397c18ce5db26c50322837c99eb8ab8",
         "proactive/cost.py": "50bf3624b3c3907ed83681e3a464882ef04b608ee8691ed878019ee60d1bac51",
         "proactive/reporting.md": "53f4de096ecd93c18a6cf15baad603343d8c211dc1cbe136c658412f62a689b0",
@@ -2562,6 +2572,7 @@
         "templates/tool-storage.md": "fe540623a5ef4f323b0968983d509191e07f460f3f95ce71ac4b82b2bcfc580a",
         "templates/validation-candidate.md": "4103ba17a92b6a2b437346f521168cf4f62b58cc66522238f4b1c4e0812dbe54",
         "upgrades/2.1.0.md": "eac89f583333771bc201f1869679cca5ce5d7c9f0d9e9dfd295026135900e47b",
+        "upgrades/2.2.0.md": "c7a3841d873b9027bfa511279838bc737f56a9d1101cd472014b3143abf6d5e8",
         "validation/README.md": "9e5c1d5be06fb4bdea6e14461586efcd8aa40aee56aba2a781c74dc9063263a3"
       },
       "interfaces": {
@@ -2571,8 +2582,8 @@
           "version": 1
         }
       },
-      "module_inventory_sha256": "fd193202fd1b314608c60230e0ea41ebc70de04824ca093b4ed1d8de43da5647",
-      "module_manifest_sha256": "cfa28947b1f20e753f9e933a1a9f0d40495cd90a96937106daa9530f1a8016fd",
+      "module_inventory_sha256": "f54fca125171dccb9c24814e0627d9a848d3caefe10190260316f5ac609e4d25",
+      "module_manifest_sha256": "431d9660571e74ee2debe95df83d0be32ced996fe0e7781ef869428b297abaa8",
       "module_source": "packages/research",
       "name": "Research",
       "optional": [
@@ -2622,7 +2633,7 @@
           "purpose": "Select individual agent methods without enabling the whole library.",
           "repository": "https://github.com/ZhongTyler/AWS-Skills.git",
           "schema_version": 1,
-          "version": "2.1.0"
+          "version": "2.2.0"
         },
         {
           "id": "game-analysis-decision",
@@ -2666,13 +2677,15 @@
       ],
       "repository": "https://github.com/ZhongTyler/AWS-Research.git",
       "required": [],
-      "revision": "24102db97ef3adc0d39e5e8d9184102adce01702",
+      "revision": "fcd5afbdeea559ca24181f94c75f322222cacbee",
       "runtime": [
         "Python 3.10+",
-        "Node.js 22+ for selected integrations"
+        "Node.js 22+ for selected integrations",
+        "Optional system HTML reader: lxml + PowerShell 7 ConvertFrom-Markdown",
+        "Optional report editor: lxml + explicitly configured compatible local executor"
       ],
       "source": "packages/research",
-      "version": "2.1.0"
+      "version": "2.2.0"
     },
     "skills": {
       "destination": "modules/skills",
@@ -3654,7 +3667,7 @@
       "version": "2.0.0"
     }
   },
-  "previous_version": "2.2.0",
+  "previous_version": "2.3.0",
   "schema_version": 2,
-  "version": "2.3.0"
+  "version": "2.4.0"
 }
