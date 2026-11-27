@@ -1447,22 +1447,23 @@
         "Clippings/README.md": "2c4d9027f0102892ce45e0c0ee4594c4c0bf00cbaa89f3eb0db8540a12297478",
         "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
         "NOW.md": "c8823065c4b83ffbb505798f5f83d1f04512e9fb613188d6883e3d226ba23d61",
-        "README.en.md": "aaea9f0d6d35401a34774f1ce7cbf826c2cb2c43dc4d2ef2d08e0d8fc6881750",
-        "README.md": "2f907422554ec9dace7f950775aaf2e3c86c9b5cffe447a32ef2a2a605dd4c46",
+        "README.en.md": "4a7b1f44adb08c7e9bb6e60f511c2fcb91174e99a75296fbe2b02ec7f7306cbe",
+        "README.md": "ed542c62ee3c7bf416b2f890e549662ae37bb73b3635f37866119655a6f5779b",
         "_release.json": "854e6be8342c495030f67e6dbe4618089d0d1b58c1df5b23b9714a09fbb2dda7",
         "docs/current-workflow.md": "8e1357753471a3bd4ea9a28f5a2c319dd8b3576d83e9d20186b7b81867d5975e",
         "docs/module-cooperation.md": "38114c0f6df5af8ba6343d282b0cbe26d4993b9949ca81804e2c86fe4f44d185",
         "docs/releases/2.1.0-validation.md": "a87d1511dfa785d5ae90ec1b97d9e2d50ceea5b3a2cfaf6e56304a29106448d2",
         "docs/releases/2.1.0.md": "3a213a176a5be398d5ce2b89267b5e2c66bc04448903378e6dde7dfad58a01f2",
         "docs/releases/2.1.1.md": "37464cf1751bbb7bdd68f3555c77394b12120521b274ecd261be7036e95b7f29",
+        "docs/releases/2.1.2.md": "23eb9110c4df03a77a7b5109f526acbdfccf0b631a0489f60e2add036e14752c",
         "domain-groups/README.md": "1b49603f8fdb4a2f1c6726bb279fa8fdda7f38671b437a9773828f5f22fbe93d",
         "domains/README.md": "f512f40bd6787957c3e6d8bbecb7fc497a70d3c36757e4689a7103140209e9e1",
         "domains/domain-principles.template.md": "9f95ad115b05cb081b11dc9c479a45b7b18f93ebf31d9ee72a04732229ed19a6",
         "domains/domain.template.md": "209462a85148dc05573aab91181ae7a002d63e0b20867688a90c4e64cf173fca",
         "groups/README.md": "e42e5b6c4433e4e3bec384ab522fa55a9ae3fe248e406447489287a939209949",
         "groups/group.template.md": "cee8da72c39225543c77d16dbf5bd262b6293a2bb1c1c5eb15ab69c6af1ccf22",
-        "module-files.json": "f8275744b2c6cc6bd41917914446825b459a0c38508a1c1c631b6ff06ac1a0fb",
-        "module.json": "81de84df270754952345ada28dc10be076c6a772d6b4e18f74c6c321462e8e84",
+        "module-files.json": "03c97970d6b736e2da57120dfc648a437583c33d25f9604774eb09b76ec60485",
+        "module.json": "9448e753bb333f9b9574ccbfffc242c30231d4ca5c88744d5f0f28bbbdda440f",
         "raw-sources/README.md": "7ee03206db7677eb478754a38869fc7744135642222fc0298b682a31e7a0c703",
         "raw-sources/raw-source.template.md": "a8a07cabb01a321bc3ba9e5f35b8271592a08004c198344338e9147ec48ab6c1",
         "research-reports/README.md": "ce7d604f20b7c032311622988084360ef1ee8721acc7724c988c8853499b0eb5",
@@ -1689,7 +1690,8 @@
         "tests/retrieval-maintenance.contract.mjs": "5bdff2e000bf553dafbcadefa0a811e7dd447eabf5dec8278a0277484ec58a37",
         "tests/retrieval.contract.mjs": "5f0aedf65f2858f25e628a59a17a2918d19ddfc1b342c8c0e4bad39a1c21113b",
         "tests/wiki-group-threshold-assessment.contract.mjs": "de8f2b894ba06edae41d06a05b987683ed4409d83cbb4192f352dd7a11cbf966",
-        "wiki/README.md": "c9c553242525b50a70cd9153a6be7583918f7bcedc52fe1edc30ef234566b24f",
+        "tests/wiki-navigation.contract.mjs": "b3036844b6881fd7c01fc6819ffdb09fdd984b38e39d692fe67cfaf2b77eaddb",
+        "wiki/README.md": "d140ac96a0e0d431607c1ae2c4a6669ff0e3a41da42c3cd4428a09b98b2eb210",
         "wiki/wiki.template.md": "fa9cb8c1b8b3d6e9db64f92a86fc6ae4d5d7da3922c45f59aa098d94e7398eda"
       },
       "interfaces": {
@@ -1699,8 +1701,8 @@
           "version": 1
         }
       },
-      "module_inventory_sha256": "f8275744b2c6cc6bd41917914446825b459a0c38508a1c1c631b6ff06ac1a0fb",
-      "module_manifest_sha256": "81de84df270754952345ada28dc10be076c6a772d6b4e18f74c6c321462e8e84",
+      "module_inventory_sha256": "03c97970d6b736e2da57120dfc648a437583c33d25f9604774eb09b76ec60485",
+      "module_manifest_sha256": "9448e753bb333f9b9574ccbfffc242c30231d4ca5c88744d5f0f28bbbdda440f",
       "module_source": "packages/knowledge",
       "name": "Knowledge",
       "optional": [
@@ -1791,13 +1793,13 @@
       ],
       "repository": "https://github.com/ZhongTyler/AWS-Knowledge.git",
       "required": [],
-      "revision": "f1ead90ec99f7b598c18ca78b14d35faae887faa",
+      "revision": "034fd870521ba3878c41eb8da077719c027a4937",
       "runtime": [
         "Node.js 22+",
         "PowerShell 7+ for selected maintenance commands"
       ],
       "source": "packages/knowledge",
-      "version": "2.1.1"
+      "version": "2.1.2"
     },
     "meta": {
       "destination": "",
@@ -3908,7 +3910,7 @@
       "version": "2.0.0"
     }
   },
-  "previous_version": "2.9.1",
+  "previous_version": "2.10.0",
   "schema_version": 2,
-  "version": "2.10.0"
+  "version": "2.10.1"
 }
