@@ -940,8 +940,8 @@
         ".module/module_manager.py": "bfa0d8c7ea6efda126b7a8c656409875994b4bd1256e6d90f5d75652a9aca2b0",
         "AGENTS.md": "ffe0f3d61d70dd2bf71db37deea226f041ffa4fe6b9843d3e87c0d3f88e8b71e",
         "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
-        "README.en.md": "2dc6b968bb75a6c90c271edbb029f4f756bdb5b9b63021ed884c0b39b4d6a371",
-        "README.md": "9fbea6bf6b99ce9076ca0191c2437a62c5e69deec784bb6c327bb97deb2d3505",
+        "README.en.md": "8f47e86004aa75768f7ae5e8da07130efcf3c1883daa976fa74734134d6ee8cf",
+        "README.md": "c522c16ae5281d3acd1ce473f8f075e8d0986a2108b92e26805a90e30d2bc599",
         "_release.json": "8188248e33993c4c7197a18b0415f8075dfaa4ed05c1bfd117aadd640b466e78",
         "adapters/README.md": "d66f7c53d3b19bf6d3f5efb3d8f29b4017ca8403a038cedb8b2dd595f8ba5397",
         "adapters/godot/README.md": "febf8ad6db1d29c510f9b9165198772e540dcf94982a69a1f4222296c7bb9726",
@@ -957,11 +957,13 @@
         "adapters/resource-review/gallery.html": "6e8550c051a61b69ffd3ede195bf6b5cc91aeab160f8451c6f1ce4ccbb551de0",
         "adapters/resource-review/render.cjs": "34b5893ad908ba6a18d3b6ec6d4d6e4fe6af0e010756aa58c6cb3a5838fd7f2b",
         "docs/module-cooperation.md": "2be54cfe577cb852b21128006ccfddfbf7c4dda45f7f405aa706dc6438cc5af5",
+        "docs/releases/2.1.0.md": "f5f5ffc3d9cbfc0b93eb17b6e07dd3d8d8af8f5c0c52643f99980500e5bc403f",
+        "game-screen-visual-direction.md": "cf42b33d7ac3141f5a5b2954f99b9d2763444ff41f6a1d47263aa09a2d88b5fc",
         "generated-art.md": "e3f617c55ea2faecc9053cff84b6bd8f66826bd27c8185afc35bf74cddaf7471",
         "local-image-workflow.md": "e3478a279ccb36ed55144b4050f5c8f3a7a4bae1755456fca3ba745c59ff4d0b",
         "maintenance/capability-status.md": "414da793fae022a64db3059ec4172d3cc5e513119c29cd705dcff64f37a1e30a",
-        "module-files.json": "89b4a6182a99ecbe1e7ca86400da43133d4f382b709de6d5595b8ad07029f76b",
-        "module.json": "7180492d12181f0712bf32bbc87d5462f3175dd65d3f0d0149fad6e84996dfbd",
+        "module-files.json": "4524c3c54f94e2eb8d91948c15fcae1d71c313af76c8cb6fc95ab9e219bdcf18",
+        "module.json": "2420e164a7e45713f2ff05c6831f210fef236223609815fd3174de1e03257d68",
         "pixel-asset-production.md": "1ba033c25b86e2a068dd01efdcebab54d12ee7c8e179b1d61da4f4af315e7964",
         "project-assets.md": "f43e916549be1e0205879c75b4c5de888898f52cbad1a08d5c43ca198167b9d8",
         "project-atlas.md": "1fae8589ef390c8a5fe40d65559413945cea9785c7860f7be72978e698c010ce",
@@ -978,7 +980,9 @@
         "tests/publish-directory.test.mjs": "4ca631c0d1f83939b6dc2a6e969798a8686d864217713f78b2f18ca5b7601ad0",
         "tests/resource-review-boundaries.test.mjs": "8322c6446352eccb58a156038dc4c900332552b019deab1c69550a45c8ae9c83",
         "tests/workbench-delivery.test.mjs": "e9e610a726bbb8b1d66181cc76d926982d2c9d0e0d7da2b3e33ef9a136bf5d99",
-        "workflow.md": "4f7c554bd40433770898d578ad2b1b808dcfc5e82dc2eafcb251212239d4904d"
+        "ui-state-validation.md": "53a52d150c1e54e72aa104a9a01b5ff042e6a87976442d99a8991bfcac08c450",
+        "validation-carriers.md": "8a131710c24cf750ea3752bb1276a5e17db44c3cfcb8a74a830bd48a889d9384",
+        "workflow.md": "6a5b06e2a3aa6675627f501050fd3e41951333eaa1eb03874c1d3d7599fba5b1"
       },
       "interfaces": {
         "module-entry": {
@@ -987,8 +991,8 @@
           "version": 1
         }
       },
-      "module_inventory_sha256": "89b4a6182a99ecbe1e7ca86400da43133d4f382b709de6d5595b8ad07029f76b",
-      "module_manifest_sha256": "7180492d12181f0712bf32bbc87d5462f3175dd65d3f0d0149fad6e84996dfbd",
+      "module_inventory_sha256": "4524c3c54f94e2eb8d91948c15fcae1d71c313af76c8cb6fc95ab9e219bdcf18",
+      "module_manifest_sha256": "2420e164a7e45713f2ff05c6831f210fef236223609815fd3174de1e03257d68",
       "module_source": "packages/game-presentation",
       "name": "GamePresentation",
       "optional": [
@@ -1068,13 +1072,13 @@
       ],
       "repository": "https://github.com/ZhongTyler/AWS-GamePresentation.git",
       "required": [],
-      "revision": "053d2901f4c0fc00814a15e1046a9797388659e9",
+      "revision": "9b529e5e5a054c5b015df37accf8e6a04ff91069",
       "runtime": [
         "Node.js for resource review",
         "Configured browser/Playwright for browser rendering"
       ],
       "source": "packages/game-presentation",
-      "version": "2.0.0"
+      "version": "2.1.0"
     },
     "game-project": {
       "destination": "modules/game-project",
@@ -2414,7 +2418,7 @@
         ".agents/skills/human-research-expression/scripts/test_enhance_reader.py": "9a485428579c0a7deacba704698805d5047c3871aeea5b92c985c3aee2965ac5",
         ".agents/skills/human-research-expression/scripts/test_render_visual_html.py": "970b157e53736b7d245a40ec49acce73f027b0e1e4fab1cfda901c952c34d5c3",
         ".agents/skills/human-research-expression/scripts/verify_git_snapshot.py": "3f1fb154cbf7a630e291614c9c3c0ce9192e1d0d1d58c131d742e1e8d39d19a7",
-        ".agents/skills/research-study/SKILL.md": "55b6468051ff3473b6c86f7c02593b50ad7b2380b21f09ce701edd93f2be7b5f",
+        ".agents/skills/research-study/SKILL.md": "ff117d04185e1bc51f62c2b4b68d904f89de95647867e8af48404de76869c6a9",
         ".agents/skills/workflow-redesign/SKILL.md": "608c47a60471cedcd07603863f67de2777032a7581ab9c484bf653f909133e5d",
         ".agents/skills/workflow-redesign/references/agent-boundaries.md": "70b48d243ab49c676ad4db2bdb9c089e0a138ff18015f5a557cc35871582b8a2",
         ".agents/skills/workflow-redesign/references/cost-and-effect.md": "36e0734f8d7cf289fcb2e072cd388e4f92904c616b6807fc046d4d0ebf1d77de",
@@ -2431,14 +2435,16 @@
         "AGENTS.md": "d95ee9f26a93102cb32d3b3f3d74681fa368286c139e1d62ff4be8651aa6236b",
         "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
         "LICENSE-NOTICE.md": "15cd4ccbc67b328e368766cbbd8a3f69fc490406cfa8df16535f21825add0db8",
-        "README.en.md": "b7416f0a5270db5bdad5b5e9c77d3de2ca1e051301f7471a84cb83334cb4bfb6",
-        "README.md": "a59cada067a93b7b4e30a2f17768c1298df313e2d673c49830c6162094688a66",
-        "RESEARCH_PROTOCOL.md": "fe3bdbd866fd65502d2efb05a99631d489034fdf3b5dc84070e97a5a6d0cc622",
+        "README.en.md": "5b1f40b2dc252a164cb51c4db3956078dc3d68cf0667237f470b8e6158b69498",
+        "README.md": "a6cc401e50ce2010c99909a47c8459c81d89e6bbff97dc469bf90e7148c50306",
+        "RESEARCH_PROTOCOL.md": "c3519a174a62cd986df543220ea22601b371bd6c81c1bb5205cd95048e15e704",
         "_release.json": "965e80d5402043b9e74899071ec0a3183989a3e954a7d9126ae035750717b755",
         "docs/2.2.0-review.md": "b610f5322518dd268b2d77e981c67a2f7f335fc5b315b11676ca9b127d044d17",
         "docs/module-cooperation.md": "1ceb68b9c7fc59077f5e7c92a9d1bac82f7ee007d1ce02a7f276c4eb8ffd85d7",
+        "docs/releases/2.3.0.md": "7e93bea80c5ad885b0844f39382ba2f9e40294859d2f3342cd905cfba1ae9b3e",
         "docs/source-review-2.2.0.json": "84f0137af1fa8ea6ea72b575157d143ddb8ccf7326016f9e98d1fd963737e0aa",
         "game-research/README.md": "3476d1c26597f641a84a2cf8539b98e92efa2275c668c53cf6dd1cf6e21c865b",
+        "game-research/backlog-maintenance.md": "b56637a1188acfa5883248b612d4f48e980964000d0081bfa08fdd330dcfb71b",
         "game-research/cost-evaluation/README.md": "e1e0e19c841332481c8528b5a6820ac3c23814b961add58cc82b370edbb5bfed",
         "game-research/deep-game-analysis/.gitattributes": "da0bdebd735e04c8b2dbbdf9715cb76942ac2af2b97e8b8d2d617f5c34090abb",
         "game-research/deep-game-analysis/README.md": "ee44507b92b0a0c9648679f38b208c54d2332f4562de959d47a8f37c27ad73eb",
@@ -2549,8 +2555,8 @@
         "integrations/rea/source-lock.json": "bea12efe8048ba1d414321bed9eb337631b6b463a1945c50abd359d9bae49c8f",
         "integrations/rea/vendor/REA-LICENSE.txt": "798f9e4d18e49b30bf2f12696c8ced73dc4e1413da375a333d01281543a1ea8b",
         "integrations/rea/vendor/rea-agents-6.4.0.tgz": "59eb1604b8db75f522d4a975c36ce6b4a2ad465e43bad165f9a8f728391db9b8",
-        "module-files.json": "f54fca125171dccb9c24814e0627d9a848d3caefe10190260316f5ac609e4d25",
-        "module.json": "431d9660571e74ee2debe95df83d0be32ced996fe0e7781ef869428b297abaa8",
+        "module-files.json": "09abb41ef65e34f8391791e03ebca6858e8db1d38a590d524a7b08e48222419c",
+        "module.json": "ffeb1089da1a0a2501eb6b5f78e534c34ebc3db4ebeef04ca154b98753ec1ace",
         "proactive/README.md": "d34de946028f566fee551e1c04bd529a1397c18ce5db26c50322837c99eb8ab8",
         "proactive/cost.py": "50bf3624b3c3907ed83681e3a464882ef04b608ee8691ed878019ee60d1bac51",
         "proactive/reporting.md": "53f4de096ecd93c18a6cf15baad603343d8c211dc1cbe136c658412f62a689b0",
@@ -2583,6 +2589,7 @@
         "reference-library/prepare_home.py": "6adc6ac910d58194b5bdc1e34ad61ea75eedf1cb4d4f469b6cc26fdf90e0e93e",
         "sources.json": "7ac6c2a5154590d81aa1d76122540b754032dae0a8ad31c31272449082d8c39f",
         "templates/decision-model-policy.md": "ebee1f65e4db11fc44946ec6ecdb1a5844922a5b5d1ed9bedf036e7a891829a8",
+        "templates/research-backlog.md": "886fd00edc20e3e52894b82821ba586fc3c233b3f9a429e3a0ed99e7ca219d10",
         "templates/research-note.md": "a1577a421a32da9d2c0d7a7af5b7bd23a0325e329601d98ca8e9665156e46dfa",
         "templates/tool-storage.md": "fe540623a5ef4f323b0968983d509191e07f460f3f95ce71ac4b82b2bcfc580a",
         "templates/validation-candidate.md": "4103ba17a92b6a2b437346f521168cf4f62b58cc66522238f4b1c4e0812dbe54",
@@ -2597,8 +2604,8 @@
           "version": 1
         }
       },
-      "module_inventory_sha256": "f54fca125171dccb9c24814e0627d9a848d3caefe10190260316f5ac609e4d25",
-      "module_manifest_sha256": "431d9660571e74ee2debe95df83d0be32ced996fe0e7781ef869428b297abaa8",
+      "module_inventory_sha256": "09abb41ef65e34f8391791e03ebca6858e8db1d38a590d524a7b08e48222419c",
+      "module_manifest_sha256": "ffeb1089da1a0a2501eb6b5f78e534c34ebc3db4ebeef04ca154b98753ec1ace",
       "module_source": "packages/research",
       "name": "Research",
       "optional": [
@@ -2692,7 +2699,7 @@
       ],
       "repository": "https://github.com/ZhongTyler/AWS-Research.git",
       "required": [],
-      "revision": "fcd5afbdeea559ca24181f94c75f322222cacbee",
+      "revision": "cd4ef4f97ab76c6048691b623a9fab8c0542ee43",
       "runtime": [
         "Python 3.10+",
         "Node.js 22+ for selected integrations",
@@ -2700,7 +2707,7 @@
         "Optional report editor: lxml + explicitly configured compatible local executor"
       ],
       "source": "packages/research",
-      "version": "2.2.0"
+      "version": "2.3.0"
     },
     "skills": {
       "destination": "modules/skills",
@@ -2711,17 +2718,20 @@
         ".module/module_manager.py": "faa9380a65ad962b51a22ba960b3f3a28a32c2afa2953498102aafb9aa6dda86",
         "AGENTS.md": "c4d351aac39a83e5b0595a1f51f2316b8a581ae6abb70ba7f875c6e7e32db1d1",
         "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
-        "README.en.md": "e876071ebc5dd89dd41440c4f42107de8152976b14fadf33a23369da65d34956",
-        "README.md": "2ea969f5ef0474df50576e47f8bcb00b47757f130f091e9912bd748c7faf0e64",
+        "README.en.md": "03b791be17f222b6715b9b9d3d787328fb680e4a23b35483bf36377936b8fb1c",
+        "README.md": "16e1c5201bb26f06c4c8a401e04448390ab3ac64e70e05784239698c25d2c8a2",
         "THIRD_PARTY_NOTICES.md": "c92a7cf3428afeb3db6d6bf3bc68f4a5bb7eedf03e974fff4bb956a09f047e09",
-        "_release.json": "403703c383cc75221f730f8883ecbb7f0cb7f06ad6dd8173e566214350c003d4",
-        "catalog.json": "48a25af5aca47c533dbb154554d30154b6c6fdc662f67c04daadd93276d9cf5c",
+        "_release.json": "30df19204d7b36aa4c30ece114cf9ff00e4b65457b98a656a482b3d1fd9daede",
+        "catalog.json": "e411a1131dcc03926360b9ccf790018fabc3b417e423d03dd2862faca69042a2",
         "docs/2.2.0-review.md": "85a305bf93cf91a2078d8582de90182839b8f40f1234dc3c293218f1ab273141",
         "docs/2.2.1-review.md": "46c5cc2a35daec84eb01ec03ff276c7e00b8705ddcea0961cedc123734afd3b4",
+        "docs/2.3.0-review.md": "6f9d2d670a7aa922bb739b167ecf428bf9c5fdf5f6d1714828dffcd56d8cdc4b",
+        "docs/2.3.0-validation.json": "a3c99b542abc0d64413f9bfc97c7560c26417190a43b74323b81e4fc38e75608",
         "docs/localization-input.snapshot.zip": "f968e70ec1d007701b74ecb549ae3aae8997ddd6be85f5f47e19ae02ad3ab1eb",
         "docs/localization-review.json": "ed4717530f1576a8fa5fc1fb66d450939bc7a3f3084ea2c8d40d4c0dbdb97500",
         "docs/module-cooperation.md": "735cf0274782a7838bdf9460a2695772ed80e664618ee3d1b61be3539f8b5726",
-        "docs/skills.zh-CN.md": "993d459f58465f979e8a5380bc3032a6ac94da0e967ad179beaa1a93d3a62e05",
+        "docs/skills.zh-CN.md": "c749c0e7213a4e26eca511c78ffe4f4ad0efbde96cfa486cc27446aa4a2d3de8",
+        "docs/source-review-2.3.0.json": "0f35990a62f76ab709b2bffc8e75d469d87b04f4c5c062693bb21ad08f7ba311",
         "docs/source-review.json": "905154af4e390ef2b56f87ae46bc1fadbc9193c2b4a91c134fc1aae043bd00aa",
         "docs/validation-2.2.0.json": "4b48e8d2a1bff1f7dcada142bedc6ece911c6977e2e84f5b29f62ddb27dbb05d",
         "integrations/frontend-design.md": "2d38446f0e8934c15162e0390997454a375052778d9be884ff624c8b3fecb11e",
@@ -2786,6 +2796,8 @@
         "library/design-handoff/agents/openai.yaml": "854aa78894283b23f80dc8e639c04d6c8d5d4bf3e51d998f259df267b12bdc23",
         "library/design-handoff/references/SKILL.original.txt": "38f1efc807928030654218443ad07f6a37ac82de6b4d627a03113a3568d787b7",
         "library/design-handoff/references/UPSTREAM.json": "59e6145935aa7590933ba59049396664fb438f51c2e9a3de14433668b3da1cb1",
+        "library/document-organization/README.zh-CN.md": "180b278aec4ac1707f2a9c46a8cfec9558bd9c8f1d4cd56196e5443d69c08491",
+        "library/document-organization/SKILL.md": "80ac88c5cc22de9da5c08f829260ce3787f83079c254b515ef81d0b9339538ee",
         "library/domain-modeling/ADR-FORMAT.md": "944c92aa790e8fbdc9199640b170979abb8a34ba8d0fe18c2a01a63bce140ca0",
         "library/domain-modeling/GLOSSARY-FORMAT.md": "21dcc40cdec8e151a829b98ab1517c1867bc444e3665134a98c6983411996801",
         "library/domain-modeling/HOST-ADAPTER.md": "70358e06e5691da5ba13e482bdfdcc516f9e394ff17856982934fe9cc9c1fb93",
@@ -2827,6 +2839,9 @@
         "library/game-description-writing/README.zh-CN.md": "a79732f4f1e074e3c5b49fa23b1cf0c028726d3b43a261b6ab3f2f7bed4bd58f",
         "library/game-description-writing/SKILL.md": "b004cc00f7cc66d3f83d1a47de15baf7676656822bb76028345a820be8c26cb7",
         "library/game-description-writing/references/steam-store.md": "c9f5142931d8e047aad3389dd4f03fdaee32323ad700df0065096f6a162b62c0",
+        "library/game-development-portfolio/README.zh-CN.md": "3dae9968217b20317fe0a47181bda271db2247cadfd4c1eb1a6f368eef9584ee",
+        "library/game-development-portfolio/SKILL.md": "5ed862a8a629fd215bf4d0e4a19f1c15e067fab05c9efa6e7ed0d0e9fc635edf",
+        "library/game-development-portfolio/references/full-project-detail.md": "4cd32d6edba9b52ca247d8f310c2d85236b6eae3ebb024881d4fc1b441703e5b",
         "library/game-evidence-collection/README.zh-CN.md": "d712f76de778486038fcd41fa33690ed948034861871f7f44fd3b89ad4b0bd3f",
         "library/game-evidence-collection/SKILL.md": "af8b4be85d7906cca5a7c3eb7f1a12777c0ddcf7c61cd8e8f128847ee3950342",
         "library/game-evidence-collection/agents/openai.yaml": "8b4d86f5253b2d1bef767c95b7c970b2c1e925727b5ebba4137cdcadda8fb33a",
@@ -2839,6 +2854,8 @@
         "library/game-feel/agents/openai.yaml": "807db0fb689155d6ce0f46c9f723f224f1a059f9cb851fa5d06b1ac4f5a6ed9e",
         "library/game-feel/references/UPSTREAM.json": "09997fd06c9314532a98cabac36a21ed80a6918aef9c59697f3d702e763ac8d5",
         "library/game-feel/references/feedback-recipes.md": "f8cca962733b0b1f5d1db75fe966f6e13bf11015e39a04a849d6ff5c3e0e835e",
+        "library/game-flow-diagrams/README.zh-CN.md": "9dff6d537a178073b2159cf66b3b94008153b55dec1600c817029d9ac82381ad",
+        "library/game-flow-diagrams/SKILL.md": "19939669d4b17bd43f669d16161a97f01901868875911942aa7f0d9977f599f7",
         "library/game-presentation/README.zh-CN.md": "e8c45333ffea112136316478480d2779d5e635055fbcc76451a9311a4f06b1d9",
         "library/game-presentation/SKILL.md": "ca6b0b5a231a7f7b69ef8840b9e355e46d03a7cb5f1c0c73f55ad72f6377f16e",
         "library/game-presentation/references/art-production-and-cutout.md": "952b24a9b54bb50732500df4e5f7910af4b25c80ae7f61178048f5e5cb4d67f5",
@@ -2996,13 +3013,13 @@
         "library/writing-for-agents/SKILL.md": "17455ca502b84699c9ce8c7be39c71457576b3d11f82d0b88b77c33ddd6bec16",
         "library/writing-for-agents/agents/openai.yaml": "eacb24b2a618cfb81dacb0416f4fdd75ddf3a8060f8ddb99aae1b1e301907e4b",
         "library/writing-for-agents/references/UPSTREAM.json": "81091222b403662e5f42ca74e2a19ce3f88069aa8ecc4e7ad7d8f3560a42049b",
-        "locales/zh-CN.json": "b842182bb82fa9661e325c65c71d92c6f05e7d4db76d901ea668ed2c41844ad0",
-        "module-files.json": "8845f93499e512ecc8e9cc0daf4a7a1c5be967e94e22d83cd00afa2936773eaf",
-        "module.json": "bae55d7b599f9844df09c30b89dcb0bae8195465319dbe24e20fe87a8c85870a",
+        "locales/zh-CN.json": "9b7b6e84184cba22102efd0ea318ecce75cd3b1506c903cb27dbd8bdf6145114",
+        "module-files.json": "eb8df86a13d6d59a1e4a746a2bc7969a557a9aaadc90bbcd7e97aed838a5cff5",
+        "module.json": "a85af31b537cc14a020ac7be489b9fb34c32476bfcf14fc8727717c8886866fc",
         "scripts/_runtime.py": "227ee4d4b9a1f782acf5a6f184fa53516665b193036b90ee04db59376ce87098",
-        "scripts/render_zh_catalog.py": "57bfef2356f83623eef29c73e2e71d961eba0b8e2b60be4bab1f174b1fe71fa2",
+        "scripts/render_zh_catalog.py": "dc6ec2bc6870f2a9e843230e70738726dbc99a22730c413547eebedd3645cdd8",
         "scripts/skills.py": "6a5580c901a39762d2406ea8294c48f6b88e967ae89f4eba9671fb06853a42c9",
-        "skills.json": "ee95a52b68f09eb4dcd04f536176a2adadf9e3721f27c1895a3bbdef659cfaf5",
+        "skills.json": "20800f4ef37bdc6912d09eccb0271586ede661bafcf24ee9f2d5e2dda3c7d6ce",
         "upgrades/1.12.0.md": "8aa10c1accdacf5831d0039023352f089ff20ef96ea4afddcb8c7b661408f087",
         "upgrades/1.14.0.md": "a031d0b5ee02a57f28e0e23c648c86a537fff72af1065858e496fde4bd88a0d6",
         "upgrades/1.14.1.md": "f654279a97a3e38b1da6b5e950e63ea232d78e89acf7ecce8cda177d4d32a18c",
@@ -3028,7 +3045,8 @@
         "upgrades/2.1.0.md": "7c18a5c8abd47301e8b76b26f40f5962e75927e1ac9432fd73002e4cc77f547a",
         "upgrades/2.2.0.md": "a682c4da439d0ad3233e79cf9617ad246500327897bc87c7415f8d07fc848967",
         "upgrades/2.2.1.md": "5cc89d66c03f725d47b144db2ed18d3f9b909dedbc72b379fa8b24d60fa877be",
-        "upgrades/2.2.2.md": "d3a2fb423a4e683217430096395e641824b479bcc8d84dd415fce18c040c2b5f"
+        "upgrades/2.2.2.md": "d3a2fb423a4e683217430096395e641824b479bcc8d84dd415fce18c040c2b5f",
+        "upgrades/2.3.0.md": "f97b3c263bf379f1c115a20173e2df26632fab969e0dc3c9a52ff5c2d13aaf19"
       },
       "interfaces": {
         "module-entry": {
@@ -3037,8 +3055,8 @@
           "version": 1
         }
       },
-      "module_inventory_sha256": "8845f93499e512ecc8e9cc0daf4a7a1c5be967e94e22d83cd00afa2936773eaf",
-      "module_manifest_sha256": "bae55d7b599f9844df09c30b89dcb0bae8195465319dbe24e20fe87a8c85870a",
+      "module_inventory_sha256": "eb8df86a13d6d59a1e4a746a2bc7969a557a9aaadc90bbcd7e97aed838a5cff5",
+      "module_manifest_sha256": "a85af31b537cc14a020ac7be489b9fb34c32476bfcf14fc8727717c8886866fc",
       "module_source": "packages/skills",
       "name": "Skills",
       "optional": [
@@ -3158,12 +3176,12 @@
       ],
       "repository": "https://github.com/ZhongTyler/AWS-Skills.git",
       "required": [],
-      "revision": "bceff9ed6a9d2f809726fec5d7486e0d74b1cbaa",
+      "revision": "b6e93992e4054fe296b05e7c2e410e0ba852ba56",
       "runtime": [
         "Python 3.10+"
       ],
       "source": "packages/skills",
-      "version": "2.2.2"
+      "version": "2.3.0"
     },
     "tools": {
       "destination": "modules/tools",
@@ -3855,7 +3873,7 @@
       "version": "2.0.0"
     }
   },
-  "previous_version": "2.6.0",
+  "previous_version": "2.7.0",
   "schema_version": 2,
-  "version": "2.7.0"
+  "version": "2.8.0"
 }
