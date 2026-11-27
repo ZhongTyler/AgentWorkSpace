@@ -2718,15 +2718,16 @@
         ".module/module_manager.py": "faa9380a65ad962b51a22ba960b3f3a28a32c2afa2953498102aafb9aa6dda86",
         "AGENTS.md": "c4d351aac39a83e5b0595a1f51f2316b8a581ae6abb70ba7f875c6e7e32db1d1",
         "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
-        "README.en.md": "03b791be17f222b6715b9b9d3d787328fb680e4a23b35483bf36377936b8fb1c",
-        "README.md": "16e1c5201bb26f06c4c8a401e04448390ab3ac64e70e05784239698c25d2c8a2",
+        "README.en.md": "05c49274e764775d81535ad87e188a834d30ad8d2cae36683b7845bbb585dd07",
+        "README.md": "c3d429680c4bcc9dd2115160474064edcf2848a61e017f3ff8ee1f1f32557a02",
         "THIRD_PARTY_NOTICES.md": "c92a7cf3428afeb3db6d6bf3bc68f4a5bb7eedf03e974fff4bb956a09f047e09",
-        "_release.json": "30df19204d7b36aa4c30ece114cf9ff00e4b65457b98a656a482b3d1fd9daede",
-        "catalog.json": "e411a1131dcc03926360b9ccf790018fabc3b417e423d03dd2862faca69042a2",
+        "_release.json": "30837f8d60a7b628c9fd607ac1f4853c8e60ee088c21529c6f91b320d3b461a4",
+        "catalog.json": "97409e009f107df862be966cf93fa4d0d29e0684812059d0a76934c954700252",
         "docs/2.2.0-review.md": "85a305bf93cf91a2078d8582de90182839b8f40f1234dc3c293218f1ab273141",
         "docs/2.2.1-review.md": "46c5cc2a35daec84eb01ec03ff276c7e00b8705ddcea0961cedc123734afd3b4",
         "docs/2.3.0-review.md": "6f9d2d670a7aa922bb739b167ecf428bf9c5fdf5f6d1714828dffcd56d8cdc4b",
         "docs/2.3.0-validation.json": "a3c99b542abc0d64413f9bfc97c7560c26417190a43b74323b81e4fc38e75608",
+        "docs/2.3.1-validation.json": "4ca438080cc822f912a3f0c4ed3835afb195f2fdc909d58f774237d5365f4e86",
         "docs/localization-input.snapshot.zip": "f968e70ec1d007701b74ecb549ae3aae8997ddd6be85f5f47e19ae02ad3ab1eb",
         "docs/localization-review.json": "ed4717530f1576a8fa5fc1fb66d450939bc7a3f3084ea2c8d40d4c0dbdb97500",
         "docs/module-cooperation.md": "735cf0274782a7838bdf9460a2695772ed80e664618ee3d1b61be3539f8b5726",
@@ -3014,12 +3015,12 @@
         "library/writing-for-agents/agents/openai.yaml": "eacb24b2a618cfb81dacb0416f4fdd75ddf3a8060f8ddb99aae1b1e301907e4b",
         "library/writing-for-agents/references/UPSTREAM.json": "81091222b403662e5f42ca74e2a19ce3f88069aa8ecc4e7ad7d8f3560a42049b",
         "locales/zh-CN.json": "9b7b6e84184cba22102efd0ea318ecce75cd3b1506c903cb27dbd8bdf6145114",
-        "module-files.json": "eb8df86a13d6d59a1e4a746a2bc7969a557a9aaadc90bbcd7e97aed838a5cff5",
-        "module.json": "a85af31b537cc14a020ac7be489b9fb34c32476bfcf14fc8727717c8886866fc",
+        "module-files.json": "75731a10bec4c463675d57c61a60156f09b918572164795e519a66682be7ad31",
+        "module.json": "b07146a1f9c384d626fdfce70e9c9e6bc35fc47adcacd92688320d178e3c2b5b",
         "scripts/_runtime.py": "227ee4d4b9a1f782acf5a6f184fa53516665b193036b90ee04db59376ce87098",
         "scripts/render_zh_catalog.py": "dc6ec2bc6870f2a9e843230e70738726dbc99a22730c413547eebedd3645cdd8",
         "scripts/skills.py": "6a5580c901a39762d2406ea8294c48f6b88e967ae89f4eba9671fb06853a42c9",
-        "skills.json": "20800f4ef37bdc6912d09eccb0271586ede661bafcf24ee9f2d5e2dda3c7d6ce",
+        "skills.json": "ba9f12792b14b56dc54eb230fcb0557ef5eb81b7f7b86c40db6b456b4d345439",
         "upgrades/1.12.0.md": "8aa10c1accdacf5831d0039023352f089ff20ef96ea4afddcb8c7b661408f087",
         "upgrades/1.14.0.md": "a031d0b5ee02a57f28e0e23c648c86a537fff72af1065858e496fde4bd88a0d6",
         "upgrades/1.14.1.md": "f654279a97a3e38b1da6b5e950e63ea232d78e89acf7ecce8cda177d4d32a18c",
@@ -3046,7 +3047,8 @@
         "upgrades/2.2.0.md": "a682c4da439d0ad3233e79cf9617ad246500327897bc87c7415f8d07fc848967",
         "upgrades/2.2.1.md": "5cc89d66c03f725d47b144db2ed18d3f9b909dedbc72b379fa8b24d60fa877be",
         "upgrades/2.2.2.md": "d3a2fb423a4e683217430096395e641824b479bcc8d84dd415fce18c040c2b5f",
-        "upgrades/2.3.0.md": "f97b3c263bf379f1c115a20173e2df26632fab969e0dc3c9a52ff5c2d13aaf19"
+        "upgrades/2.3.0.md": "f97b3c263bf379f1c115a20173e2df26632fab969e0dc3c9a52ff5c2d13aaf19",
+        "upgrades/2.3.1.md": "88bdf37f1c160789429d2ca1d0c27de51e80c404f0cc35e7a889efd1bc923bbb"
       },
       "interfaces": {
         "module-entry": {
@@ -3055,8 +3057,8 @@
           "version": 1
         }
       },
-      "module_inventory_sha256": "eb8df86a13d6d59a1e4a746a2bc7969a557a9aaadc90bbcd7e97aed838a5cff5",
-      "module_manifest_sha256": "a85af31b537cc14a020ac7be489b9fb34c32476bfcf14fc8727717c8886866fc",
+      "module_inventory_sha256": "75731a10bec4c463675d57c61a60156f09b918572164795e519a66682be7ad31",
+      "module_manifest_sha256": "b07146a1f9c384d626fdfce70e9c9e6bc35fc47adcacd92688320d178e3c2b5b",
       "module_source": "packages/skills",
       "name": "Skills",
       "optional": [
@@ -3176,12 +3178,12 @@
       ],
       "repository": "https://github.com/ZhongTyler/AWS-Skills.git",
       "required": [],
-      "revision": "b6e93992e4054fe296b05e7c2e410e0ba852ba56",
+      "revision": "452accc7bdbd3906229935bf05a493a34b14f4fb",
       "runtime": [
         "Python 3.10+"
       ],
       "source": "packages/skills",
-      "version": "2.3.0"
+      "version": "2.3.1"
     },
     "tools": {
       "destination": "modules/tools",
