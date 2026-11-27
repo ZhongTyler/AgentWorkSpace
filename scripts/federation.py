@@ -79,7 +79,7 @@ def missing(bundle, catalog, names):
 
 def git(root, *arguments):
     command = ['git', '-c', 'safe.directory=' + str(root), '-c', 'credential.helper=',
-               '-c', 'core.autocrlf=false', '-C', str(root), *arguments]
+               '-c', 'core.autocrlf=false', '-c', 'core.longpaths=true', '-C', str(root), *arguments]
     result = subprocess.run(command, capture_output=True, text=True, encoding='utf8', errors='replace', timeout=180)
     if result.returncode:
         raise ContractError('Module Git operation failed: ' + result.stderr[-1200:])

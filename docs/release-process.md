@@ -55,3 +55,9 @@ AWS 的 build_catalog.py 读取当前模块合同和干净的独立 Git 提交�
 Tools 的外层模块库存与内层便携清单分别验证，外层通过不代替 `toolbox.py health --integrity`。修改模块包装、全景或 README 后，先按 Tools 自身维护入口刷新已审核便携成员的哈希，再封存外层库存。正式发布前同时验证模块根和 `prepare_home.py` 创建的新包外 home，并确认用户修改仍会被完整性检查发现。接收方不运行封存工具来消除自己的修改告警。
 
 包升级、包外 home 准备与实际依赖/账号/服务启用分别报告。公开安装不继承维护者运行状态，旧版本原始失败保留，公开 tag 不变。
+
+## Windows 获取路径
+
+AWS 的 Git 获取命令单独启用 `core.longpaths=true`，不修改接收方的全局 Git 或系统配置。回归覆盖临时获取目录中的长文件路径，以及实际 Tools 的 279 字符成员路径检出和库存验证。Git 元数据目录本身过深仍可能阻止仓库发现；遇到 `.git` 路径读取失败时，保留 staging 证据并选择较短的仓库根目录，不反复覆盖失败现场。
+
+此配置对 Git for Windows 部分原生命令的作用见[官方长路径说明](https://gitforwindows.org/git-cannot-create-a-file-or-directory-with-a-long-path.html)。公开发布仍分别验收新克隆、轻量包获取和完整离线包；短目录通过不代表所有路径深度都已验证。

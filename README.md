@@ -10,7 +10,7 @@ AWS 2.0 将 meta 和 11 个功能模块放在各自独立仓库，通过 Git sub
 - 已有工作区，先审阅当前框架与同类工作流，再补充所需模块。
 - 需要统一管理，使用 AWS 获取选定模块，也能明确选择全部获取。
 
-2.5.0 更新 Tools 的公开完整性校验与已审核便携能力；其余模块固定版本不变。详见 [升级与恢复](upgrades/2.5.0.md) 与 [Tools](packages/tools/README.md)。
+2.6.0 新增 Git 范围预检、精灵诊断和 Demo 参数/音频工具，并修复 Windows 临时检出长文件问题；其余模块固定版本不变。详见 [升级与恢复](upgrades/2.6.0.md) 与 [Tools](packages/tools/README.md)。
 
 2.0.0 改变了分发结构和安装合同。[1.30.0 迁移与恢复](upgrades/2.0.0.md) · [设计与执行方案](docs/design/2.0.0.md) · [发布流程](docs/release-process.md)
 

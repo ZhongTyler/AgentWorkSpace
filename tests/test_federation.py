@@ -55,6 +55,29 @@ class Federation(unittest.TestCase):
     def retrieve(self, *names):
         return f.prepare(self.bundle, self.catalog, names, apply=True, source_root=self.mirror)
 
+    def test_deep_recipient_git_checkout_and_inventory(self):
+        source = fixture(self.base / 'deep-mirror/travel', 'travel')
+        member = Path('references') / ('reference-' + 'r' * 70) / 'member.md'
+        (source / member).parent.mkdir(parents=True)
+        (source / member).write_bytes(b'DEEP RECIPIENT PAYLOAD')
+        seal(source, 'travel')
+        commit_fixture(source)
+        catalog = copy.deepcopy(self.catalog)
+        row = catalog['components']['travel']
+        row.update(revision=f.git(source, 'rev-parse', 'HEAD'),
+                   module_manifest_sha256=w.digest((source / 'module.json').read_bytes()),
+                   module_inventory_sha256=w.digest((source / 'module-files.json').read_bytes()),
+                   files=f.payload_inventory(source))
+        bundle = self.base / ('recipient-' + 'd' * 50) / ('nested-' + 'n' * 10)
+        bundle.mkdir(parents=True)
+        stage_file = bundle / '.module-manager/staging' / ('travel-' + row['revision']) / member
+        self.assertGreater(len(str(stage_file)), 260)
+        self.assertLess(len(str(stage_file.parents[2] / '.git')), 245)
+        result = f.prepare(bundle, catalog, ['travel'], apply=True, source_root=source.parent)
+        self.assertTrue(result['applied'])
+        self.assertEqual(b'DEEP RECIPIENT PAYLOAD', (bundle / 'packages/travel' / member).read_bytes())
+        self.assertTrue(f.verify_module(bundle, row, 'travel')['verified'])
+
     def test_metadata_audit_and_preview_work_without_payloads(self):
         incoming = w.catalog(self.bundle)
         self.assertEqual('2.0.0', incoming['version'])

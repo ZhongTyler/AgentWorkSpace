@@ -10,7 +10,7 @@ AWS 2.0 keeps meta and 11 functional modules in independent repositories, fixed 
 - Extend an existing workspace after reviewing its framework and similar workflows.
 - Use AWS for coordinated management, selected retrieval or an explicit all-module choice.
 
-2.5.0 updates Tools integrity checks and reviewed portable capabilities; other module identities remain fixed. See [upgrade notes](upgrades/2.5.0.md) and [Tools](packages/tools/README.md).
+2.6.0 adds Git scope preflight, sprite diagnostics and demo parameter/audio helpers, and fixes long staged payload paths on Windows. Other module identities remain fixed. See [upgrade notes](upgrades/2.6.0.md) and [Tools](packages/tools/README.md).
 
 2.0.0 changes distribution and installation contracts. [Migration from 1.30.0](upgrades/2.0.0.md) · [Design and execution plan](docs/design/2.0.0.md) · [Release process](docs/release-process.md)
 
