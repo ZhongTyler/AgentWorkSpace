@@ -1838,22 +1838,23 @@
         ".agents/skills/workflow-redesign/scripts/test_read_context.py": "46bb6cd75d44cb36b4aaa97c801bc178cd2485e85fc343dbb3f0943a7cd99672",
         ".agents/skills/workflow-redesign/scripts/test_workflow_cost.py": "77300fb0746275916bdf4aa2f777c63ec14b04028c00a73a28db868b3c33c6bf",
         ".agents/skills/workflow-redesign/scripts/workflow_cost.py": "119d23ce3b48862a9262d01a6658dbf440b6ce385665fde284ab81d4c40bef01",
-        "AGENTS.md": "4ce05030102d33bb87eba9082d0c620375b2995b83c1f3d281012ebf5c27cf35",
-        "AI_INDEX.md": "fd380602d990a0833195cdff8aca5150bde202b88dbbe482cfee4d75bee2d933",
+        "AGENTS.md": "dce17cc4b60d15afd674a7ded36b1e64f6630b30282a24cbffa20050906eecfe",
+        "AI_INDEX.md": "0fa9dc5a713b729cf7e4cf0f2c4ff3f741a5af01f75c6b3bcdccf283bf064dcd",
         "AI_SELF_CHECK.md": "fe8311763dc04b999236aedcbb97d6ddf4f13f938bfd7aa107fe2eded9d11440",
         "AI_SOFT_HINTS.md": "32d5f74da438f35042c7d5d2bfa844f189aaf6fd61760c24b00f51d9f0017a0b",
-        "COMMAND_MANUAL.md": "cdf560417f7352fb05f3a32a68346dab2949a955d672e9fff19f8da1ae7e4b88",
+        "COMMAND_MANUAL.md": "5d01ea2a153fa032040a0673dc30b5d5c5e04ded9a48014285acb5b085bf45d2",
         "NOW.md": "72d2526fb48b535577738a007db28d3e87b8ebb1edd9a26e08db581b5e38af48",
-        "README.md": "a0b08d857bddb938e2c81fa33c4424153aa3cd7b98087b11a9cb790fdd11d9ef",
-        "USER_PROFILE.md": "b2f19d0836fb18a1ea554a180265bf31f18b197f2f65c3fa2755d90e0a93fe61",
+        "README.md": "6697ad01f075fe0446eb2c227d622bb24ab757c97de24a0e9808fcb29eb5ee86",
+        "USER_PROFILE.md": "651d36b9b969ce124084d362d58a791e738a1fdef016bfa428d2344b8d8d3d76",
+        "WORKFLOW_CONTRACT.md": "bca8e03a815794d05cb2fd44f3b7874e9fd7b415aab159c81e1de8a057deb7a6",
         "collaboration/README.md": "8b51a99816fd3fbe4808472f4c2dd02eab445a1718b3444fa8d9dcc91a13f4cf",
         "collaboration/assisted.md": "d5613f3d12c8fec3565ba752000ba716711f32894a80a890eeaaf09827b718dd",
         "collaboration/inheritance/README.md": "55c94e25daddb16fdeb4603f69a5558790154a313af8124008c0b70204593243",
         "collaboration/interface-design.md": "94679c3853ebc57b5d8187e682fb1f9b8c7b08879b0a14b8a8fc89aaf4ff753c",
         "collaboration/optional-capabilities.md": "f7521b940c3cb0f03eafcdb6095dec010964e9e65d8967b8e9ff4d5744d64cba",
-        "collaboration/support-and-learning.md": "a7d2bb39900276de03664a1e1d212d9308d0a814d8d4dab4bf39ad6d4357bea3",
-        "memory.md": "fc2b03d8ec9d3a9a4af711ff42bc9284f94e01549c7115bc5899caa4c03f395c",
-        "reviews/README.md": "d5401a6e2d382526adadbafee7e0a2e918337590ba62e183a6721ab66c4981fc",
+        "collaboration/support-and-learning.md": "8962db87c9f665a5578007ad201f1c7fad18d632ac97f6a6cf5a6ad7c86e57ca",
+        "memory.md": "74425a1740e4c1474d742d41ad03a799c37d82f68f7bea5f5718fc666b738e68",
+        "reviews/README.md": "774d94a3dd25d524de9c737f2e2e024a487274945451ef5e9ca39139822ebb64",
         "reviews/_observations.md": "146f8142cac697dc27aa6624a282294b4010d878bf6b412db4212176389135ff"
       },
       "interfaces": {
@@ -1863,8 +1864,8 @@
           "version": 1
         }
       },
-      "module_inventory_sha256": "0036790feadba72b3d2a024e1950b2cec298945931053942f8c556b0600ce68d",
-      "module_manifest_sha256": "32d8ccae7356cd962c300e9c0522c65d90f7f2d943381fbb86b840bacf3bafc5",
+      "module_inventory_sha256": "702d3eb921510224af9ee040422b1475b12db89e6430fdfb85041c6c2d21784a",
+      "module_manifest_sha256": "8f753ae245412df3a603527f8e87dd6750fcd24aad79c07f6221d58575333bce",
       "module_source": "meta",
       "name": "Meta",
       "optional": [],
@@ -2018,10 +2019,10 @@
       ],
       "repository": "https://github.com/ZhongTyler/AWS-Meta.git",
       "required": [],
-      "revision": "d96321a5762a6454a1fa0249747e3c33d7e05b8b",
+      "revision": "b182dcc1ffefddfa5a9afc3494f9f48e4cbce3e1",
       "runtime": [],
       "source": "meta/workspace",
-      "version": "2.0.0"
+      "version": "2.1.0"
     },
     "prototype-assets": {
       "destination": "modules/prototype-assets",
@@ -3907,7 +3908,7 @@
       "version": "2.0.0"
     }
   },
-  "previous_version": "2.9.0",
+  "previous_version": "2.9.1",
   "schema_version": 2,
-  "version": "2.9.1"
+  "version": "2.10.0"
 }

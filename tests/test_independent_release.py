@@ -28,7 +28,7 @@ class IndependentRelease(unittest.TestCase):
     def test_all_twelve_independent_inventories_and_fixed_references(self):
         incoming = w.catalog(ROOT)
         self.assertEqual(2, incoming['schema_version'])
-        self.assertEqual('2.9.1', incoming['version'])
+        self.assertEqual('2.10.0', incoming['version'])
         self.assertEqual(12, len(incoming['components']))
         for name, row in incoming['components'].items():
             with self.subTest(name=name):
@@ -112,8 +112,8 @@ class IndependentRelease(unittest.TestCase):
     def test_real_previous_full_and_compatible_upgrade_conflict_client_recovery(self):
         with tempfile.TemporaryDirectory() as directory:
             base = Path(directory)
-            previous = published_bundle(ROOT, '2.9.0', base / 'previous')
-            self.assertEqual('2.9.0', w.catalog(previous)['version'])
+            previous = published_bundle(ROOT, '2.9.1', base / 'previous')
+            self.assertEqual('2.9.1', w.catalog(previous)['version'])
             all_modules = [name for name in w.catalog(ROOT)['components'] if name != 'meta']
             for mode in ('full', 'compatible'):
                 with self.subTest(mode=mode):
@@ -138,24 +138,50 @@ class IndependentRelease(unittest.TestCase):
                     unchanged = host / 'modules/travel/README.md'
                     unchanged_bytes = unchanged.read_bytes() + b'\nUNRELATED OWNER EDIT'
                     unchanged.write_bytes(unchanged_bytes)
-                    for changed_name in ('fromdemotospec',):
-                        edited = host / 'modules' / changed_name / 'README.md'
+                    for changed_name in ('meta',):
+                        edited = (host if changed_name == 'meta' and mode == 'full' else host / 'modules' / changed_name) / 'README.md'
                         original = edited.read_bytes()
                         edited.write_bytes(original + b'\nOWNER EDIT')
                         denied = w.install(ROOT, host, 'upgrade', [], apply=True)
                         self.assertTrue(denied['conflicts'], changed_name)
                         self.assertEqual(original + b'\nOWNER EDIT', edited.read_bytes())
                         edited.write_bytes(original)
+                    # A new payload member must not overwrite an unmanaged user file.
+                    meta_root = host if mode == 'full' else host / 'modules/meta'
+                    new_contract = meta_root / 'WORKFLOW_CONTRACT.md'
+                    self.assertFalse(new_contract.exists())
+                    before_state = (host / '.agent-workspace/state.json').read_bytes()
+                    new_contract.write_bytes(b'USER OWNED NEW CONTRACT')
+                    denied = w.install(ROOT, host, 'upgrade', [], apply=True)
+                    self.assertIn(new_contract.relative_to(host).as_posix(), denied['conflicts'])
+                    self.assertFalse(denied['applied'])
+                    self.assertEqual(b'USER OWNED NEW CONTRACT', new_contract.read_bytes())
+                    self.assertEqual(before_state, (host / '.agent-workspace/state.json').read_bytes())
+                    new_contract.unlink()  # Test-owned fixture only, after byte-preservation assertion.
+                    host_contract = host / 'WORKFLOW_CONTRACT.md'
+                    if mode == 'compatible':
+                        host_contract.write_bytes(b'INDEPENDENT HOST CONTRACT')
                     upgraded = w.install(ROOT, host, 'upgrade', [], apply=True)
+                    self.assertTrue(new_contract.is_file())
+                    guide = (meta_root / 'COMMAND_MANUAL.md').read_text('utf8')
+                    for heading in ('完成条件','维护与更新','投入与过程检查','停止与决策边界','Git交付与真实结果'):
+                        self.assertIn('## ' + heading, guide)
+                    self.assertIn('WORKFLOW_CONTRACT.md', guide)
+                    self.assertIn('## 停止与决策边界', new_contract.read_text('utf8'))
+                    if mode == 'compatible':
+                        self.assertEqual(b'INDEPENDENT HOST CONTRACT', host_contract.read_bytes())
                     self.assertTrue(upgraded['applied'])
-                    self.assertEqual('2.9.1', w.state(host)['version'])
+                    self.assertEqual('2.10.0', w.state(host)['version'])
                     if mode == 'compatible':
                         self.assertEqual(authority, (host / 'AGENTS.md').read_bytes())
                     self.assertEqual(unchanged_bytes, unchanged.read_bytes())
                     for platform in ('codex', 'codebuddy'):
                         self.assertTrue((host / ('.agents' if platform == 'codex' else '.codebuddy') / 'skills/human-research-expression/SKILL.md').is_file())
                     self.assertTrue(w.rollback(host, upgraded['transaction'], apply=True)['applied'])
-                    self.assertEqual('2.9.0', w.state(host)['version'])
+                    self.assertEqual('2.9.1', w.state(host)['version'])
+                    self.assertFalse(new_contract.exists())
+                    if mode == 'compatible':
+                        self.assertEqual(b'INDEPENDENT HOST CONTRACT', host_contract.read_bytes())
                     self.assertEqual(authority, (host / 'AGENTS.md').read_bytes())
                     self.assertEqual(unchanged_bytes, unchanged.read_bytes())
                     self.assertEqual(b'PRIVATE TRIP FACTS', private.read_bytes())
