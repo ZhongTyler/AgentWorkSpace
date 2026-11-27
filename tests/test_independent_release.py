@@ -91,7 +91,7 @@ class IndependentRelease(unittest.TestCase):
             self.assertTrue((target / 'AGENTS.md').is_file())
             config = json.loads((target / 'maintenance/project-config.json').read_text('utf8'))
             self.assertEqual('independent-fixture', config['project']['id'])
-            self.assertEqual('0.2.26', config['template']['version'])
+            self.assertEqual('0.2.27', config['template']['version'])
             self.assertTrue((target / 'assets/index.html').is_file())
             self.assertFalse((target / 'modules/meta').exists())
 

@@ -10,7 +10,7 @@ AWS 2.0 keeps meta and 11 functional modules in independent repositories, fixed 
 - Extend an existing workspace after reviewing its framework and similar workflows.
 - Use AWS for coordinated management, selected retrieval or an explicit all-module choice.
 
-2.7.0 updates Knowledge maintenance compatibility, FromDemoToSpec expansion checks, GameProject template 0.2.26 and Brainstorm legacy redesign. See [upgrade and recovery](upgrades/2.7.0.md).
+2.7.0 updates Knowledge maintenance compatibility, FromDemoToSpec expansion checks, GameProject template 0.2.27 and Brainstorm legacy redesign. See [upgrade and recovery](upgrades/2.7.0.md).
 
 2.0.0 changes distribution and installation contracts. [Migration from 1.30.0](upgrades/2.0.0.md) · [Design and execution plan](docs/design/2.0.0.md) · [Release process](docs/release-process.md)
 
