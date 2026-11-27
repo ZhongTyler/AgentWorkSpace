@@ -36,6 +36,12 @@ def replace(path, rendered, check=False):
         raise ValueError('One panorama region is required in ' + str(path))
     before, rest = text.split(START, 1)
     _, after = rest.split(END, 1)
+    # Keep an existing Chinese caption; graph identifiers and edges stay exact.
+    chinese = '虚线表示可选协作，具体用途与接口见 module.json 和协作说明。'
+    bilingual = '虚线表示可选协作。具体用途与接口见 module.json 和协作说明。 / Dashed edges indicate optional cooperation. See module.json and the cooperation guide.'
+    current = rest.split(END, 1)[0]
+    if current.endswith('\n\n' + chinese + '\n'):
+        rendered = rendered.replace(bilingual, chinese)
     desired = before + rendered + after
     if check:
         if desired != text:

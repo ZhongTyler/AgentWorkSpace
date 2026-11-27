@@ -10,7 +10,7 @@ AWS 2.0 将 meta 和 11 个功能模块放在各自独立仓库，通过 Git sub
 - 已有工作区，先审阅当前框架与同类工作流，再补充所需模块。
 - 需要统一管理，使用 AWS 获取选定模块，也能明确选择全部获取。
 
-2.4.0 更新 Research：系统报告内持续试玩、资源路径保真及可选编辑审订接线。详见 [升级与恢复](upgrades/2.4.0.md) 与 [Research 说明](packages/research/README.md)。
+2.4.1 同步 Skills 42项方法的中文说明及核验后的来源标注；调用ID和上游原件保留。详见 [升级与恢复](upgrades/2.4.1.md) 与 [Skills 清单](packages/skills/skills.json)。
 
 2.0.0 改变了分发结构和安装合同。[1.30.0 迁移与恢复](upgrades/2.0.0.md) · [设计与执行方案](docs/design/2.0.0.md) · [发布流程](docs/release-process.md)
 
