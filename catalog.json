@@ -517,8 +517,8 @@
         "04-agent-learning-feedback.md": "0e8e292fc8881f3055e8ad28c01ddb61272b2bb1d1d304b75f48d006c5679217",
         "AGENTS.md": "935db929e8275efcf849711dc02656aaa5e732f33729de9ead5f78c2d0f4ee8d",
         "LICENSE": "833d6fe27647cc75fef801dbe3a192ef4230447d878a69bfce70b80f7e9f518a",
-        "README.en.md": "55173f2d3e60eac184fd232da6a59b23f6a319b2115db2ef651cf349e5d71245",
-        "README.md": "d5ed2c6a8a99f54980dbf163b5dbe52995ed5edfda68e8654ab87f1ffb1fe1b6",
+        "README.en.md": "f1cc9306c4fd7fbd0b36267440159d8ec9fd0ac0200053e998e586f42a3f0697",
+        "README.md": "2dcb294b389b2491026fb1ff09dd064f99897bd6a7d454ac86a85835f4633175",
         "_release.json": "f29b5a118c64cc3335567f07fb5d49d974c55b47dba7ca485b54c72894a66b86",
         "adapters/game-analysis-decision/README.md": "aa9de02acba7c811f1bf3c0b87a3001a77b0c269c2209fd93b56a0ce28d5c9a0",
         "adapters/game-analysis-decision/contract.json": "d637d3460412ea17cfc77c76b132e93880fe906dacca52fc8b7996e311607397",
@@ -532,6 +532,7 @@
         "docs/module-cooperation.md": "03ebd4fc6cf40e9e2ae64cd999b5ba2104e6c86528dcb59dc5a62e67cdf02fa5",
         "docs/project-tools.md": "83c76f2b268fa4f8d4a2c11d18b0407c6abc2a7c0015d347fc3fb68f35390325",
         "docs/releases/2.2.0.md": "d4dd107ba402084b0414624fa27456565cc3c6e92e025a9bee4cf2797331351e",
+        "docs/releases/2.2.1.md": "ed93700c30381a48c254b17f94e5ed01d86db18f35a8f63cac6446730da30965",
         "docs/tiny-demo.md": "a3a167feda89bf54493257ae08a315baa91186011e9868a5015563c848473eb8",
         "examples/game-analysis-decision/fromdemotospec-request.json": "5f0546c05db2a1bc162fdb13d102bcc7c0bb2aeae5c1979209d328d0dc693ba4",
         "examples/game-analysis-decision/legacy-request.json": "8c8f2cafdfbe70e000b9d9ec0efd542597961df341439bff24b200e7b4060883",
@@ -544,8 +545,8 @@
         "experience-kits/calibration/README.md": "eb656fdef3801ab0391e0b9e2ae2764cc5584ba5e104e82c761c6bf7ba522149",
         "experience-kits/schemas/asset-manifest.schema.json": "72751505640b328e5035f3b5414b3e33b578b9b3d8f612f706fb072ef3ff48a4",
         "experience-kits/schemas/presentation-selection.schema.json": "28c30d608934867e7e85a79057a8dd34a4c83b0b2c078d7ea7abd93463dafc84",
-        "module-files.json": "2a39b06d7a6708f9f3b5ea4d777e0f0a04c9922b3449b6b492a8b7cdadca522e",
-        "module.json": "d8d53c05effeddaff6278e35aa5bc3349c69f1517c7930e631be8f674035796e",
+        "module-files.json": "51b788019d0ae7e967ff53128777e76e5df80046dfeeaf34db4ee122afd0708d",
+        "module.json": "63fc236f6ba14b95c37a3cbf41d9302f41793870eb9565d9d49b61880f6722c7",
         "paths/maintained-project.md": "df2fdaecfd99150d5f7cd8a1d7d8efc08a8aedf5efe9608ddc464a17e4b673d8",
         "paths/single-file.md": "dc53ff4fa7d8eee05d35f2a0a15e8c3ff0f2af07ceac9edcaa5b485a99bcb28b",
         "protocols/handoff-and-production.md": "4f9b9d136fd0f21381833edcbd3d68bc9ce84ffa8909141358e514a213fca692",
@@ -556,7 +557,7 @@
         "scripts/demo-project.mjs": "d2512cb1e1eda0bd6ff9376e6eea48489d3c3d58eaaab752698f92939830eceb",
         "scripts/fromdemotospec-analysis-adapter.mjs": "b580b9bab6e325da527df8dd08e41974d283f478b04eb9fc06b4142203d143fe",
         "scripts/game-analysis-decision-v2-binding.mjs": "c12eb90743d763d31b61ac1fb73eaf4c8b79ba679342702cebbbe6f1500b5703",
-        "scripts/import-presentation-assets.ps1": "b487b5e34556068920812f31cd1d2398f7f33ea576175e49d991522d17c02cfa",
+        "scripts/import-presentation-assets.ps1": "bed66d112f3c481018017a2dc079e3d8854f4373d8e00a228dc54c5ac052d906",
         "scripts/inline-presentation-assets.ps1": "fcc09a756f7159e54a7df8527e8e77151b3f18145692c5ea99d7a03a0eaadba8",
         "scripts/new-learning-feedback-candidate.ps1": "47a2c7a98815acde7b92b47c4092217a7e695c77008d09fbc9e58ad5917fcc98",
         "scripts/new-presentation-calibration.ps1": "391fc8ad0be3ef6e8720118e79b5dcd733b57cbdb4c8c0ef9f0381bcc17d627f",
@@ -580,7 +581,7 @@
         "tests/inline-presentation-assets.contract.ps1": "ffcdaf41807859eda2cc0d0076fb9cb73eca30c02947561f2762e1a69ef03877",
         "tests/learning-feedback.contract.ps1": "5b4d299532591db9a99c4ec4bdcb65b4a86d9d2f308cbbb3c29fbd75e85dae11",
         "tests/presentation-calibration.contract.ps1": "b6b4656d288038a7b4ef809cc49d10b8106bd63419eb325fc4d72a48f892b7c9",
-        "tests/presentation-layer.contract.ps1": "5167d989a114093c1006ce9234c065c1e07d6e5a1babc39c542a0c4b882249e9",
+        "tests/presentation-layer.contract.ps1": "772a42dff2079b423f98ca4ef35ec2898623bf1d1d9ae5fa3070c0a09b092871",
         "tests/prototype-project.contract.mjs": "1aec8a6d630e3b8a89202704f86038fe809e9a475c67b9633625a5dddac2b1f9",
         "upgrades/2.1.0.md": "e5ac5cff1c2fcad7c82b3d2a028670bd32d77b416be9be36661b40609c41aa0c"
       },
@@ -591,8 +592,8 @@
           "version": 1
         }
       },
-      "module_inventory_sha256": "2a39b06d7a6708f9f3b5ea4d777e0f0a04c9922b3449b6b492a8b7cdadca522e",
-      "module_manifest_sha256": "d8d53c05effeddaff6278e35aa5bc3349c69f1517c7930e631be8f674035796e",
+      "module_inventory_sha256": "51b788019d0ae7e967ff53128777e76e5df80046dfeeaf34db4ee122afd0708d",
+      "module_manifest_sha256": "63fc236f6ba14b95c37a3cbf41d9302f41793870eb9565d9d49b61880f6722c7",
       "module_source": "packages/fromdemotospec",
       "name": "FromDemoToSpec",
       "optional": [
@@ -726,12 +727,12 @@
       ],
       "repository": "https://github.com/ZhongTyler/AWS-FromDemoToSpec.git",
       "required": [],
-      "revision": "1fae3e21396513b9638e23b4a732ddbd2771d185",
+      "revision": "8d38fd423d4a4fd4fae27b2701e26675e1c463bb",
       "runtime": [
         "Node.js 20.19+ for optional tiny demo tools"
       ],
       "source": "packages/fromdemotospec",
-      "version": "2.2.0"
+      "version": "2.2.1"
     },
     "game-analysis-decision": {
       "destination": "modules/game-analysis-decision",
@@ -3906,7 +3907,7 @@
       "version": "2.0.0"
     }
   },
-  "previous_version": "2.8.0",
+  "previous_version": "2.9.0",
   "schema_version": 2,
-  "version": "2.9.0"
+  "version": "2.9.1"
 }
