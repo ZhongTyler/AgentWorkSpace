@@ -28,7 +28,7 @@ class IndependentRelease(unittest.TestCase):
     def test_all_twelve_independent_inventories_and_fixed_references(self):
         incoming = w.catalog(ROOT)
         self.assertEqual(2, incoming['schema_version'])
-        self.assertEqual('2.10.1', incoming['version'])
+        self.assertEqual('2.11.0', incoming['version'])
         self.assertEqual(12, len(incoming['components']))
         for name, row in incoming['components'].items():
             with self.subTest(name=name):
@@ -112,8 +112,8 @@ class IndependentRelease(unittest.TestCase):
     def test_real_previous_full_and_compatible_upgrade_conflict_client_recovery(self):
         with tempfile.TemporaryDirectory() as directory:
             base = Path(directory)
-            previous = published_bundle(ROOT, '2.10.0', base / 'previous')
-            self.assertEqual('2.10.0', w.catalog(previous)['version'])
+            previous = published_bundle(ROOT, '2.10.1', base / 'previous')
+            self.assertEqual('2.10.1', w.catalog(previous)['version'])
             all_modules = [name for name in w.catalog(ROOT)['components'] if name != 'meta']
             for mode in ('full', 'compatible'):
                 with self.subTest(mode=mode):
@@ -134,29 +134,43 @@ class IndependentRelease(unittest.TestCase):
                     for platform in ('codex', 'codebuddy'):
                         self.command(sys.executable, '-B', host / 'modules/skills/scripts/skills.py', 'install', '--target', host,
                                      '--platform', platform, '--names', 'human-research-expression', '--apply')
-                    edited = host / 'modules/knowledge/wiki/README.md'
+                    edited = host / 'modules/brainstorm/methods/placeholders/six-thinking-hats.md'
                     unchanged = host / 'modules/travel/README.md'
                     unchanged_bytes = unchanged.read_bytes() + b'\nUNRELATED OWNER EDIT'
                     unchanged.write_bytes(unchanged_bytes)
-                    for changed_name in ('knowledge',):
-                        edited = host / 'modules' / changed_name / 'wiki/README.md'
+                    for changed_name in ('brainstorm',):
+                        edited = host / 'modules' / changed_name / 'methods/placeholders/six-thinking-hats.md'
                         original = edited.read_bytes()
                         edited.write_bytes(original + b'\nOWNER EDIT')
                         denied = w.install(ROOT, host, 'upgrade', [], apply=True)
                         self.assertTrue(denied['conflicts'], changed_name)
                         self.assertEqual(original + b'\nOWNER EDIT', edited.read_bytes())
                         edited.write_bytes(original)
+                    collision = host / 'modules/brainstorm/methods/divergence/crazy-8s.md'
+                    self.assertFalse(collision.exists())
+                    collision.write_bytes(b'USER OWNED METHOD')
+                    before_state = (host / '.agent-workspace/state.json').read_bytes()
+                    denied = w.install(ROOT, host, 'upgrade', [], apply=True)
+                    self.assertIn(collision.relative_to(host).as_posix(), denied['conflicts'])
+                    self.assertFalse(denied['applied'])
+                    self.assertEqual(b'USER OWNED METHOD', collision.read_bytes())
+                    self.assertEqual(before_state, (host / '.agent-workspace/state.json').read_bytes())
+                    collision.unlink() # Remove only this test-owned fixture after preservation checks.
                     upgraded = w.install(ROOT, host, 'upgrade', [], apply=True)
-                    self.command('node', host / 'modules/knowledge/tests/wiki-navigation.contract.mjs')
+                    self.assertFalse(edited.exists())
+                    listed = json.loads(self.command('powershell','-NoProfile','-ExecutionPolicy','Bypass','-File',host / 'modules/brainstorm/scripts/validate-method.ps1'))
+                    self.assertEqual(19, listed['ready_count'])
                     self.assertTrue(upgraded['applied'])
-                    self.assertEqual('2.10.1', w.state(host)['version'])
+                    self.assertEqual('2.11.0', w.state(host)['version'])
                     if mode == 'compatible':
                         self.assertEqual(authority, (host / 'AGENTS.md').read_bytes())
                     self.assertEqual(unchanged_bytes, unchanged.read_bytes())
                     for platform in ('codex', 'codebuddy'):
                         self.assertTrue((host / ('.agents' if platform == 'codex' else '.codebuddy') / 'skills/human-research-expression/SKILL.md').is_file())
                     self.assertTrue(w.rollback(host, upgraded['transaction'], apply=True)['applied'])
-                    self.assertEqual('2.10.0', w.state(host)['version'])
+                    self.assertEqual('2.10.1', w.state(host)['version'])
+                    self.assertTrue(edited.is_file())
+                    self.assertFalse(collision.exists())
                     self.assertEqual(authority, (host / 'AGENTS.md').read_bytes())
                     self.assertEqual(unchanged_bytes, unchanged.read_bytes())
                     self.assertEqual(b'PRIVATE TRIP FACTS', private.read_bytes())
